@@ -88,7 +88,7 @@
         .card {
             background: var(--card);
             border: 2px solid var(--border);
-            padding: 1.5rem;
+            padding: 2rem;
             transition: transform 0.3s, box-shadow 0.3s;
         }
         .card:hover {
@@ -120,29 +120,7 @@
         }
         
         /* === CONTACT SECTION === */
-        .contact { text-align: center; padding: 4rem 0; }
-        .contact-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .contact a {
-            display: inline-block;
-            width: 180px;
-            padding: 1rem;
-            background: var(--card);
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-        .contact a:hover {
-            background: var(--accent);
-            color: var(--bg);
-            transform: scale(1.05);
-        }
+
         
         /* === FOOTER === */
         footer {
@@ -188,18 +166,21 @@
             width: 200px;
             padding: 1rem;
             background: #ff69b4;
-            border: 2px solid #ff1493;
+            border: 2px solid #000000;
             color: #0a0a0a;
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s;
             text-align: center;
+            box-shadow: 2px 2px 0px #000000;
         }
         .card .contact-buttons a:hover {
-            background: #ff1493;
-            color: #ffffff;
-            transform: scale(1.05);
-            border-color: #ff69b4;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px #000000;
+        }
+        .card .contact-buttons a:active {
+            transform: translate(-1px, -1px);
+            box-shadow: 1px 1px 0px #000000;
         }
         .contact-card .contact a:hover {
             background: var(--accent);
