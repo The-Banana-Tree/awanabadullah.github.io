@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Systems Engineer | Awan Abadullah</title>
-    <meta name="description" content="Personal website of Awan Abadullah, Systems Engineer">
     <style>
         :root {
             --primary: #63c8f2;
@@ -15,7 +14,6 @@
             --bg: linear-gradient(135deg, #f0f4f8 0%, #e4e8ec 100%);
             --glass: rgba(255, 255, 255, 0.8);
             --glass-dark: rgba(20, 20, 30, 0.8);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             --glass-border: 1px solid rgba(255, 255, 255, 0.3);
         }
@@ -25,34 +23,25 @@
             --text-light: #a0a0a0;
             --bg: linear-gradient(135deg, #0f1115 0%, #1a1c22 100%);
             --glass: rgba(20, 20, 30, 0.85);
-            --glass-dark: rgba(255, 255, 255, 0.05);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             --glass-border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: var(--text);
             background: var(--bg);
             min-height: 100vh;
             transition: all 0.3s ease;
-            overflow-x: hidden;
         }
 
-        /* Header - fixed top */
         header {
             background: var(--glass);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 1.5rem 1.5rem 1rem;
+            padding: 1rem 1.5rem;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -66,70 +55,16 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, #63c8f2, #4a90e2, #00b894);
-        }
+        h1 { font-size: 1.75rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+        .title { color: var(--text-light); font-size: 0.95rem; font-weight: 500; }
 
-        .brand {
-            flex: 1;
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -0.02em;
-        }
-
-        .title {
-            color: var(--text-light);
-            font-size: 1rem;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-        }
-
-        /* Burger menu */
-        .burger {
-            display: none;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .burger span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: var(--text);
-            margin: 5px 0;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .burger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 6px);
-        }
-        .burger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .burger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -6px);
-        }
-
-        /* Dark mode toggle */
         .theme-toggle {
             cursor: pointer;
             background: var(--glass);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: var(--glass-border);
             border-radius: 50%;
             width: 40px;
@@ -137,67 +72,46 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
             transition: all 0.3s ease;
-            margin-left: 1rem;
         }
+        .theme-toggle:hover { transform: scale(1.05); }
 
-        .theme-toggle:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Main content */
         .container {
             max-width: 1000px;
             margin: 2rem auto;
             padding: 0 1.5rem 3rem;
         }
 
-        /* Glass cards */
         .glass-card {
             background: var(--glass);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 2.5rem;
+            padding: 2rem;
             box-shadow: var(--glass-shadow);
             border: var(--glass-border);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
         }
+        .glass-card:hover { transform: translateY(-3px); }
 
-        .glass-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Hero section */
         .hero-section {
             display: flex;
             align-items: flex-start;
             gap: 2rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .hero-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 30px;
+            width: 180px;
+            height: 180px;
+            border-radius: 25px;
             object-fit: cover;
             border: 4px solid var(--primary);
             box-shadow: 0 10px 30px rgba(99, 200, 242, 0.3);
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-
-        .hero-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(99, 200, 242, 0.4);
         }
 
         .hero-content h2 {
             color: var(--text);
-            font-size: 2rem;
+            font-size: 1.9rem;
             margin-bottom: 0.75rem;
         }
 
@@ -208,82 +122,43 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Mobile nav - expands after header */
-        .mobile-nav {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            flex-direction: column;
-            overflow: hidden;
-            max-height: 0;
-            transition: max-height 0.4s ease, opacity 0.4s ease;
-            opacity: 0;
+        .monke-credits {
+            background: rgba(99, 200, 242, 0.1);
+            border-radius: 12px;
+            padding: 0.9rem 1.25rem;
+            border: 1px solid rgba(99, 200, 242, 0.3);
+            margin-bottom: 2rem;
+            font-size: 0.88rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
         }
+        .monke-credits strong { color: var(--primary); }
 
-        .mobile-nav.open {
-            max-height: 500px;
-            opacity: 1;
-        }
-
-        .mobile-nav a {
-            display: block;
-            padding: 1rem 1.5rem;
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .mobile-nav a:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Section titles */
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             color: var(--text);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.6rem;
             border-bottom: 2px solid var(--primary);
             display: inline-block;
         }
 
-        /* About */
-        .about-text {
-            color: var(--text-light);
-            font-size: 1.08rem;
-            line-height: 1.8;
-        }
-        .about-text p { margin-bottom: 1rem; }
-        .about-text ul {
-            margin-left: 1.5rem;
-            margin-top: 1rem;
-        }
-        .about-text ul li { margin-bottom: 0.6rem; color: var(--text); }
-
-        /* Skills */
-        .skills-section {
+        .skill-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .skill-category h3 {
             color: var(--text);
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             border-bottom: 2px solid var(--primary);
-            font-size: 1.2rem;
+            padding-bottom: 0.4rem;
+            font-size: 1.1rem;
         }
 
         .skill-list {
@@ -291,8 +166,8 @@
             padding-left: 0;
         }
         .skill-list li {
-            margin-bottom: 0.6rem;
-            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            padding-left: 1.25rem;
             position: relative;
         }
         .skill-list li::before {
@@ -303,116 +178,68 @@
             font-weight: bold;
         }
 
-        /* Experience */
-        .job { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .job { margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
         .job:last-child { border-bottom: none; }
-        .job h3 { color: var(--text); font-size: 1.25rem; margin-bottom: 0.5rem; }
-        .job .company { color: var(--primary); font-weight: 600; margin-bottom: 0.5rem; }
-        .job .period { color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem; }
-        .job ul { margin-top: 0.75rem; padding-left: 1.5rem; }
-        .job ul li { margin-bottom: 0.6rem; color: var(--text-light); }
+        .job h3 { color: var(--text); font-size: 1.2rem; margin-bottom: 0.4rem; }
+        .job .company { color: var(--primary); font-weight: 600; margin-bottom: 0.4rem; }
+        .job .period { color: var(--text-light); font-size: 0.85rem; margin-bottom: 0.8rem; }
+        .job ul { margin-top: 0.6rem; padding-left: 1.25rem; }
+        .job ul li { margin-bottom: 0.5rem; color: var(--text-light); }
 
-        /* Certifications */
         .certification {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
+            gap: 0.8rem;
+            padding: 0.8rem;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            margin-bottom: 0.75rem;
+            border-radius: 10px;
+            margin-bottom: 0.6rem;
             border: var(--glass-border);
         }
         .certification:last-child { margin-bottom: 0; }
-        .certification::before { content: '⭐'; font-size: 1.2rem; }
+        .certification::before { content: '⭐'; }
         .certification-name { color: var(--text); font-weight: 600; }
 
-        /* Monke credits at top */
-        .monke-credits {
-            background: rgba(99, 200, 242, 0.1);
-            border-radius: 12px;
-            padding: 1.25rem;
-            border: 1px solid rgba(99, 200, 242, 0.3);
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
-            color: var(--text-light);
-        }
-        .monke-credits strong { color: var(--primary); }
-        .monke-credits p { margin-bottom: 0.5rem; }
-        .monke-credits p:last-child { margin-bottom: 0; }
-
-        /* Footer */
         footer {
             text-align: center;
-            padding: 2rem 1rem;
-            margin-top: 3rem;
+            padding: 1.5rem 1rem;
+            margin-top: 2rem;
             background: var(--glass);
-            backdrop-filter: blur(20px);
             border-top: var(--glass-border);
         }
-        footer p { font-size: 0.95rem; color: var(--text-light); }
+        footer p { font-size: 0.9rem; color: var(--text-light); }
+
         .footer-monke {
             margin-top: 1rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-light);
         }
-        .footer-monke span { font-size: 1.2rem; }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .nav { display: none; }
-            .burger { display: block; }
-        }
+        .footer-monke span { font-size: 1.1rem; margin: 0 0.4rem; }
 
         @media (max-width: 768px) {
-            .header-content { flex-direction: column; align-items: flex-start; }
-            .theme-toggle { margin-left: 0; margin-top: 0.5rem; }
             .hero-section { flex-direction: column; text-align: center; }
             .hero-content h2 { text-align: center; }
             .hero-image { margin: 0 auto; }
-            .skills-section { grid-template-columns: 1fr; }
+            .monke-credits { flex-direction: column; gap: 0.75rem; }
         }
-
-        /* Smooth scroll behavior */
-        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body>
     <header>
         <div class="header-content">
-            <div class="burger" onclick="toggleMobileNav()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="brand">
+            <div>
                 <h1>Systems Engineer</h1>
                 <p class="title">Awan Abadullah</p>
             </div>
             <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">☾</div>
         </div>
-        
-        <nav class="nav">
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#experience">Experience</a>
-            <a href="#certifications">Certifications</a>
-        </nav>
-        
-        <nav class="mobile-nav" id="mobile-nav">
-            <a href="#about" onclick="toggleMobileNav()">About</a>
-            <a href="#skills" onclick="toggleMobileNav()">Skills</a>
-            <a href="#experience" onclick="toggleMobileNav()">Experience</a>
-            <a href="#certifications" onclick="toggleMobileNav()">Certifications</a>
-        </nav>
     </header>
 
     <div class="container">
-        <!-- Monke credits at top -->
         <div class="monke-credits">
-            <p>🤖 Site built by <strong>Monke</strong> — your AI assistant at banana-HQ</p>
-            <p>🏠 Lives on <strong>Mac mini M2 Pro 16GB</strong> in Montréal, QC</p>
-            <p>⚡ Runs on <strong>Ollama</strong> — <strong>qwen3-coder-next:cloud</strong> 🧠</p>
+            <strong>Site built by Monke</strong>
+            <span>🏠 banana-HQ • Mac mini M2 Pro</span>
+            <span>⚡ Ollama • qwen3-coder-next:cloud</span>
         </div>
 
         <section class="hero-section glass-card">
@@ -429,23 +256,21 @@
             </div>
         </section>
 
-        <section id="about" class="about-section glass-card">
+        <section class="about-section glass-card">
             <h2 class="section-title">About Me</h2>
-            <div class="about-text">
+            <div class="about-brief">
                 <p>I'm a systems engineer with a multidisciplinary mindset — mixing mechanical, electrical, and software thinking to deliver complete solutions. At Stellantis, I manage system design for 13+ vehicle features across North American platforms.</p>
-                
-                <p>My journey includes:</p>
+                <p><strong>My journey includes:</strong></p>
                 <ul>
                     <li><strong>Stellantis:</strong> Leading system integration for active chassis, HMI, and powertrain features</li>
                     <li><strong>Sanctuary AI:</strong> Integrating humanoid robot subsystems (hands, heads, torsos)</li>
                     <li><strong>Western University:</strong> Building the award-winning "MAPSY" autonomous pool cleaner</li>
                 </ul>
-                
                 <p>I'm also a <strong>DFSS Green Belt</strong> certified in Systems Behavior Testing, with additional coursework in powertrain electrification and power electronics.</p>
             </div>
         </section>
 
-        <section id="skills" class="skills-section">
+        <section class="skills-section skill-grid">
             <div class="skill-category glass-card">
                 <h3>Systems Engineering</h3>
                 <ul class="skill-list">
@@ -455,8 +280,6 @@
                     <li>Systems Behavior Testing (DFSS)</li>
                     <li>Failure Mode Analysis</li>
                     <li>CAN Interface & Validation</li>
-                    <li>Compliance Matrix Generation</li>
-                    <li>Risk Assessment & Mitigation</li>
                 </ul>
             </div>
 
@@ -469,19 +292,14 @@
                     <li>SME Support & Knowledge Transfer</li>
                     <li>Root Cause Analysis</li>
                     <li>Stakeholder Alignment</li>
-                    <li>Issue Resolution Leadership</li>
-                    <li>Risk Communication</li>
                 </ul>
             </div>
 
             <div class="skill-category glass-card">
                 <h3>Tools & Languages</h3>
                 <ul class="skill-list">
-                    <li>IBM DOORS</li>
-                    <li>MS Visio</li>
-                    <li>SharePoint</li>
-                    <li>Git / GitHub</li>
-                    <li>JIRA, RTC (Issue Tracking)</li>
+                    <li>IBM DOORS, MS Visio, SharePoint</li>
+                    <li>Git / GitHub, JIRA, RTC</li>
                     <li>SolidWorks, AutoCAD, OnShape</li>
                     <li>Python, C++, MATLAB, VBA</li>
                     <li>HTML/CSS</li>
@@ -494,59 +312,52 @@
                     <li>Embedded Systems</li>
                     <li>Hardware-Software Integration</li>
                     <li>Electro-mechanical Validation</li>
-                    <li>Automotive Systems (Chassis, HMI, Powertrain)</li>
+                    <li>Automotive Systems</li>
                     <li>Humanoid Robotics</li>
-                    <li>Robotics Prototyping</li>
-                    <li>Off-road Feature Development</li>
                     <li>Rapid Prototyping</li>
                 </ul>
             </div>
         </section>
 
-        <section id="experience" class="experience-section glass-card">
+        <section class="experience-section glass-card">
             <h2 class="section-title">Work Experience</h2>
-
             <div class="job">
                 <h3>Systems Engineer</h3>
                 <div class="company">Stellantis Canada | Remote</div>
                 <div class="period">April 2022 - Present</div>
                 <ul>
-                    <li>Manage system design for 13+ vehicle features across Stellantis platforms (RAM, DODGE, JEEP)</li>
-                    <li>SME for active chassis braking functions — guiding engineers and resolving complex issues</li>
-                    <li>Trained 15+ engineers on system processes, DOORS/Visio, and documentation standards</li>
-                    <li>Led Off-Road Cornering Assist development and High Rail Mode support</li>
-                    <li>Designed AI-based DFMEA assistant (target: ~60% time reduction)</li>
-                    <li>Resolved late-stage ESC button logic issue across 12+ trim levels</li>
-                    <li>Led 10+ high-priority GIMS issue resolutions through stakeholder coordination</li>
+                    <li>Manage system design for 13+ vehicle features across Stellantis platforms</li>
+                    <li>SME for active chassis braking functions — guiding engineers</li>
+                    <li>Trained 15+ engineers on system processes</li>
+                    <li>Led Off-Road Cornering Assist development</li>
+                    <li>Resolved complex ESC button logic issues</li>
                 </ul>
             </div>
-
             <div class="job">
                 <h3>Robotics Systems Engineering Technician</h3>
                 <div class="company">Sanctuary AI | Vancouver (Hybrid)</div>
                 <div class="period">Sept 2021 - Jan 2022</div>
                 <ul>
-                    <li>Integrated humanoid robot subsystems (hands, heads, torsos, wrists, embedded components)</li>
-                    <li>Built prototype stress rigs for wrist/arm motion validation</li>
-                    <li>Developed Python automation tools to reduce R&D review effort</li>
-                    <li>Authored Confluence documentation for hydraulics, kinematics, and integration procedures</li>
+                    <li>Integrated humanoid robot subsystems</li>
+                    <li>Built prototype stress rigs</li>
+                    <li>Developed Python automation tools</li>
                 </ul>
             </div>
         </section>
 
-        <section id="certifications" class="certifications-section glass-card">
-            <h2 class="section-title">Certifications & Coursework</h2>
+        <section class="certifications-section glass-card">
+            <h2 class="section-title">Certifications</h2>
             <div class="certification">
-                <span class="certification-name">Design for Six Sigma (DFSS): Systems Behavior Testing Green Belt (Stellantis)</span>
+                <span class="certification-name">DFSS Green Belt: Systems Behavior Testing (Stellantis)</span>
             </div>
             <div class="certification">
-                <span class="certification-name">Powertrain Electrification (Level 1) - Ohio State University (Stellantis)</span>
+                <span class="certification-name">Powertrain Electrification (Level 1) - Ohio State University</span>
             </div>
             <div class="certification">
-                <span class="certification-name">Power Electronics and Machines (Level 2) - Ohio State University (Stellantis)</span>
+                <span class="certification-name">Power Electronics & Machines (Level 2) - Ohio State University</span>
             </div>
             <div class="certification">
-                <span class="certification-name">Certified SolidWorks Associate (CSWA & CSWA-S) - Mechanical Design & Simulation</span>
+                <span class="certification-name">CSWA & CSWA-S: Mechanical Design & Simulation</span>
             </div>
             <div class="certification">
                 <span class="certification-name">The Power of Communication - Vin Giang's Stage Academy</span>
@@ -556,41 +367,14 @@
 
     <footer>
         <p>© 2026 Awan Abadullah</p>
-        <p class="footer-monke">Made with <strong>Monke</strong> with ❤️ and 🍌</p>
+        <p class="footer-monke">Made with Monke <span>❤️</span> and <span>🍌</span></p>
     </footer>
 
     <script>
-        // Dark mode toggle
         function toggleTheme() {
             const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+            html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
         }
-
-        // Burger menu toggle
-        function toggleMobileNav() {
-            const nav = document.getElementById('mobile-nav');
-            const burger = document.querySelector('.burger');
-            nav.classList.toggle('open');
-            burger.classList.toggle('active');
-        }
-
-        // Smooth scrolling for anchors
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Hide mobile nav after click
-                    const mobileNav = document.getElementById('mobile-nav');
-                    if (mobileNav.classList.contains('open')) {
-                        mobileNav.classList.remove('open');
-                        document.querySelector('.burger').classList.remove('active');
-                    }
-                }
-            });
-        });
     </script>
 </body>
 </html>
