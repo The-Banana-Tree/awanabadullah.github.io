@@ -23,7 +23,7 @@
             font-weight: bold;
             margin-left: auto;
         }
-        .theme-toggle:hover { border-color: #000000; box-shadow: 2px 2px 0px #000000; }
+        .theme-toggle:hover {  box-shadow: 2px 2px 0px #000000; }
         .theme-toggle:active { box-shadow: 1px 1px 0px #000000; transform: translate(1px, 1px); }
         
         /* === Retro Window Overrides === */
@@ -161,7 +161,7 @@
         }
         /* === Dark Mode Support === */
         [data-theme="dark"] .window-bar {
-            background-color: #333333;
+            background-color: #2a2a2a;
             border-bottom-color: #000000;
         }
         [data-theme="dark"] .window-title {
@@ -175,11 +175,12 @@
         }
         [data-theme="dark"] .retro-window {
             background-color: #1a1a1a;
-            border-color: #000000;
+            border: 4px solid #000000;
             box-shadow: 8px 8px 0px #000000;
         }
         [data-theme="dark"] .window-content {
-            background-color: #2a2a2a;
+            background-color: #1a1a1a;
+            background-image: none;
         }
         [data-theme="dark"] .monke-credits {
             background: #333333;
@@ -202,7 +203,7 @@
         [data-theme="dark"] .certification-name,
         [data-theme="dark"] .footer-content {
             color: #ffffff;
-            border-color: #000000;
+            
         }
         [data-theme="dark"] .certification {
             background: #333333;
@@ -264,14 +265,20 @@
         <section class="about-section">
             <h2 class="section-title">About Me</h2>
             <div class="about-brief">
-                <p>I'm a systems engineer with a multidisciplinary mindset — mixing mechanical, electrical, and software thinking to deliver complete solutions. At Stellantis, I manage system design for 13+ vehicle features across North American platforms.</p>
-                <p><strong>My journey includes:</strong></p>
+                <p>I'm a systems engineer with a multidisciplinary mindset — mixing mechanical, electrical, and software thinking to deliver complete solutions.</p>
+                <p><strong>Being a systems engineer at Stellantis:</strong></p>
                 <ul>
-                    <li><strong>Stellantis:</strong> Leading system integration for active chassis, HMI, and powertrain features</li>
-                    <li><strong>Sanctuary AI:</strong> Integrating humanoid robot subsystems (hands, heads, torsos)</li>
-                    <li><strong>Western University:</strong> Building the award-winning "MAPSY" autonomous pool cleaner</li>
+                    <li>Leading system integration for active chassis, HMI, and powertrain features</li>
                 </ul>
-                <p>I'm also a <strong>DFSS Green Belt</strong> certified in Systems Behavior Testing, with additional coursework in powertrain electrification and power electronics.</p>
+                <p><strong>Humanoid robotics engineering technician at Sanctuary AI:</strong></p>
+                <ul>
+                    <li>Integrating humanoid robot subsystems (hands, heads, torsos)</li>
+                </ul>
+                <p><strong>Mechatronics Systems Engineer student at Western University, bachelor's degree:</strong></p>
+                <ul>
+                    <li>Building the award-winning "MAPSY" autonomous pool cleaner</li>
+                </ul>
+                <p>I'm also a <strong>DFSS Green Belt</strong> certified in Systems Behavior Testing and a <strong>Certified SolidWorks Associate</strong>.</p>
             </div>
         </section>
         <section class="skills-section skill-grid">
