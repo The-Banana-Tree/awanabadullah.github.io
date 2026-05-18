@@ -8,111 +8,79 @@
         /* === Retro CSS Import === */
         @import url('./retro.css');
         
-        /* === Override Theme Toggle for Retro Style === */
-        .theme-toggle {
-            cursor: pointer;
-            background: #c0c0c0;
-            border: 2px solid #000000;
-            box-shadow: 2px 2px 0px #000000;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-            margin-left: auto;
+        /* === Awwwards 2026 Upgrades === */
+        .neural-core {
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto;
+            animation: spin 4s linear infinite;
         }
-        .theme-toggle:hover {  box-shadow: 2px 2px 0px #000000; }
-        .theme-toggle:active { box-shadow: 1px 1px 0px #000000; transform: translate(1px, 1px); }
+        .neural-core::before {
+            content: ''; position: absolute;
+            width: 260px; height: 260px;
+            background: #0a0a0a;
+            border-radius: 50%;
+            top: 20px; left: 20px;
+        }
+        .neural-core::after {
+            content: ''; position: absolute;
+            width: 220px; height: 220px;
+            border-radius: 50%;
+            top: 40px; left: 40px;
+            background: conic-gradient(
+                #00ff00 0%, #00ff00 20%,
+                #00aaaa 20%, #00aaaa 40%,
+                #ff00ff 40%, #ff00ff 60%,
+                #00ff00 60%
+            );
+            animation: spin-inner 2s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin-inner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .hero-text {
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0; transform: translateY(20px);
+        }
+        .hero-text span {
+            display: inline-block; opacity: 0; transform: translateY(20px);
+        }
+        .skills-force-graph {
+            width: 100%; height: 400px;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .hire-me-btn {
+            text-align: center; margin: 2rem 0; opacity: 0; transform: translateY(20px);
+        }
+        .hire-btn {
+            padding: 1rem 2rem; font-size: 1.2rem; cursor: pointer;
+            background: #00ff00; color: #0a0a0a; border: 2px solid #000000;
+            transition: all 0.3s; font-family: 'Courier New', monospace;
+            font-weight: bold; letter-spacing: 1px;
+        }
+        .hire-btn:hover { transform: scale(1.05); box-shadow: 6px 6px 0px #000000; }
+        .hire-btn.morphing { animation: morph 2s ease-in-out infinite; }
+        @keyframes morph { 0%, 100% { border-radius: 50% 25%; } 25% { border-radius: 25% 50%; } 50% { border-radius: 50%; } 75% { border-radius: 25%; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
         
-        /* === Retro Window Overrides === */
-        .container {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 24px;
+        /* === Original Retro Styles (保留) === */
+        .theme-toggle {
+            cursor: pointer; background: #c0c0c0; border: 2px solid #000000;
+            box-shadow: 2px 2px 0px #000000; width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: bold; margin-left: auto;
         }
-        .monke-credits {
-            background: #f0f0f0;
-            border: 1px solid #000000;
-            box-shadow: 4px 4px 0px #000000;
-            margin-bottom: 2rem;
-            padding: 12px 16px;
-            font-size: 14px;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 0.3px;
-        }
-        .section-title {
-            font-family: 'Courier New', monospace;
-            font-size: 20px;
-            color: #000000;
-            margin: 24px 0 16px 0;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #000000;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        /* === Smooth Transitions & Hover Effects === */
-        * { transition: all 0.3s ease; }
-        .glass-card, .skill-category, .job, .certification {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .glass-card:hover, .skill-category:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px #000000;
-        }
-        /* === Enhanced Visual Hierarchy === */
-        .section-title {
-            font-size: 22px;
-            margin: 28px 0 20px 0;
-            padding-bottom: 10px;
-            letter-spacing: 1.5px;
-        }
-        .about-brief p {
-            margin-bottom: 12px;
-            line-height: 1.7;
-        }
-        .about-brief p:last-child {
-            margin-bottom: 0;
-        }
-        /* === Better Typography === */
-        .about-brief strong {
-            color: #000000;
-            letter-spacing: 0.5px;
-        }
-        /* === Smooth Animations === */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .glass-card, .skill-category, .job, .certification {
-            animation: fadeInUp 0.6s ease-out;
-        }
-        .hero-image {
-            animation: float 4s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
+        .theme-toggle:hover { box-shadow: 2px 2px 0px #000000; }
+        .theme-toggle:active { box-shadow: 1px 1px 0px #000000; transform: translate(1px, 1px); }
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 24px; }
+        .monke-credits { background: #f0f0f0; border: 1px solid #000000; box-shadow: 4px 4px 0px #000000; margin-bottom: 2rem; padding: 12px 16px; font-size: 14px; font-family: 'Courier New', monospace; letter-spacing: 0.3px; }
+        .section-title { font-family: 'Courier New', monospace; font-size: 20px; color: #000000; margin: 24px 0 16px 0; padding-bottom: 8px; border-bottom: 2px solid #000000; letter-spacing: 1px; text-transform: uppercase; }
+        .glass-card, .skill-category, .job, .certification { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .glass-card:hover, .skill-category:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #000000; }
         .skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-        .skill-category { 
-            background: #ffffff;
-            border: 1px solid #000000;
-            box-shadow: 4px 4px 0px #000000;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-        .skill-category h3 { 
-            font-family: 'Courier New', monospace;
-            color: #000000; 
-            margin-bottom: 0.75rem; 
-            border-bottom: 2px solid #000000; 
-            padding-bottom: 0.4rem; 
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+        .skill-category { background: #ffffff; border: 1px solid #000000; box-shadow: 4px 4px 0px #000000; padding: 16px; margin-bottom: 16px; }
+        .skill-category h3 { font-family: 'Courier New', monospace; color: #000000; margin-bottom: 0.75rem; border-bottom: 2px solid #000000; padding-bottom: 0.4rem; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; }
         .skill-list { list-style: none; padding-left: 0; }
         .skill-list li { margin-bottom: 0.5rem; padding-left: 1.25rem; position: relative; font-family: 'Courier New', monospace; font-size: 16px; color: #000000; }
         .skill-list li::before { content: '✔'; position: absolute; left: 0; color: #000000; font-weight: bold; }
@@ -123,165 +91,42 @@
         .job .period { color: #000000; font-size: 0.85rem; margin-bottom: 0.8rem; font-weight: bold; }
         .job ul { margin-top: 0.6rem; padding-left: 1.25rem; }
         .job ul li { margin-bottom: 0.5rem; }
-        .certification { 
-            display: flex; 
-            align-items: center; 
-            gap: 0.8rem; 
-            padding: 10px 12px; 
-            background: #f0f0f0; 
-            border: 1px solid #000000; 
-            margin-bottom: 0.6rem; 
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-        }
+        .certification { display: flex; align-items: center; gap: 0.8rem; padding: 10px 12px; background: #f0f0f0; border: 1px solid #000000; margin-bottom: 0.6rem; font-family: 'Courier New', monospace; font-size: 14px; }
         .certification:last-child { margin-bottom: 0; }
         .certification::before { content: '★'; font-weight: bold; }
         .certification-name { color: #000000; font-weight: 600; }
-        
-        /* === Footer Styling === */
-        footer { 
-            text-align: center; 
-            padding: 1.5rem 1rem; 
-            margin-top: 2rem; 
-            background: #c0c0c0; 
-            border-top: 2px solid #000000;
-        }
-        .footer-content { 
-            font-size: 0.9rem; 
-            color: #000000; 
-            display: inline-flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 0.75rem; 
-            flex-wrap: wrap; 
-            font-family: 'Courier New', monospace;
-        }
+        footer { text-align: center; padding: 1.5rem 1rem; margin-top: 2rem; background: #c0c0c0; border-top: 2px solid #000000; }
+        .footer-content { font-size: 0.9rem; color: #000000; display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; font-family: 'Courier New', monospace; }
         .footer-separator { color: #000000; }
         .footer-heart { color: #ff6b6b; }
-        
-        /* === Handle Night Mode Extensions === */
-        /* Counteract browser night mode filters */
-        @media (forced-colors: active) {
-            body {
-                filter: none !important;
-            }
-        }
-        [data-theme="dark"] footer {
-            background: #2a2a2a;
-            border-top: 2px solid #000000;
-        }
-        [data-theme="dark"] .footer-content {
-            color: #ffffff;
-        }
-        [data-theme="dark"] .footer-separator {
-            color: #ffffff;
-        }
-        
-        /* === Hero Section & Image === */
         .hero-section { margin-bottom: 2rem; }
-        .hero-image { 
-            max-width: 200px;
-            width: 30%;
-            height: auto;
-            float: left;
-            margin: 0 20px 20px 0;
-            border: 2px solid #000000;
-            box-shadow: 4px 4px 0px #000000;
-        }
-        .hero-section::after {
-            content: '';
-            display: block;
-            clear: both;
-        }
-        .hero-content h2 { 
-            font-family: 'Courier New', monospace;
-            color: #000000; 
-            font-size: 24px;
-            margin-bottom: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .about-brief {
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            line-height: 1.8;
-            letter-spacing: 0.3px;
-        }
-        /* === Dark Mode Support === */
-        [data-theme="dark"] .window-bar {
-            background-color: #2a2a2a;
-            border-bottom-color: #000000;
-        }
-        [data-theme="dark"] .window-title {
-            color: #ffffff;
-        }
-        [data-theme="dark"] .theme-toggle {
-            background: #333333;
-            border: 2px solid #ffffff;
-            color: #ffffff;
-            box-shadow: 2px 2px 0px #ffffff;
-        }
-        [data-theme="dark"] .retro-window {
-            background-color: #1a1a1a;
-            border: 4px solid #000000;
-            box-shadow: 8px 8px 0px #000000;
-        }
-        [data-theme="dark"] .window-content {
-            background-color: #1a1a1a;
-            background-image: none;
-        }
-        [data-theme="dark"] .monke-credits {
-            background: #2a2a2a;
-            border: 1px solid #000000;
-            color: #e0e0e0;
-        }
-        [data-theme="dark"] .hero-content h2 {
-            color: #ffffff;
-        }
-        [data-theme="dark"] .about-brief {
-            color: #cccccc;
-        }
-        [data-theme="dark"] .section-title,
-        [data-theme="dark"] .job h3,
-        [data-theme="dark"] .job .company,
-        [data-theme="dark"] .job .period,
-        [data-theme="dark"] .skill-category h3,
-        [data-theme="dark"] .skill-list li,
-        [data-theme="dark"] .skill-list li::before,
-        [data-theme="dark"] .certification-name,
-        [data-theme="dark"] .footer-content {
-            color: #ffffff;
-            
-        }
-        [data-theme="dark"] .certification {
-            background: #333333;
-            border: 1px solid #000000;
-            color: #ffffff;
-        }
-        [data-theme="dark"] .certification::before {
-            color: #ffffff;
-        }
-        .job ul li, .skill-list li, .certification {
-            font-size: 15px;
-        }
-        .certification {
-            padding: 8px 10px;
-        }
-        /* === Responsive Adjustments === */
-            .hero-section { flex-direction: column; text-align: center; }
-            .hero-content h2 { text-align: center; }
-            .hero-image { margin: 0 auto; }
-            .monke-credits { text-align: center; }
-            .footer-content { flex-direction: column; gap: 0.3rem; }
-            .container { padding: 0 16px; }
-            .skill-grid { grid-template-columns: 1fr; }
-        }
+        .hero-image { max-width: 200px; width: 30%; height: auto; float: left; margin: 0 20px 20px 0; border: 2px solid #000000; box-shadow: 4px 4px 0px #000000; animation: float 4s ease-in-out infinite; }
+        .hero-section::after { content: ''; display: block; clear: both; }
+        .hero-content h2 { font-family: 'Courier New', monospace; color: #000000; font-size: 24px; margin-bottom: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
+        .about-brief { font-family: 'Courier New', monospace; font-size: 16px; line-height: 1.8; letter-spacing: 0.3px; }
+        [data-theme="dark"] .window-bar { background-color: #2a2a2a; border-bottom-color: #000000; }
+        [data-theme="dark"] .window-title { color: #ffffff; }
+        [data-theme="dark"] .theme-toggle { background: #333333; border: 2px solid #ffffff; color: #ffffff; box-shadow: 2px 2px 0px #ffffff; }
+        [data-theme="dark"] .retro-window { background-color: #1a1a1a; border: 4px solid #000000; box-shadow: 8px 8px 0px #000000; }
+        [data-theme="dark"] .window-content { background-color: #1a1a1a; background-image: none; }
+        [data-theme="dark"] .monke-credits { background: #2a2a2a; border: 1px solid #000000; color: #e0e0e0; }
+        [data-theme="dark"] .hero-content h2 { color: #ffffff; }
+        [data-theme="dark"] .about-brief { color: #cccccc; }
+        [data-theme="dark"] .section-title, [data-theme="dark"] .job h3, [data-theme="dark"] .job .company, [data-theme="dark"] .job .period, [data-theme="dark"] .skill-category h3, [data-theme="dark"] .skill-list li, [data-theme="dark"] .skill-list li::before, [data-theme="dark"] .certification-name, [data-theme="dark"] .footer-content { color: #ffffff; }
+        [data-theme="dark"] .certification { background: #333333; border: 1px solid #000000; color: #ffffff; }
+        [data-theme="dark"] .certification::before { color: #ffffff; }
         @media (max-width: 768px) {
             .hero-image { float: none; display: block; margin: 0 auto 20px auto; max-width: 150px; }
             .monke-credits { text-align: center; }
             .window-title { font-size: 1rem; }
             .window-content { padding: 16px; }
         }
+        /* Awwwards 2026 Dark Mode Overrides */
+        [data-theme="dark"] .neural-core::before, [data-theme="dark"] .neural-core::after { background: #0a0a0a; }
+        [data-theme="dark"] .skill-list li { color: #cccccc; }
+        [data-theme="dark"] .skill-list li::before { color: #cccccc; }
+        [data-theme="dark"] .job { border-bottom-color: #000000; }
+        [data-theme="dark"] .certification { background: #333333; border: 1px solid #000000; color: #ffffff; }
     </style>
 </head>
 <body>
@@ -297,82 +142,84 @@
     <div class="retro-window">
         <div class="window-content">
             <div class="monke-credits">This site was built by Monke, an AI agent living on a desk in Montreal, Quebec, running on Ollama • qwen3-coder-next:cloud 🧠</div>
-        <section class="hero-section">
-            <img src="profile.jpg" alt="Awan Abadullah" class="hero-image">
-            <div class="hero-content">
-                <h2>Hi, I'm Awan!</h2>
-                <p class="about-brief">
+            
+            <!-- Awwwards 2026 Hero -->
+            <section class="hero-section">
+                <div class="neural-core" id="heroNeural"></div>
+                <div class="hero-text" id="heroText">
+                    <h2 id="heroTitle"><span>H</span><span>i</span>, <span>I</span><span>'</span><span>m</span> <span>A</span><span>w</span><span>a</span><span>n</span><span>!</span></h2>
+                </div>
+                <p class="about-brief" style="text-align: center;">
                     I build and validate complex systems — from automotive features to humanoid robots. 
                     Currently engineering stability control systems for Stellantis brands (RAM, DODGE, JEEP).
                     <br><br>
                     I love turning complex problems into elegant solutions, mentoring engineers, and 
                     creating systems that just… work.
                 </p>
-            </div>
-        </section>
-        <section class="about-section">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-brief">
-                <p>I'm a systems engineer with a multidisciplinary mindset — mixing mechanical, electrical, and software thinking to deliver complete solutions.</p>
-                <p><strong>My journey includes:</strong></p>
-                <ul>
-                    <li>Designing Brake Systems at Stellantis</li>
-                    <li>Prototyping Humanoid Robots at Sanctuary AI</li>
-                    <li>Studying Mechatronic Systems Engineering at Western University</li>
-                </ul>
-                <p>I'm also a <strong>DFSS Green Belt</strong> certified in Systems Behavior Testing and a <strong>Certified SolidWorks Associate</strong>.</p>
-                <p>INFJ-T / Advocate — 86% Introverted, 79% Intuitive, 67% Turbulent</p>
-                <p><strong>DISC:</strong> I/C blend — friendly, fun, focused, methodical</p>
-                <p><strong>Deep Thinker:</strong> Loves connecting ideas, seeing patterns, breaking down complexity</p>
-                <p><strong>Systems Builder:</strong> Designs workflows-of-workflows, builds ahead of time, values quality & elegance</p>
-                <p><strong>Tech Tinkerer:</strong> Not just using tech, but understanding how it works under the hood</p>
-            </div>
-        </section>
-        <section class="skills-section skill-grid">
-            <div class="skill-category glass-card">
-                <h3>Systems Stack</h3>
-                <ul class="skill-list">
-                    <li> Architecture, Integration, Testing, Failure Analysis, Requirements Management </li>
-                    <li> Automotive Systems, Humanoid Robotics, Embedded Systems, Electro-mechanical Validation, Rapid Prototyping</li>
-                    <li> SolidWorks, AutoCAD, OnShape, Git/GitHub, JIRA, Python, C++, MATLAB, VBA</li>
-                </ul>
-            </div>
-            <div class="skill-category glass-card">
-                <h3>About Me</h3>
-                <ul class="skill-list">
-                    <li>INFJ-T / Advocate — 86% Introverted, 79% Intuitive, 67% Turbulent</li>
-                    <li>DISC: I/C blend — friendly, fun, focused, methodical</li>
-                    <li>Deep Thinker: Loves connecting ideas, seeing patterns, breaking down complexity</li>
-                    <li>Systems Builder: Designs workflows-of-workflows, builds ahead of time, values quality & elegance</li>
-                    <li>Tech Tinkerer: Not just using tech, but understanding how it works under the hood</li>
-                </ul>
-            </div>
-        </section>
-        <section class="experience-section">
-            <h2 class="section-title">Work Experience</h2>
-            <div class="job">
-                <h3>Systems Engineer</h3>
-                <div class="company">Stellantis Canada | Remote</div>
-                <div class="period">April 2022 - Present</div>
-                <ul>
-                    <li>Manage system design for 13+ vehicle features across Stellantis platforms</li>
-                    <li>SME for active chassis braking functions — guiding engineers</li>
-                    <li>Trained 15+ engineers on system processes</li>
-                    <li>Led Off-Road Cornering Assist development</li>
-                    <li>Resolved complex ESC button logic issues</li>
-                </ul>
-            </div>
-            <div class="job">
-                <h3>Robotics Systems Engineering Technician</h3>
-                <div class="company">Sanctuary AI | Vancouver (Hybrid)</div>
-                <div class="period">Sept 2021 - Jan 2022</div>
-                <ul>
-                    <li>Integrated humanoid robot subsystems</li>
-                    <li>Built prototype stress rigs</li>
-                    <li>Developed Python automation tools</li>
-                </ul>
-            </div>
-        </section>
+            </section>
+            
+            <section class="about-section">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-brief">
+                    <p>I'm a systems engineer with a multidisciplinary mindset — mixing mechanical, electrical, and software thinking to deliver complete solutions.</p>
+                    <p><strong>My journey includes:</strong></p>
+                    <ul>
+                        <li>Designing Brake Systems at Stellantis</li>
+                        <li>Prototyping Humanoid Robots at Sanctuary AI</li>
+                        <li>Studying Mechatronic Systems Engineering at Western University</li>
+                    </ul>
+                    <p>I'm also a <strong>DFSS Green Belt</strong> certified in Systems Behavior Testing and a <strong>Certified SolidWorks Associate</strong>.</p>
+                    <p>INFJ-T / Advocate — 86% Introverted, 79% Intuitive, 67% Turbulent</p>
+                    <p><strong>DISC:</strong> I/C blend — friendly, fun, focused, methodical</p>
+                    <p><strong>Deep Thinker:</strong> Loves connecting ideas, seeing patterns, breaking down complexity</p>
+                    <p><strong>Systems Builder:</strong> Designs workflows-of-workflows, builds ahead of time, values quality & elegance</p>
+                    <p><strong>Tech Tinkerer:</strong> Not just using tech, but understanding how it works under the hood</p>
+                </div>
+            </section>
+            
+            <!-- Awwwards 2026 Skills Section -->
+            <section class="skills-section">
+                <h2 class="section-title">Systems Stack</h2>
+                <div class="skills-force-graph" id="skillsGraph"></div>
+            </section>
+            
+            <section class="experience-section">
+                <h2 class="section-title">Work Experience</h2>
+                <div class="job">
+                    <h3>Systems Engineer</h3>
+                    <div class="company">Stellantis Canada | Remote</div>
+                    <div class="period">April 2022 - Present</div>
+                    <ul>
+                        <li>Manage system design for 13+ vehicle features across Stellantis platforms</li>
+                        <li>SME for active chassis braking functions — guiding engineers</li>
+                        <li>Trained 15+ engineers on system processes</li>
+                        <li>Led Off-Road Cornering Assist development</li>
+                        <li>Resolved complex ESC button logic issues</li>
+                    </ul>
+                </div>
+                <div class="job">
+                    <h3>Robotics Systems Engineering Technician</h3>
+                    <div class="company">Sanctuary AI | Vancouver (Hybrid)</div>
+                    <div class="period">Sept 2021 - Jan 2022</div>
+                    <ul>
+                        <li>Integrated humanoid robot subsystems</li>
+                        <li>Built prototype stress rigs</li>
+                        <li>Developed Python automation tools</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Awwwards 2026 CTA -->
+            <section class="hire-me-btn" id="hireMeSection">
+                <button class="hire-btn" id="hireBtn">HIRE ME</button>
+                <div id="contactOptions" style="display: none; margin-top: 1rem; text-align: center;">
+                    <p>Choose your path:</p>
+                    <a href="mailto:awan@example.com" style="color: #000000; text-decoration: none; font-family: 'Courier New', monospace; margin: 0.5rem;">📧 Email Me</a>
+                    <a href="https://linkedin.com/in/awanabadullah" style="color: #000000; text-decoration: none; font-family: 'Courier New', monospace; margin: 0.5rem;" target="_blank">💼 LinkedIn</a>
+                    <a href="https://github.com/awanabadullah" style="color: #000000; text-decoration: none; font-family: 'Courier New', monospace; margin: 0.5rem;" target="_blank">🐙 GitHub</a>
+                </div>
+            </section>
+        </div>
     </div>
     <footer>
         <div class="footer-content">
@@ -381,22 +228,246 @@
             <span>Made by Monke with <span class="footer-heart">❤️</span> & <span>🍌</span></span>
         </div>
     </footer>
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
     <script>
         // Initialize theme from localStorage or default to dark
-        (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const initialTheme = savedTheme || 'dark';
-            document.documentElement.setAttribute('data-theme', initialTheme);
-        })();
+        const storedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', storedTheme);
         
+        // Original theme toggle
         function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         }
+        
+        // Awwwards 2026 Upgrades
+        
+        // 1. Hero Kinetic Typography (GSAP)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Kinetic text animation
+            const titleChars = document.querySelectorAll('#heroTitle span');
+            gsap.from(titleChars, {
+                opacity: 0,
+                y: 30,
+                stagger: 0.05,
+                duration: 0.8,
+                ease: 'back.out(1.7)'
+            });
+            
+            // Neural core 3D animation with Three.js
+            const neuralContainer = document.getElementById('heroNeural');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, neuralContainer.clientWidth / neuralContainer.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(neuralContainer.clientWidth, neuralContainer.clientHeight);
+            neuralContainer.appendChild(renderer.domElement);
+            
+            // Create neural core geometry
+            const geometry = new THREE.IcosahedronGeometry(3, 2);
+            const material = new THREE.MeshPhongMaterial({ 
+                color: 0x00ff00, 
+                emissive: 0x00aaaa, 
+                emissiveIntensity: 0.5,
+                wireframe: true 
+            });
+            const neuroMesh = new THREE.Mesh(geometry, material);
+            scene.add(neuroMesh);
+            
+            const light = new THREE.PointLight(0xffffff, 2, 100);
+            light.position.set(5, 5, 5);
+            scene.add(light);
+            
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            
+            camera.position.z = 8;
+            
+            // Animation loop
+            function animateNeural() {
+                requestAnimationFrame(animateNeural);
+                neuroMesh.rotation.x += 0.005;
+                neuroMesh.rotation.y += 0.005;
+                renderer.render(scene, camera);
+            }
+            animateNeural();
+            
+            // 2. Skills Force Graph (D3.js)
+            const skillsData = {
+                nodes: [
+                    { id: "Systems", group: 1, size: 40 },
+                    { id: "Architecture", group: 2, size: 25 },
+                    { id: "Integration", group: 2, size: 25 },
+                    { id: "Testing", group: 2, size: 25 },
+                    { id: "Failure Analysis", group: 2, size: 25 },
+                    { id: "Requirements", group: 2, size: 25 },
+                    { id: "Automotive", group: 3, size: 20 },
+                    { id: "Humanoid", group: 3, size: 20 },
+                    { id: "Embedded", group: 3, size: 20 },
+                    { id: "Electro-mechanical", group: 3, size: 20 },
+                    { id: "Prototyping", group: 3, size: 20 },
+                    { id: "SolidWorks", group: 4, size: 15 },
+                    { id: "AutoCAD", group: 4, size: 15 },
+                    { id: "OnShape", group: 4, size: 15 },
+                    { id: "Git", group: 4, size: 15 },
+                    { id: "JIRA", group: 4, size: 15 },
+                    { id: "Python", group: 4, size: 15 },
+                    { id: "C++", group: 4, size: 15 },
+                    { id: "MATLAB", group: 4, size: 15 },
+                    { id: "VBA", group: 4, size: 15 }
+                ],
+                links: [
+                    { source: "Systems", target: "Architecture" },
+                    { source: "Systems", target: "Integration" },
+                    { source: "Systems", target: "Testing" },
+                    { source: "Systems", target: "Failure Analysis" },
+                    { source: "Systems", target: "Requirements" },
+                    { source: "Systems", target: "Automotive" },
+                    { source: "Systems", target: "Humanoid" },
+                    { source: "Systems", target: "Embedded" },
+                    { source: "Systems", target: "Electro-mechanical" },
+                    { source: "Systems", target: "Prototyping" },
+                    { source: "Automotive", target: "SolidWorks" },
+                    { source: "Humanoid", target: "Python" },
+                    { source: "Embedded", target: "C++" },
+                    { source: "Electro-mechanical", target: "MATLAB" },
+                    { source: "Prototyping", target: "VBA" }
+                ]
+            };
+            
+            const width = document.getElementById('skillsGraph').clientWidth;
+            const height = 400;
+            
+            const svg = d3.select('#skillsGraph').append('svg')
+                .attr('width', '100%')
+                .attr('height', '100%')
+                .attr('viewBox', `0 0 ${width} ${height}`)
+                .style('background', 'transparent');
+            
+            const simulation = d3.forceSimulation(skillsData.nodes)
+                .force('link', d3.forceLink().id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collide', d3.forceCollide().radius(d => d.size + 10));
+            
+            const link = svg.append('g')
+                .selectAll('line')
+                .data(skillsData.links)
+                .enter().append('line')
+                .attr('stroke', '#00ff00')
+                .attr('stroke-width', 1);
+            
+            const node = svg.append('g')
+                .selectAll('circle')
+                .data(skillsData.nodes)
+                .enter().append('circle')
+                .attr('r', d => d.size)
+                .attr('fill', d => d.group === 1 ? '#00ff00' : d.group === 2 ? '#00aaaa' : d.group === 3 ? '#ff00ff' : '#0000ff')
+                .attr('stroke', '#000000')
+                .attr('stroke-width', 2)
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended));
+            
+            node.append('title')
+                .text(d => d.id);
+            
+            simulation.nodes(skillsData.nodes).on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+                
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+            });
+            
+            // Scroll-triggered animations with GSAP
+            gsap.from('.job', {
+                scrollTrigger: {
+                    trigger: '.experience-section',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                stagger: 0.2,
+                ease: 'power3.out'
+            });
+            
+            // Hire Me CTA morph animation
+            const hireBtn = document.getElementById('hireBtn');
+            const contactOptions = document.getElementById('contactOptions');
+            let isMorphing = false;
+            
+            hireBtn.addEventListener('click', () => {
+                if (!isMorphing) {
+                    isMorphing = true;
+                    hireBtn.classList.add('morphing');
+                    hireBtn.textContent = '🧠';
+                    
+                    setTimeout(() => {
+                        hireBtn.textContent = '⚙️';
+                        setTimeout(() => {
+                            hireBtn.textContent = '⚡';
+                            setTimeout(() => {
+                                hireBtn.textContent = '🚀';
+                                contactOptions.style.display = 'block';
+                                gsap.from(contactOptions.querySelectorAll('a'), {
+                                    opacity: 0,
+                                    y: 20,
+                                    stagger: 0.1,
+                                    duration: 0.5,
+                                    ease: 'back.out(1.7)'
+                                });
+                            }, 500);
+                        }, 500);
+                    }, 500);
+                }
+            });
+            
+            // Scroll-triggered Hire Me section
+            gsap.from('#hireMeSection', {
+                scrollTrigger: {
+                    trigger: '#hireMeSection',
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1.2,
+                ease: 'power3.out'
+            });
+            
+            // Drag functions for D3 force graph
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+            
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+            
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+        });
     </script>
 </body>
 </html>
