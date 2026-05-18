@@ -15,8 +15,5 @@ My personal website, hosted on GitHub Pages.
 
 ## Live Site
 
-Once GitHub Pages is enabled, it'll be at:
-`https://awanabadullah.github.io`
-
-Or (if using org repo):
+Currently hosted at:
 `https://the-banana-tree.github.io/awanabadullah.github.io`
