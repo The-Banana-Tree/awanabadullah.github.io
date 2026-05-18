@@ -1,11 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Awan Abadullah | Systems Engineer</title>
     <meta name="description" content="Personal website of Awan Abadullah, Systems Engineer at Stellantis">
     <style>
+        :root {
+            --primary: #63c8f2;
+            --secondary: #4a90e2;
+            --accent: #00b894;
+            --text: #1a1a2e;
+            --text-light: #555;
+            --bg: linear-gradient(135deg, #f0f4f8 0%, #e4e8ec 100%);
+            --glass: rgba(255, 255, 255, 0.75);
+            --glass-dark: rgba(20, 20, 30, 0.75);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        [data-theme="dark"] {
+            --text: #e0e0e0;
+            --text-light: #a0a0a0;
+            --bg: linear-gradient(135deg, #0f1115 0%, #1a1c22 100%);
+            --glass: rgba(20, 20, 30, 0.85);
+            --glass-dark: rgba(255, 255, 255, 0.05);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,18 +40,24 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: #1a1a2e;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            color: var(--text);
+            background: var(--bg);
             min-height: 100vh;
+            transition: all 0.3s ease;
+            overflow-x: hidden;
         }
 
+        /* Aero-style frosted glass header */
         header {
-            background: white;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             padding: 2rem 1.5rem;
             text-align: center;
-            border-bottom: 3px solid #4a90e2;
+            border-bottom: var(--glass-border);
             position: relative;
             overflow: hidden;
+            box-shadow: var(--glass-shadow);
         }
 
         header::before {
@@ -35,72 +66,157 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #4a90e2, #00b894);
+            height: 6px;
+            background: linear-gradient(90deg, #63c8f2, #4a90e2, #00b894);
         }
 
         h1 {
-            font-size: 2.5rem;
-            color: #1a1a2e;
-            margin-bottom: 0.5rem;
+            font-size: 3rem;
             font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.02em;
         }
 
         .title {
-            color: #636e72;
-            font-size: 1.25rem;
+            color: var(--text-light);
+            font-size: 1.4rem;
             font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
+        /* Burger menu */
+        .burger {
+            display: none;
+            position: absolute;
+            top: 2rem;
+            left: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .burger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--text);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Main container with glassmorphism cards */
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 3rem 1.5rem;
+            padding: 3rem 1.5rem 1rem;
         }
 
+        /* Glass cards */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--glass-shadow);
+            border: var(--glass-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hero section */
         .hero-section {
             display: flex;
             align-items: center;
             gap: 2.5rem;
             margin-bottom: 3rem;
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .hero-section:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
         }
 
         .hero-image {
-            width: 220px;
-            height: 220px;
+            width: 240px;
+            height: 240px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #4a90e2;
-            box-shadow: 0 10px 25px rgba(74, 144, 226, 0.2);
+            border: 4px solid var(--primary);
+            box-shadow: 0 15px 40px rgba(99, 200, 242, 0.3);
             flex-shrink: 0;
+            background: var(--primary);
+        }
+
+        /* Dark mode toggle button */
+        .theme-toggle {
+            position: absolute;
+            top: 2rem;
+            right: 1.5rem;
+            cursor: pointer;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: var(--glass);
+            border: var(--glass-border);
+        }
+
+        .nav a:hover {
+            background: var(--primary);
+            color: white;
         }
 
         .hero-content h2 {
-            color: #2d3436;
-            font-size: 2rem;
+            color: var(--text);
+            font-size: 2.2rem;
             margin-bottom: 0.75rem;
         }
 
         .contact-info {
             margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 12px;
-            border-left: 4px solid #4a90e2;
+            border: var(--glass-border);
         }
 
         .contact-info p {
-            color: #4a6fa5;
+            color: var(--text-light);
             margin-bottom: 0.5rem;
             font-size: 1.05rem;
         }
@@ -109,25 +225,18 @@
             margin-bottom: 0;
         }
 
+        /* Section titles */
         .section-title {
-            font-size: 1.75rem;
-            color: #1a1a2e;
+            font-size: 2rem;
+            color: var(--text);
             margin-bottom: 1.5rem;
             padding-bottom: 0.75rem;
-            border-bottom: 2px solid #4a90e2;
+            border-bottom: 2px solid var(--primary);
             display: inline-block;
         }
 
-        .about-section {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-        }
-
         .about-text {
-            color: #555;
+            color: var(--text-light);
             font-size: 1.08rem;
             line-height: 1.8;
         }
@@ -143,8 +252,10 @@
 
         .about-text ul li {
             margin-bottom: 0.6rem;
+            color: var(--text);
         }
 
+        /* Skills grid */
         .skills-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -152,23 +263,12 @@
             margin-top: 2rem;
         }
 
-        .skill-category {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .skill-category:hover {
-            transform: translateY(-3px);
-        }
-
         .skill-category h3 {
-            color: #1a1a2e;
+            color: var(--text);
             margin-bottom: 1.25rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px solid var(--primary);
+            font-size: 1.25rem;
         }
 
         .skill-list {
@@ -185,22 +285,15 @@
             content: '✓';
             position: absolute;
             left: 0;
-            color: #00b894;
+            color: var(--accent);
             font-weight: bold;
         }
 
-        .experience-section {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-top: 2rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-        }
-
+        /* Jobs, Projects, Certs */
         .job {
             margin-bottom: 2.5rem;
             padding-bottom: 2rem;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .job:last-child {
@@ -208,19 +301,19 @@
         }
 
         .job h3 {
-            color: #1a1a2e;
-            font-size: 1.3rem;
+            color: var(--text);
+            font-size: 1.35rem;
             margin-bottom: 0.5rem;
         }
 
         .job .company {
-            color: #4a90e2;
+            color: var(--primary);
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
         .job .period {
-            color: #636e72;
+            color: var(--text-light);
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
@@ -232,15 +325,7 @@
 
         .job ul li {
             margin-bottom: 0.6rem;
-            color: #555;
-        }
-
-        .projects-section {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-top: 2rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            color: var(--text-light);
         }
 
         .project {
@@ -252,23 +337,15 @@
         }
 
         .project h3 {
-            color: #1a1a2e;
-            font-size: 1.25rem;
+            color: var(--text);
+            font-size: 1.3rem;
             margin-bottom: 0.75rem;
         }
 
         .project .details {
-            color: #636e72;
-            font-size: 1.02rem;
+            color: var(--text-light);
+            font-size: 1.05rem;
             line-height: 1.6;
-        }
-
-        .certifications-section {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-top: 2rem;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
         }
 
         .certification {
@@ -276,9 +353,10 @@
             align-items: center;
             gap: 1rem;
             padding: 1rem;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             margin-bottom: 0.75rem;
+            border: var(--glass-border);
         }
 
         .certification:last-child {
@@ -291,37 +369,76 @@
         }
 
         .certification-name {
-            color: #1a1a2e;
+            color: var(--text);
             font-weight: 600;
         }
 
+        /* Footer */
         footer {
             text-align: center;
             padding: 2rem;
             margin-top: 3rem;
-            background: #1a1a2e;
-            color: white;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: var(--glass-border);
         }
 
         footer p {
             font-size: 0.95rem;
+            color: var(--text-light);
         }
 
-        .btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.85rem 1.75rem;
-            background: linear-gradient(135deg, #4a90e2, #00b894);
-            color: white;
+        /* Monke credits */
+        .monke-credits {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(99, 200, 242, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(99, 200, 242, 0.3);
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .monke-credits strong {
+            color: var(--primary);
+        }
+
+        /* Burger menu styles */
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 1rem;
+            background: var(--glass);
+            border: var(--glass-border);
+            border-radius: 12px;
             text-decoration: none;
-            border-radius: 50px;
+            color: var(--text);
             font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        .mobile-nav a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav {
+                display: none;
+            }
+            
+            .burger {
+                display: block;
+            }
         }
 
         @media (max-width: 768px) {
@@ -330,20 +447,36 @@
                 text-align: center;
             }
             
-            h1 { font-size: 1.8rem; }
-            .title { font-size: 1.1rem; }
-            .hero-image { width: 160px; height: 160px; }
+            h1 { font-size: 2.2rem; }
+            .hero-image { width: 180px; height: 180px; }
+            .skills-section { grid-template-columns: 1fr; }
+            .container { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
 <body>
     <header>
+        <div class="burger" onclick="toggleMobileNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+            ☾
+        </div>
         <h1>Awan Abadullah</h1>
         <p class="title">Systems Engineer | Stellantis</p>
+        <nav class="nav">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#certifications">Certifications</a>
+        </nav>
     </header>
 
     <div class="container">
-        <section class="hero-section">
+        <section class="hero-section glass-card">
             <img src="profile.jpg" alt="Awan Abadullah" class="hero-image">
             <div class="hero-content">
                 <h2>Hi, I'm Awan!</h2>
@@ -360,7 +493,7 @@
             </div>
         </section>
 
-        <section class="about-section">
+        <section id="about" class="about-section glass-card">
             <h2 class="section-title">About Me</h2>
             <div class="about-text">
                 <p>I'm a systems engineer with a multidisciplinary mindset — mixing mechanical, electrical, and software thinking to deliver complete solutions. At Stellantis, I manage system design for 13+ vehicle features across North American platforms.</p>
@@ -376,8 +509,8 @@
             </div>
         </section>
 
-        <section class="skills-section">
-            <div class="skill-category">
+        <section id="skills" class="skills-section">
+            <div class="skill-category glass-card">
                 <h3>Systems Engineering</h3>
                 <ul class="skill-list">
                     <li>Systems Architecture Design</li>
@@ -391,7 +524,7 @@
                 </ul>
             </div>
 
-            <div class="skill-category">
+            <div class="skill-category glass-card">
                 <h3>Technical Leadership</h3>
                 <ul class="skill-list">
                     <li>Cross-functional Coordination</li>
@@ -405,7 +538,7 @@
                 </ul>
             </div>
 
-            <div class="skill-category">
+            <div class="skill-category glass-card">
                 <h3>Tools & Languages</h3>
                 <ul class="skill-list">
                     <li>IBM DOORS</li>
@@ -419,7 +552,7 @@
                 </ul>
             </div>
 
-            <div class="skill-category">
+            <div class="skill-category glass-card">
                 <h3>Domains</h3>
                 <ul class="skill-list">
                     <li>Embedded Systems</li>
@@ -434,7 +567,7 @@
             </div>
         </section>
 
-        <section class="experience-section">
+        <section id="experience" class="experience-section glass-card">
             <h2 class="section-title">Work Experience</h2>
 
             <div class="job">
@@ -465,7 +598,7 @@
             </div>
         </section>
 
-        <section class="projects-section">
+        <section id="projects" class="projects-section glass-card">
             <h2 class="section-title">Projects</h2>
 
             <div class="project">
@@ -490,7 +623,7 @@
             </div>
         </section>
 
-        <section class="certifications-section">
+        <section id="certifications" class="certifications-section glass-card">
             <h2 class="section-title">Certifications & Coursework</h2>
             <div class="certification">
                 <span class="certification-name">Design for Six Sigma (DFSS): Systems Behavior Testing Green Belt (Stellantis)</span>
@@ -513,6 +646,55 @@
     <footer>
         <p>© 2026 Awan Abadullah | Systems Engineer</p>
         <p>Montréal, QC</p>
+        
+        <div class="monke-credits">
+            🤖 Site built by <strong>Monke</strong> (your AI assistant)<br>
+            🏠 Lives at <strong>banana-HQ</strong> (Mac mini M2 Pro 16GB)<br>
+            ⚡ Runs off <strong>Ollama</strong> — <strong>qwen3-coder-next:cloud</strong> 🧠
+        </div>
     </footer>
+
+    <nav class="mobile-nav" id="mobile-nav">
+        <a href="#about" onclick="toggleMobileNav()">About</a>
+        <a href="#skills" onclick="toggleMobileNav()">Skills</a>
+        <a href="#experience" onclick="toggleMobileNav()">Experience</a>
+        <a href="#projects" onclick="toggleMobileNav()">Projects</a>
+        <a href="#certifications" onclick="toggleMobileNav()">Certifications</a>
+    </nav>
+
+    <script>
+        // Dark mode toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        }
+
+        // Burger menu toggle
+        function toggleMobileNav() {
+            const nav = document.getElementById('mobile-nav');
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Smooth scrolling for anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Hide mobile nav after click
+                    const mobileNav = document.getElementById('mobile-nav');
+                    if (mobileNav.style.display === 'flex') {
+                        mobileNav.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
