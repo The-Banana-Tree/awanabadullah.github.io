@@ -117,7 +117,44 @@
         .footer-separator { color: #000000; }
         .footer-heart { color: #ff6b6b; }
         
-        @media (max-width: 768px) {
+        /* === Hero Section & Image === */
+        .hero-section { margin-bottom: 2rem; }
+        .hero-image { 
+            max-width: 200px;
+            width: 30%;
+            height: auto;
+            float: right;
+            margin: 0 0 20px 20px;
+            border: 2px solid #000000;
+            box-shadow: 4px 4px 0px #000000;
+        }
+        .hero-section::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        .hero-content h2 { 
+            font-family: 'Courier New', monospace;
+            color: #000000; 
+            font-size: 24px;
+            margin-bottom: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .about-brief {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            line-height: 1.8;
+            letter-spacing: 0.3px;
+        }
+        /* === Reduce Verbosity === */
+        .job ul li, .skill-list li, .certification {
+            font-size: 15px;
+        }
+        .certification {
+            padding: 8px 10px;
+        }
+        /* === Responsive Adjustments === */
             .hero-section { flex-direction: column; text-align: center; }
             .hero-content h2 { text-align: center; }
             .hero-image { margin: 0 auto; }
@@ -125,6 +162,12 @@
             .footer-content { flex-direction: column; gap: 0.3rem; }
             .container { padding: 0 16px; }
             .skill-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .hero-image { float: none; display: block; margin: 0 auto 20px auto; max-width: 150px; }
+            .monke-credits { text-align: center; }
+            .window-title { font-size: 1rem; }
+            .window-content { padding: 16px; }
         }
     </style>
 </head>
@@ -135,12 +178,12 @@
             <div class="window-btn minimize"></div>
             <div class="window-btn maximize"></div>
         </div>
-        <h1 class="window-title">Systems Engineer | Awan Abadullah</h1>
+        <h1 class="window-title" style="font-size: 1.2rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">AWAN | THE SYSTEMS ENGINEER</h1>
         <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">☾</div>
     </header>
     <div class="retro-window">
         <div class="window-content">
-            <div class="monke-credits">Site built by Monke, an AI agent living on a desk in Montreal, Quebec, running on Ollama • qwen3-coder-next:cloud 🧠</div>
+            <div class="monke-credits">Site built by Monke | Montreal, QC 🤖</div>
         <section class="hero-section">
             <img src="profile.jpg" alt="Awan Abadullah" class="hero-image">
             <div class="hero-content">
