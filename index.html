@@ -183,16 +183,23 @@
             justify-content: center;
             gap: 1rem;
         }
-        .contact-card .contact a {
+        .card .contact-buttons a {
             display: inline-block;
-            width: 180px;
+            width: 200px;
             padding: 1rem;
-            background: var(--card);
-            border: 2px solid var(--accent);
-            color: var(--accent);
+            background: #ff69b4;
+            border: 2px solid #ff1493;
+            color: #0a0a0a;
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s;
+            text-align: center;
+        }
+        .card .contact-buttons a:hover {
+            background: #ff1493;
+            color: #ffffff;
+            transform: scale(1.05);
+            border-color: #ff69b4;
         }
         .contact-card .contact a:hover {
             background: var(--accent);
@@ -270,9 +277,6 @@
                     <li><strong>Good enough now</strong>: "Perfect later" > shipping</li>
                 </ul>
             </div>
-        </section>
-        
-        <section class="grid">
             <div class="card">
                 <h3 class="section-title">Reach Out To Me</h3>
                 <div class="contact-buttons">
