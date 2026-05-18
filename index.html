@@ -7,8 +7,8 @@
     <style>
         :root {
             --primary: #63c8f2;
-            --secondary: #4a90e2;
             --accent: #00b894;
+            --accent2: #f0c419;
             --text: #1a1a2e;
             --text-light: #555;
             --bg: linear-gradient(135deg, #f0f4f8 0%, #e4e8ec 100%);
@@ -16,8 +16,9 @@
             --glass-dark: rgba(20, 20, 30, 0.8);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+            --neon-glow: 0 0 10px rgba(99, 200, 242, 0.5);
+            --card-gradient: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
         }
-
         [data-theme="dark"] {
             --text: #e0e0e0;
             --text-light: #a0a0a0;
@@ -26,9 +27,7 @@
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             --glass-border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
@@ -37,7 +36,6 @@
             min-height: 100vh;
             transition: all 0.3s ease;
         }
-
         header {
             background: var(--glass);
             backdrop-filter: blur(20px);
@@ -48,7 +46,6 @@
             border-bottom: var(--glass-border);
             box-shadow: var(--glass-shadow);
         }
-
         .header-content {
             max-width: 1000px;
             margin: 0 auto;
@@ -57,10 +54,8 @@
             justify-content: space-between;
             gap: 1rem;
         }
-
         h1 { font-size: 1.75rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
         .title { color: var(--text-light); font-size: 0.95rem; font-weight: 500; }
-
         .theme-toggle {
             cursor: pointer;
             background: var(--glass);
@@ -75,15 +70,13 @@
             transition: all 0.3s ease;
         }
         .theme-toggle:hover { transform: scale(1.05); }
-
         .container {
             max-width: 1000px;
             margin: 2rem auto;
             padding: 0 1.5rem 3rem;
         }
-
         .glass-card {
-            background: var(--glass);
+            background: var(--card-gradient);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 2rem;
@@ -92,36 +85,10 @@
             transition: transform 0.3s ease;
         }
         .glass-card:hover { transform: translateY(-3px); }
-
-        .hero-section {
-            display: flex;
-            align-items: flex-start;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .hero-image {
-            width: 180px;
-            height: 180px;
-            border-radius: 25px;
-            object-fit: cover;
-            border: 4px solid var(--primary);
-            box-shadow: 0 10px 30px rgba(99, 200, 242, 0.3);
-        }
-
-        .hero-content h2 {
-            color: var(--text);
-            font-size: 1.9rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .about-brief {
-            color: var(--text-light);
-            font-size: 1.05rem;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
+        .hero-section { display: flex; align-items: flex-start; gap: 2rem; margin-bottom: 2rem; }
+        .hero-image { width: 180px; height: 180px; border-radius: 25px; object-fit: cover; border: 4px solid var(--primary); box-shadow: 0 10px 30px rgba(99, 200, 242, 0.3); }
+        .hero-content h2 { color: var(--text); font-size: 1.9rem; margin-bottom: 0.75rem; }
+        .about-brief { color: var(--text-light); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.5rem; }
         .monke-credits {
             background: rgba(99, 200, 242, 0.1);
             border-radius: 12px;
@@ -130,9 +97,10 @@
             margin-bottom: 2rem;
             font-size: 0.9rem;
             color: var(--text-light);
+            box-shadow: var(--neon-glow);
+            animation: float 4s ease-in-out infinite;
         }
-        .monke-credits strong { color: var(--primary); }
-
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
         .section-title {
             font-size: 1.7rem;
             color: var(--text);
@@ -141,39 +109,11 @@
             border-bottom: 2px solid var(--primary);
             display: inline-block;
         }
-
-        .skill-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .skill-category h3 {
-            color: var(--text);
-            margin-bottom: 0.75rem;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 0.4rem;
-            font-size: 1.1rem;
-        }
-
-        .skill-list {
-            list-style: none;
-            padding-left: 0;
-        }
-        .skill-list li {
-            margin-bottom: 0.5rem;
-            padding-left: 1.25rem;
-            position: relative;
-        }
-        .skill-list li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-weight: bold;
-        }
-
+        .skill-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+        .skill-category h3 { color: var(--text); margin-bottom: 0.75rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.4rem; font-size: 1.1rem; }
+        .skill-list { list-style: none; padding-left: 0; }
+        .skill-list li { margin-bottom: 0.5rem; padding-left: 1.25rem; position: relative; }
+        .skill-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
         .job { margin-bottom: 1.75rem; padding-bottom: 1.25rem; border-bottom: 1px solid rgba(0,0,0,0.1); }
         .job:last-child { border-bottom: none; }
         .job h3 { color: var(--text); font-size: 1.2rem; margin-bottom: 0.4rem; }
@@ -181,42 +121,20 @@
         .job .period { color: var(--text-light); font-size: 0.85rem; margin-bottom: 0.8rem; }
         .job ul { margin-top: 0.6rem; padding-left: 1.25rem; }
         .job ul li { margin-bottom: 0.5rem; color: var(--text-light); }
-
-        .certification {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            margin-bottom: 0.6rem;
-            border: var(--glass-border);
-        }
+        .certification { display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: rgba(255, 255, 255, 0.1); border-radius: 10px; margin-bottom: 0.6rem; border: var(--glass-border); }
         .certification:last-child { margin-bottom: 0; }
         .certification::before { content: '⭐'; }
         .certification-name { color: var(--text); font-weight: 600; }
-
-        footer {
-            text-align: center;
-            padding: 1.5rem 1rem;
-            margin-top: 2rem;
-            background: var(--glass);
-            border-top: var(--glass-border);
-        }
+        footer { text-align: center; padding: 1.5rem 1rem; margin-top: 2rem; background: var(--glass); border-top: var(--glass-border); }
         footer p { font-size: 0.9rem; color: var(--text-light); }
-
-        .footer-monke {
-            margin-top: 1rem;
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
+        .footer-monke { margin-top: 1rem; font-size: 0.85rem; color: var(--text-light); display: flex; align-items: center; justify-content: center; gap: 1rem; }
         .footer-monke span { font-size: 1.1rem; margin: 0 0.4rem; }
-
         @media (max-width: 768px) {
             .hero-section { flex-direction: column; text-align: center; }
             .hero-content h2 { text-align: center; }
             .hero-image { margin: 0 auto; }
             .monke-credits { text-align: center; }
+            .footer-monke { flex-direction: column; gap: 0.5rem; }
         }
     </style>
 </head>
@@ -230,12 +148,8 @@
             <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">☾</div>
         </div>
     </header>
-
     <div class="container">
-        <div class="monke-credits">
-            <p>Site built by Monke — an assistant living on a desk at banana-HQ, running Ollama • qwen3-coder-next:cloud 🧠</p>
-        </div>
-
+        <div class="monke-credits">Site built by Monke — an assistant living on a desk at banana-HQ, running Ollama • qwen3-coder-next:cloud 🧠</div>
         <section class="hero-section glass-card">
             <img src="profile.jpg" alt="Awan Abadullah" class="hero-image">
             <div class="hero-content">
@@ -249,7 +163,6 @@
                 </p>
             </div>
         </section>
-
         <section class="about-section glass-card">
             <h2 class="section-title">About Me</h2>
             <div class="about-brief">
@@ -263,7 +176,6 @@
                 <p>I'm also a <strong>DFSS Green Belt</strong> certified in Systems Behavior Testing, with additional coursework in powertrain electrification and power electronics.</p>
             </div>
         </section>
-
         <section class="skills-section skill-grid">
             <div class="skill-category glass-card">
                 <h3>Systems Engineering</h3>
@@ -276,7 +188,6 @@
                     <li>CAN Interface & Validation</li>
                 </ul>
             </div>
-
             <div class="skill-category glass-card">
                 <h3>Technical Leadership</h3>
                 <ul class="skill-list">
@@ -288,7 +199,6 @@
                     <li>Stakeholder Alignment</li>
                 </ul>
             </div>
-
             <div class="skill-category glass-card">
                 <h3>Tools & Languages</h3>
                 <ul class="skill-list">
@@ -299,7 +209,6 @@
                     <li>HTML/CSS</li>
                 </ul>
             </div>
-
             <div class="skill-category glass-card">
                 <h3>Domains</h3>
                 <ul class="skill-list">
@@ -312,7 +221,6 @@
                 </ul>
             </div>
         </section>
-
         <section class="experience-section glass-card">
             <h2 class="section-title">Work Experience</h2>
             <div class="job">
@@ -338,32 +246,19 @@
                 </ul>
             </div>
         </section>
-
         <section class="certifications-section glass-card">
             <h2 class="section-title">Certifications</h2>
-            <div class="certification">
-                <span class="certification-name">DFSS Green Belt: Systems Behavior Testing (Stellantis)</span>
-            </div>
-            <div class="certification">
-                <span class="certification-name">Powertrain Electrification (Level 1) - Ohio State University</span>
-            </div>
-            <div class="certification">
-                <span class="certification-name">Power Electronics & Machines (Level 2) - Ohio State University</span>
-            </div>
-            <div class="certification">
-                <span class="certification-name">CSWA & CSWA-S: Mechanical Design & Simulation</span>
-            </div>
-            <div class="certification">
-                <span class="certification-name">The Power of Communication - Vin Giang's Stage Academy</span>
-            </div>
+            <div class="certification"><span class="certification-name">DFSS Green Belt: Systems Behavior Testing (Stellantis)</span></div>
+            <div class="certification"><span class="certification-name">Powertrain Electrification (Level 1) - Ohio State University</span></div>
+            <div class="certification"><span class="certification-name">Power Electronics & Machines (Level 2) - Ohio State University</span></div>
+            <div class="certification"><span class="certification-name">CSWA & CSWA-S: Mechanical Design & Simulation</span></div>
+            <div class="certification"><span class="certification-name">The Power of Communication - Vin Giang's Stage Academy</span></div>
         </section>
     </div>
-
     <footer>
         <p>© 2026 Awan Abadullah</p>
         <p class="footer-monke">Made by Monke <span>❤️</span> and <span>🍌</span></p>
     </footer>
-
     <script>
         function toggleTheme() {
             const html = document.documentElement;
