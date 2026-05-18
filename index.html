@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,9 +117,15 @@
         .footer-separator { color: #000000; }
         .footer-heart { color: #ff6b6b; }
         
-        /* === Dark Mode Footer === */
+        /* === Handle Night Mode Extensions === */
+        /* Counteract browser night mode filters */
+        @media (forced-colors: active) {
+            body {
+                filter: none !important;
+            }
+        }
         [data-theme="dark"] footer {
-            background: #333333;
+            background: #2a2a2a;
             border-top: 2px solid #000000;
         }
         [data-theme="dark"] .footer-content {
@@ -183,9 +189,9 @@
             background-image: none;
         }
         [data-theme="dark"] .monke-credits {
-            background: #333333;
+            background: #2a2a2a;
             border: 1px solid #000000;
-            color: #ffffff;
+            color: #e0e0e0;
         }
         [data-theme="dark"] .hero-content h2 {
             color: #ffffff;
@@ -354,9 +360,20 @@
         </div>
     </footer>
     <script>
+        // Initialize theme from localStorage or default to dark
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const initialTheme = savedTheme || 'dark';
+            document.documentElement.setAttribute('data-theme', initialTheme);
+        })();
+        
         function toggleTheme() {
             const html = document.documentElement;
-            html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
         }
     </script>
 </body>
