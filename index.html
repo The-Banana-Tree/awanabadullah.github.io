@@ -9,6 +9,8 @@
         @import url('./retro.css');
         
         /* === Awwwards 2026 Upgrades === */
+        /* Fallback: Show content even if JS fails */
+        .hero-text, .skills-force-graph { display: block !important; }
         .neural-core {
             width: 300px; height: 300px;
             border-radius: 50%;
@@ -39,9 +41,17 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes spin-inner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .hero-text {
+            opacity: 1 !important; /* Fallback: always show */
+            transform: translateY(0) !important;
+        }
+        .hero-text {
             text-align: center;
             margin-top: 2rem;
             opacity: 0; transform: translateY(20px);
+        }
+        .hero-text.visible {
+            opacity: 1; transform: translateY(0);
+            transition: opacity 1s ease, transform 1s ease;
         }
         .hero-text span {
             display: inline-block; opacity: 0; transform: translateY(20px);
@@ -251,17 +261,17 @@
         // Awwwards 2026 Upgrades
         
         // 1. Hero Kinetic Typography (GSAP)
-        document.addEventListener('DOMContentLoaded', () => {
-            // Kinetic text animation
-            const titleChars = document.querySelectorAll('#heroTitle span');
-            gsap.from(titleChars, {
-                opacity: 0,
-                y: 30,
-                stagger: 0.05,
-                duration: 0.8,
-                ease: 'back.out(1.7)'
-            });
-            
+PLACEHOLDER
+PLACEHOLDER
+PLACEHOLDER
+PLACEHOLDER
+PLACEHOLDER
+PLACEHOLDER
+PLACEHOLDER
+PLACEHOLDER
+PLACEHOLDER
+PLACEHOLDER
+PLACEHOLDER
             // Neural core 3D animation with Three.js
             const neuralContainer = document.getElementById('heroNeural');
             const scene = new THREE.Scene();
