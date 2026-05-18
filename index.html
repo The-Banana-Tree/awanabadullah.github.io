@@ -169,6 +169,36 @@
             transition: all 0.3s;
         }
         .theme-toggle:hover { transform: scale(1.1); }
+        
+        /* === Contact Card === */
+        .contact-card {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--card);
+            border: 2px solid var(--border);
+        }
+        .contact-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .contact-card .contact a {
+            display: inline-block;
+            width: 180px;
+            padding: 1rem;
+            background: var(--card);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .contact-card .contact a:hover {
+            background: var(--accent);
+            color: var(--bg);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -193,7 +223,7 @@
             <div class="card">
                 <h3>About Me</h3>
                 <img src="profile.jpg" alt="Awan Abadullah" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 1rem;">
-                <p>Hello, I'm Awan. A Systems Engineer during the day. I love video games, messing with tech, reading self-help books every now and then, and just being introverted. In my free time, I love hanging out with my two cats and my wife, Hira.</p>
+                <p>Hello, I'm Awan (some people also call me "Abad"). A Systems Engineer during the day. I love video games, messing with tech, reading self-help books every now and then, and just being introverted. In my free time, I love hanging out with my two cats and my wife, Hira.</p>
             </div>
             <div class="card">
                 <h3>My Stack</h3>
@@ -240,14 +270,13 @@
             </div>
         </section>
         
-        <section class="contact">
-            <h2 style="margin-bottom: 2rem; color: var(--accent);">Let's Build Together</h2>
+        <div class="contact-card">
             <div class="contact-buttons">
                 <a href="mailto:awanabad2@gmail.com">📧 Email Me</a>
                 <a href="https://ca.linkedin.com/in/awanabad" target="_blank">💼 LinkedIn</a>
                 <a href="https://github.com/awanabad" target="_blank">🐙 GitHub</a>
             </div>
-        </section>
+        </div>
     </div>
     
     <footer>
