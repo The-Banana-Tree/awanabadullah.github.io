@@ -117,14 +117,26 @@
         .footer-separator { color: #000000; }
         .footer-heart { color: #ff6b6b; }
         
+        /* === Dark Mode Footer === */
+        [data-theme="dark"] footer {
+            background: #333333;
+            border-top: 2px solid #000000;
+        }
+        [data-theme="dark"] .footer-content {
+            color: #ffffff;
+        }
+        [data-theme="dark"] .footer-separator {
+            color: #ffffff;
+        }
+        
         /* === Hero Section & Image === */
         .hero-section { margin-bottom: 2rem; }
         .hero-image { 
             max-width: 200px;
             width: 30%;
             height: auto;
-            float: right;
-            margin: 0 0 20px 20px;
+            float: left;
+            margin: 0 20px 20px 0;
             border: 2px solid #000000;
             box-shadow: 4px 4px 0px #000000;
         }
@@ -147,7 +159,59 @@
             line-height: 1.8;
             letter-spacing: 0.3px;
         }
-        /* === Reduce Verbosity === */
+        /* === Dark Mode Support === */
+        [data-theme="dark"] .window-bar {
+            background-color: #333333;
+            border-bottom-color: #000000;
+        }
+        [data-theme="dark"] .window-title {
+            color: #ffffff;
+        }
+        [data-theme="dark"] .theme-toggle {
+            background: #333333;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            box-shadow: 2px 2px 0px #ffffff;
+        }
+        [data-theme="dark"] .retro-window {
+            background-color: #1a1a1a;
+            border-color: #000000;
+            box-shadow: 8px 8px 0px #000000;
+        }
+        [data-theme="dark"] .window-content {
+            background-color: #2a2a2a;
+        }
+        [data-theme="dark"] .monke-credits {
+            background: #333333;
+            border: 1px solid #000000;
+            color: #ffffff;
+        }
+        [data-theme="dark"] .hero-content h2 {
+            color: #ffffff;
+        }
+        [data-theme="dark"] .about-brief {
+            color: #cccccc;
+        }
+        [data-theme="dark"] .section-title,
+        [data-theme="dark"] .job h3,
+        [data-theme="dark"] .job .company,
+        [data-theme="dark"] .job .period,
+        [data-theme="dark"] .skill-category h3,
+        [data-theme="dark"] .skill-list li,
+        [data-theme="dark"] .skill-list li::before,
+        [data-theme="dark"] .certification-name,
+        [data-theme="dark"] .footer-content {
+            color: #ffffff;
+            border-color: #000000;
+        }
+        [data-theme="dark"] .certification {
+            background: #333333;
+            border: 1px solid #000000;
+            color: #ffffff;
+        }
+        [data-theme="dark"] .certification::before {
+            color: #ffffff;
+        }
         .job ul li, .skill-list li, .certification {
             font-size: 15px;
         }
@@ -178,7 +242,7 @@
             <div class="window-btn minimize"></div>
             <div class="window-btn maximize"></div>
         </div>
-        <h1 class="window-title" style="font-size: 1.2rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">AWAN | THE SYSTEMS ENGINEER</h1>
+        <h1 class="window-title" style="font-size: 1.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; padding: 0 20px;">awan | systems engineer</h1>
         <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">☾</div>
     </header>
     <div class="retro-window">
@@ -280,15 +344,6 @@
                 </ul>
             </div>
         </section>
-        <section class="certifications-section">
-            <h2 class="section-title">Certifications</h2>
-            <div class="certification"><span class="certification-name">DFSS Green Belt: Systems Behavior Testing (Stellantis)</span></div>
-            <div class="certification"><span class="certification-name">Powertrain Electrification (Level 1) - Ohio State University</span></div>
-            <div class="certification"><span class="certification-name">Power Electronics & Machines (Level 2) - Ohio State University</span></div>
-            <div class="certification"><span class="certification-name">CSWA & CSWA-S: Mechanical Design & Simulation</span></div>
-            <div class="certification"><span class="certification-name">The Power of Communication - Vin Giang's Stage Academy</span></div>
-        </section>
-        </div>
     </div>
     <footer>
         <div class="footer-content">
