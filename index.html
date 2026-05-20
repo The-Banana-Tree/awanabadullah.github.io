@@ -150,15 +150,35 @@
         
         /* === Reach Out Card === */
         .reach-out-card {
-            text-align: center;
+            text-align: left;
         }
         .reach-out-card .contact-buttons {
-            display: inline-flex;
+            display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 1rem;
-            margin: 1rem auto 0;
+            margin: 1rem 0 0;
             max-width: 100%;
+        }
+        .reach-out-card .contact-buttons a {
+            display: inline-block;
+            width: 200px;
+            padding: 1rem;
+            background: #d500f9;
+            border: 2px solid #000000;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 2px 2px 0px #000000;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        .reach-out-card .contact-buttons a:hover {
+            background: #b71c6d;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px #000000;
         }
         /* === Contact Card === */
         .contact-card {
@@ -177,14 +197,16 @@
             display: inline-block;
             width: 200px;
             padding: 1rem;
-            background: #ff00ff;
+            background: #d500f9;
             border: 2px solid #000000;
-            color: #0a0a0a;
+            color: #ffffff;
             text-decoration: none;
             font-weight: bold;
+            font-size: 1rem;
             transition: all 0.3s;
             text-align: center;
             box-shadow: 2px 2px 0px #000000;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
         .card .contact-buttons a:hover {
             transform: translate(-2px, -2px);
@@ -272,15 +294,19 @@
                     <li><strong>Good enough now</strong>: "Perfect later" > shipping</li>
                 </ul>
             </div>
+        </section>
+
+        <!-- Reach Out Card (bottom of page) -->
+        <div class="container" style="margin-top: 3rem; text-align: left;">
             <div class="card reach-out-card">
-                <h3 class="section-title">Reach Out To Me</h3>
+                <h3>Reach Out To Me</h3>
                 <div class="contact-buttons">
                     <a href="mailto:awanabad2@gmail.com">📧 Email Me</a>
                     <a href="https://ca.linkedin.com/in/awanabad" target="_blank">💼 LinkedIn</a>
                     <a href="https://github.com/awanabad" target="_blank">🐙 GitHub</a>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
     
     <footer>
