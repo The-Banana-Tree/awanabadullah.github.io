@@ -47,6 +47,31 @@ function updateLastUpdated() {
 
 updateLastUpdated();
 
+// === SCROLL HIDE THEME TOGGLE ===
+const themeToggle = document.querySelector('.theme-toggle');
+let lastScroll = 0;
+
+window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+    
+    if (currentScroll <= 100) {
+        // At top - show button
+        themeToggle.classList.remove('scroll-hide');
+    } else {
+        // Scrolling down - hide button
+        themeToggle.classList.add('scroll-hide');
+    }
+    
+    lastScroll = currentScroll;
+});
+
+// Also hide if user scrolls more than 500px
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+        themeToggle.classList.add('scroll-hide');
+    }
+});
+
 // === SHOOTING STARS ===
 const overlay = document.getElementById("shootingStarsOverlay");
 const isMobile = window.matchMedia("(max-width: 600px)").matches;

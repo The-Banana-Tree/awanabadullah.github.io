@@ -241,7 +241,19 @@ footer {
     align-items: center;
     justify-content: center;
     z-index: 100;
-    transition: all 0.3s;
+    transition: opacity 0.5s ease, transform 0.3s;
+    opacity: 1;
 }
 
-.theme-toggle:hover { transform: scale(1.1); }
+/* Fade out when scrolling */
+.theme-toggle.scroll-hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.theme-toggle:hover { 
+    transform: scale(1.1); 
+}
+
+/* === SCROLL FADING JS === */
+/* This class will be toggled by JS - see assets/js/main.js */
