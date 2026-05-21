@@ -21,6 +21,8 @@ const CONFIG = {
 /* === THEME TOGGLE === */
 const storedTheme = localStorage.getItem('theme') || 'dark';
 document.documentElement.setAttribute('data-theme', storedTheme);
+updateThemeIcon();
+updateAudioIcon();
 
 function toggleTheme() {
     const current = document.documentElement.getAttribute('data-theme');
