@@ -448,7 +448,7 @@ body.scrolled {
 .hidden-cards .card {
     opacity: 0;
     transform: translateY(50px);
-    animation: none; /* will be set by JS */
+    animation: none !important; /* force no animation until JS */
 }
 
 .hidden-cards .card:nth-child(1) { animation-delay: 0.1s; }
