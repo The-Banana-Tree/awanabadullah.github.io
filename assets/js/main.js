@@ -50,19 +50,19 @@ function handleFirstInteraction() {
     // Unlock scroll
     body.classList.remove('scrolled');
     
-    // Show buttons
+    // Show buttons (only after cards finish)
     const controls = document.querySelector('.controls-row');
     if (controls) controls.classList.add('visible');
     
-    // Fade out tap overlay
+    // Fade out tap overlay FAST (500ms matches CSS)
     if (tapOverlay) {
         tapOverlay.style.opacity = '0';
-        setTimeout(() => { tapOverlay.style.display = 'none'; }, 800);
+        setTimeout(() => { tapOverlay.style.display = 'none'; }, 500);
     }
     
-    // Show cards
+    // Show cards with scroll-in animation
     cards.forEach((card, index) => {
-        card.style.animation = `cardScrollIn 0.8s ${0.1 + (index * 0.1)}s forwards`;
+        card.style.animation = `cardScrollIn 0.8s ${index * 0.1}s forwards`;
         card.style.opacity = '1';
         card.style.transform = 'translateY(0)';
     });    // Unmute audio
