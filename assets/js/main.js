@@ -128,10 +128,7 @@ function showTapOverlay() {
         tapOverlay.style.display = 'flex';
     }
     if (tapPrompt) {
-        tapPrompt.style.opacity = '0';
-        setTimeout(() => {
-            if (tapPrompt) tapPrompt.classList.add('fade-in');
-        }, 100);
+        tapPrompt.classList.add('fade-in');
     }
 }
 
