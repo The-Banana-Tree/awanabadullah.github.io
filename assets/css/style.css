@@ -105,7 +105,7 @@ body {
     color: #f0f0f0;
     opacity: 0;
     transform: translateY(50px);
-    animation: cardScrollIn 0.8s forwards;
+    animation: none; /* will be set by JS for hidden-cards */
 }
 
 @keyframes cardScrollIn {
