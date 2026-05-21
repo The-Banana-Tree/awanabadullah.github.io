@@ -32,7 +32,12 @@ console.log('Audio element found:', audio !== null); // Debug log
 let firstInteractionDone = false;
 
 // Show tap-to-start overlay initially
-tapOverlay.style.display = 'flex';
+// Show tap overlay after typing completes
+setTimeout(() => {
+    if (tapOverlay) {
+        tapOverlay.style.display = 'flex';
+    }
+}, 2500); // show after typing + blink
 
 // Unmute + reveal cards on first interaction
 function handleFirstInteraction() {
@@ -225,40 +230,56 @@ window.addEventListener('scroll', () => {
     }, 500); // 500ms delay after scrolling stops
 });
 
-// === SHOOTING STARS ===
+// === SHOOTING STARS (only after first interaction) ===
+let starsCreated = false;
 const overlay = document.getElementById("shootingStarsOverlay");
-const isMobile = window.matchMedia("(max-width: 600px)").matches;
-const starCount = isMobile ? 45 : 80;
-const meteorInterval = isMobile ? 1150 : 800;
 
-// Create stars
-for (let i = 0; i < starCount; i++) {
-    const star = document.createElement("span");
-    star.className = "star";
-    // 20% of stars are front stars (higher z-index, appear in front of cards)
-    if (Math.random() < 0.2) {
-        star.classList.add("front-star");
+function createShootingStars() {
+    if (starsCreated) return;
+    starsCreated = true;
+    
+    // Show overlay (stars are hidden by CSS initially)
+    overlay.style.display = 'block';
+    
+    const isMobile = window.matchMedia("(max-width: 600px)").matches;
+    const starCount = isMobile ? 45 : 80;
+    const meteorInterval = isMobile ? 1150 : 800;
+
+    // Create stars
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement("span");
+        star.className = "star";
+        if (Math.random() < 0.2) {
+            star.classList.add("front-star");
+        }
+        const size = Math.random() * 2.2 + 1;
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.top = Math.random() * 100 + "svh";
+        star.style.setProperty("--size", size + "px");
+        star.style.setProperty("--opacity", Math.random() * 0.75 + 0.25);
+        star.style.setProperty("--delay", Math.random() * 5 + "s");
+        star.style.setProperty("--twinkle-speed", Math.random() * 3 + 2 + "s");
+        overlay.appendChild(star);
     }
-    const size = Math.random() * 2.2 + 1;
-    star.style.left = Math.random() * 100 + "vw";
-    star.style.top = Math.random() * 100 + "svh";
-    star.style.setProperty("--size", size + "px");
-    star.style.setProperty("--opacity", Math.random() * 0.75 + 0.25);
-    star.style.setProperty("--delay", Math.random() * 5 + "s");
-    star.style.setProperty("--twinkle-speed", Math.random() * 3 + 2 + "s");
-    overlay.appendChild(star);
+
+    // Create meteors
+    function createMeteor() {
+        const meteor = document.createElement("span");
+        meteor.className = "shooting-star";
+        meteor.style.top = Math.random() * 58 + "svh";
+        meteor.style.left = Math.random() * 50 + 75 + "vw";
+        meteor.style.animationDuration = Math.random() * 1.6 + 1.6 + "s";
+        overlay.appendChild(meteor);
+        setTimeout(() => { meteor.remove(); }, 3500);
+    }
+
+    createMeteor();
+    setInterval(createMeteor, meteorInterval);
 }
 
-// Create meteors
-function createMeteor() {
-    const meteor = document.createElement("span");
-    meteor.className = "shooting-star";
-    meteor.style.top = Math.random() * 58 + "svh";
-    meteor.style.left = Math.random() * 50 + 75 + "vw";
-    meteor.style.animationDuration = Math.random() * 1.6 + 1.6 + "s";
-    overlay.appendChild(meteor);
-    setTimeout(() => { meteor.remove(); }, 3500);
-}
-
-createMeteor();
-setInterval(createMeteor, meteorInterval);
+// Trigger stars creation on first interaction
+const originalHandleFirstInteraction = handleFirstInteraction;
+handleFirstInteraction = function() {
+    originalHandleFirstInteraction();
+    createShootingStars();
+};

@@ -390,35 +390,42 @@ footer {
     z-index: 999999;
 }
 
-/* === TAP TO START OVERLAY === */
+/* === TAP TO START OVERLAY (appears after typing) === */
 #tapToStartOverlay {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 9999999;
-    text-align: center;
     pointer-events: none;
 }
 
 .tap-prompt {
     color: var(--text);
-    font-size: 1.5rem;
-    padding: 1rem 2rem;
-    background: rgba(0,0,0,0.7);
+    font-size: 1.8rem;
+    padding: 1.5rem 3rem;
+    background: rgba(0,0,0,0.85);
     border: 2px solid var(--accent);
-    border-radius: 8px;
-    animation: pulse 2s infinite;
+    border-radius: 12px;
+    animation: pulse 1.5s infinite;
+    text-align: center;
 }
 
 [data-theme="light"] .tap-prompt {
     color: var(--text);
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.85);
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+/* === BACKGROUND STARS (hidden initially, revealed on tap) === */
+#shootingStarsOverlay,
+.star {
+    display: none; /* hidden by default */
 }
 
 /* === HIDDEN CARDS === */
