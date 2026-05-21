@@ -17,28 +17,30 @@ function toggleTheme() {
 const element = document.getElementById('typewriter');
 
 // Typing sequence:
-// 1. Type "Awab Aba" (typo)
-// 2. Backspace characters one by one (visual effect)
-// 3. Type "Awan Abadullah" (corrected)
+// 1. Type "Awab Aba" (typo) - fast
+// 2. Backspace characters one by one
+// 3. Type "Awan Abadullah" (corrected) - fast
+// 4. Show blinking cursor
 
 const typoText = "Awab Aba";
 const correctedText = "Awan Abadullah";
-let i = 0;
 let typoStep = 0;
 let backspaceStep = 0;
 let correctStep = 0;
 
 element.innerHTML = '';
 
-// Step 1: Type "Awab Aba" (typo)
+// Step 1: Type "Awab Aba" (typo) - FAST (40ms)
 function typeTypo() {
     if (typoStep < typoText.length) {
         element.innerHTML += typoText.charAt(typoStep);
+        element.style.color = 'var(--text)'; // Highlight in current color
+        element.style.backgroundColor = 'var(--accent)'; // Same as background color
         typoStep++;
-        setTimeout(typeTypo, 80);
+        setTimeout(typeTypo, 40); // Speed up
     } else {
         // Pause at typo, then backspace
-        setTimeout(backspace, 1000);
+        setTimeout(backspace, 800);
     }
 }
 
@@ -48,19 +50,21 @@ function backspace() {
     if (currentText.length > 0) {
         // Show backspace effect (remove last char)
         element.innerHTML = currentText.slice(0, -1);
-        setTimeout(backspace, 60); // Fast backspace
+        setTimeout(backspace, 40); // Fast backspace
     } else {
         // When text is empty, start typing corrected text
-        setTimeout(typeCorrected, 400);
+        setTimeout(typeCorrected, 300);
     }
 }
 
-// Step 3: Type "Awan Abadullah" (corrected)
+// Step 3: Type "Awan Abadullah" (corrected) - FAST (40ms)
 function typeCorrected() {
     if (correctStep < correctedText.length) {
         element.innerHTML += correctedText.charAt(correctStep);
+        element.style.color = 'var(--text)'; // Highlight in current color
+        element.style.backgroundColor = 'var(--accent)'; // Same as background color
         correctStep++;
-        setTimeout(typeCorrected, 80);
+        setTimeout(typeCorrected, 40); // Speed up
     } else {
         // After typing, show blinking cursor
         setTimeout(() => {
