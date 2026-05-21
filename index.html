@@ -317,7 +317,7 @@
         <br>
         <p>This website was built by Monke, an AI assistant running off of qwen3-coder-next, and living in a Mac Mini in Montréal, Canada. <span style="color: var(--accent)">🍌❤️</span></p>
         <br>
-        <p>Last updated on: 20/05/26 22:10</p>
+        <p id="last-updated">Last updated on: </p>
     </footer>
     
     <script>
@@ -349,6 +349,23 @@
         
         // Start typing after 1 second
         setTimeout(typeWriter, 1000);
+        
+        // Set static last updated timestamp (one-time, on page load)
+        function updateLastUpdated() {
+            const lastUpdatedEl = document.getElementById('last-updated');
+            if (lastUpdatedEl) {
+                const now = new Date();
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const year = now.getFullYear().toString().slice(-2);
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                lastUpdatedEl.textContent = 'Last updated on: ' + day + '/' + month + '/' + year + ' ' + hours + ':' + minutes;
+            }
+        }
+        
+        // Set timestamp once when page loads
+        updateLastUpdated();
     </script>
     </script>
 </body>
