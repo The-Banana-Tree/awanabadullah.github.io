@@ -23,17 +23,23 @@ function updateThemeIcon() {
 }
 
 // === AUDIO UNMUTE ON FIRST INTERACTION ===
-// Browsers block autoplay with sound, so we start muted and unmute on first click
+// Browsers block autoplay with sound, so we start muted and unmute on first interaction
 const audio = document.getElementById('backgroundMusic');
 let audioUnmuted = false;
 
-document.body.addEventListener('click', () => {
+// Unmute on click
+function unmuteAudio() {
     if (!audioUnmuted) {
         audio.muted = false;
         audioUnmuted = true;
         updateAudioIcon();
     }
-}, { once: true });
+}
+
+document.body.addEventListener('click', unmuteAudio, { once: true });
+
+// Also unmute on first scroll (since site prompts scrolling)
+window.addEventListener('scroll', unmuteAudio, { once: true });
 
 // === AUDIO TOGGLE ===
 function toggleAudio() {
