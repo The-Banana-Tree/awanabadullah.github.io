@@ -35,14 +35,6 @@ let firstInteractionDone = false;
 // Lock scroll initially
 body.classList.add('scrolled');
 
-// Show tap overlay after typing completes
-// (CSS shows it by default, this just ensures it)
-setTimeout(() => {
-    if (tapOverlay) {
-        tapOverlay.style.display = 'flex';
-    }
-}, 2500); // show after typing + blink + pause
-
 // === TAP TO START ===
 
 // Unmute + reveal cards on first interaction
