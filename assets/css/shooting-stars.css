@@ -9,7 +9,7 @@
     height: 100svh;
     overflow: hidden;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 999999;
     background: transparent;
 }
 
@@ -27,7 +27,7 @@
 
 /* Some stars in front (higher z-index) */
 .star.front-star {
-    z-index: 10000;
+    z-index: 100000;
 }
 
 /* Dark theme: white stars */
