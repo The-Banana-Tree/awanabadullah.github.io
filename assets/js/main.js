@@ -49,27 +49,21 @@ updateLastUpdated();
 
 // === SCROLL HIDE THEME TOGGLE ===
 const themeToggle = document.querySelector('.theme-toggle');
-let lastScroll = 0;
+let scrollTimeout;
 
 window.addEventListener('scroll', () => {
     const currentScroll = window.scrollY;
     
-    if (currentScroll <= 100) {
-        // At top - show button
-        themeToggle.classList.remove('scroll-hide');
-    } else {
-        // Scrolling down - hide button
-        themeToggle.classList.add('scroll-hide');
-    }
+    clearTimeout(scrollTimeout);
     
-    lastScroll = currentScroll;
-});
-
-// Also hide if user scrolls more than 500px
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 500) {
-        themeToggle.classList.add('scroll-hide');
-    }
+    // Fade out when scrolling
+    themeToggle.classList.add('scroll-hide');
+    
+    // Set timeout to fade back in when scrolling stops
+    scrollTimeout = setTimeout(() => {
+        // Show button when scrolling stops
+        themeToggle.classList.remove('scroll-hide');
+    }, 300); // 300ms after scrolling stops
 });
 
 // === SHOOTING STARS ===
