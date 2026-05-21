@@ -241,16 +241,21 @@ let overlay;
 
 // Initialize overlay on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-    overlay = document.getElementById("shootingStarsOverlay");
-    
-    // Show overlay immediately
-    if (overlay) {
-        overlay.style.display = 'block';
-        overlay.style.pointerEvents = 'none';
+    try {
+        overlay = document.getElementById("shootingStarsOverlay");
+        console.log('Overlay found:', !!overlay);
+        
+        // Show overlay immediately
+        if (overlay) {
+            overlay.style.display = 'block';
+            overlay.style.pointerEvents = 'none';
+        }
+        
+        // Create stars on load (they render from the start)
+        createShootingStars();
+    } catch (e) {
+        console.error('Error initializing stars:', e);
     }
-    
-    // Create stars on load (they render from the start)
-    createShootingStars();
 });
 
 function createShootingStars() {
