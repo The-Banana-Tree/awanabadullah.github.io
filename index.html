@@ -349,26 +349,6 @@
         
         // Start typing after 1 second
         setTimeout(typeWriter, 1000);
-        
-        // Update last updated timestamp with DD/MM/YY format
-        function updateLastUpdated() {
-            const lastUpdatedEl = document.getElementById('last-updated');
-            if (lastUpdatedEl) {
-                const now = new Date();
-                const day = String(now.getDate()).padStart(2, '0');
-                const month = String(now.getMonth() + 1).padStart(2, '0');
-                const year = now.getFullYear().toString().slice(-2);
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                lastUpdatedEl.textContent = 'Last updated on: ' + day + '/' + month + '/' + year + ' ' + hours + ':' + minutes;
-            }
-        }
-        
-        // Set initial timestamp
-        updateLastUpdated();
-        
-        // Update every 5 minutes (optional - for real-time feel)
-        setInterval(updateLastUpdated, 5 * 60 * 1000);
     </script>
 </body>
 </html>
