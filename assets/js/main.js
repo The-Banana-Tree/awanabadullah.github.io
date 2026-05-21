@@ -234,13 +234,18 @@ window.addEventListener('scroll', () => {
 
 // === SHOOTING STARS (only after first interaction) ===
 let starsCreated = false;
-const overlay = document.getElementById("shootingStarsOverlay");
-console.log('Overlay found:', !!overlay); // Debug log
+let overlay;
 
-// Hide overlay initially (CSS might have set display:block via shooting-stars.css)
-if (overlay) {
-    overlay.style.display = 'none';
-}
+// Initialize overlay on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    overlay = document.getElementById("shootingStarsOverlay");
+    console.log('Overlay found:', !!overlay); // Debug log
+    
+    // Hide overlay initially
+    if (overlay) {
+        overlay.style.display = 'none';
+    }
+});
 
 function createShootingStars() {
     console.log('createShootingStars called'); // Debug log
