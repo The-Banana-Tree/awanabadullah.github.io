@@ -38,7 +38,14 @@ body.classList.add('scrolled');
 // === TAP TO START ===
 
 // Unmute + reveal cards on first interaction
-function handleFirstInteraction() {
+function handleFirstInteraction(e) {
+    // Only allow tap after typing completes
+    if (!tapEnabled) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+    }
+    
     if (firstInteractionDone) return;
     firstInteractionDone = true;
     
@@ -68,11 +75,19 @@ function handleFirstInteraction() {
     }
 }
 
-// First interaction: click anywhere
-document.body.addEventListener('click', handleFirstInteraction, { once: true });
+// First interaction: click anywhere (only after typing)
+document.body.addEventListener('click', (e) => {
+    if (tapEnabled) {
+        handleFirstInteraction(e);
+    }
+}, { once: true });
 
-// First interaction: first scroll too
-window.addEventListener('scroll', handleFirstInteraction, { once: true });
+// First interaction: first scroll too (only after typing)
+window.addEventListener('scroll', (e) => {
+    if (tapEnabled) {
+        handleFirstInteraction();
+    }
+}, { once: true });
 
 // === AUDIO TOGGLE ===
 function toggleAudio() {
@@ -154,7 +169,13 @@ function typeRest() {
 }
 
 // Start the typing sequence
-setTimeout(typeTypo, 1000);
+typeTypo();
+
+// Only accept tap after typing completes (1.5s delay)
+let tapEnabled = false;
+setTimeout(() => {
+    tapEnabled = true;
+}, 2500); // typing + blink + pause
 
 // Add blinking cursor animation via CSS
 const style = document.createElement('style');
