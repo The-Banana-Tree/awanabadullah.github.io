@@ -3,7 +3,7 @@
    ================================== */
 
 /* === RESET & VARIABLES === */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-weight: 700; } /* All text 1.7x thicker */
 
 :root {
     --bg: #0a0a0a;
@@ -29,6 +29,7 @@ body {
     background: var(--bg);
     color: var(--text);
     font-family: var(--font);
+    font-weight: 700;
     line-height: 1.6;
     overflow-x: hidden;
 }
