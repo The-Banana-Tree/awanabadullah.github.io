@@ -37,13 +37,10 @@ body.classList.add('scrolled');
 
 // Show tap overlay after typing completes (fade in after 2.5s)
 setTimeout(() => {
-    if (tapOverlay) {
-        tapOverlay.style.display = 'flex'; // overlay style
     }
 }, 2500); // show after typing + blink + pause
 
 // === TAP TO START ===
-// tapOverlay already declared above, just use it
 
 // Unmute + reveal cards on first interaction
 function handleFirstInteraction() {

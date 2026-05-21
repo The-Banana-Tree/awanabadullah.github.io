@@ -42,6 +42,8 @@ setTimeout(() => {
     }
 }, 2500); // show after typing + blink + pause
 
+// === TAP TO START ===
+
 // Unmute + reveal cards on first interaction
 function handleFirstInteraction() {
     if (firstInteractionDone) return;
@@ -238,12 +240,20 @@ let overlay;
 
 // Initialize overlay on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-    overlay = document.getElementById("shootingStarsOverlay");
-    
-    // Show overlay immediately
-    if (overlay) {
-        overlay.style.display = 'block';
-        overlay.style.pointerEvents = 'none';
+    try {
+        overlay = document.getElementById("shootingStarsOverlay");
+        console.log('Overlay found:', !!overlay);
+        
+        // Show overlay immediately
+        if (overlay) {
+            overlay.style.display = 'block';
+            overlay.style.pointerEvents = 'none';
+        }
+        
+        // Create stars on load (they render from the start)
+        createShootingStars();
+    } catch (e) {
+        console.error('Error initializing stars:', e);
     }
 });
 
@@ -290,11 +300,3 @@ function createShootingStars() {
     setInterval(createMeteor, meteorInterval);
 }
 
-// Trigger stars creation on first interaction
-const originalHandleFirstInteraction = handleFirstInteraction;
-handleFirstInteraction = function() {
-    console.log('First interaction!');
-    originalHandleFirstInteraction();
-    createShootingStars();
-    console.log('Stars created:', starsCreated);
-};
