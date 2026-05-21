@@ -77,7 +77,8 @@ body {
 
 .hero h1 {
     font-size: 1.8rem;
-    min-height: 3.5rem; /* Reserve space, prevent layout shift */
+    min-height: 3.5rem;
+    display: inline-block; /* Reserve space, prevent layout shift */
     margin-bottom: 1rem;
     color: var(--text);
     text-transform: uppercase;
