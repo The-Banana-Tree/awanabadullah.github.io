@@ -16,23 +16,19 @@ function toggleTheme() {
 // === TYPOWRITER EFFECT (with backspace and highlight) ===
 const element = document.getElementById('typewriter');
 
-// Typing sequence:
-// 1. Type "Awab Aba" (typo) - fast
-// 2. Backspace characters one by one (visual effect) - to correct "Awa" from "Awab Aba"
-// 3. Type "n" to get "Awan"
-// 4. Type " Abadullah" to get full "Awan Abadullah"
-// 5. Cursor blinks at the end
-
-const fullText = "Awan Abadullah";
-let step = 0;
-
-element.innerHTML = '';
+// Expected sequence:
+// Type: "Awab Aba" (typo)
+// Pause
+// Backspace: "Awab Aba" → "Awa" (remove "b Aba" = 4 chars)
+// Continue: "n Abadullah" (to complete "Awan Abadullah")
+// Result: "Awan Abadullah" (corrected)
 
 // Step 1: Type "Awab Aba" (typo)
 function typeTypo() {
-    if (step < "Awab Aba".length) {
-        element.innerHTML += "Awab Aba".charAt(step);
-        step++;
+    const typoText = "Awab Aba";
+    if (typoStep < typoText.length) {
+        element.innerHTML += typoText.charAt(typoStep);
+        typoStep++;
         setTimeout(typeTypo, 50);
     } else {
         // Pause at typo, then backspace to "Awa"
@@ -40,22 +36,27 @@ function typeTypo() {
     }
 }
 
-// Step 2: Backspace to "Awa" (remove last 4 chars: "b Aba")
+// Step 2: Backspace to "Awa" (remove "b Aba" = 4 chars)
 function backspaceToAwa() {
-    if (element.innerHTML.length > 3) { // Keep only "Awa"
-        element.innerHTML = element.innerHTML.slice(0, -1);
+    const currentText = element.innerHTML; // "Awab Aba" (8 chars)
+    // We want to remove last 4 chars to get "Awa" (3 chars)
+    // But let's do it one char at a time for animation
+    if (currentText.length > 3) {
+        element.innerHTML = currentText.slice(0, -1);
         setTimeout(backspaceToAwa, 40);
     } else {
-        // Now type "n Abadullah" (complete corrected text)
+        // Now we have "Awa", type "n Abadullah"
         setTimeout(typeRest, 300);
     }
 }
 
-// Step 3: Type the rest
+// Step 3: Type "n Abadullah" to complete "Awan Abadullah"
+let restStep = 0;
 function typeRest() {
-    if (step < fullText.length) {
-        element.innerHTML += fullText.charAt(step);
-        step++;
+    const restText = "n Abadullah";
+    if (restStep < restText.length) {
+        element.innerHTML += restText.charAt(restStep);
+        restStep++;
         setTimeout(typeRest, 50);
     } else {
         // After typing, show blinking cursor
@@ -64,6 +65,12 @@ function typeRest() {
         }, 400);
     }
 }
+
+let typoStep = 0;
+let restStep = 0;
+
+// Initialize
+element.innerHTML = '';
 
 // Start the typing sequence
 setTimeout(typeTypo, 1000);
