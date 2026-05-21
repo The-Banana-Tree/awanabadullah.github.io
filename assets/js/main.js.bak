@@ -42,9 +42,6 @@ setTimeout(() => {
     }
 }, 2500); // show after typing + blink + pause
 
-// === TAP TO START ===
-const tapOverlay = document.getElementById('tapToStartOverlay');
-
 // Unmute + reveal cards on first interaction
 function handleFirstInteraction() {
     if (firstInteractionDone) return;
@@ -293,3 +290,11 @@ function createShootingStars() {
     setInterval(createMeteor, meteorInterval);
 }
 
+// Trigger stars creation on first interaction
+const originalHandleFirstInteraction = handleFirstInteraction;
+handleFirstInteraction = function() {
+    console.log('First interaction!');
+    originalHandleFirstInteraction();
+    createShootingStars();
+    console.log('Stars created:', starsCreated);
+};
