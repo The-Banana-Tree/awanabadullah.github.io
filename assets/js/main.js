@@ -24,23 +24,10 @@ function updateThemeIcon() {
 
 // === AUDIO TOGGLE ===
 const audio = document.getElementById('backgroundMusic');
-let audioStarted = false;
 
 function toggleAudio() {
-    if (!audioStarted) {
-        audio.play().then(() => {
-            audioStarted = true;
-            audio.muted = false;
-            updateAudioIcon();
-        }).catch(() => {
-            audioStarted = true;
-            audio.muted = false;
-            updateAudioIcon();
-        });
-    } else {
-        audio.muted = !audio.muted;
-        updateAudioIcon();
-    }
+    audio.muted = !audio.muted;
+    updateAudioIcon();
 }
 
 function updateAudioIcon() {
@@ -49,6 +36,9 @@ function updateAudioIcon() {
         icon.textContent = audio.muted ? '🔇' : '🔊';
     }
 }
+
+// Initialize icon on load
+updateAudioIcon();
 
 // Initialize icons on load
 updateThemeIcon();

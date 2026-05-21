@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="assets/css/style.css?v=4">
     <link rel="stylesheet" href="assets/css/shooting-stars.css?v=4">
     <!-- Background Music -->
-    <!-- Audio starts muted (required for autoplay) -->
-    <audio id="backgroundMusic" loop>
+    <!-- Audio starts UNMUTED for clean UX -->
+    <audio id="backgroundMusic" loop autoplay>
         <source src="assets/audio/track.mp3" type="audio/mpeg">
     </audio>
 </head>
@@ -16,8 +16,8 @@
     <!-- Shooting Stars Overlay -->
     <div id="shootingStarsOverlay"></div>
     <div class="controls-row">
-        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode"><span class="theme-icon"></span></div>
         <div class="audio-toggle" onclick="toggleAudio()" title="Mute/Unmute Audio"><span class="audio-icon"></span></div>
+        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode"><span class="theme-icon"></span></div>
     </div>
     
     <div class="container">
