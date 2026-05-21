@@ -123,10 +123,15 @@ function createShootingStars() {
 
 /* === TAP TO START === */
 function showTapOverlay() {
-    if (tapOverlay) tapOverlay.classList.add('visible');
+    if (tapOverlay) {
+        tapOverlay.classList.add('visible');
+        tapOverlay.style.display = 'flex';
+    }
     if (tapPrompt) {
-        tapPrompt.classList.add('fade-in');
-        tapPrompt.classList.add('visible');
+        tapPrompt.style.opacity = '0';
+        setTimeout(() => {
+            if (tapPrompt) tapPrompt.classList.add('fade-in');
+        }, 100);
     }
 }
 
@@ -139,7 +144,6 @@ function hideTapOverlay() {
     }
     if (tapPrompt) {
         tapPrompt.classList.remove('fade-in');
-        tapPrompt.classList.remove('visible');
     }
 }
 
