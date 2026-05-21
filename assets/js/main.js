@@ -18,59 +18,49 @@ const element = document.getElementById('typewriter');
 
 // Typing sequence:
 // 1. Type "Awab Aba" (typo)
-// 2. Backspace to "Awa"
-// 3. Type "n" to get "Awan"
-// 4. Type " Abadullah" to get full name
-// 5. Show blinking cursor
+// 2. Backspace characters one by one (visual effect)
+// 3. Type "Awan Abadullah" (corrected)
 
-const fullCorrectName = "Awan Abadullah";
+const typoText = "Awab Aba";
+const correctedText = "Awan Abadullah";
 let i = 0;
+let typoStep = 0;
+let backspaceStep = 0;
+let correctStep = 0;
+
 element.innerHTML = '';
 
 // Step 1: Type "Awab Aba" (typo)
 function typeTypo() {
-    const typoText = "Awab Aba";
-    if (i < typoText.length) {
-        element.innerHTML += typoText.charAt(i);
-        i++;
+    if (typoStep < typoText.length) {
+        element.innerHTML += typoText.charAt(typoStep);
+        typoStep++;
         setTimeout(typeTypo, 80);
     } else {
-        // Pause at typo
-        setTimeout(typeCorrected, 800);
+        // Pause at typo, then backspace
+        setTimeout(backspace, 1000);
     }
 }
 
-// Step 2: Backspace to "Awa"
+// Step 2: Backspace characters one by one (visual effect)
+function backspace() {
+    const currentText = element.innerHTML;
+    if (currentText.length > 0) {
+        // Show backspace effect (remove last char)
+        element.innerHTML = currentText.slice(0, -1);
+        setTimeout(backspace, 60); // Fast backspace
+    } else {
+        // When text is empty, start typing corrected text
+        setTimeout(typeCorrected, 400);
+    }
+}
+
+// Step 3: Type "Awan Abadullah" (corrected)
 function typeCorrected() {
-    // Current text is "Awab Aba" (10 chars)
-    // We want "Awa" (3 chars) then " Abadullah"
-    
-    // First, clear the full typo text
-    element.innerHTML = '';
-    
-    // Then type "Awa"
-    let j = 0;
-    function typeAwa() {
-        if (j < 3) {
-            element.innerHTML += "Awa".charAt(j);
-            j++;
-            setTimeout(typeAwa, 80);
-        } else {
-            // Pause, then add " Abadullah"
-            setTimeout(typeRest, 500);
-        }
-    }
-    typeAwa();
-}
-
-function typeRest() {
-    // Type " Abadullah"
-    let k = 0;
-    const rest = " Abadullah";
-    if (k < rest.length) {
-        element.innerHTML += rest.charAt(k);
-        k++;
-        setTimeout(typeRest, 80);
+    if (correctStep < correctedText.length) {
+        element.innerHTML += correctedText.charAt(correctStep);
+        correctStep++;
+        setTimeout(typeCorrected, 80);
     } else {
         // After typing, show blinking cursor
         setTimeout(() => {
