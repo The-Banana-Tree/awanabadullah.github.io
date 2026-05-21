@@ -13,63 +13,61 @@ function toggleTheme() {
     localStorage.setItem('theme', newTheme);
 }
 
-// === TYPOWRITER EFFECT (with backspace and correction) ===
+// === TYPOWRITER EFFECT (cursor during typing + super fast) ===
 const element = document.getElementById('typewriter');
 
 // Typing sequence:
-// 1. Type "Awab Aba" (typo) - fast
-// 2. Backspace characters one by one
-// 3. Type "Awan Abadullah" (corrected) - fast
-// 4. Show blinking cursor
+// 1. Type "Awab Aba" (typo) - SUPER fast
+// 2. Backspace characters one by one - fast
+// 3. Type "Awan Abadullah" (corrected) - SUPER fast
+// 4. Cursor stays visible the whole time
 
 const typoText = "Awab Aba";
 const correctedText = "Awan Abadullah";
 let typoStep = 0;
-let backspaceStep = 0;
 let correctStep = 0;
 
 element.innerHTML = '';
 
-// Step 1: Type "Awab Aba" (typo) - FAST (40ms)
+// Add cursor span that stays visible throughout
+element.innerHTML += '<span class="cursor">_</span>';
+const cursor = element.querySelector('.cursor');
+
+// Step 1: Type "Awab Aba" (typo) - SUPER FAST (20ms)
 function typeTypo() {
     if (typoStep < typoText.length) {
-        element.innerHTML += typoText.charAt(typoStep);
-        element.style.color = 'var(--text)'; // Highlight in current color
-        element.style.backgroundColor = 'var(--accent)'; // Same as background color
+        element.insertBefore(
+            document.createTextNode(typoText.charAt(typoStep)),
+            cursor
+        );
         typoStep++;
-        setTimeout(typeTypo, 40); // Speed up
+        setTimeout(typeTypo, 20); // SUPER fast
     } else {
         // Pause at typo, then backspace
-        setTimeout(backspace, 800);
+        setTimeout(backspace, 600);
     }
 }
 
 // Step 2: Backspace characters one by one (visual effect)
 function backspace() {
-    const currentText = element.innerHTML;
-    if (currentText.length > 0) {
-        // Show backspace effect (remove last char)
-        element.innerHTML = currentText.slice(0, -1);
-        setTimeout(backspace, 40); // Fast backspace
+    if (element.lastChild !== cursor && element.lastChild) {
+        element.removeChild(element.lastChild);
+        setTimeout(backspace, 30); // Fast backspace
     } else {
         // When text is empty, start typing corrected text
-        setTimeout(typeCorrected, 300);
+        setTimeout(typeCorrected, 200);
     }
 }
 
-// Step 3: Type "Awan Abadullah" (corrected) - FAST (40ms)
+// Step 3: Type "Awan Abadullah" (corrected) - SUPER FAST (20ms)
 function typeCorrected() {
     if (correctStep < correctedText.length) {
-        element.innerHTML += correctedText.charAt(correctStep);
-        element.style.color = 'var(--text)'; // Highlight in current color
-        element.style.backgroundColor = 'var(--accent)'; // Same as background color
+        element.insertBefore(
+            document.createTextNode(correctedText.charAt(correctStep)),
+            cursor
+        );
         correctStep++;
-        setTimeout(typeCorrected, 40); // Speed up
-    } else {
-        // After typing, show blinking cursor
-        setTimeout(() => {
-            element.innerHTML += '<span class="cursor">_</span>';
-        }, 500);
+        setTimeout(typeCorrected, 20); // SUPER fast
     }
 }
 
