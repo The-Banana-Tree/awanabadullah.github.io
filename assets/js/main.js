@@ -22,9 +22,20 @@ function updateThemeIcon() {
     }
 }
 
-// === AUDIO TOGGLE ===
+// === AUDIO UNMUTE ON FIRST INTERACTION ===
+// Browsers block autoplay with sound, so we start muted and unmute on first click
 const audio = document.getElementById('backgroundMusic');
+let audioUnmuted = false;
 
+document.body.addEventListener('click', () => {
+    if (!audioUnmuted) {
+        audio.muted = false;
+        audioUnmuted = true;
+        updateAudioIcon();
+    }
+}, { once: true });
+
+// === AUDIO TOGGLE ===
 function toggleAudio() {
     audio.muted = !audio.muted;
     updateAudioIcon();
