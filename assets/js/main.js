@@ -13,25 +13,40 @@ function toggleTheme() {
     localStorage.setItem('theme', newTheme);
 }
 
-// === TYPOWRITER EFFECT (with cursor and backspace) ===
-const name = "Awan Abadullah";
+// === TYPOWRITER EFFECT (with typo, correction, and cursor) ===
+const correctName = "Awan Abadullah";
 const element = document.getElementById('typewriter');
+
+// Create typo version: "Awa Abadullah" (missed 'n')
+const typoName = "Awa Abadullah";
 
 // Initial typing
 let i = 0;
 element.innerHTML = '';
 
 function typeWriter() {
-    if (i < name.length) {
-        element.innerHTML += name.charAt(i);
+    if (i < typoName.length) {
+        element.innerHTML += typoName.charAt(i);
         i++;
         setTimeout(typeWriter, 80);
     } else {
-        // After typing, show blinking cursor
-        setTimeout(() => {
-            element.innerHTML += '<span class="cursor">_</span>';
-        }, 500);
+        // Show typo for a moment, then correct
+        setTimeout(showCorrection, 1200);
     }
+}
+
+function showCorrection() {
+    // Backspace the 'A' from "Awa" to get to "Awan"
+    element.innerHTML = 'Awan'; // Just show the correct start
+    setTimeout(() => {
+        // Type the rest: " Abadullah"
+        element.innerHTML += ' Abadullah';
+    }, 400);
+    
+    // After typing, show blinking cursor
+    setTimeout(() => {
+        element.innerHTML += '<span class="cursor">_</span>';
+    }, 800);
 }
 
 // Start typing after 1 second
@@ -42,6 +57,7 @@ const style = document.createElement('style');
 style.innerHTML = `
 .cursor {
     animation: blink 1s infinite;
+    color: var(--accent);
 }
 @keyframes blink {
     0%, 100% { opacity: 1; }
