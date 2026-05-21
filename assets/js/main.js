@@ -57,6 +57,10 @@ const meteorInterval = isMobile ? 1150 : 800;
 for (let i = 0; i < starCount; i++) {
     const star = document.createElement("span");
     star.className = "star";
+    // 20% of stars are front stars (higher z-index, appear in front of cards)
+    if (Math.random() < 0.2) {
+        star.classList.add("front-star");
+    }
     const size = Math.random() * 2.2 + 1;
     star.style.left = Math.random() * 100 + "vw";
     star.style.top = Math.random() * 100 + "svh";

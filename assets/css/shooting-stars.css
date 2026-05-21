@@ -25,6 +25,11 @@
     animation-delay: var(--delay);
 }
 
+/* Some stars in front (higher z-index) */
+.star.front-star {
+    z-index: 10000;
+}
+
 /* Dark theme: white stars */
 [data-theme="dark"] .star {
     background: white;
