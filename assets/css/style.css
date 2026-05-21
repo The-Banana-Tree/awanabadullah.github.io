@@ -85,7 +85,8 @@ body {
 }
 /* Blank cursor at end of typewriter */
 .hero h1 .cursor {
-    animation: blink 1s step-end infinite;    background: none;
+    animation: blink 1s step-end infinite;
+    background: none;
 }
 .hero p {
     font-size: 1.2rem;
