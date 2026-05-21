@@ -11,7 +11,37 @@ function toggleTheme() {
     const newTheme = current === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+    updateThemeIcon();
 }
+
+function updateThemeIcon() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const icon = document.querySelector('.theme-icon');
+    if (icon) {
+        icon.textContent = current === 'light' ? '☀️' : '🌙';
+    }
+}
+
+// === AUDIO TOGGLE ===
+const audio = document.getElementById('backgroundMusic');
+let audioMuted = true; // starts muted
+
+function toggleAudio() {
+    audioMuted = !audioMuted;
+    audio.muted = audioMuted;
+    updateAudioIcon();
+}
+
+function updateAudioIcon() {
+    const icon = document.querySelector('.audio-icon');
+    if (icon) {
+        icon.textContent = audioMuted ? '🔇' : '🔊';
+    }
+}
+
+// Initialize icons on load
+updateThemeIcon();
+updateAudioIcon();
 
 // === TYPOWRITER EFFECT (with backspace and highlight) ===
 const element = document.getElementById('typewriter');
@@ -121,8 +151,9 @@ toggleTheme = function() {
 
 // === LAST UPDATED TIMESTAMP (REMOVED - no longer needed) ===
 
-// === SCROLL HIDE THEME TOGGLE ===
+// === SCROLL HIDE CONTROLS ===
 const themeToggle = document.querySelector('.theme-toggle');
+const audioToggle = document.querySelector('.audio-toggle');
 let scrollTimeout;
 
 window.addEventListener('scroll', () => {
@@ -132,11 +163,13 @@ window.addEventListener('scroll', () => {
     
     // Fade out when scrolling
     themeToggle.classList.add('scroll-hide');
+    audioToggle.classList.add('scroll-hide');
     
     // Set timeout to fade back in when scrolling stops
     scrollTimeout = setTimeout(() => {
-        // Show button when scrolling stops
+        // Show buttons when scrolling stops
         themeToggle.classList.remove('scroll-hide');
+        audioToggle.classList.remove('scroll-hide');
     }, 300); // 300ms after scrolling stops
 });
 
