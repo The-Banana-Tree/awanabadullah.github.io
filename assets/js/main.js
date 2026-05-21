@@ -248,6 +248,9 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.style.display = 'block';
         overlay.style.pointerEvents = 'none';
     }
+    
+    // Create stars on load (they render from the start)
+    createShootingStars();
 });
 
 function createShootingStars() {
