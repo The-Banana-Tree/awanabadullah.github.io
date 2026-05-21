@@ -35,12 +35,12 @@ let firstInteractionDone = false;
 // Lock scroll initially
 body.classList.add('scrolled');
 
-// Show tap overlay after typing completes (fade in after 3s)
+// Show tap overlay after typing completes (fade in after 2.5s)
 setTimeout(() => {
     if (tapOverlay) {
         tapOverlay.style.display = 'block';
     }
-}, 3000); // show after typing + blink + pause
+}, 2500); // show after typing + blink + pause
 
 // Unmute + reveal cards on first interaction
 function handleFirstInteraction() {
