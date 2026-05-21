@@ -13,6 +13,7 @@ const CONFIG = {
     cursorDelay: 400,        // ms after rest before cursor
     tapDelay: 2500,          // ms after typing completes before tap enabled
     scrollDelay: 500,        // ms after scroll stops before controls show
+    tapPromptDelay: 3500,    // ms after typing completes before tap prompt appears (increased)
     tapOverlayFade: 500,     // ms to fade out tap overlay
     cardAnimation: 0.8,      // seconds for card animation
 };
@@ -123,12 +124,23 @@ function createShootingStars() {
 /* === TAP TO START === */
 function showTapOverlay() {
     if (tapOverlay) tapOverlay.classList.add('visible');
-    if (tapPrompt) tapPrompt.classList.add('visible');
+    if (tapPrompt) {
+        tapPrompt.classList.add('fade-in');
+        tapPrompt.classList.add('visible');
+    }
 }
 
 function hideTapOverlay() {
-    if (tapOverlay) tapOverlay.classList.remove('visible');
-    if (tapPrompt) tapPrompt.classList.remove('visible');
+    if (tapOverlay) {
+        tapOverlay.classList.remove('visible');
+        tapOverlay.addEventListener('transitionend', () => {
+            if (tapOverlay) tapOverlay.style.display = 'none';
+        }, { once: true });
+    }
+    if (tapPrompt) {
+        tapPrompt.classList.remove('fade-in');
+        tapPrompt.classList.remove('visible');
+    }
 }
 
 /* === CARD ANIMATION === */
@@ -249,11 +261,17 @@ function handleFirstInteraction(e) {
 // Start typing animation
 setTimeout(startTypingAnimation, 100);
 
-// Enable tap after delay
+// Lock scroll initially (until tap is complete)
+document.body.classList.add('scrolled');
+
+// Enable tap after delay (initial delay for typing to complete)
+let tapSetupDelay = CONFIG.tapPromptDelay;
+
+// Show tap prompt after typing + initial delay
 setTimeout(() => {
     tapEnabled = true;
     showTapOverlay();
-}, CONFIG.tapDelay);
+}, tapSetupDelay);
 
 // Listen for first interaction (click or scroll)
 document.body.addEventListener('click', handleFirstInteraction, { once: true });
