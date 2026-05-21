@@ -282,8 +282,10 @@ setTimeout(() => {
     showTapOverlay();
 }, tapSetupDelay);
 
-// Listen for first interaction (click or scroll)
-document.body.addEventListener('click', handleFirstInteraction, { once: true });
+// Listen for first interaction (click or scroll) - remove listener after first interaction
+document.body.addEventListener('click', (e) => {
+    if (tapEnabled) handleFirstInteraction(e);
+}, { once: true });
 window.addEventListener('scroll', (e) => {
     if (tapEnabled) handleFirstInteraction(e);
 }, { once: true });
