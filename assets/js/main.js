@@ -235,6 +235,7 @@ window.addEventListener('scroll', () => {
 // === SHOOTING STARS (only after first interaction) ===
 let starsCreated = false;
 const overlay = document.getElementById("shootingStarsOverlay");
+console.log('Overlay found:', !!overlay); // Debug log
 
 // Hide overlay initially (CSS might have set display:block via shooting-stars.css)
 if (overlay) {
@@ -242,12 +243,15 @@ if (overlay) {
 }
 
 function createShootingStars() {
+    console.log('createShootingStars called'); // Debug log
     if (starsCreated) return;
     starsCreated = true;
     
     // Show overlay and remove pointer-events:none to allow clicks
-    overlay.style.display = 'block';
-    overlay.style.pointerEvents = 'none'; // still allow clicks to pass through
+    if (overlay) {
+        overlay.style.display = 'block';
+        overlay.style.pointerEvents = 'none'; // still allow clicks to pass through
+    }
     
     const isMobile = window.matchMedia("(max-width: 600px)").matches;
     const starCount = isMobile ? 45 : 80;
