@@ -11,7 +11,6 @@ const CONFIG = {
     pauseBeforeRest: 150,    // ms after backspace before typing rest
     restSpeed: 100,          // ms per character for rest text
     cursorDelay: 200,        // ms after rest before cursor
-    scrollDelay: 500,        // ms after scroll stops before controls show
     tapPromptDelay: 0,       // ms after typing completes before tap prompt appears (immediate)
     tapOverlayFade: 500,     // ms to fade out tap overlay
     cardAnimation: 0.8,      // seconds for card animation
