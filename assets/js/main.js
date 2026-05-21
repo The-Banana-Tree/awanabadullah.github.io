@@ -25,27 +25,39 @@ function updateThemeIcon() {
 // === AUDIO UNMUTE ON FIRST INTERACTION ===
 // Browsers block autoplay with sound, so we start muted and unmute on first interaction
 const audio = document.getElementById('backgroundMusic');
+const body = document.body;
 const tapOverlay = document.getElementById('tapToStartOverlay');
 const cards = document.querySelectorAll('.hidden-cards .card');
 console.log('Audio element found:', audio !== null); // Debug log
 
 let firstInteractionDone = false;
 
-// Show tap-to-start overlay initially
-// Show tap overlay after typing completes (inline, not overlay)
+// Lock scroll initially
+body.classList.add('scrolled');
+
+// Show tap overlay after typing completes (fade in after 2.5s)
 setTimeout(() => {
     if (tapOverlay) {
-        tapOverlay.style.display = 'block'; // inline, not fixed overlay
+        tapOverlay.style.display = 'block';
     }
 }, 2500); // show after typing + blink
 
 // Unmute + reveal cards on first interaction
 function handleFirstInteraction() {
     if (firstInteractionDone) return;
+    firstInteractionDone = true;
     
-    // Hide tap overlay
+    // Unlock scroll
+    body.classList.remove('scrolled');
+    
+    // Show buttons
+    const controls = document.querySelector('.controls-row');
+    if (controls) controls.classList.add('visible');
+    
+    // Fade out tap overlay
     if (tapOverlay) {
-        tapOverlay.style.display = 'none';
+        tapOverlay.style.opacity = '0';
+        setTimeout(() => { tapOverlay.style.display = 'none'; }, 800);
     }
     
     // Show cards
@@ -53,11 +65,7 @@ function handleFirstInteraction() {
         card.style.animation = `cardScrollIn 0.8s ${0.1 + (index * 0.1)}s forwards`;
         card.style.opacity = '1';
         card.style.transform = 'translateY(0)';
-    });
-    
-    // Keep neural spinner visible (cool visual) — just fade out tap overlay
-    
-    // Unmute audio
+    });    // Unmute audio
     if (audio) {
         audio.muted = false;
         audio.play().catch(err => {

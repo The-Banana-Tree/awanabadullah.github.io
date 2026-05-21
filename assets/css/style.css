@@ -390,30 +390,47 @@ footer {
     z-index: 999999;
 }
 
-/* === TAP TO START OVERLAY (inline, same style as hero text) === */
+/* === TAP TO START (inline, same style as hero text) === */
 #tapToStartOverlay {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     text-align: center;
-    min-height: 2rem;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
 }
 
 #tapPrompt {
     color: var(--text);
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.8;
-    animation: blink 1.5s infinite;
+    letter-spacing: 3px;
+    background: rgba(0,0,0,0.6);
+    padding: 0.8rem 2rem;
+    border: 1px solid var(--accent);
 }
 
 [data-theme="light"] #tapPrompt {
-    opacity: 0.6;
+    background: rgba(255,255,255,0.6);
 }
 
-@keyframes blink {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.3; }
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* === LOCKED SCROLL (until tap) === */
+body.scrolled {
+    overflow: hidden;
+}
+
+/* === HIDDEN BUTTONS (until tap) === */
+.controls-row {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.controls-row.visible {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* === BACKGROUND STARS (hidden initially, revealed on tap) === */
