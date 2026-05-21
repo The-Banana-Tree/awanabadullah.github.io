@@ -49,17 +49,14 @@ function handleFirstInteraction() {
     const controls = document.querySelector('.controls-row');
     if (controls) controls.classList.add('visible');
     
-    // Fade out tap overlay FAST (500ms matches CSS)
+    // Hide tap overlay instantly on tap
     if (tapOverlay) {
-        tapOverlay.style.opacity = '0';
-        setTimeout(() => { tapOverlay.style.display = 'none'; }, 500);
+        tapOverlay.style.display = 'none';
     }
     
     // Show cards with scroll-in animation
     cards.forEach((card, index) => {
         card.style.animation = `cardScrollIn 0.8s ${index * 0.1}s forwards`;
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(50px)';
     });    // Unmute audio
     if (audio) {
         audio.muted = false;
