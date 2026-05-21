@@ -25,12 +25,19 @@ function updateThemeIcon() {
 // === AUDIO UNMUTE ON FIRST INTERACTION ===
 // Browsers block autoplay with sound, so we start muted and unmute on first interaction
 const audio = document.getElementById('backgroundMusic');
+console.log('Audio element found:', audio !== null); // Debug log
+if (audio) {
+    audio.muted = true; // Start muted to satisfy autoplay policy
+}
 let audioUnmuted = false;
 
 // Unmute on click
 function unmuteAudio() {
-    if (!audioUnmuted) {
+    if (!audioUnmuted && audio) {
         audio.muted = false;
+        audio.play().catch(err => {
+            console.log('Audio play error:', err);
+        });
         audioUnmuted = true;
         updateAudioIcon();
     }
