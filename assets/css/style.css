@@ -392,30 +392,30 @@ footer {
 
 /* === TAP TO START (subtitle style, same as hero) === */
 #tapToStartOverlay {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     text-align: center;
-    animation: fadeOut 0.5s forwards; /* fast fade out */
-    animation-delay: 2.5s; /* show until typing completes */
 }
 
 #tapPrompt {
-    color: var(--text);
-    font-size: 1.2rem;
+    color: var(--bg); /* Same as background color */
+    font-size: 1rem;
     font-weight: 700;
-    letter-spacing: 3px;
-    background: rgba(0,0,0,0.6);
-    padding: 0.8rem 1.5rem;
-    border: 1px solid var(--accent);
-    display: inline-block;
+    letter-spacing: 2px;
+    background: var(--text); /* Highlight with current text color */
+    padding: 0.2rem 0.8rem;
+    border-radius: 4px;
 }
 
 [data-theme="light"] #tapPrompt {
-    background: rgba(255,255,255,0.6);
+    background: var(--text);
+    color: var(--bg);
 }
 
-@keyframes fadeOut {
-    0% { opacity: 1; }
-    100% { opacity: 0; display: none; }
+@keyframes fadeInThenOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 /* === LOCKED SCROLL (until tap) === */
