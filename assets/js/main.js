@@ -181,7 +181,7 @@ window.addEventListener('scroll', () => {
         // Show buttons when scrolling stops
         themeToggle.classList.remove('scroll-hide');
         audioToggle.classList.remove('scroll-hide');
-    }, 300); // 300ms after scrolling stops
+    }, 500); // 500ms delay after scrolling stops
 });
 
 // === SHOOTING STARS ===
