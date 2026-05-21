@@ -17,7 +17,9 @@
     position: absolute;
     width: var(--size);
     height: var(--size);
+    background: white;
     border-radius: 50%;
+    opacity: var(--opacity);
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
     animation: twinkle var(--twinkle-speed) ease-in-out infinite;
     animation-delay: var(--delay);
@@ -26,12 +28,14 @@
 /* Dark theme: white stars */
 [data-theme="dark"] .star {
     background: white;
+    opacity: var(--opacity);
 }
 
 /* Light theme: dark grey stars (visible on light bg) */
 [data-theme="light"] .star {
     background: #666666;
     box-shadow: 0 0 8px rgba(100, 100, 100, 0.7);
+    opacity: var(--opacity);
 }
 
 .shooting-star {
