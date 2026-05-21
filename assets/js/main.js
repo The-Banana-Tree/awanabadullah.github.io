@@ -150,6 +150,7 @@ function revealCards() {
     if (cardContainer) cardContainer.classList.remove("hidden-cards");
     
     cards.forEach((card, index) => {
+        // Force reveal card styles
         card.style.opacity = "1";
         card.style.transform = "translateY(0)";
         card.style.animation = `cardScrollIn ${CONFIG.cardAnimation}s ${index * 0.1}s forwards`;
