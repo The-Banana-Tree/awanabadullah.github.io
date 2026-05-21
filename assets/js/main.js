@@ -13,10 +13,11 @@ function toggleTheme() {
     localStorage.setItem('theme', newTheme);
 }
 
-// === TYPOWRITER EFFECT ===
+// === TYPOWRITER EFFECT (with cursor and backspace) ===
 const name = "Awan Abadullah";
 const element = document.getElementById('typewriter');
 
+// Initial typing
 let i = 0;
 element.innerHTML = '';
 
@@ -25,11 +26,29 @@ function typeWriter() {
         element.innerHTML += name.charAt(i);
         i++;
         setTimeout(typeWriter, 80);
+    } else {
+        // After typing, show blinking cursor
+        setTimeout(() => {
+            element.innerHTML += '<span class="cursor">_</span>';
+        }, 500);
     }
 }
 
 // Start typing after 1 second
 setTimeout(typeWriter, 1000);
+
+// Add blinking cursor animation via CSS
+const style = document.createElement('style');
+style.innerHTML = `
+.cursor {
+    animation: blink 1s infinite;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+`;
+document.head.appendChild(style);
 
 // === LAST UPDATED TIMESTAMP ===
 function updateLastUpdated() {
