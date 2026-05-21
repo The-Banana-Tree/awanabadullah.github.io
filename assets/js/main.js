@@ -23,6 +23,13 @@ const element = document.getElementById('typewriter');
 // Continue: "n Abadullah" (to complete "Awan Abadullah")
 // Result: "Awan Abadullah" (corrected)
 
+// Initialize counters
+let typoStep = 0;
+let restStep = 0;
+
+// Initialize
+element.innerHTML = '';
+
 // Step 1: Type "Awab Aba" (typo)
 function typeTypo() {
     const typoText = "Awab Aba";
@@ -51,7 +58,6 @@ function backspaceToAwa() {
 }
 
 // Step 3: Type "n Abadullah" to complete "Awan Abadullah"
-let restStep = 0;
 function typeRest() {
     const restText = "n Abadullah";
     if (restStep < restText.length) {
@@ -65,12 +71,6 @@ function typeRest() {
         }, 400);
     }
 }
-
-let typoStep = 0;
-let restStep = 0;
-
-// Initialize
-element.innerHTML = '';
 
 // Start the typing sequence
 setTimeout(typeTypo, 1000);
