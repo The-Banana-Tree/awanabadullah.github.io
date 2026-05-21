@@ -43,7 +43,7 @@ setTimeout(() => {
 }, 2500); // show after typing + blink + pause
 
 // === TAP TO START ===
-const tapOverlay = document.getElementById('tapToStartOverlay');
+// tapOverlay already declared above, just use it
 
 // Unmute + reveal cards on first interaction
 function handleFirstInteraction() {
