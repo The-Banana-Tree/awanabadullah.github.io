@@ -433,11 +433,7 @@ body.scrolled {
     pointer-events: auto;
 }
 
-/* === BACKGROUND STARS (hidden initially, revealed on tap) === */
-#shootingStarsOverlay,
-.star {
-    display: none; /* hidden by default */
-}
+/* === BACKGROUND STARS (hidden via JS, not CSS) === */
 
 /* === HIDDEN CARDS === */
 .hidden-cards .card {

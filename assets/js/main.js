@@ -236,6 +236,11 @@ window.addEventListener('scroll', () => {
 let starsCreated = false;
 const overlay = document.getElementById("shootingStarsOverlay");
 
+// Hide overlay initially (CSS might have set display:block via shooting-stars.css)
+if (overlay) {
+    overlay.style.display = 'none';
+}
+
 function createShootingStars() {
     if (starsCreated) return;
     starsCreated = true;
