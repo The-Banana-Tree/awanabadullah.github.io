@@ -4,16 +4,14 @@
 
 /* === CONFIGURATION === */
 const CONFIG = {
-    typingDelay: 1000,       // ms before typing starts
+    typingDelay: 500,        // ms before typing starts
     typingSpeed: 50,         // ms per character
     backspaceSpeed: 40,      // ms per backspace
-    pauseBeforeBackspace: 800, // ms after typing before backspace
-    pauseBeforeRest: 300,    // ms after backspace before typing rest
+    pauseBeforeBackspace: 600, // ms after typing before backspace
+    pauseBeforeRest: 200,    // ms after backspace before typing rest
     restSpeed: 50,           // ms per character for rest text
-    cursorDelay: 400,        // ms after rest before cursor
-    tapDelay: 2500,          // ms after typing completes before tap enabled
-    scrollDelay: 500,        // ms after scroll stops before controls show
-    tapPromptDelay: 3500,    // ms after typing completes before tap prompt appears (increased)
+    cursorDelay: 200,        // ms after rest before cursor
+    tapPromptDelay: 500,     // ms after typing completes before tap prompt appears
     tapOverlayFade: 500,     // ms to fade out tap overlay
     cardAnimation: 0.8,      // seconds for card animation
 };
