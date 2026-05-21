@@ -239,23 +239,22 @@ let overlay;
 // Initialize overlay on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     overlay = document.getElementById("shootingStarsOverlay");
-    console.log('Overlay found:', !!overlay); // Debug log
     
-    // Hide overlay initially
+    // Show overlay immediately (stars are hidden initially by CSS)
     if (overlay) {
-        overlay.style.display = 'none';
+        overlay.style.display = 'block';
+        overlay.style.pointerEvents = 'none';
     }
 });
 
 function createShootingStars() {
-    console.log('createShootingStars called'); // Debug log
     if (starsCreated) return;
     starsCreated = true;
     
-    // Show overlay and remove pointer-events:none to allow clicks
+    // Show overlay - it's already visible, just make sure
     if (overlay) {
         overlay.style.display = 'block';
-        overlay.style.pointerEvents = 'none'; // still allow clicks to pass through
+        overlay.style.pointerEvents = 'none';
     }
     
     const isMobile = window.matchMedia("(max-width: 600px)").matches;
