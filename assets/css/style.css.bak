@@ -312,7 +312,7 @@ footer {
 /* === PARALLAX STAR BACKGROUND === */
 .star {
     position: fixed;
-    top: 0;
+    top: 55%;
     left: 0;
     width: var(--size);
     height: var(--size);
@@ -345,7 +345,7 @@ footer {
 
 .shooting-star {
     position: fixed;
-    top: 0;
+    top: 55%;
     left: 0;
     width: 0;
     height: 0;
@@ -396,7 +396,7 @@ footer {
 /* === TAP TO START (overlay style) === */
 #tapToStartOverlay {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 55%; left: 0; right: 0; bottom: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -412,6 +412,8 @@ footer {
     background: var(--text); /* Highlight with current text color */
     padding: 0 0.5rem;
     border-radius: 0;
+    animation: fadeInOut 1s forwards;
+    animation-delay: 2.5s;
 }
 
 [data-theme="light"] #tapPrompt {
