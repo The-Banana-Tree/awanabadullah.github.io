@@ -35,8 +35,11 @@ let firstInteractionDone = false;
 // Lock scroll initially
 body.classList.add('scrolled');
 
-// Show tap overlay after typing completes (fade in after 2.5s)
+// Show tap overlay after typing completes
+// (CSS shows it by default, this just ensures it)
 setTimeout(() => {
+    if (tapOverlay) {
+        tapOverlay.style.display = 'flex';
     }
 }, 2500); // show after typing + blink + pause
 
@@ -72,8 +75,6 @@ function handleFirstInteraction() {
             console.log('Audio play error:', err);
         });
     }
-    
-    firstInteractionDone = true;
 }
 
 // First interaction: click anywhere
