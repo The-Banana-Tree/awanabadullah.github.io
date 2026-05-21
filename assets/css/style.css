@@ -1,0 +1,251 @@
+/* ==================================
+   RETRO NEON & MODERN STYLING
+   ================================== */
+
+/* === RESET & VARIABLES === */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg: #0a0a0a;
+    --text: #00ff00;
+    --accent: #00ffff;
+    --card: #1a1a1a;
+    --border: #00ff00;
+    --shadow: 2px 2px 0px #000000;
+    --font: 'Courier New', monospace;
+}
+
+[data-theme="light"] {
+    --bg: #f0f0f0;
+    --text: #0a0a0a;
+    --accent: #ff00ff;
+    --card: #ffffff;
+    --border: #000000;
+    --shadow: 2px 2px 0px #000000;
+}
+
+/* === LAYOUT === */
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+
+/* === CANVAS BACKGROUND === */
+#neonCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+}
+
+/* === 3D ROTATING TORUS === */
+.neural-spinner {
+    width: 200px; height: 200px;
+    margin: 2rem auto;
+    perspective: 1000px;
+}
+
+.spinner-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: spin 8s linear infinite;
+}
+
+.ring {
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 2px solid var(--text);
+    opacity: 0.6;
+}
+
+.ring:nth-child(1) { transform: rotateX(0deg) rotateY(0deg); }
+.ring:nth-child(2) { transform: rotateX(45deg) rotateY(45deg); border-color: var(--accent); }
+.ring:nth-child(3) { transform: rotateX(90deg) rotateY(0deg); border-color: var(--accent); }
+.ring:nth-child(4) { transform: rotateX(0deg) rotateY(45deg); border-color: var(--accent); }
+
+@keyframes spin { 
+    0% { transform: rotateX(0deg) rotateY(0deg); }
+    100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+/* === HERO SECTION === */
+.hero {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 2rem;
+}
+
+/* === CARDS SECTION === */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+
+.card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    padding: 2rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: var(--shadow);
+}
+
+.card h3 {
+    color: var(--accent);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+
+.card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.card ul li {
+    margin-bottom: 0.8rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.card ul li::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+}
+
+/* === CONTACT BUTTONS === */
+.reach-out-card {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.reach-out-card .contact-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0;
+    max-width: 100%;
+}
+
+.reach-out-card .contact-buttons a {
+    display: inline-block;
+    width: 200px;
+    padding: 1rem;
+    background: #d500f9;
+    border: 2px solid #000000;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s;
+    text-align: center;
+    box-shadow: 2px 2px 0px #000000;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.reach-out-card .contact-buttons a:hover {
+    background: #b71c6d;
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px #000000;
+}
+
+.contact-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.card .contact-buttons a {
+    display: inline-block;
+    width: 200px;
+    padding: 1rem;
+    background: #d500f9;
+    border: 2px solid #000000;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: all 0.3s;
+    text-align: center;
+    box-shadow: 2px 2px 0px #000000;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.card .contact-buttons a:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px #000000;
+}
+
+.card .contact-buttons a:active {
+    transform: translate(-1px, -1px);
+    box-shadow: 1px 1px 0px #000000;
+}
+
+.contact-card .contact a:hover {
+    background: var(--accent);
+    color: var(--bg);
+    transform: scale(1.05);
+}
+
+/* === FOOTER === */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: var(--card);
+    border-top: 2px solid var(--border);
+    margin-top: 4rem;
+}
+
+/* === THEME TOGGLE === */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px; height: 40px;
+    background: var(--accent);
+    color: var(--bg);
+    border: 2px solid var(--border);
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: all 0.3s;
+}
+
+.theme-toggle:hover { transform: scale(1.1); }
