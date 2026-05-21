@@ -13,44 +13,74 @@ function toggleTheme() {
     localStorage.setItem('theme', newTheme);
 }
 
-// === TYPOWRITER EFFECT (with typo, correction, and cursor) ===
-const correctName = "Awan Abadullah";
+// === TYPOWRITER EFFECT (with backspace and correction) ===
 const element = document.getElementById('typewriter');
 
-// Create typo version: "Awa Abadullah" (missed 'n')
-const typoName = "Awa Abadullah";
+// Typing sequence:
+// 1. Type "Awab Aba" (typo)
+// 2. Backspace to "Awa"
+// 3. Type "n" to get "Awan"
+// 4. Type " Abadullah" to get full name
+// 5. Show blinking cursor
 
-// Initial typing
+const fullCorrectName = "Awan Abadullah";
 let i = 0;
 element.innerHTML = '';
 
-function typeWriter() {
-    if (i < typoName.length) {
-        element.innerHTML += typoName.charAt(i);
+// Step 1: Type "Awab Aba" (typo)
+function typeTypo() {
+    const typoText = "Awab Aba";
+    if (i < typoText.length) {
+        element.innerHTML += typoText.charAt(i);
         i++;
-        setTimeout(typeWriter, 80);
+        setTimeout(typeTypo, 80);
     } else {
-        // Show typo for a moment, then correct
-        setTimeout(showCorrection, 1200);
+        // Pause at typo
+        setTimeout(typeCorrected, 800);
     }
 }
 
-function showCorrection() {
-    // Backspace the 'A' from "Awa" to get to "Awan"
-    element.innerHTML = 'Awan'; // Just show the correct start
-    setTimeout(() => {
-        // Type the rest: " Abadullah"
-        element.innerHTML += ' Abadullah';
-    }, 400);
+// Step 2: Backspace to "Awa"
+function typeCorrected() {
+    // Current text is "Awab Aba" (10 chars)
+    // We want "Awa" (3 chars) then " Abadullah"
     
-    // After typing, show blinking cursor
-    setTimeout(() => {
-        element.innerHTML += '<span class="cursor">_</span>';
-    }, 800);
+    // First, clear the full typo text
+    element.innerHTML = '';
+    
+    // Then type "Awa"
+    let j = 0;
+    function typeAwa() {
+        if (j < 3) {
+            element.innerHTML += "Awa".charAt(j);
+            j++;
+            setTimeout(typeAwa, 80);
+        } else {
+            // Pause, then add " Abadullah"
+            setTimeout(typeRest, 500);
+        }
+    }
+    typeAwa();
 }
 
-// Start typing after 1 second
-setTimeout(typeWriter, 1000);
+function typeRest() {
+    // Type " Abadullah"
+    let k = 0;
+    const rest = " Abadullah";
+    if (k < rest.length) {
+        element.innerHTML += rest.charAt(k);
+        k++;
+        setTimeout(typeRest, 80);
+    } else {
+        // After typing, show blinking cursor
+        setTimeout(() => {
+            element.innerHTML += '<span class="cursor">_</span>';
+        }, 500);
+    }
+}
+
+// Start the typing sequence
+setTimeout(typeTypo, 1000);
 
 // Add blinking cursor animation via CSS
 const style = document.createElement('style');
