@@ -13,61 +13,55 @@ function toggleTheme() {
     localStorage.setItem('theme', newTheme);
 }
 
-// === TYPOWRITER EFFECT (cursor during typing + super fast) ===
+// === TYPOWRITER EFFECT (with backspace and highlight) ===
 const element = document.getElementById('typewriter');
 
 // Typing sequence:
-// 1. Type "Awab Aba" (typo) - SUPER fast
-// 2. Backspace characters one by one - fast
-// 3. Type "Awan Abadullah" (corrected) - SUPER fast
-// 4. Cursor stays visible the whole time
+// 1. Type "Awab Aba" (typo) - fast
+// 2. Backspace characters one by one (visual effect) - to correct "Awa" from "Awab Aba"
+// 3. Type "n" to get "Awan"
+// 4. Type " Abadullah" to get full "Awan Abadullah"
+// 5. Cursor blinks at the end
 
-const typoText = "Awab Aba";
-const correctedText = "Awan Abadullah";
-let typoStep = 0;
-let correctStep = 0;
+const fullText = "Awan Abadullah";
+let step = 0;
 
 element.innerHTML = '';
 
-// Add cursor span that stays visible throughout
-element.innerHTML += '<span class="cursor">_</span>';
-const cursor = element.querySelector('.cursor');
-
-// Step 1: Type "Awab Aba" (typo) - SUPER FAST (20ms)
+// Step 1: Type "Awab Aba" (typo)
 function typeTypo() {
-    if (typoStep < typoText.length) {
-        element.insertBefore(
-            document.createTextNode(typoText.charAt(typoStep)),
-            cursor
-        );
-        typoStep++;
-        setTimeout(typeTypo, 20); // SUPER fast
+    if (step < "Awab Aba".length) {
+        element.innerHTML += "Awab Aba".charAt(step);
+        step++;
+        setTimeout(typeTypo, 50);
     } else {
-        // Pause at typo, then backspace
-        setTimeout(backspace, 600);
+        // Pause at typo, then backspace to "Awa"
+        setTimeout(backspaceToAwa, 800);
     }
 }
 
-// Step 2: Backspace characters one by one (visual effect)
-function backspace() {
-    if (element.lastChild !== cursor && element.lastChild) {
-        element.removeChild(element.lastChild);
-        setTimeout(backspace, 30); // Fast backspace
+// Step 2: Backspace to "Awa" (remove last 4 chars: "b Aba")
+function backspaceToAwa() {
+    if (element.innerHTML.length > 3) { // Keep only "Awa"
+        element.innerHTML = element.innerHTML.slice(0, -1);
+        setTimeout(backspaceToAwa, 40);
     } else {
-        // When text is empty, start typing corrected text
-        setTimeout(typeCorrected, 200);
+        // Now type "n Abadullah" (complete corrected text)
+        setTimeout(typeRest, 300);
     }
 }
 
-// Step 3: Type "Awan Abadullah" (corrected) - SUPER FAST (20ms)
-function typeCorrected() {
-    if (correctStep < correctedText.length) {
-        element.insertBefore(
-            document.createTextNode(correctedText.charAt(correctStep)),
-            cursor
-        );
-        correctStep++;
-        setTimeout(typeCorrected, 20); // SUPER fast
+// Step 3: Type the rest
+function typeRest() {
+    if (step < fullText.length) {
+        element.innerHTML += fullText.charAt(step);
+        step++;
+        setTimeout(typeRest, 50);
+    } else {
+        // After typing, show blinking cursor
+        setTimeout(() => {
+            element.innerHTML += '<span class="cursor">_</span>';
+        }, 400);
     }
 }
 
@@ -88,21 +82,37 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-// === LAST UPDATED TIMESTAMP ===
-function updateLastUpdated() {
-    const lastUpdatedEl = document.getElementById('last-updated');
-    if (lastUpdatedEl) {
-        const now = new Date();
-        const day = String(now.getDate()).padStart(2, '0');
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const year = now.getFullYear().toString().slice(-2);
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        lastUpdatedEl.textContent = 'Last updated on: ' + day + '/' + month + '/' + year + ' ' + hours + ':' + minutes;
-    }
+// === HIGHLIGHT EFFECT FOR TYPED TEXT ===
+// Apply highlight styles when text is being typed
+function applyHighlight() {
+    element.style.color = 'var(--bg)';
+    element.style.backgroundColor = 'var(--text)';
 }
 
-updateLastUpdated();
+// Apply highlight initially (in dark theme)
+if (storedTheme === 'dark') {
+    element.style.color = '#0a0a0a'; // Dark bg color
+    element.style.backgroundColor = '#00ff00'; // Text color
+} else {
+    element.style.color = '#f0f0f0'; // Light bg color (approx)
+    element.style.backgroundColor = '#0a0a0a'; // Text color (approx)
+}
+
+// Update highlight on theme toggle
+const originalToggle = toggleTheme;
+toggleTheme = function() {
+    originalToggle();
+    const current = document.documentElement.getAttribute('data-theme');
+    if (current === 'dark') {
+        element.style.color = '#0a0a0a';
+        element.style.backgroundColor = '#00ff00';
+    } else {
+        element.style.color = '#f0f0f0';
+        element.style.backgroundColor = '#0a0a0a';
+    }
+};
+
+// === LAST UPDATED TIMESTAMP (REMOVED - no longer needed) ===
 
 // === SCROLL HIDE THEME TOGGLE ===
 const themeToggle = document.querySelector('.theme-toggle');
