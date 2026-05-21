@@ -66,8 +66,8 @@ function handleFirstInteraction() {
     // Show cards with scroll-in animation
     cards.forEach((card, index) => {
         card.style.animation = `cardScrollIn 0.8s ${index * 0.1}s forwards`;
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(50px)';
     });    // Unmute audio
     if (audio) {
         audio.muted = false;
