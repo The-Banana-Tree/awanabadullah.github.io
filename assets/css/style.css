@@ -73,20 +73,23 @@ body {
     padding: 4rem 0;
 }
 .hero h1 {
+    color: var(--bg);
+    background: var(--text);
     font-size: 1.8rem;
     min-height: 2.2rem;
     display: inline-block;
     max-width: 500px;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     margin-bottom: 1rem;
-    color: var(--text);
     text-transform: uppercase;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
-/* Blank cursor at end of typewriter */
+/* Blank cursor at end of typewriter - matches tap prompt style */
 .hero h1 .cursor {
+    color: var(--bg);
+    background: var(--text);
     animation: blink 1s step-end infinite;
-    background: none;
+    opacity: 1;
 }
 .hero p {
     font-size: 1.2rem;
@@ -295,9 +298,22 @@ footer {
     color: var(--bg);
 }
 
+/* Same style as tap-prompt for hero h1 cursor */
+.hero h1 .cursor {
+    color: var(--bg);
+    background: var(--text);
+    animation: blink 1s step-end infinite;
+    opacity: 1;
+}
+
 @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(10px); }
     100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
 /* === LOCKED SCROLL (until tap) === */
@@ -358,9 +374,4 @@ body.scrolled { overflow: hidden; }
     0% { transform: translate3d(0, 0, 0) rotate(-35deg); opacity: 0; }
     8% { opacity: 1; }
     100% { transform: translate3d(-125vw, 62vh, 0) rotate(-35deg); opacity: 0; }
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
 }
