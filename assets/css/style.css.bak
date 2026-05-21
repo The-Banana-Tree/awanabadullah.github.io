@@ -398,11 +398,11 @@ footer {
 
 #tapPrompt {
     color: var(--bg); /* Same as background color */
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: 2px;
     background: var(--text); /* Highlight with current text color */
-    padding: 0 1rem;
+    padding: 0.2rem 0.8rem;
     border-radius: 4px;
 }
 
