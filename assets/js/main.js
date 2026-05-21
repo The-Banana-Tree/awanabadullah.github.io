@@ -25,28 +25,55 @@ function updateThemeIcon() {
 // === AUDIO UNMUTE ON FIRST INTERACTION ===
 // Browsers block autoplay with sound, so we start muted and unmute on first interaction
 const audio = document.getElementById('backgroundMusic');
+const tapOverlay = document.getElementById('tapToStartOverlay');
+const cards = document.querySelectorAll('.hidden-cards .card');
 console.log('Audio element found:', audio !== null); // Debug log
-if (audio) {
-    audio.muted = true; // Start muted to satisfy autoplay policy
-}
-let audioUnmuted = false;
 
-// Unmute on click
-function unmuteAudio() {
-    if (!audioUnmuted && audio) {
+let firstInteractionDone = false;
+
+// Show tap-to-start overlay initially
+tapOverlay.style.display = 'flex';
+
+// Unmute + reveal cards on first interaction
+function handleFirstInteraction() {
+    if (firstInteractionDone) return;
+    
+    // Hide tap overlay
+    if (tapOverlay) {
+        tapOverlay.style.display = 'none';
+    }
+    
+    // Show cards
+    cards.forEach((card, index) => {
+        card.style.animation = `cardScrollIn 0.8s ${0.1 + (index * 0.1)}s forwards`;
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+    });
+    
+    // Hide neural spinner when cards appear
+    const spinner = document.getElementById('neuralSpinner');
+    if (spinner) spinner.style.display = 'none';
+    
+    // Show buttons (they're always visible, just make sure)
+    const controls = document.querySelector('.controls-row');
+    if (controls) controls.style.opacity = '1';
+    
+    // Unmute audio
+    if (audio) {
         audio.muted = false;
         audio.play().catch(err => {
             console.log('Audio play error:', err);
         });
-        audioUnmuted = true;
-        updateAudioIcon();
     }
+    
+    firstInteractionDone = true;
 }
 
-document.body.addEventListener('click', unmuteAudio, { once: true });
+// First interaction: click anywhere
+document.body.addEventListener('click', handleFirstInteraction, { once: true });
 
-// Also unmute on first scroll (since site prompts scrolling)
-window.addEventListener('scroll', unmuteAudio, { once: true });
+// First interaction: first scroll too
+window.addEventListener('scroll', handleFirstInteraction, { once: true });
 
 // === AUDIO TOGGLE ===
 function toggleAudio() {

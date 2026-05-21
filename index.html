@@ -21,7 +21,7 @@
     </div>
     
     <div class="container">
-        <div class="neural-spinner">
+        <div class="neural-spinner" id="neuralSpinner">
             <div class="spinner-inner">
                 <div class="ring"></div>
                 <div class="ring"></div>
@@ -35,7 +35,11 @@
             <p id="subtitle">Systems Engineer</p>
         </section>
         
-        <section class="grid">
+        <div id="tapToStartOverlay">
+            <p class="tap-prompt">Tap anywhere to start</p>
+        </div>
+        
+        <section class="grid hidden-cards">
             <div class="card">
                 <h3>About Me</h3>
                 <img src="profile.jpg" alt="Awan Abadullah" style="max-width: 180px; height: auto; border-radius: 8px; margin: 1.5rem auto; display: block;">
