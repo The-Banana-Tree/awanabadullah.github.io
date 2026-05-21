@@ -24,18 +24,29 @@ function updateThemeIcon() {
 
 // === AUDIO TOGGLE ===
 const audio = document.getElementById('backgroundMusic');
-let audioMuted = true; // starts muted
+let audioStarted = false;
 
 function toggleAudio() {
-    audioMuted = !audioMuted;
-    audio.muted = audioMuted;
-    updateAudioIcon();
+    if (!audioStarted) {
+        audio.play().then(() => {
+            audioStarted = true;
+            audio.muted = false;
+            updateAudioIcon();
+        }).catch(() => {
+            audioStarted = true;
+            audio.muted = false;
+            updateAudioIcon();
+        });
+    } else {
+        audio.muted = !audio.muted;
+        updateAudioIcon();
+    }
 }
 
 function updateAudioIcon() {
     const icon = document.querySelector('.audio-icon');
     if (icon) {
-        icon.textContent = audioMuted ? '🔇' : '🔊';
+        icon.textContent = audio.muted ? '🔇' : '🔊';
     }
 }
 

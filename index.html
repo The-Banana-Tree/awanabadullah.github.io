@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="assets/css/style.css?v=4">
     <link rel="stylesheet" href="assets/css/shooting-stars.css?v=4">
     <!-- Background Music -->
-    <audio id="backgroundMusic" src="assets/audio/track.mp3" loop autoplay muted></audio>
+    <!-- Audio starts muted (required for autoplay) -->
+    <audio id="backgroundMusic" loop>
+        <source src="assets/audio/track.mp3" type="audio/mpeg">
+    </audio>
 </head>
 <body>
     <!-- Shooting Stars Overlay -->
