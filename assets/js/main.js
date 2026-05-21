@@ -80,7 +80,7 @@ const style = document.createElement('style');
 style.innerHTML = `
 .cursor {
     animation: blink 1s infinite;
-    color: var(--text); /* Same as text color */
+    color: inherit; /* Match text color */
 }
 @keyframes blink {
     0%, 100% { opacity: 1; }
