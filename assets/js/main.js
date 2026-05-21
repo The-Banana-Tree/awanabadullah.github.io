@@ -21,8 +21,6 @@ const CONFIG = {
 /* === THEME TOGGLE === */
 const storedTheme = localStorage.getItem('theme') || 'dark';
 document.documentElement.setAttribute('data-theme', storedTheme);
-updateThemeIcon();
-updateAudioIcon();
 
 function toggleTheme() {
     const current = document.documentElement.getAttribute('data-theme');
@@ -76,6 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.style.pointerEvents = 'none';
     }
     createShootingStars();
+    
+    // Update button icons after DOM is ready
+    updateThemeIcon();
+    updateAudioIcon();
 });
 
 /* === SHOOTING STARS === */
