@@ -32,10 +32,10 @@ console.log('Audio element found:', audio !== null); // Debug log
 let firstInteractionDone = false;
 
 // Show tap-to-start overlay initially
-// Show tap overlay after typing completes
+// Show tap overlay after typing completes (inline, not overlay)
 setTimeout(() => {
     if (tapOverlay) {
-        tapOverlay.style.display = 'flex';
+        tapOverlay.style.display = 'block'; // inline, not fixed overlay
     }
 }, 2500); // show after typing + blink
 
@@ -55,13 +55,7 @@ function handleFirstInteraction() {
         card.style.transform = 'translateY(0)';
     });
     
-    // Hide neural spinner when cards appear
-    const spinner = document.getElementById('neuralSpinner');
-    if (spinner) spinner.style.display = 'none';
-    
-    // Show buttons (they're always visible, just make sure)
-    const controls = document.querySelector('.controls-row');
-    if (controls) controls.style.opacity = '1';
+    // Keep neural spinner visible (cool visual) — just fade out tap overlay
     
     // Unmute audio
     if (audio) {
