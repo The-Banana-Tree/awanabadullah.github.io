@@ -1,0 +1,73 @@
+/* ==================================
+   SHOOTING STARS CSS
+   ================================== */
+
+#shootingStarsOverlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100svh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 9999;
+    background: transparent;
+}
+
+.star {
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+    animation: twinkle var(--twinkle-speed) ease-in-out infinite;
+    animation-delay: var(--delay);
+}
+
+/* Dark theme: white stars */
+[data-theme="dark"] .star {
+    background: white;
+}
+
+/* Light theme: dark grey stars (visible on light bg) */
+[data-theme="light"] .star {
+    background: #666666;
+    box-shadow: 0 0 8px rgba(100, 100, 100, 0.7);
+}
+
+.shooting-star {
+    position: absolute;
+    width: clamp(70px, 22vw, 150px);
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(-90deg, white, rgba(255, 255, 255, 0.75), transparent);
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.95);
+    transform: rotate(-35deg);
+    animation: shoot linear forwards;
+}
+
+/* Dark theme: white shooting stars */
+[data-theme="dark"] .shooting-star {
+    background: linear-gradient(-90deg, white, rgba(255, 255, 255, 0.75), transparent);
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.95);
+}
+
+/* Light theme: dark grey shooting stars */
+[data-theme="light"] .shooting-star {
+    background: linear-gradient(-90deg, #666666, rgba(100, 100, 100, 0.75), transparent);
+    box-shadow: 0 0 18px rgba(100, 100, 100, 0.7);
+}
+
+@keyframes twinkle {
+    0%, 100% { transform: scale(1); opacity: 0.35; }
+    50% { transform: scale(1.8); opacity: 1; }
+}
+
+@keyframes shoot {
+    0% { transform: translate3d(0, 0, 0) rotate(-35deg); opacity: 0; }
+    8% { opacity: 1; }
+    100% { transform: translate3d(-125vw, 62vh, 0) rotate(-35deg); opacity: 0; }
+}
+
+@media (max-width: 480px) {
+    .shooting-star { height: 1.5px; }
+}

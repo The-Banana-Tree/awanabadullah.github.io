@@ -1,5 +1,5 @@
 /* ==================================
-   RETRO NEON - MAIN JAVASCRIPT
+   SHOOTING STARS - MAIN JAVASCRIPT
    ================================== */
 
 // === THEME TOGGLE ===
@@ -24,7 +24,7 @@ function typeWriter() {
     if (i < name.length) {
         element.innerHTML += name.charAt(i);
         i++;
-        setTimeout(typeWriter, 80); // Speed
+        setTimeout(typeWriter, 80);
     }
 }
 
@@ -45,5 +45,38 @@ function updateLastUpdated() {
     }
 }
 
-// Set timestamp once when page loads
 updateLastUpdated();
+
+// === SHOOTING STARS ===
+const overlay = document.getElementById("shootingStarsOverlay");
+const isMobile = window.matchMedia("(max-width: 600px)").matches;
+const starCount = isMobile ? 45 : 80;
+const meteorInterval = isMobile ? 1150 : 800;
+
+// Create stars
+for (let i = 0; i < starCount; i++) {
+    const star = document.createElement("span");
+    star.className = "star";
+    const size = Math.random() * 2.2 + 1;
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.top = Math.random() * 100 + "svh";
+    star.style.setProperty("--size", size + "px");
+    star.style.setProperty("--opacity", Math.random() * 0.75 + 0.25);
+    star.style.setProperty("--delay", Math.random() * 5 + "s");
+    star.style.setProperty("--twinkle-speed", Math.random() * 3 + 2 + "s");
+    overlay.appendChild(star);
+}
+
+// Create meteors
+function createMeteor() {
+    const meteor = document.createElement("span");
+    meteor.className = "shooting-star";
+    meteor.style.top = Math.random() * 58 + "svh";
+    meteor.style.left = Math.random() * 50 + 75 + "vw";
+    meteor.style.animationDuration = Math.random() * 1.6 + 1.6 + "s";
+    overlay.appendChild(meteor);
+    setTimeout(() => { meteor.remove(); }, 3500);
+}
+
+createMeteor();
+setInterval(createMeteor, meteorInterval);
