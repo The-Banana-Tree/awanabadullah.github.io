@@ -146,12 +146,15 @@ function hideTapOverlay() {
 
 /* === CARD ANIMATION === */
 function revealCards() {
+    const cardContainer = document.querySelector(".grid");
+    if (cardContainer) cardContainer.classList.remove("hidden-cards");
+    
     cards.forEach((card, index) => {
-        const delay = index * 0.1;
-        card.style.animation = `cardScrollIn ${CONFIG.cardAnimation}s ${delay}s forwards`;
+        card.style.opacity = "1";
+        card.style.transform = "translateY(0)";
+        card.style.animation = `cardScrollIn ${CONFIG.cardAnimation}s ${index * 0.1}s forwards`;
     });
 }
-
 /* === BUTTONS === */
 function showButtons() {
     if (controls) controls.classList.add('visible');
