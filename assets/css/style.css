@@ -92,11 +92,14 @@ body {
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
 
 .card {
-    background: var(--card);
+    background: #1a1a1a;
     border: 2px solid var(--border);
     padding: 2rem;
     transition: transform 0.3s, box-shadow 0.3s;
-    opacity: 1;
+}
+
+[data-theme="light"] .card {
+    background: #ffffff;
 }
 
 .card:hover {
@@ -214,10 +217,13 @@ body {
 footer {
     text-align: center;
     padding: 2rem;
-    background: var(--card);
+    background: #1a1a1a;
     border-top: 2px solid var(--border);
     margin-top: 4rem;
-    opacity: 1;
+}
+
+[data-theme="light"] footer {
+    background: #ffffff;
 }
 
 /* === THEME TOGGLE === */
