@@ -245,8 +245,9 @@ function createShootingStars() {
     if (starsCreated) return;
     starsCreated = true;
     
-    // Show overlay (stars are hidden by CSS initially)
+    // Show overlay and remove pointer-events:none to allow clicks
     overlay.style.display = 'block';
+    overlay.style.pointerEvents = 'none'; // still allow clicks to pass through
     
     const isMobile = window.matchMedia("(max-width: 600px)").matches;
     const starCount = isMobile ? 45 : 80;
@@ -287,6 +288,8 @@ function createShootingStars() {
 // Trigger stars creation on first interaction
 const originalHandleFirstInteraction = handleFirstInteraction;
 handleFirstInteraction = function() {
+    console.log('First interaction!');
     originalHandleFirstInteraction();
     createShootingStars();
+    console.log('Stars created:', starsCreated);
 };
