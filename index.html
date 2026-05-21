@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Systems Engineer | Awan Abadullah</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=4">
-    <link rel="stylesheet" href="assets/css/shooting-stars.css?v=4">
+    <link rel="stylesheet" href="assets/css/style.css?v=5">
+    <link rel="stylesheet" href="assets/css/shooting-stars.css?v=5">
     <!-- Background Music -->
-    <!-- Audio starts muted (browser autoplay policy), unmutes on first interaction -->
     <audio id="backgroundMusic" loop autoplay muted>
         <source src="assets/audio/track.mp3" type="audio/mpeg">
     </audio>
@@ -15,6 +14,12 @@
 <body>
     <!-- Shooting Stars Overlay -->
     <div id="shootingStarsOverlay"></div>
+    
+    <!-- Tap to Start Overlay -->
+    <div id="tapToStartOverlay" class="tap-overlay">
+        <p class="tap-prompt">tap anywhere to start</p>
+    </div>
+    
     <div class="controls-row">
         <div class="audio-toggle" onclick="toggleAudio()" title="Mute/Unmute Audio"><span class="audio-icon"></span></div>
         <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode"><span class="theme-icon"></span></div>
@@ -34,10 +39,6 @@
             <h1 id="typewriter"></h1>
             <p id="subtitle">Systems Engineer</p>
         </section>
-        
-        <div id="tapToStartOverlay">
-            <p class="tap-prompt" id="tapPrompt">tap anywhere to start</p>
-        </div>
         
         <section class="grid hidden-cards">
             <div class="card">

@@ -3,7 +3,7 @@
    ================================== */
 
 /* === RESET & VARIABLES === */
-* { margin: 0; padding: 0; box-sizing: border-box; font-weight: 700; } /* All text 1.7x thicker */
+* { margin: 0; padding: 0; box-sizing: border-box; font-weight: 700; }
 
 :root {
     --bg: #0a0a0a;
@@ -33,23 +33,20 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
 }
-
 .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
 
-/* === 3D ROTATING TORUS (CSS ONLY) === */
+/* === 3D ROTATING TORUS === */
 .neural-spinner {
     width: 200px; height: 200px;
     margin: 2rem auto;
     perspective: 1000px;
 }
-
 .spinner-inner {
     width: 100%; height: 100%;
     position: relative;
     transform-style: preserve-3d;
     animation: spin 8s linear infinite;
 }
-
 .ring {
     position: absolute;
     width: 100%; height: 100%;
@@ -58,12 +55,10 @@ body {
     border: 2px solid var(--text);
     opacity: 0.6;
 }
-
 .ring:nth-child(1) { transform: rotateX(0deg) rotateY(0deg); }
 .ring:nth-child(2) { transform: rotateX(45deg) rotateY(45deg); border-color: var(--accent); }
 .ring:nth-child(3) { transform: rotateX(90deg) rotateY(0deg); border-color: var(--accent); }
 .ring:nth-child(4) { transform: rotateX(0deg) rotateY(45deg); border-color: var(--accent); }
-
 @keyframes spin { 
     0% { transform: rotateX(0deg) rotateY(0deg); }
     100% { transform: rotateX(360deg) rotateY(360deg); }
@@ -74,19 +69,17 @@ body {
     text-align: center;
     padding: 4rem 0;
 }
-
 .hero h1 {
     font-size: 1.8rem;
     min-height: 2.2rem;
     display: inline-block;
-    max-width: 500px; /* Limit width to prevent full-page span */
+    max-width: 500px;
     padding: 0 1rem;
     margin-bottom: 1rem;
     color: var(--text);
     text-transform: uppercase;
     letter-spacing: 3px;
 }
-
 .hero p {
     font-size: 1.2rem;
     color: var(--accent);
@@ -96,6 +89,24 @@ body {
 /* === CARDS SECTION === */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
 
+/* Cards hidden initially, revealed on tap */
+.hidden-cards .card {
+    opacity: 0;
+    transform: translateY(50px);
+    animation: none; /* JS sets animation */
+}
+.hidden-cards .card:nth-child(1) { animation-delay: 0.1s; }
+.hidden-cards .card:nth-child(2) { animation-delay: 0.2s; }
+.hidden-cards .card:nth-child(3) { animation-delay: 0.3s; }
+.hidden-cards .card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Animation for cards on reveal */
+@keyframes cardScrollIn {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Card styles (default - overridden by JS when hidden) */
 .card {
     background: rgba(26, 26, 26, 0.95);
     backdrop-filter: blur(10px);
@@ -103,41 +114,16 @@ body {
     padding: 2rem;
     transition: transform 0.3s, box-shadow 0.3s;
     color: #f0f0f0;
-    opacity: 0;
-    transform: translateY(50px);
-    animation: none; /* will be set by JS for hidden-cards */
+    animation: cardScrollIn 0.8s forwards;
 }
-
-@keyframes cardScrollIn {
-    0% {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Stagger animation delays for each card */
-.grid .card:nth-child(1) { animation-delay: 0.1s; }
-.grid .card:nth-child(2) { animation-delay: 0.2s; }
-.grid .card:nth-child(3) { animation-delay: 0.3s; }
-.grid .card:nth-child(4) { animation-delay: 0.4s; }
-.grid .card:nth-child(5) { animation-delay: 0.5s; }
-.grid .card:nth-child(6) { animation-delay: 0.6s; }
-
 [data-theme="light"] .card {
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
     color: #1a1a1a;
 }
-
 .card:hover {
     transform: translate(-4px, -4px);
     box-shadow: var(--shadow);
 }
-
 .card h3 {
     color: var(--accent);
     margin-bottom: 1rem;
@@ -146,18 +132,15 @@ body {
     border-bottom: 2px solid var(--border);
     padding-bottom: 0.5rem;
 }
-
 .card ul {
     list-style: none;
     padding-left: 0;
 }
-
 .card ul li {
     margin-bottom: 0.8rem;
     padding-left: 1rem;
     position: relative;
 }
-
 .card ul li::before {
     content: '>';
     position: absolute;
@@ -173,7 +156,6 @@ body {
     align-items: flex-start;
     gap: 1rem;
 }
-
 .reach-out-card .contact-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -182,7 +164,6 @@ body {
     margin: 0;
     max-width: 100%;
 }
-
 .reach-out-card .contact-buttons a {
     display: inline-block;
     width: 200px;
@@ -197,49 +178,10 @@ body {
     box-shadow: 2px 2px 0px #000000;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
-
 .reach-out-card .contact-buttons a:hover {
     background: #b71c6d;
     transform: translate(-2px, -2px);
     box-shadow: 4px 4px 0px #000000;
-}
-
-.contact-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.card .contact-buttons a {
-    display: inline-block;
-    width: 200px;
-    padding: 1rem;
-    background: #d500f9;
-    border: 2px solid #000000;
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: all 0.3s;
-    text-align: center;
-    box-shadow: 2px 2px 0px #000000;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-}
-
-.card .contact-buttons a:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0px #000000;
-}
-
-.card .contact-buttons a:active {
-    transform: translate(-1px, -1px);
-    box-shadow: 1px 1px 0px #000000;
-}
-
-.contact-card .contact a:hover {
-    background: var(--accent);
-    color: var(--bg);
-    transform: scale(1.05);
 }
 
 /* === FOOTER === */
@@ -252,24 +194,29 @@ footer {
     margin-top: 4rem;
     color: #f0f0f0;
 }
-
 [data-theme="light"] footer {
     background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(5px);
     color: #1a1a1a;
 }
 
-/* === THEME TOGGLE & AUDIO TOGGLE === */
+/* === CONTROLS (buttons) === */
 .controls-row {
     position: fixed;
     bottom: 20px;
     right: 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* more breathing room */
+    gap: 15px;
     z-index: 100;
+    opacity: 0; /* Hidden initially */
+    pointer-events: none; /* Not clickable */
+}
+.controls-row.visible {
+    opacity: 1;
+    pointer-events: auto;
 }
 
+/* === BUTTONS (theme + audio) === */
 .theme-toggle, .audio-toggle {
     width: 50px; height: 50px;
     background: var(--accent);
@@ -281,7 +228,7 @@ footer {
     align-items: center;
     justify-content: center;
     transition: opacity 0.5s ease;
-    opacity: 1;
+    z-index: 100;
 }
 
 .theme-icon, .audio-icon {
@@ -291,110 +238,20 @@ footer {
     font-size: 1.3rem;
 }
 
-[data-theme="light"] .theme-toggle {
-    color: #f0f0f0;
-    background: #ff00ff;
-}
-
+[data-theme="light"] .theme-toggle,
 [data-theme="light"] .audio-toggle {
     color: #f0f0f0;
     background: #ff00ff;
 }
 
-/* Fade out when scrolling */
+/* Scroll hide controls */
 .theme-toggle.scroll-hide, .audio-toggle.scroll-hide {
     opacity: 0;
     pointer-events: none;
 }
 
-/* Removed hover scale — no size change on click/hover */
-
-/* === PARALLAX STAR BACKGROUND === */
-.star {
-    position: fixed;
-    top: 55%;
-    left: 0;
-    width: var(--size);
-    height: var(--size);
-    background: #ffffff;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 999998;
-}
-
-.star {
-    box-shadow: 0 0 var(--size) var(--size) rgba(255, 255, 255, var(--opacity));
-    animation: twinkle var(--twinkle-speed) ease-in-out infinite alternate;
-}
-
-[data-theme="light"] .star {
-    background: #666666;
-    box-shadow: 0 0 var(--size) var(--size) rgba(102, 102, 102, var(--opacity));
-}
-
-@keyframes twinkle {
-    0% {
-        opacity: calc(var(--opacity) * 0.3);
-        transform: scale(0.8);
-    }
-    100% {
-        opacity: var(--opacity);
-        transform: scale(1.2);
-    }
-}
-
-.shooting-star {
-    position: fixed;
-    top: 55%;
-    left: 0;
-    width: 0;
-    height: 0;
-    background: linear-gradient(180deg, transparent 90%, #ffffff);
-    box-shadow: 0 0 var(--size) 2px #ffffff;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 999999;
-    animation: shoot linear forwards;
-}
-
-[data-theme="light"] .shooting-star {
-    background: linear-gradient(180deg, transparent 90%, #666666);
-    box-shadow: 0 0 var(--size) 2px #666666;
-}
-
-@keyframes shoot {
-    0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    100% {
-        transform: translate(100vw, 100vh) scale(0.1);
-        opacity: 0;
-    }
-}
-
-.front-star {
-    z-index: 100000;
-}
-
-#shootingStarsOverlay {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100svh;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 999999;
-    background: transparent;
-}
-
-/* === TAP TO START (subtitle style, same as hero) === */
-
-/* === TAP TO START (overlay style) === */
-#tapToStartOverlay {
+/* === TAP TO START OVERLAY === */
+.tap-overlay {
     position: fixed;
     top: 55%; left: 0; right: 0; bottom: 0;
     display: flex;
@@ -402,22 +259,26 @@ footer {
     justify-content: center;
     z-index: 9999999;
     pointer-events: none;
-    opacity: 0; /* hidden until animation-delay */
+    opacity: 0;
+}
+.tap-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
 }
 
-#tapPrompt {
-    color: var(--bg); /* Same as background color */
+.tap-prompt {
+    color: var(--bg);
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 2px;
-    background: var(--text); /* Highlight with current text color */
+    background: var(--text);
     padding: 0 0.5rem;
     border-radius: 0;
     animation: fadeInOut 1s forwards;
     animation-delay: 2.5s;
 }
 
-[data-theme="light"] #tapPrompt {
+[data-theme="light"] .tap-prompt {
     background: var(--text);
     color: var(--bg);
 }
@@ -427,32 +288,64 @@ footer {
     10% { opacity: 1; }
     90% { opacity: 1; }
     100% { opacity: 0; }
+}
+
 /* === LOCKED SCROLL (until tap) === */
-body.scrolled {
+body.scrolled { overflow: hidden; }
+
+/* === BACKGROUND STARS === */
+#shootingStarsOverlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100svh;
     overflow: hidden;
-}
-
-/* === HIDDEN BUTTONS (until tap) === */
-.controls-row {
-    opacity: 0;
     pointer-events: none;
+    z-index: 999999;
 }
 
-.controls-row.visible {
-    opacity: 1;
-    pointer-events: auto;
+.star {
+    position: fixed;
+    width: var(--size);
+    height: var(--size);
+    background: white;
+    border-radius: 50%;
+    opacity: var(--opacity);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+    pointer-events: none;
+    z-index: 999998;
+    animation: twinkle var(--twinkle-speed) ease-in-out infinite;
 }
 
-/* === BACKGROUND STARS (hidden via JS, not CSS) === */
-
-/* === HIDDEN CARDS === */
-.hidden-cards .card {
-    opacity: 0;
-    transform: translateY(50px);
-    animation: none; /* will be set by JS */
+[data-theme="light"] .star {
+    background: #666666;
+    opacity: var(--opacity);
 }
 
-.hidden-cards .card:nth-child(1) { animation-delay: 0.1s; }
-.hidden-cards .card:nth-child(2) { animation-delay: 0.2s; }
-.hidden-cards .card:nth-child(3) { animation-delay: 0.3s; }
-.hidden-cards .card:nth-child(4) { animation-delay: 0.4s; }
+.shooting-star {
+    position: fixed;
+    width: clamp(70px, 22vw, 150px);
+    height: 2px;
+    background: linear-gradient(-90deg, white, rgba(255, 255, 255, 0.75), transparent);
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.95);
+    transform: rotate(-35deg);
+    animation: shoot linear forwards;
+}
+
+[data-theme="light"] .shooting-star {
+    background: linear-gradient(-90deg, #666666, rgba(100, 100, 100, 0.75), transparent);
+    box-shadow: 0 0 18px rgba(100, 100, 100, 0.7);
+}
+
+.front-star { z-index: 100000; }
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.35; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.8); }
+}
+
+@keyframes shoot {
+    0% { transform: translate3d(0, 0, 0) rotate(-35deg); opacity: 0; }
+    8% { opacity: 1; }
+    100% { transform: translate3d(-125vw, 62vh, 0) rotate(-35deg); opacity: 0; }
+}

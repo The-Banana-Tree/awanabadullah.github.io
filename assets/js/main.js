@@ -2,7 +2,22 @@
    SHOOTING STARS - MAIN JAVASCRIPT
    ================================== */
 
-// === THEME TOGGLE ===
+/* === CONFIGURATION === */
+const CONFIG = {
+    typingDelay: 1000,       // ms before typing starts
+    typingSpeed: 50,         // ms per character
+    backspaceSpeed: 40,      // ms per backspace
+    pauseBeforeBackspace: 800, // ms after typing before backspace
+    pauseBeforeRest: 300,    // ms after backspace before typing rest
+    restSpeed: 50,           // ms per character for rest text
+    cursorDelay: 400,        // ms after rest before cursor
+    tapDelay: 2500,          // ms after typing completes before tap enabled
+    scrollDelay: 500,        // ms after scroll stops before controls show
+    tapOverlayFade: 500,     // ms to fade out tap overlay
+    cardAnimation: 0.8,      // seconds for card animation
+};
+
+/* === THEME TOGGLE === */
 const storedTheme = localStorage.getItem('theme') || 'dark';
 document.documentElement.setAttribute('data-theme', storedTheme);
 
@@ -22,74 +37,9 @@ function updateThemeIcon() {
     }
 }
 
-// === AUDIO UNMUTE ON FIRST INTERACTION ===
-// Browsers block autoplay with sound, so we start muted and unmute on first interaction
+/* === AUDIO TOGGLE === */
 const audio = document.getElementById('backgroundMusic');
-const body = document.body;
-const tapOverlay = document.getElementById('tapToStartOverlay');
-const cards = document.querySelectorAll('.hidden-cards .card');
-console.log('Audio element found:', audio !== null); // Debug log
 
-let firstInteractionDone = false;
-
-// Lock scroll initially
-body.classList.add('scrolled');
-
-// === TAP TO START ===
-
-// Unmute + reveal cards on first interaction
-function handleFirstInteraction(e) {
-    // Only allow tap after typing completes
-    if (!tapEnabled) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-    }
-    
-    if (firstInteractionDone) return;
-    firstInteractionDone = true;
-    
-    // Unlock scroll
-    body.classList.remove('scrolled');
-    
-    // Show buttons (only after cards finish)
-    const controls = document.querySelector('.controls-row');
-    if (controls) controls.classList.add('visible');
-    
-    // Hide tap overlay instantly on tap
-    if (tapOverlay) {
-        tapOverlay.style.display = 'none';
-    }
-    
-    // Show cards with scroll-in animation
-    cards.forEach((card, index) => {
-        card.style.animation = `cardScrollIn 0.8s ${index * 0.1}s forwards`;
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(50px)';
-    });    // Unmute audio
-    if (audio) {
-        audio.muted = false;
-        audio.play().catch(err => {
-            console.log('Audio play error:', err);
-        });
-    }
-}
-
-// First interaction: click anywhere (only after typing)
-document.body.addEventListener('click', (e) => {
-    if (tapEnabled) {
-        handleFirstInteraction(e);
-    }
-}, { once: true });
-
-// First interaction: first scroll too (only after typing)
-window.addEventListener('scroll', (e) => {
-    if (tapEnabled) {
-        handleFirstInteraction();
-    }
-}, { once: true });
-
-// === AUDIO TOGGLE ===
 function toggleAudio() {
     audio.muted = !audio.muted;
     updateAudioIcon();
@@ -102,174 +52,33 @@ function updateAudioIcon() {
     }
 }
 
-// Initialize icon on load
-updateAudioIcon();
-
-// Initialize icons on load
-updateThemeIcon();
-updateAudioIcon();
-
-// === TYPOWRITER EFFECT (with backspace and highlight) ===
-const element = document.getElementById('typewriter');
-
-// Expected sequence:
-// Type: "Awab Aba" (typo)
-// Pause
-// Backspace: "Awab Aba" → "Awa" (remove "b Aba" = 4 chars)
-// Continue: "n Abadullah" (to complete "Awan Abadullah")
-// Result: "Awan Abadullah" (corrected)
-
-// Initialize counters
-let typoStep = 0;
-let restStep = 0;
-
-// Initialize
-element.innerHTML = '';
-
-// Step 1: Type "Awab Aba" (typo)
-function typeTypo() {
-    const typoText = "Awab Aba";
-    if (typoStep < typoText.length) {
-        element.innerHTML += typoText.charAt(typoStep);
-        typoStep++;
-        setTimeout(typeTypo, 50);
-    } else {
-        // Pause at typo, then backspace to "Awa"
-        setTimeout(backspaceToAwa, 800);
-    }
-}
-
-// Step 2: Backspace to "Awa" (remove "b Aba" = 4 chars)
-function backspaceToAwa() {
-    const currentText = element.innerHTML; // "Awab Aba" (8 chars)
-    // We want to remove last 4 chars to get "Awa" (3 chars)
-    // But let's do it one char at a time for animation
-    if (currentText.length > 3) {
-        element.innerHTML = currentText.slice(0, -1);
-        setTimeout(backspaceToAwa, 40);
-    } else {
-        // Now we have "Awa", type "n Abadullah"
-        setTimeout(typeRest, 300);
-    }
-}
-
-// Step 3: Type "n Abadullah" to complete "Awan Abadullah"
-function typeRest() {
-    const restText = "n Abadullah";
-    if (restStep < restText.length) {
-        element.innerHTML += restText.charAt(restStep);
-        restStep++;
-        setTimeout(typeRest, 50);
-    } else {
-        // After typing, show blinking cursor
-        setTimeout(() => {
-            element.innerHTML += '<span class="cursor">_</span>';
-        }, 400);
-    }
-}
-
-// Start the typing sequence
-typeTypo();
-
-// Only accept tap after typing completes (1.5s delay)
+/* === STATE === */
+let firstInteractionDone = false;
 let tapEnabled = false;
-setTimeout(() => {
-    tapEnabled = true;
-}, 2500); // typing + blink + pause
-
-// Add blinking cursor animation via CSS
-const style = document.createElement('style');
-style.innerHTML = `
-.cursor {
-    animation: blink 1s infinite;
-    color: inherit; /* Match text color */
-}
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-`;
-document.head.appendChild(style);
-
-// === HIGHLIGHT EFFECT FOR TYPED TEXT ===
-// Apply highlight styles when text is being typed
-function applyHighlight() {
-    element.style.color = 'var(--bg)';
-    element.style.backgroundColor = 'var(--text)';
-}
-
-// Apply highlight initially (in dark theme)
-if (storedTheme === 'dark') {
-    element.style.color = '#0a0a0a'; // Dark bg color
-    element.style.backgroundColor = '#00ff00'; // Text color
-} else {
-    element.style.color = '#f0f0f0'; // Light bg color (approx)
-    element.style.backgroundColor = '#0a0a0a'; // Text color (approx)
-}
-
-// Update highlight on theme toggle
-const originalToggle = toggleTheme;
-toggleTheme = function() {
-    originalToggle();
-    const current = document.documentElement.getAttribute('data-theme');
-    if (current === 'dark') {
-        element.style.color = '#0a0a0a';
-        element.style.backgroundColor = '#00ff00';
-    } else {
-        element.style.color = '#f0f0f0';
-        element.style.backgroundColor = '#0a0a0a';
-    }
-};
-
-// === LAST UPDATED TIMESTAMP (REMOVED - no longer needed) ===
-
-// === SCROLL HIDE CONTROLS ===
-const themeToggle = document.querySelector('.theme-toggle');
-const audioToggle = document.querySelector('.audio-toggle');
-let scrollTimeout;
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.scrollY;
-    
-    clearTimeout(scrollTimeout);
-    
-    // Fade out when scrolling
-    themeToggle.classList.add('scroll-hide');
-    audioToggle.classList.add('scroll-hide');
-    
-    // Set timeout to fade back in when scrolling stops
-    scrollTimeout = setTimeout(() => {
-        // Show buttons when scrolling stops
-        themeToggle.classList.remove('scroll-hide');
-        audioToggle.classList.remove('scroll-hide');
-    }, 500); // 500ms delay after scrolling stops
-});
-
-// === SHOOTING STARS (render from the start) ===
-let starsCreated = false;
 let overlay;
 
-// Initialize overlay on DOM ready
+/* === DOM ELEMENTS === */
+const tapOverlay = document.getElementById('tapToStartOverlay');
+const tapPrompt = document.querySelector('.tap-prompt');
+const cards = document.querySelectorAll('.hidden-cards .card');
+const controls = document.querySelector('.controls-row');
+const themeToggle = document.querySelector('.theme-toggle');
+const audioToggle = document.querySelector('.audio-toggle');
+
+/* === INITIALIZATION === */
 document.addEventListener('DOMContentLoaded', () => {
-    try {
-        overlay = document.getElementById("shootingStarsOverlay");
-        console.log('Overlay found:', !!overlay);
-        
-        // Show overlay immediately
-        if (overlay) {
-            overlay.style.display = 'block';
-            overlay.style.pointerEvents = 'none';
-        }
-        
-        // Create stars on load (they render from the start)
-        createShootingStars();
-    } catch (e) {
-        console.error('Error initializing stars:', e);
+    overlay = document.getElementById('shootingStarsOverlay');
+    if (overlay) {
+        overlay.style.display = 'block';
+        overlay.style.pointerEvents = 'none';
     }
+    createShootingStars();
 });
 
+/* === SHOOTING STARS === */
+let starsCreated = false;
+
 function createShootingStars() {
-    // Only create stars once
     if (starsCreated) return;
     starsCreated = true;
     
@@ -311,3 +120,143 @@ function createShootingStars() {
     setInterval(createMeteor, meteorInterval);
 }
 
+/* === TAP TO START === */
+function showTapOverlay() {
+    if (tapOverlay) tapOverlay.classList.add('visible');
+    if (tapPrompt) tapPrompt.classList.add('visible');
+}
+
+function hideTapOverlay() {
+    if (tapOverlay) tapOverlay.classList.remove('visible');
+    if (tapPrompt) tapPrompt.classList.remove('visible');
+}
+
+/* === CARD ANIMATION === */
+function revealCards() {
+    cards.forEach((card, index) => {
+        const delay = index * 0.1;
+        card.style.animation = `cardScrollIn ${CONFIG.cardAnimation}s ${delay}s forwards`;
+    });
+}
+
+/* === BUTTONS === */
+function showButtons() {
+    if (controls) controls.classList.add('visible');
+}
+
+function hideButtons() {
+    if (controls) controls.classList.remove('visible');
+}
+
+/* === SCROLL HIDE CONTROLS === */
+let scrollTimeout;
+window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    if (themeToggle) themeToggle.classList.add('scroll-hide');
+    if (audioToggle) audioToggle.classList.add('scroll-hide');
+    
+    scrollTimeout = setTimeout(() => {
+        if (themeToggle) themeToggle.classList.remove('scroll-hide');
+        if (audioToggle) audioToggle.classList.remove('scroll-hide');
+    }, CONFIG.scrollDelay);
+});
+
+/* === TYPING ANIMATION === */
+function startTypingAnimation() {
+    const element = document.getElementById('typewriter');
+    if (!element) return;
+
+    element.innerHTML = '';
+    let typoStep = 0;
+    let restStep = 0;
+
+    // Step 1: Type "Awab Aba"
+    function typeTypo() {
+        const typoText = "Awab Aba";
+        if (typoStep < typoText.length) {
+            element.innerHTML += typoText.charAt(typoStep);
+            typoStep++;
+            setTimeout(typeTypo, CONFIG.typingSpeed);
+        } else {
+            setTimeout(backspaceToAwa, CONFIG.pauseBeforeBackspace);
+        }
+    }
+
+    // Step 2: Backspace to "Awa"
+    function backspaceToAwa() {
+        const currentText = element.innerHTML;
+        if (currentText.length > 3) {
+            element.innerHTML = currentText.slice(0, -1);
+            setTimeout(backspaceToAwa, CONFIG.backspaceSpeed);
+        } else {
+            setTimeout(typeRest, CONFIG.pauseBeforeRest);
+        }
+    }
+
+    // Step 3: Type "n Abadullah"
+    function typeRest() {
+        const restText = "n Abadullah";
+        if (restStep < restText.length) {
+            element.innerHTML += restText.charAt(restStep);
+            restStep++;
+            setTimeout(typeRest, CONFIG.restSpeed);
+        } else {
+            setTimeout(() => {
+                element.innerHTML += '<span class="cursor">_</span>';
+            }, CONFIG.cursorDelay);
+        }
+    }
+
+    setTimeout(typeTypo, CONFIG.typingDelay);
+}
+
+/* === FIRST INTERACTION === */
+function handleFirstInteraction(e) {
+    if (!tapEnabled) {
+        if (e) e.preventDefault();
+        if (e) e.stopPropagation();
+        return;
+    }
+    
+    if (firstInteractionDone) return;
+    firstInteractionDone = true;
+    
+    // Unlock scroll
+    document.body.classList.remove('scrolled');
+    
+    // Show cards
+    revealCards();
+    
+    // Show buttons
+    showButtons();
+    
+    // Fade out tap overlay
+    hideTapOverlay();
+    setTimeout(() => {
+        if (tapOverlay) tapOverlay.style.display = 'none';
+    }, CONFIG.tapOverlayFade);
+    
+    // Unmute audio
+    if (audio) {
+        audio.muted = false;
+        audio.play().catch(err => {
+            console.log('Audio play error:', err);
+        });
+    }
+}
+
+/* === SETUP === */
+// Start typing animation
+setTimeout(startTypingAnimation, 100);
+
+// Enable tap after delay
+setTimeout(() => {
+    tapEnabled = true;
+    showTapOverlay();
+}, CONFIG.tapDelay);
+
+// Listen for first interaction (click or scroll)
+document.body.addEventListener('click', handleFirstInteraction, { once: true });
+window.addEventListener('scroll', (e) => {
+    if (tapEnabled) handleFirstInteraction(e);
+}, { once: true });
