@@ -240,10 +240,6 @@ footer {
     transition: opacity 0.5s ease;
     z-index: 100;
 }
-.theme-toggle:hover, .audio-toggle:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: var(--shadow);
-}
 
 .theme-icon, .audio-icon {
     display: flex;
