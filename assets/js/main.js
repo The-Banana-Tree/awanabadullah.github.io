@@ -148,16 +148,17 @@ function hideTapOverlay() {
 
 /* === CARD ANIMATION === */
 function revealCards() {
-    const cardContainer = document.querySelector(".grid");
-    if (cardContainer) cardContainer.classList.remove("hidden-cards");
+    const cardContainer = document.querySelector('.grid');
+    if (cardContainer) cardContainer.classList.remove('hidden-cards');
     
     cards.forEach((card, index) => {
         // Force reveal card styles
-        card.style.opacity = "1";
-        card.style.transform = "translateY(0)";
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
         card.style.animation = `cardScrollIn ${CONFIG.cardAnimation}s ${index * 0.1}s forwards`;
     });
 }
+
 /* === BUTTONS === */
 function showButtons() {
     if (controls) controls.classList.add('visible');
@@ -189,13 +190,11 @@ function startTypingAnimation() {
     let typoStep = 0;
     let restStep = 0;
 
-    // Step 1: Type "Awab Aba" with cursor visible at end
+    // Step 1: Type "Awab Aba"
     function typeTypo() {
         const typoText = "Awab Aba";
         if (typoStep < typoText.length) {
             element.innerHTML += typoText.charAt(typoStep);
-            // Update cursor position
-            updateCursor();
             typoStep++;
             setTimeout(typeTypo, CONFIG.typingSpeed);
         } else {
@@ -203,37 +202,27 @@ function startTypingAnimation() {
         }
     }
 
-    function updateCursor() {
-        // Remove any existing cursor and add new one at end
-        const temp = element.innerHTML.replace(/\u003cspan class="cursor"\u003e_\u003c\/span\u003e/, '');
-        element.innerHTML = temp + '<span class="cursor">_</span>';
-    }
-
-    // Step 2: Backspace to "Awa" - remove cursor with each backspace
+    // Step 2: Backspace to "Awa"
     function backspaceToAwa() {
-        const currentHTML = element.innerHTML;
-        if (currentHTML.length > 3) {
-            // Remove last character (not the cursor, just the char)
-            element.innerHTML = currentHTML.slice(0, -1);
-            // Update cursor position
+        const currentText = element.innerHTML;
+        if (currentText.length > 3) {
+            element.innerHTML = currentText.slice(0, -1);
             setTimeout(backspaceToAwa, CONFIG.backspaceSpeed);
         } else {
             setTimeout(typeRest, CONFIG.pauseBeforeRest);
         }
     }
 
-    // Step 3: Type "n Abadullah" with cursor visible at end
+    // Step 3: Type "n Abadullah"
     function typeRest() {
         const restText = "n Abadullah";
         if (restStep < restText.length) {
             element.innerHTML += restText.charAt(restStep);
-            // Update cursor position
-            updateCursor();
             restStep++;
             setTimeout(typeRest, CONFIG.restSpeed);
         } else {
             setTimeout(() => {
-                updateCursor();
+                element.innerHTML += '<span class="cursor">_</span>';
             }, CONFIG.cursorDelay);
         }
     }
