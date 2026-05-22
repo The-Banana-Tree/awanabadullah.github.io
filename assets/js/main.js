@@ -189,11 +189,11 @@ function startTypingAnimation() {
     let typoStep = 0;
     let restStep = 0;
 
-    // Step 1: Type "Awab Aba"
+    // Step 1: Type "Awab Aba" with cursor visible at end
     function typeTypo() {
         const typoText = "Awab Aba";
         if (typoStep < typoText.length) {
-            element.innerHTML += typoText.charAt(typoStep);
+            element.innerHTML += typoText.charAt(typoStep) + '<span class="cursor">_</span>';
             typoStep++;
             setTimeout(typeTypo, CONFIG.typingSpeed);
         } else {
@@ -201,22 +201,23 @@ function startTypingAnimation() {
         }
     }
 
-    // Step 2: Backspace to "Awa"
+    // Step 2: Backspace to "Awa" - remove cursor with each backspace
     function backspaceToAwa() {
         const currentText = element.innerHTML;
         if (currentText.length > 3) {
-            element.innerHTML = currentText.slice(0, -1);
+            // Remove the last character and the cursor
+            element.innerHTML = currentText.slice(0, -7); // Remove last char + cursor HTML
             setTimeout(backspaceToAwa, CONFIG.backspaceSpeed);
         } else {
             setTimeout(typeRest, CONFIG.pauseBeforeRest);
         }
     }
 
-    // Step 3: Type "n Abadullah"
+    // Step 3: Type "n Abadullah" with cursor visible at end
     function typeRest() {
         const restText = "n Abadullah";
         if (restStep < restText.length) {
-            element.innerHTML += restText.charAt(restStep);
+            element.innerHTML += restText.charAt(restStep) + '<span class="cursor">_</span>';
             restStep++;
             setTimeout(typeRest, CONFIG.restSpeed);
         } else {
