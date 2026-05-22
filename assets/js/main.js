@@ -4,14 +4,14 @@
 
 /* === CONFIGURATION === */
 const CONFIG = {
-    typingDelay: 500,        // ms before typing starts
-    typingSpeed: 240,        // ms per character (2x faster)
-    backspaceSpeed: 160,     // ms per backspace (2x faster)
-    pauseBeforeBackspace: 400, // ms after typing before backspace
-    pauseBeforeRest: 150,    // ms after backspace before typing rest
-    restSpeed: 200,          // ms per character for rest text (2x faster)
+    typingDelay: 300,        // ms before typing starts (faster start)
+    typingSpeed: 400,        // ms per character (much faster)
+    backspaceSpeed: 300,     // ms per backspace (much faster)
+    pauseBeforeBackspace: 300, // ms after typing before backspace
+    pauseBeforeRest: 100,    // ms after backspace before typing rest
+    restSpeed: 400,          // ms per character for rest text (much faster)
     cursorDelay: 200,        // ms after rest before cursor
-    tapPromptDelay: 1500,    // ms after typing completes before tap prompt appears
+    tapPromptDelay: 1000,    // ms after typing completes before tap prompt appears
     tapOverlayFade: 500,     // ms to fade out tap overlay
     cardAnimation: 0.8,      // seconds for card animation
 };
