@@ -193,7 +193,9 @@ function startTypingAnimation() {
     function typeTypo() {
         const typoText = "Awab Aba";
         if (typoStep < typoText.length) {
-            element.innerHTML += typoText.charAt(typoStep) + '<span class="cursor">_</span>';
+            element.innerHTML += typoText.charAt(typoStep);
+            // Update cursor position
+            updateCursor();
             typoStep++;
             setTimeout(typeTypo, CONFIG.typingSpeed);
         } else {
@@ -201,14 +203,19 @@ function startTypingAnimation() {
         }
     }
 
+    function updateCursor() {
+        // Remove any existing cursor and add new one at end
+        const temp = element.innerHTML.replace(/\u003cspan class="cursor"\u003e_\u003c\/span\u003e/, '');
+        element.innerHTML = temp + '<span class="cursor">_</span>';
+    }
+
     // Step 2: Backspace to "Awa" - remove cursor with each backspace
     function backspaceToAwa() {
         const currentHTML = element.innerHTML;
         if (currentHTML.length > 3) {
-            // Remove last character and cursor span
-            // Cursor HTML is: <span class="cursor">_</span>
-            // We remove 1 char + the cursor span
-            element.innerHTML = currentHTML.slice(0, -30);
+            // Remove last character (not the cursor, just the char)
+            element.innerHTML = currentHTML.slice(0, -1);
+            // Update cursor position
             setTimeout(backspaceToAwa, CONFIG.backspaceSpeed);
         } else {
             setTimeout(typeRest, CONFIG.pauseBeforeRest);
@@ -219,12 +226,14 @@ function startTypingAnimation() {
     function typeRest() {
         const restText = "n Abadullah";
         if (restStep < restText.length) {
-            element.innerHTML += restText.charAt(restStep) + '<span class="cursor">_</span>';
+            element.innerHTML += restText.charAt(restStep);
+            // Update cursor position
+            updateCursor();
             restStep++;
             setTimeout(typeRest, CONFIG.restSpeed);
         } else {
             setTimeout(() => {
-                element.innerHTML += '<span class="cursor">_</span>';
+                updateCursor();
             }, CONFIG.cursorDelay);
         }
     }
