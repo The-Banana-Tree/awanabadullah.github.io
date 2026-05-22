@@ -203,10 +203,12 @@ function startTypingAnimation() {
 
     // Step 2: Backspace to "Awa" - remove cursor with each backspace
     function backspaceToAwa() {
-        const currentText = element.innerHTML;
-        if (currentText.length > 3) {
-            // Remove the last character and the cursor
-            element.innerHTML = currentText.slice(0, -7); // Remove last char + cursor HTML
+        const currentHTML = element.innerHTML;
+        if (currentHTML.length > 3) {
+            // Remove last character and cursor span
+            // Cursor HTML is: <span class="cursor">_</span>
+            // We remove 1 char + the cursor span
+            element.innerHTML = currentHTML.slice(0, -30);
             setTimeout(backspaceToAwa, CONFIG.backspaceSpeed);
         } else {
             setTimeout(typeRest, CONFIG.pauseBeforeRest);
