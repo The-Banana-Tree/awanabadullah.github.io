@@ -4,12 +4,12 @@
 
 /* === CONFIGURATION === */
 const CONFIG = {
-    typingDelay: 300,        // ms before typing starts (faster start)
-    typingSpeed: 400,        // ms per character (much faster)
-    backspaceSpeed: 300,     // ms per backspace (much faster)
+    typingDelay: 300,        // ms before typing starts
+    typingSpeed: 25,         // ms per character (faster)
+    backspaceSpeed: 20,      // ms per backspace (faster)
     pauseBeforeBackspace: 300, // ms after typing before backspace
     pauseBeforeRest: 100,    // ms after backspace before typing rest
-    restSpeed: 400,          // ms per character for rest text (much faster)
+    restSpeed: 25,           // ms per character for rest text (faster)
     cursorDelay: 200,        // ms after rest before cursor
     tapPromptDelay: 1000,    // ms after typing completes before tap prompt appears
     tapOverlayFade: 500,     // ms to fade out tap overlay
