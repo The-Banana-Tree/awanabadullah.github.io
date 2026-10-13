@@ -232,16 +232,20 @@ function startTypingAnimation() {
 }
 
 /* === FIRST INTERACTION === */
+let pendingInteraction = false;
+
 function handleFirstInteraction(e) {
+    // Interaction arrived before the prompt is ready - remember it instead of
+    // throwing it away, so an early tap still starts the site.
     if (!tapEnabled) {
-        if (e) e.preventDefault();
-        if (e) e.stopPropagation();
+        pendingInteraction = true;
         return;
     }
-    
+
     if (firstInteractionDone) return;
     firstInteractionDone = true;
-    
+    removeInteractionListeners();
+
     // Unlock scroll
     document.body.classList.remove('scrolled');
     
@@ -280,12 +284,26 @@ let tapSetupDelay = CONFIG.tapPromptDelay;
 setTimeout(() => {
     tapEnabled = true;
     showTapOverlay();
+    // Someone already tapped while we were still typing - honour it now.
+    if (pendingInteraction) handleFirstInteraction();
 }, tapSetupDelay);
 
-// Listen for first interaction (click or scroll) - remove listener after first interaction
-document.body.addEventListener('click', (e) => {
-    if (tapEnabled) handleFirstInteraction(e);
-}, { once: true });
-window.addEventListener('scroll', (e) => {
-    if (tapEnabled) handleFirstInteraction(e);
-}, { once: true });
+/* Listen on window (not body) and cover pointer + touch + key + scroll.
+   iOS Safari does not bubble `click` from non-interactive elements up to
+   body/document, so a plain body click listener never fires on iPhone.
+   `pointerdown` / `touchend` do, which is why they are both here. */
+const INTERACTION_EVENTS = ['pointerdown', 'click', 'touchend', 'keydown', 'wheel', 'scroll'];
+
+function onInteraction(e) {
+    handleFirstInteraction(e);
+}
+
+function removeInteractionListeners() {
+    INTERACTION_EVENTS.forEach(type => {
+        window.removeEventListener(type, onInteraction, true);
+    });
+}
+
+INTERACTION_EVENTS.forEach(type => {
+    window.addEventListener(type, onInteraction, { capture: true, passive: true });
+});
