@@ -60,6 +60,7 @@ let overlay;
 /* === DOM ELEMENTS === */
 const tapOverlay = document.getElementById('tapToStartOverlay');
 const tapPrompt = document.querySelector('.tap-prompt');
+const cards = document.querySelectorAll('.hidden-cards .card');
 const controls = document.querySelector('.controls-row');
 const themeToggle = document.querySelector('.theme-toggle');
 const audioToggle = document.querySelector('.audio-toggle');
@@ -148,17 +149,14 @@ function hideTapOverlay() {
 
 /* === CARD ANIMATION === */
 function revealCards() {
-    // There are several .grid sections now (projects, about, contact), so
-    // unhide every one of them and stagger each grid's cards from its own
-    // start - otherwise the last card on the page would wait a full second.
-    document.querySelectorAll('.grid').forEach(grid => {
-        grid.classList.remove('hidden-cards');
-
-        grid.querySelectorAll('.card').forEach((card, index) => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-            card.style.animation = `cardScrollIn ${CONFIG.cardAnimation}s ${index * 0.08}s forwards`;
-        });
+    const cardContainer = document.querySelector('.grid');
+    if (cardContainer) cardContainer.classList.remove('hidden-cards');
+    
+    cards.forEach((card, index) => {
+        // Force reveal card styles
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+        card.style.animation = `cardScrollIn ${CONFIG.cardAnimation}s ${index * 0.1}s forwards`;
     });
 }
 

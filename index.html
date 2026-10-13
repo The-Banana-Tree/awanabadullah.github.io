@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Systems Engineer | Awan Abadullah</title>
-    <meta name="description" content="Awan Abadullah - Systems Engineer. Requirements, traceability and workflows by day; CAD, embedded hardware and local LLMs the rest of the time.">
-    <link rel="stylesheet" href="assets/css/style.css?v=10">
-    <link rel="stylesheet" href="assets/css/shooting-stars.css?v=10">
+    <link rel="stylesheet" href="assets/css/style.css?v=9">
+    <link rel="stylesheet" href="assets/css/shooting-stars.css?v=9">
     <!-- Background Music -->
     <audio id="backgroundMusic" loop autoplay muted>
         <source src="assets/audio/track.mp3" type="audio/mpeg">
@@ -15,19 +14,18 @@
 <body>
     <!-- Shooting Stars Overlay -->
     <div id="shootingStarsOverlay"></div>
-
+    
     <!-- Tap to Start Overlay -->
     <div id="tapToStartOverlay" class="tap-overlay">
         <p class="tap-prompt">tap anywhere to start</p>
     </div>
-
+    
     <div class="controls-row">
         <div class="audio-toggle" onclick="toggleAudio()" title="Mute/Unmute Audio"><span class="audio-icon"></span></div>
         <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode"><span class="theme-icon"></span></div>
     </div>
-
-    <!-- ============ HERO: the whole first screen ============ -->
-    <header class="hero-screen">
+    
+    <div class="container">
         <div class="neural-spinner" id="neuralSpinner">
             <div class="spinner-inner">
                 <div class="ring"></div>
@@ -36,191 +34,76 @@
                 <div class="ring"></div>
             </div>
         </div>
-
+        
         <section class="hero">
             <h1 id="typewriter"></h1>
-            <p class="hero-role" id="subtitle">Systems Engineer</p>
-            <p class="hero-intro">
-                Hi, I'm Awan — some people call me Abad. I do requirements, traceability
-                and the workflows that keep big programs honest. Off the clock it's CAD,
-                3D printing, embedded hardware and local LLMs.
-            </p>
-            <div class="hero-actions">
-                <a href="#projects" class="btn btn-primary">See My Projects</a>
-                <a href="#contact" class="btn btn-ghost">Get In Touch</a>
-            </div>
+            <p id="subtitle">Systems Engineer</p>
         </section>
-    </header>
-
-    <!-- ============ MAIN ============ -->
-    <main class="container">
-
-        <!-- ---------- PROJECTS ---------- -->
-        <section id="projects" class="section">
-            <h2 class="section-title">Projects</h2>
-            <p class="section-lead">Things I designed, wired up or wrote.</p>
-
-            <div class="grid hidden-cards">
-                <article class="card project-card">
-                    <h3>RFID Door Lock</h3>
-                    <p>RFID door lock mechanism with a backup keypad, for work and residential doors.</p>
-                    <ul class="tags">
-                        <li>C</li>
-                        <li>Embedded</li>
-                        <li>Hardware</li>
-                    </ul>
-                    <div class="project-links">
-                        <a href="https://github.com/awanabad/RFID-Door-Lock" target="_blank" rel="noopener">Code</a>
-                    </div>
-                </article>
-
-                <article class="card project-card">
-                    <h3>Cylinder Painting Manipulator</h3>
-                    <p>A 3-DOF articulated manipulator for coating gas cylinders in a plant.</p>
-                    <ul class="tags">
-                        <li>MATLAB</li>
-                        <li>Robotics</li>
-                        <li>Kinematics</li>
-                    </ul>
-                    <div class="project-links">
-                        <a href="https://github.com/awanabad/Cylinder-Painting-Manipulator" target="_blank" rel="noopener">Code</a>
-                    </div>
-                </article>
-
-                <article class="card project-card">
-                    <h3>Tyler v2 — Part Collector</h3>
-                    <p>Revision of an autonomous part collector, rebuilt around a systematic sensor and actuator selection process.</p>
-                    <ul class="tags">
-                        <li>C++</li>
-                        <li>Autonomous</li>
-                        <li>Systems Design</li>
-                    </ul>
-                    <div class="project-links">
-                        <a href="https://github.com/awanabad/Tyler-Version-2" target="_blank" rel="noopener">Code</a>
-                    </div>
-                </article>
-
-                <article class="card project-card">
-                    <h3>Electric Angle Drill</h3>
-                    <p>Machine component design of a gearbox built from a bevel and a helical gear.</p>
-                    <ul class="tags">
-                        <li>MATLAB</li>
-                        <li>CAD</li>
-                        <li>Mech Design</li>
-                    </ul>
-                    <div class="project-links">
-                        <a href="https://github.com/awanabad/Electric-Angle-Drill-Design" target="_blank" rel="noopener">Code</a>
-                    </div>
-                </article>
-
-                <article class="card project-card">
-                    <h3>Python Automation Scripts</h3>
-                    <p>The pile of Python scripts I actually use to cut out repetitive work.</p>
-                    <ul class="tags">
-                        <li>Python</li>
-                        <li>Automation</li>
-                    </ul>
-                    <div class="project-links">
-                        <a href="https://github.com/awanabad/PythonAutomationScripts" target="_blank" rel="noopener">Code</a>
-                    </div>
-                </article>
-
-                <article class="card project-card">
-                    <h3>Web Playground</h3>
-                    <p>Smaller front-end builds, all playable in the browser.</p>
-                    <ul class="tags">
-                        <li>JavaScript</li>
-                        <li>jQuery</li>
-                        <li>CSS</li>
-                    </ul>
-                    <div class="project-links">
-                        <a href="https://awanabad.github.io/Virtual-Drummer/" target="_blank" rel="noopener">Virtual Drummer</a>
-                        <a href="https://awanabad.github.io/The-simon-game/" target="_blank" rel="noopener">Simon</a>
-                        <a href="https://awanabad.github.io/Tuned-In-Chords-Trainer/" target="_blank" rel="noopener">Chords Trainer</a>
-                    </div>
-                </article>
+        
+        <section class="grid hidden-cards">
+            <div class="card">
+                <h3>About Me</h3>
+                <img src="profile.jpg" alt="Awan Abadullah" style="max-width: 180px; height: auto; border-radius: 8px; margin: 1.5rem auto; display: block;">
+                <p>Hello, I'm Awan (some people also call me "Abad").</p>
+                <p>A Systems Engineer during the day.</p>
+                <p>I love video games, messing with tech, reading self-help books every now and then, and just being introverted. In my free time, I love hanging out with my two cats and my wife, Hira.</p>
             </div>
-
-            <p class="section-note">
-                <a href="https://github.com/awanabad?tab=repositories" target="_blank" rel="noopener">Everything else on GitHub →</a>
-            </p>
-        </section>
-
-        <!-- ---------- ABOUT ---------- -->
-        <section id="about" class="section">
-            <h2 class="section-title">About</h2>
-
-            <div class="grid hidden-cards">
-                <div class="card">
-                    <h3>About Me</h3>
-                    <img src="profile.jpg" alt="Awan Abadullah" style="max-width: 180px; height: auto; border-radius: 8px; margin: 1.5rem auto; display: block;">
-                    <p>Hello, I'm Awan (some people also call me "Abad").</p>
-                    <p>A Systems Engineer during the day.</p>
-                    <p>I love video games, messing with tech, reading self-help books every now and then, and just being introverted. In my free time, I love hanging out with my two cats and my wife, Hira.</p>
-                </div>
-                <div class="card">
-                    <h3>My Stack</h3>
-                    <ul>
-                        <li><strong>Systems Engineering</strong>: IBM DOORS, MS Visio, SharePoint, JIRA, RTC, Confluence, Traceability</li>
-                        <li><strong>Programming</strong>: Python, JavaScript, C++, MATLAB, VBA, HTML/CSS</li>
-                    </ul>
-                    <p style="margin-top: 1rem; margin-bottom: 0.5rem;">
-                        <strong>CAD Design &amp; 3D Printing</strong>
-                    </p>
-                    <ul>
-                        <li>SolidWorks, AutoCAD, OnShape, EAGLE, 3D Printing</li>
-                    </ul>
-                    <p style="margin-top: 1rem; margin-bottom: 0.5rem;">
-                        <strong>AI/LLMs</strong>
-                    </p>
-                    <ul>
-                        <li>Ollama, qwen3, local LLMs, Open-source AI tinkering 🤖</li>
-                        <li>Openclaw</li>
-                    </ul>
-                    <ul>
-                        <li>Windows, Mac, Linux</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3>Who I Am</h3>
-                    <ul>
-                        <li><strong>Deep Thinker</strong>: Connects ideas, sees patterns, breaks down complexity</li>
-                        <li><strong>Systems Builder</strong>: Designs workflows-of-workflows, builds ahead of time</li>
-                        <li><strong>Quality Focus</strong>: "If it's not clean, it's not done"</li>
-                        <li><strong>INFJ-T / Advocate</strong>: 86% Introverted, 79% Intuitive, 67% Turbulent</li>
-                        <li><strong>DISC</strong>: I/C blend — friendly, fun, focused, methodical</li>
-                    </ul>
-                    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">
-                        <strong>What I'm Working On</strong>
-                        <span style="opacity: 0.8;">(growth areas)</span>
-                    </p>
-                    <ul>
-                        <li><strong>Getting unstuck</strong>: Shippity-shipping instead of overthinking</li>
-                        <li><strong>Consistency</strong>: Not vanishing when disconnected</li>
-                        <li><strong>Embracing discomfort</strong>: Outreach, visibility, big life moves</li>
-                        <li><strong>Good enough now</strong>: "Perfect later" &gt; shipping</li>
-                    </ul>
+            <div class="card">
+                <h3>My Stack</h3>
+                <ul>
+                    <li><strong>Systems Engineering</strong>: IBM DOORS, MS Visio, SharePoint, JIRA, RTC, Confluence, Traceability</li>
+                    <li><strong>Programming</strong>: Python, JavaScript, C++, MATLAB, VBA, HTML/CSS</li>
+                </ul>
+                <p style="margin-top: 1rem; margin-bottom: 0.5rem;">
+                    <strong>CAD Design & 3D Printing</strong>
+                </p>
+                <ul>
+                    <li>SolidWorks, AutoCAD, OnShape, EAGLE, 3D Printing</li>
+                </ul>
+                <p style="margin-top: 1rem; margin-bottom: 0.5rem;">
+                    <strong>AI/LLMs</strong>
+                </p>
+                <ul>
+                    <li>Ollama, qwen3, local LLMs, Open-source AI tinkering 🤖</li>
+                    <li>Openclaw</li>
+                </ul>
+                <ul>
+                    <li>Windows, Mac, Linux</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Who I Am</h3>
+                <ul>
+                    <li><strong>Deep Thinker</strong>: Connects ideas, sees patterns, breaks down complexity</li>
+                    <li><strong>Systems Builder</strong>: Designs workflows-of-workflows, builds ahead of time</li>
+                    <li><strong>Quality Focus</strong>: "If it's not clean, it's not done"</li>
+                    <li><strong>INFJ-T / Advocate</strong>: 86% Introverted, 79% Intuitive, 67% Turbulent</li>
+                    <li><strong>DISC</strong>: I/C blend — friendly, fun, focused, methodical</li>
+                </ul>
+                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">
+                    <strong>What I'm Working On</strong>  
+                    <span style="opacity: 0.8;">(growth areas)</span>
+                </p>
+                <ul>
+                    <li><strong>Getting unstuck</strong>: Shippity-shipping instead of overthinking</li>
+                    <li><strong>Consistency</strong>: Not vanishing when disconnected</li>
+                    <li><strong>Embracing discomfort</strong>: Outreach, visibility, big life moves</li>
+                    <li><strong>Good enough now</strong>: "Perfect later" > shipping</li>
+                </ul>
+            </div>
+            <div class="card reach-out-card">
+                <h3>Reach Out To Me</h3>
+                <div class="contact-buttons">
+                    <a href="mailto:awanabad2@gmail.com">📧 Email Me</a>
+                    <a href="https://ca.linkedin.com/in/awanabad" target="_blank">💼 LinkedIn</a>
+                    <a href="https://github.com/awanabad" target="_blank">🐙 GitHub</a>
                 </div>
             </div>
         </section>
 
-        <!-- ---------- CONTACT ---------- -->
-        <section id="contact" class="section">
-            <h2 class="section-title">Reach Out To Me</h2>
-
-            <div class="grid hidden-cards">
-                <div class="card reach-out-card">
-                    <div class="contact-buttons">
-                        <a href="mailto:awanabad2@gmail.com">📧 Email Me</a>
-                        <a href="https://ca.linkedin.com/in/awanabad" target="_blank" rel="noopener">💼 LinkedIn</a>
-                        <a href="https://github.com/awanabad" target="_blank" rel="noopener">🐙 GitHub</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
+        <div style="margin-bottom: 3rem;"></div>
+    </div>
+    
     <footer>
         <p>© 2026 Awan Abadullah</p>
         <br>
@@ -228,7 +111,7 @@
         <br>
         <p>🎶 Music: Plinky by Stevia Sphere</p>
     </footer>
-
-    <script src="assets/js/main.js?v=10"></script>
+    
+    <script src="assets/js/main.js?v=9"></script>
 </body>
 </html>
