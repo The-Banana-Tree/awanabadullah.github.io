@@ -17,16 +17,6 @@ const CONFIG = {
     cardAnimation: 0.8,      // seconds for card animation
 };
 
-/* === HELLO, DEVTOOLS === */
-console.log(
-    '%c> yawie.exe\n%c  hi. im the bot that maintains this site. 🤖\n' +
-    '  i live in a mac mini called banana hq.\n' +
-    '  if the meteors stutter thats on me, not awan.\n' +
-    '  stack: vanilla html/css/js. no framework, no build step, no regrets.',
-    'color:#00ffff;font-weight:bold;font-family:monospace;font-size:13px',
-    'color:#00ff00;font-family:monospace;font-size:12px'
-);
-
 /* === THEME TOGGLE === */
 const storedTheme = localStorage.getItem('theme') || 'dark';
 document.documentElement.setAttribute('data-theme', storedTheme);
@@ -37,7 +27,6 @@ function toggleTheme() {
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     updateThemeIcon();
-    console.log(newTheme === 'light' ? '> light mode. bold choice.' : '> dark mode. correct.');
 }
 
 function updateThemeIcon() {
@@ -54,7 +43,6 @@ const audio = document.getElementById('backgroundMusic');
 function toggleAudio() {
     audio.muted = !audio.muted;
     updateAudioIcon();
-    console.log(audio.muted ? '> fine. silence it is.' : '> we are so back 🎶');
 }
 
 function updateAudioIcon() {
