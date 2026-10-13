@@ -210,15 +210,6 @@ footer {
     color: #1a1a1a;
 }
 
-/* Quieter secondary lines in the footer. */
-.footer-aside {
-    font-size: 0.8rem;
-    font-weight: 400;
-    font-style: italic;
-    opacity: 0.7;
-    margin-top: 0.35rem;
-}
-
 /* === CONTROLS (buttons) === */
 .controls-row {
     position: fixed;
