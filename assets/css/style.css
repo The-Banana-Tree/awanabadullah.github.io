@@ -210,6 +210,43 @@ footer {
     color: #1a1a1a;
 }
 
+/* Yawie's own voice - deliberately quieter than Awan's copy, and marked
+   with a '>' so it reads as a terminal aside, not as part of the content. */
+.footer-aside {
+    font-size: 0.8rem;
+    font-weight: 400;
+    font-style: italic;
+    opacity: 0.7;
+    margin-top: 0.35rem;
+}
+
+.yawie-note {
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--accent);
+    opacity: 0.7;
+    margin-top: 0.85rem;
+    padding-left: 0.6rem;
+    border-left: 2px solid var(--accent);
+    text-transform: lowercase;
+    transition: opacity 0.3s ease;
+}
+.yawie-note::before {
+    content: "> ";
+    opacity: 0.8;
+}
+/* Wakes up when you hover the card it lives in. */
+.card:hover .yawie-note {
+    opacity: 1;
+}
+/* Magenta-on-white needs more weight than cyan-on-black to stay legible. */
+[data-theme="light"] .yawie-note {
+    color: #a400a4;
+    border-left-color: #a400a4;
+    opacity: 0.95;
+}
+
 /* === CONTROLS (buttons) === */
 .controls-row {
     position: fixed;
