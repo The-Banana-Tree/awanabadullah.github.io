@@ -26,7 +26,7 @@
     width: min(420px, 92vw);
     height: 560px;
     margin-bottom: 34px;   /* room for the cards peeking out behind */
-    touch-action: none;          /* the drag is handled here, not by the browser */
+    touch-action: pan-y;         /* we own horizontal; the page keeps vertical */
     user-select: none;
 }
 
@@ -105,11 +105,6 @@
     color: var(--accent);
     line-height: 1.4;
     min-height: 1.4em;
-}
-.card-name .cursor {
-    background: var(--accent);
-    color: var(--bg);
-    animation: blink 1s step-end infinite;
 }
 .card-text { font-size: 0.84rem; line-height: 1.65; font-weight: 400; opacity: 0.85; flex: 1; }
 .card-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 5px; padding: 0; }
@@ -190,7 +185,7 @@
 <div class="lab-wrap">
     <header class="lab-head">
         <h1>Signal Deck</h1>
-        <p>Each project arrives as a streak and decodes into a card with its model turning. Fling the top card either way to bring in the next one.</p>
+        <p>Each project arrives as a streak with its model turning. Swipe the top card left or right to bring in the next one; vertical drags are left to the page.</p>
     </header>
 
     <div class="deck-stage">
@@ -201,7 +196,7 @@
             <span class="deck-count" id="count">01 / 05</span>
             <button id="next" type="button" aria-label="Next project">&#9654;</button>
         </div>
-        <p class="deck-hint">drag the card to fling it &middot; or use &#9664; &#9654;</p>
+        <p class="deck-hint">swipe the card left or right &middot; or use &#9664; &#9654;</p>
     </div>
 </div>
 

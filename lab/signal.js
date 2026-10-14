@@ -13,7 +13,6 @@ let order = PROJECTS.map((_, i) => i);   // order[0] is the top card
 let cards = [];
 let viewers = [];
 let busy = false;
-let typeToken = 0;
 
 /* ---------- build the deck once ---------- */
 PROJECTS.forEach((p, i) => {
@@ -56,12 +55,11 @@ function restack() {
     count.textContent = `${String(order[0] + 1).padStart(2, '0')} / ${String(N).padStart(2, '0')}`;
 }
 
-/* ---------- the decode sequence for whatever is on top ---------- */
-async function decodeTop() {
+/* ---------- bring whatever is on top to life ---------- */
+function decodeTop() {
     const i = order[0];
     const el = cards[i];
     const p = PROJECTS[i];
-    const token = ++typeToken;
 
     el.classList.remove('arriving');
     void el.offsetWidth;
@@ -71,26 +69,15 @@ async function decodeTop() {
 
     const name = el.querySelector('.card-name');
     const text = el.querySelector('.card-text');
-    name.textContent = '';
-    text.textContent = '';
-
-    await sleep(180);
-    if (token !== typeToken) return;
-
-    const cursor = document.createElement('span');
-    cursor.className = 'cursor';
-    cursor.textContent = '_';
-    name.appendChild(cursor);
-    for (const ch of p.name) {
-        if (token !== typeToken) return;
-        cursor.before(ch);
-        await sleep(20);
-    }
-    cursor.remove();
-
-    // Typing the body too would make every swipe a waiting game.
+    name.textContent = p.name;
     text.textContent = p.blurb;
-    text.animate([{ opacity: 0 }, { opacity: 0.85 }], { duration: 280, fill: 'forwards' });
+
+    // The streak and the model booting carry the arrival; the text just fades
+    // in behind them rather than being typed out on every swipe.
+    el.querySelector('.card-body').animate(
+        [{ opacity: 0 }, { opacity: 1 }],
+        { duration: 260, easing: 'ease-out', fill: 'backwards' }
+    );
 }
 
 /* ---------- advancing ---------- */
@@ -102,7 +89,7 @@ async function advance(dir) {
     el.classList.remove('settling');
     el.classList.add('flung');
     el.style.transform =
-        `translate3d(${dir * (innerWidth * 0.9)}px, 40px, 0) rotate(${dir * 28}deg)`;
+        `translate3d(${dir * (innerWidth * 0.9)}px, 0, 0) rotate(${dir * 28}deg)`;
 
     await sleep(430);
 
@@ -124,7 +111,9 @@ function rewind() {
 }
 
 /* ---------- drag ---------- */
-let dragging = false, startX = 0, startY = 0, dx = 0, dy = 0, dragEl = null;
+let dragging = false, startX = 0, startY = 0, dx = 0, dragEl = null;
+let axis = null;          // null until the gesture commits to 'x' or 'y'
+const AXIS_SLOP = 8;      // px of travel before deciding which way it is going
 
 deck.addEventListener('pointerdown', e => {
     if (busy) return;
@@ -134,17 +123,29 @@ deck.addEventListener('pointerdown', e => {
     if (!dragEl.contains(e.target)) return;
 
     dragging = true;
-    startX = e.clientX; startY = e.clientY; dx = dy = 0;
+    axis = null;
+    startX = e.clientX; startY = e.clientY; dx = 0;
     dragEl.classList.remove('settling');
-    dragEl.setPointerCapture(e.pointerId);
 });
 
 deck.addEventListener('pointermove', e => {
     if (!dragging || !dragEl) return;
-    dx = e.clientX - startX;
-    dy = e.clientY - startY;
-    dragEl.style.transform =
-        `translate3d(${dx}px, ${dy}px, 0) rotate(${dx * 0.055}deg)`;
+    const mx = e.clientX - startX;
+    const my = e.clientY - startY;
+
+    // Decide the gesture's axis once, then stick to it. A mostly-vertical
+    // drag is someone scrolling the page, so hand it back rather than
+    // dragging the card around under their finger.
+    if (!axis) {
+        if (Math.abs(mx) < AXIS_SLOP && Math.abs(my) < AXIS_SLOP) return;
+        axis = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
+        if (axis === 'y') { dragging = false; dragEl = null; return; }
+        dragEl.setPointerCapture(e.pointerId);
+    }
+
+    dx = mx;
+    // Y is pinned: the card only travels sideways.
+    dragEl.style.transform = `translate3d(${dx}px, 0, 0) rotate(${dx * 0.055}deg)`;
 
     const t = Math.min(1, Math.abs(dx) / FLING);
     dragEl.querySelector('.card-cue.left').style.opacity  = dx < 0 ? t : 0;
