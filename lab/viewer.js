@@ -55,7 +55,7 @@ export function makeViewer(canvas, projectId) {
 
     const ctx = canvas.getContext('2d');
     const v = {
-        scene, camera, pivot, canvas, ctx,
+        scene, camera, pivot, canvas, ctx, build, rim,
         spin: Math.random() * Math.PI * 2,
         speed: 0.004 + Math.random() * 0.002,
         boot: 0,              // 0..1 entry animation
@@ -67,6 +67,33 @@ export function makeViewer(canvas, projectId) {
 }
 
 export function bootViewer(v) { if (v) { v.boot = 0; v.booting = true; } }
+
+/* Materials take their colours when the geometry is built, so a theme flip
+   after load would leave dark bodies sitting on a white card. Cheapest
+   correct fix for five small models: rebuild them. */
+function disposeGroup(g) {
+    g.traverse(o => {
+        if (o.geometry) o.geometry.dispose();
+        if (o.material) o.material.dispose();
+    });
+}
+
+function rebuildAll() {
+    syncPalette();
+    for (const v of viewers) {
+        const spinWas = v.pivot.rotation.y;
+        v.scene.remove(v.pivot);
+        disposeGroup(v.pivot);
+        v.pivot = fitModel(v.build());
+        v.pivot.rotation.y = spinWas;
+        v.scene.add(v.pivot);
+        v.rim.color.setHex(ACCENT);
+    }
+}
+
+new MutationObserver(rebuildAll).observe(document.documentElement, {
+    attributes: true, attributeFilter: ['data-theme']
+});
 
 function frame() {
     requestAnimationFrame(frame);

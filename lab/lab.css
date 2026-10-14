@@ -105,3 +105,11 @@ body { min-height: 100svh; }
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+
+/* The switcher wraps to two rows on a phone, so it needs more clearance
+   than the desktop 86px or it sits on top of the heading. */
+@media (max-width: 600px) {
+    .lab-bar { flex-wrap: wrap; gap: 6px; }
+    .lab-bar .lab-tag { flex: 1 0 100%; margin: 0 0 2px; }
+    .lab-wrap { padding-top: 150px; }
+}
