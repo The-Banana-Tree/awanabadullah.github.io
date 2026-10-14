@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal · Projects Lab</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/shooting-stars.css">
+<link rel="stylesheet" href="lab.css">
+<style>
+/* ==================================================
+   PROTOTYPE 3 — INCOMING SIGNAL
+   Projects arrive as shooting stars and decode into
+   cards with the same typewriter the hero name uses.
+   ================================================== */
+.sig-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 16px;
+}
+.sig-card {
+    position: relative;
+    border: 2px solid var(--border);
+    padding: 20px;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(14px);
+}
+.sig-card.landed { opacity: 1; transform: translateY(0); transition: opacity 0.4s, transform 0.4s; }
+
+/* the streak that drops in before the card decodes */
+.sig-streak {
+    position: absolute;
+    top: -2px; right: -2px;
+    width: 160px; height: 2px;
+    background: linear-gradient(-90deg, var(--accent), transparent);
+    transform-origin: right center;
+    transform: rotate(-35deg) scaleX(0);
+    opacity: 0;
+}
+.sig-card.incoming .sig-streak { animation: streak 0.55s ease-out forwards; }
+@keyframes streak {
+    0%   { transform: rotate(-35deg) scaleX(0);   opacity: 0; }
+    35%  { opacity: 1; }
+    100% { transform: rotate(-35deg) scaleX(1);   opacity: 0; }
+}
+
+.sig-meta {
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.45;
+}
+.sig-name {
+    font-size: 0.98rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    min-height: 1.4em;
+    line-height: 1.4;
+}
+.sig-name .cursor {
+    background: var(--accent);
+    color: var(--bg);
+    animation: blink 1s step-end infinite;
+}
+.sig-body { font-size: 0.86rem; line-height: 1.7; font-weight: 400; opacity: 0.85; flex: 1; }
+.sig-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 5px; padding: 0; }
+.sig-tags li {
+    font-size: 0.64rem;
+    letter-spacing: 1px;
+    padding: 2px 7px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+.sig-link {
+    align-self: flex-start;
+    font-size: 0.74rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 8px 14px;
+    border: 2px solid var(--border);
+    color: var(--accent);
+}
+.sig-link:hover { background: var(--accent); color: var(--bg); }
+
+.sig-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.sig-status {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+.sig-replay {
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    background: transparent;
+    border: 2px solid var(--border);
+    color: var(--accent);
+    cursor: pointer;
+}
+.sig-replay:hover { background: var(--accent); color: var(--bg); }
+
+@media (prefers-reduced-motion: reduce) {
+    .sig-card { opacity: 1; transform: none; }
+    .sig-card.incoming .sig-streak { animation: none; }
+}
+</style>
+</head>
+<body>
+<div id="shootingStarsOverlay"></div>
+
+<nav class="lab-bar">
+    <span class="lab-tag">Projects Lab</span>
+    <a href="constellation.html">1 · Constellation</a>
+    <a href="orbit.html">2 · Orbit</a>
+    <a href="signal.html" aria-current="page">3 · Signal</a>
+</nav>
+
+<div class="lab-wrap">
+    <header class="lab-head">
+        <h1>Incoming Signal</h1>
+        <p>Each project arrives as a streak and decodes into a card, typed out with the same mechanic as your name in the hero.</p>
+    </header>
+
+    <div class="sig-bar">
+        <span class="sig-status" id="status">Receiving…</span>
+        <button class="sig-replay" id="replay" type="button">Replay</button>
+    </div>
+
+    <div class="sig-grid" id="grid"></div>
+</div>
+
+<script src="stars.js"></script>
+<script type="module" src="signal.js"></script>
+</body>
+</html>
