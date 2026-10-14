@@ -1,4 +1,5 @@
 import { PROJECTS } from './projects.js';
+import { makeViewer, bootViewer } from './viewer.js';
 
 const grid = document.getElementById('grid');
 const status = document.getElementById('status');
@@ -7,10 +8,17 @@ const replay = document.getElementById('replay');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 let run = 0;   // bumped on replay so a stale sequence stops typing
 
+let viewers = [];
+
 function build() {
+    viewers = [];
     grid.innerHTML = PROJECTS.map((p, i) => `
         <article class="sig-card" data-i="${i}">
             <span class="sig-streak"></span>
+            <div class="sig-cad-wrap">
+                <canvas class="sig-cad" data-id="${p.id}"></canvas>
+                <span class="sig-cad-tag">placeholder geometry</span>
+            </div>
             <span class="sig-meta">Signal ${String(i + 1).padStart(2, '0')} / ${PROJECTS.length}</span>
             <h2 class="sig-name"></h2>
             <p class="sig-body"></p>
@@ -48,6 +56,13 @@ async function receive() {
         await sleep(240);
         if (token !== run) return;
         card.classList.add('landed');
+
+        // The model boots in as the streak lands, before the name types.
+        const cv = card.querySelector('.sig-cad');
+        if (!viewers[i]) viewers[i] = makeViewer(cv, p.id);
+        bootViewer(viewers[i]);
+        await sleep(160);
+        if (token !== run) return;
 
         await type(card.querySelector('.sig-name'), p.name, 22, token);
         if (token !== run) return;
