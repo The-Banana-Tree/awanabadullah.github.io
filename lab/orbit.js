@@ -1,6 +1,6 @@
-import { PROJECTS } from './projects.js';
-import { makeViewer, bootViewer, setViewerModel } from './viewer.js';
-import { sfx } from './sfx.js';
+import { PROJECTS } from './projects.js?v=3';
+import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=3';
+import { sfx } from './sfx.js?v=3';
 
 const box = document.getElementById('orbitBox');
 const track = document.getElementById('track');
@@ -38,24 +38,29 @@ const nodes = PROJECTS.map((p, i) => {
 const viewer = makeViewer(document.getElementById('cad'), PROJECTS[0].id, { settle: true });
 
 const EDGE = 10;    // breathing room between the ring and the box
-const GAP  = 14;    // clearance between the model and the nearest node
 const DOT  = 18;    // .orbit-dot overhang above the label
-const LEAN = 0.36;  // TILT/R, i.e. how far the ring leans away from the viewer
-const BULK = 0.42;  // model's footprint as a fraction of its canvas, see below
+/* TILT/R, i.e. how far the ring leans away from the viewer. Opened up from
+   0.36 when the model went hero-sized: a taller box left a dead band under the
+   ring, and the extra lean spends it by dropping the front node clear of the
+   model's base and lifting the back node clear of its top. Still a shallow
+   ellipse - push this much past 0.5 and the ring reads as a flat circle. */
+const LEAN = 0.44;
+const HERO = 0.82;  // model's share of the box's short side
+const ARC  = 120;   // angles sampled when sizing the ring, see measure()
 
-/* The box a node occupies at ring position i, in the units place() draws in.
+/* The box a node occupies at ring angle a, in the units place() draws in.
    The point that rides the ring is the dot at the node's TOP - the label hangs
    below it - so the box is lopsided and a node sinks further than it rises.
 
    Measured as the largest node rather than the one that happens to be there:
    rotating brings a two-line label to the front and the ring must not resize
    under it. */
-function nodeBox(i, wMax, hMax) {
-    const depth = (Math.cos(i * STEP) + 1) / 2;
+function nodeBox(a, wMax, hMax) {
+    const depth = (Math.cos(a) + 1) / 2;
     const s = 0.72 + depth * 0.28;
     return {
-        sin: Math.sin(i * STEP),
-        cos: Math.cos(i * STEP),
+        sin: Math.sin(a),
+        cos: Math.cos(a),
         depth,
         hw: wMax / 2 * s,
         up: DOT * s,
@@ -71,27 +76,22 @@ function nodeBox(i, wMax, hMax) {
 
    So the model is not fitted into a hole. It sits at the centre of the ring
    and the ring passes through it: nodes on the near side paint in front of it,
-   nodes on the far side behind, which is what sells the depth. Only the far
-   nodes need clearing, and they are cleared against the model's round
-   footprint rather than its square canvas - the corners of that canvas are
-   transparent, and labels read straight through them. */
+   nodes on the far side behind, which is what sells the depth.
+
+   Nothing here counts the projects. An earlier pass sized the ring from the N
+   node positions, which meant the layout jumped every time a project was added
+   - six put a node at top dead centre and its hanging label crushed the model
+   to a third of its size. So the ring is sized against a node at EVERY angle
+   instead: the result is the same for five projects or fifty, and adding one
+   never moves anything that is already on screen. */
 function measure() {
     const w = box.clientWidth / 2 - EDGE, h = box.clientHeight / 2 - EDGE;
     const wMax = Math.max(...nodes.map(n => n.offsetWidth)) || 152;
     const hMax = Math.max(...nodes.map(n => n.offsetHeight)) || 40;
-    const g = PROJECTS.map((_, i) => nodeBox(i, wMax, hMax));
+    const g = Array.from({ length: ARC }, (_, k) => nodeBox(k * (Math.PI * 2 / ARC), wMax, hMax));
 
-    // Every node lands inside the box: widest sideways, lowest and highest down
-    // and up. Vertical room is asymmetric because the label hangs.
-    //
-    // Note for the sixth project: an even count puts a node at top dead centre,
-    // where its two-line label hangs straight down over the model and becomes
-    // the only thing limiting the model's size - which pins the model to its
-    // 90px floor here, down from 173px at five. The cap below feeds TILT
-    // (TILT = R * LEAN), so raising it lifts that node, but the box width binds
-    // R at ~268 before it buys much. Properly recovering the centre means
-    // opening up LEAN, giving the box more height, or shortening the labels -
-    // all taste calls, so the ring is left as tuned.
+    // A node at any angle lands inside the box: widest sideways, lowest and
+    // highest down and up. Vertical room is asymmetric because the label hangs.
     R = Math.min(250, ...g.map(n =>
         Math.abs(n.sin) < 0.01 ? Infinity : (w - n.hw) / Math.abs(n.sin)));
     TILT = Math.min(R * LEAN, ...g.map(n => {
@@ -102,16 +102,12 @@ function measure() {
     box.style.setProperty('--ringD', `${Math.round(R * 2)}px`);
     box.style.setProperty('--ringRot', `${(Math.acos(Math.min(1, TILT / R)) * 180 / Math.PI).toFixed(1)}deg`);
 
-    let size = Math.min(220, w * 2, h * 2);
-    for (const n of g) {
-        if (n.depth > 0.5) continue;               // near side, draws over it
-        // Shortest distance from the centre to this node's box.
-        const dx = Math.max(0, Math.abs(n.sin) * R - n.hw);
-        const top = n.cos * TILT - n.up, bottom = n.cos * TILT + n.down;
-        const dy = top > 0 ? top : bottom < 0 ? -bottom : 0;
-        size = Math.min(size, (Math.hypot(dx, dy) - GAP) / BULK);
-    }
-    box.style.setProperty('--stage', `${Math.round(Math.max(90, size))}px`);
+    // The model is the hero, so it takes a fixed share of the box rather than
+    // whatever the labels leave over. It is free to do that because the ring
+    // interleaves with it by z-index: far nodes pass behind it and are quieted
+    // by the veil, near nodes paint across its base. Overlap is the depth read,
+    // not a collision to be sized around.
+    box.style.setProperty('--stage', `${Math.round(Math.min(w, h) * 2 * HERO)}px`);
     place();
 }
 
@@ -127,7 +123,13 @@ function place() {
         const scale = 0.72 + depth * 0.28;
 
         n.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) scale(${scale.toFixed(3)})`;
-        n.style.zIndex = String(Math.round(depth * 100));
+        // Two bands with the model sitting between them: the far half goes
+        // under the veil, which quiets it where it crosses the model, and the
+        // near half paints over the stage. A single 0-100 ramp put both halves
+        // on the same side of the model and the ring stopped reading as 3D.
+        n.style.zIndex = String(depth > 0.5
+            ? Math.round(60 + (depth - 0.5) * 80)
+            : Math.round(2 + depth * 80));
         n.style.opacity = (0.3 + depth * 0.7).toFixed(2);
         n.classList.toggle('front', i === index);
         // Nodes round the back shouldn't eat clicks meant for the front row.

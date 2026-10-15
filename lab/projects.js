@@ -1,6 +1,14 @@
 /* The projects the orbit carries. Presentation lives in orbit.js; this file is
    only what is being presented. */
 export const PROJECTS = [
+    // First in the list is first at the front of the ring, so the current build
+    // is what the page opens on.
+    {
+        id: 'hexapod',
+        name: 'Hexapod Robot',
+        blurb: 'Six-legged walker about 270 mm across, three body-mounted servos per leg driving lightweight printed links. M3 bolts run as axles through 623ZZ bearings; one leg has to walk before the other five get built.',
+        tags: ['Robotics', 'CAD', '3D Printing']
+    },
     {
         id: 'rfid',
         name: 'RFID Door Lock',
@@ -35,11 +43,5 @@ export const PROJECTS = [
         blurb: 'The pile of Python that quietly removes repetitive work from the day. Less a project, more an ongoing refusal to do the same thing twice.',
         tags: ['Python', 'Automation', 'Tooling'],
         url: 'https://github.com/awanabad/PythonAutomationScripts'
-    },
-    {
-        id: 'hexapod',
-        name: 'Hexapod Robot',
-        blurb: 'Six-legged walker about 270 mm across, three body-mounted servos per leg driving lightweight printed links. M3 bolts run as axles through 623ZZ bearings; one leg has to walk before the other five get built.',
-        tags: ['Robotics', 'CAD', '3D Printing']
     }
 ];

@@ -30,10 +30,15 @@
    bottom edge and stopped the nodes sitting on the ring - a rotated circle and a
    hand-placed ellipse put the same point at different z. Flat projection makes
    the two exact, and depth still reads from the scale and fade in place(). */
+/* Taller than it used to be. The model takes a fixed share of the box's short
+   side, and on a desktop that short side is the height - so box height is the
+   one number that decides how big the hero reads. The ring does not grow with
+   it: its lean caps the vertical radius, so the extra space goes to the model
+   rather than spreading the nodes out. */
 #orbitBox {
     position: relative;
     border: 2px solid var(--border);
-    height: 400px;
+    height: 470px;
     overflow: hidden;
     background: var(--bg);
     z-index: 2;
@@ -94,18 +99,20 @@
    floats at the centre of the ring, so the ring reads as orbiting it. Sizes
    come from JS as --stage/--lift so they track the box. */
 /* Ring lines and model geometry are both thin bright strokes, so where they
-   crossed they read as one tangle. This sits above the rings but below the
-   nodes (which start at z-index 9), so it quiets the ring through the middle
-   without touching a single label. */
+   crossed they read as one tangle. This quiets the ring through the middle,
+   and now that the model runs large it does the same job for the far half of
+   the carousel: it sits above the far nodes (z-index 2-42) and below the model
+   (50), so a label behind the hero fades into the background the way it would
+   if it were genuinely behind something. The near nodes (60-100) clear it. */
 .orbit-veil {
     position: absolute;
     top: 50%; left: 50%;
-    width: calc(var(--stage, 200px) * 1.9);
-    height: calc(var(--stage, 200px) * 1.9);
+    width: calc(var(--stage, 200px) * 1.3);
+    height: calc(var(--stage, 200px) * 1.3);
     transform: translate(-50%, -50%);
-    z-index: 5;
+    z-index: 45;
     pointer-events: none;
-    background: radial-gradient(closest-side, var(--bg) 0%, var(--bg) 32%, transparent 100%);
+    background: radial-gradient(closest-side, var(--bg) 0%, var(--bg) 42%, transparent 100%);
 }
 
 .orbit-stage {
@@ -240,7 +247,7 @@
 
 @media (max-width: 820px) {
     .orbit-layout { grid-template-columns: 1fr; }
-    #orbitBox { height: 360px; }
+    #orbitBox { height: 420px; }
     /* The front node reaches the bottom-left corner on a narrow box, so the
        hint moves up out of its way. */
     .orbit-hint { top: 12px; bottom: auto; }
@@ -257,7 +264,7 @@
 @media (max-width: 560px) {
     /* Shorter than the desktop box: a shallow ring needs far less height than
        it does width, and the leftover was reading as a hole above the model. */
-    #orbitBox { height: 330px; }
+    #orbitBox { height: 390px; }
     .orbit-node { width: 36px; margin-left: -18px; }
     .orbit-node button {
         height: 36px;
@@ -317,6 +324,6 @@
 </div>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=2"></script>
+<script type="module" src="orbit.js?v=3"></script>
 </body>
 </html>
