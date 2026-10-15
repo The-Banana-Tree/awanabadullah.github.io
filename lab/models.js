@@ -159,11 +159,50 @@ export function buildPipeline() {
     return g;
 }
 
+export function buildHexapod() {
+    const g = new THREE.Group();
+    // Hex body plate - six sides, so the silhouette says six legs on its own.
+    g.add(place(shell(new THREE.CylinderGeometry(1.5, 1.5, 0.32, 6)), 0, 0, 0));
+    // Three servos per leg sit on the body, not out on the links - that is the
+    // defining choice of the build, so they belong on the plate.
+    for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * Math.PI * 2;
+        const lead = i === 0;                    // the one leg drawn in full
+        const blk = shell(new THREE.BoxGeometry(0.46, 0.38, 0.9), lead ? ACCENT : LINE);
+        blk.position.set(Math.cos(a) * 1.15, 0.28, Math.sin(a) * 1.15);
+        blk.rotation.y = -a;
+        g.add(blk);
+        // The other five are stubs. One leg built out reads far better than six
+        // crude ones, and the stubs keep the hexagon legible.
+        if (!lead) {
+            g.add(place(shell(new THREE.CylinderGeometry(0.09, 0.09, 0.8, 8), LINE),
+                Math.cos(a) * 1.8, -0.5, Math.sin(a) * 1.8));
+        }
+    }
+    // The leg built out in full, along +X: three joints, each a stationary M3
+    // bolt-axle through a 623ZZ bearing (MARK) with printed links between them.
+    const bearing = () => shell(new THREE.CylinderGeometry(0.17, 0.17, 0.2, 14), MARK);
+    // coxa, vertical axis - swings the leg fore and aft
+    g.add(place(bearing(), 1.62, 0.28, 0));
+    // femur reaching out from the body
+    g.add(place(shell(new THREE.BoxGeometry(0.9, 0.22, 0.3), ACCENT), 2.05, 0.28, 0));
+    // knee and ankle pivot about Z, so the leg folds downward
+    g.add(place(bearing(), 2.5, 0.28, 0, Math.PI / 2, 0, 0));
+    g.add(place(shell(new THREE.BoxGeometry(0.24, 1.2, 0.26), ACCENT), 2.5, -0.35, 0));
+    g.add(place(bearing(), 2.5, -0.95, 0, Math.PI / 2, 0, 0));
+    // foot tip
+    g.add(place(shell(new THREE.SphereGeometry(0.14, 12, 8), MARK), 2.5, -1.25, 0));
+    // Pushrod back to the body servo: the motors stay put, the linkage reaches.
+    g.add(place(shell(new THREE.CylinderGeometry(0.05, 0.05, 1.45, 8), LINE),
+        2.02, 0.6, 0.2, 0, 0, Math.PI / 2 + 0.2));
+    return g;
+}
 
 export const MODELS = {
     rfid: buildDoorLock,
     manipulator: buildManipulator,
     tyler: buildRover,
     drill: buildGearbox,
-    python: buildPipeline
+    python: buildPipeline,
+    hexapod: buildHexapod
 };

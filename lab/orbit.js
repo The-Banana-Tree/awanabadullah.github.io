@@ -83,6 +83,15 @@ function measure() {
 
     // Every node lands inside the box: widest sideways, lowest and highest down
     // and up. Vertical room is asymmetric because the label hangs.
+    //
+    // Note for the sixth project: an even count puts a node at top dead centre,
+    // where its two-line label hangs straight down over the model and becomes
+    // the only thing limiting the model's size - which pins the model to its
+    // 90px floor here, down from 173px at five. The cap below feeds TILT
+    // (TILT = R * LEAN), so raising it lifts that node, but the box width binds
+    // R at ~268 before it buys much. Properly recovering the centre means
+    // opening up LEAN, giving the box more height, or shortening the labels -
+    // all taste calls, so the ring is left as tuned.
     R = Math.min(250, ...g.map(n =>
         Math.abs(n.sin) < 0.01 ? Infinity : (w - n.hw) / Math.abs(n.sin)));
     TILT = Math.min(R * LEAN, ...g.map(n => {
@@ -164,7 +173,8 @@ function show(i) {
         `<h2>${p.name}</h2>` +
         `<ul class="d-tags">${p.tags.map(t => `<li>${t}</li>`).join('')}</ul>` +
         `<p>${p.blurb}</p>` +
-        `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`;
+        // Not every project has a repo - a link-less one just drops the anchor.
+        (p.url ? `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>` : '');
 }
 
 function step(dir) {
