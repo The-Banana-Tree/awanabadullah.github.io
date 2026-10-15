@@ -35,6 +35,20 @@
     border: 2px solid var(--border);
     height: 400px;
     overflow: hidden;
+    background: var(--bg);
+    z-index: 2;
+}
+
+/* The starfield is a fixed, full-page overlay at z-index 999999, so stars were
+   streaking straight through the model and across the panel's text. Dropping it
+   under these two panels keeps it everywhere else on the page - it is the
+   site's language - while the model gets clean black to sit on. Scoped here, so
+   the other prototypes keep their stars edge to edge. */
+#shootingStarsOverlay { z-index: 1; }
+.detail {
+    position: relative;
+    z-index: 2;
+    background: var(--bg);
 }
 
 /* The rings, same construction as .neural-spinner. Diameter and tilt come from
@@ -64,6 +78,21 @@
    The selected project's model *is* the core. No panel, no frame: the model
    floats at the centre of the ring, so the ring reads as orbiting it. Sizes
    come from JS as --stage/--lift so they track the box. */
+/* Ring lines and model geometry are both thin bright strokes, so where they
+   crossed they read as one tangle. This sits above the rings but below the
+   nodes (which start at z-index 9), so it quiets the ring through the middle
+   without touching a single label. */
+.orbit-veil {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: calc(var(--stage, 200px) * 1.9);
+    height: calc(var(--stage, 200px) * 1.9);
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    pointer-events: none;
+    background: radial-gradient(closest-side, var(--bg) 0%, var(--bg) 32%, transparent 100%);
+}
+
 .orbit-stage {
     position: absolute;
     top: 50%; left: 50%;
@@ -111,14 +140,17 @@
     pointer-events: none;
 }
 
-/* the carousel of project nodes */
-/* Keep this element transform-free: a transform would make the track a stacking
-   context and the nodes could no longer interleave with the model stage. */
+/* The carousel of project nodes.
+
+   No transform and no preserve-3d on the track: either one makes it a stacking
+   context, and then its nodes can only paint as one block - every label in
+   front of the model or every one behind it. They have to interleave with the
+   model by z-index, which is the whole depth read. preserve-3d doing this
+   silently is what put the centre veil over every label. */
 .orbit-track {
     position: absolute;
     top: 50%; left: 50%;
     width: 0; height: 0;
-    transform-style: preserve-3d;
 }
 /* Narrower than they were: every px the labels give back is a px of radius the
    ring can use, and the radius is what opens the hole the model sits in. */
@@ -126,7 +158,6 @@
     position: absolute;
     width: 152px;
     margin-left: -76px;
-    transform-style: preserve-3d;
     will-change: transform, opacity;
 }
 .orbit-node button {
@@ -255,6 +286,7 @@
                 <div class="orbit-ring"></div>
                 <div class="orbit-ring"></div>
             </div>
+            <div class="orbit-veil"></div>
             <div class="orbit-stage" id="stage">
                 <div class="orbit-core"></div>
                 <canvas id="cad"></canvas>

@@ -28,7 +28,7 @@ const nodes = PROJECTS.map((p, i) => {
 
 /* One viewport, parked at the middle of the ring. The model in it is whichever
    project is at the front, so selecting is what loads geometry. */
-const viewer = makeViewer(document.getElementById('cad'), PROJECTS[0].id);
+const viewer = makeViewer(document.getElementById('cad'), PROJECTS[0].id, { settle: true });
 
 const EDGE = 10;    // breathing room between the ring and the box
 const GAP  = 14;    // clearance between the model and the nearest node

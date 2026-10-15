@@ -30,7 +30,11 @@ function sizeShared(renderer, canvas, w, h) {
 const viewers = [];
 let running = false;
 
-export function makeViewer(canvas, projectId) {
+/* A quarter turn off square: enough to read depth and the side of a part,
+   without the foreshortening a 45 degree view puts on the front face. */
+const REST = Math.PI * 0.21;
+
+export function makeViewer(canvas, projectId, { settle = false } = {}) {
     const build = MODELS[projectId];
     if (!build) return null;
 
@@ -55,8 +59,10 @@ export function makeViewer(canvas, projectId) {
 
     const ctx = canvas.getContext('2d');
     const v = {
-        scene, camera, pivot, canvas, ctx, build, rim,
-        spin: Math.random() * Math.PI * 2,
+        scene, camera, pivot, canvas, ctx, build, rim, settle,
+        // A settling viewer always enters from the same side, so the turn it
+        // makes on the way to rest is the same every time.
+        spin: settle ? REST - Math.PI * 0.8 : Math.random() * Math.PI * 2,
         speed: 0.004 + Math.random() * 0.002,
         boot: 0,              // 0..1 entry animation
         booting: false
@@ -66,7 +72,13 @@ export function makeViewer(canvas, projectId) {
     return v;
 }
 
-export function bootViewer(v) { if (v) { v.boot = 0; v.booting = true; } }
+export function bootViewer(v) {
+    if (!v) return;
+    v.boot = 0;
+    v.booting = true;
+    // Rewind a settling viewer so each arrival turns into place again.
+    if (v.settle) v.spin = REST - Math.PI * 0.8;
+}
 
 /* Orbit keeps one viewport at the centre of the ring and changes which model
    is in it, so it needs to swap geometry inside a live viewer rather than
@@ -128,7 +140,15 @@ function frame() {
             v.canvas.height = h * dpr;
         }
 
-        v.spin += v.speed;
+        /* A settling viewer turns into place and stops there. Endless rotation
+           behind a static ring gave the eye two competing motions; coming to
+           rest also lets the model be read instead of watched. */
+        if (v.settle) {
+            const d = Math.atan2(Math.sin(REST - v.spin), Math.cos(REST - v.spin));
+            v.spin += d * 0.055;
+        } else {
+            v.spin += v.speed;
+        }
         if (v.booting && v.boot < 1) v.boot = Math.min(1, v.boot + 0.04);
         const ease = 1 - Math.pow(1 - v.boot, 3);
 
