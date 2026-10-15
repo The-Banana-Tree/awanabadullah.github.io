@@ -30,31 +30,63 @@ const nodes = PROJECTS.map((p, i) => {
    project is at the front, so selecting is what loads geometry. */
 const viewer = makeViewer(document.getElementById('cad'), PROJECTS[0].id);
 
-function measure() {
-    const w = box.clientWidth, h = box.clientHeight;
-    /* R used to have a 130px floor, which on a phone pushed the widest pair of
-       nodes past the box edge and clipped them. It scales all the way down now. */
-    R = Math.min(250, w * 0.32);
-    // Capped under R: the ring's tilt is acos(TILT/R), which is NaN past it.
-    TILT = Math.max(42, Math.min(78, h * 0.16, R * 0.92));
+const EDGE = 10;   // breathing room between the ring and the box
+const GAP  = 14;   // clearance between the model and the nearest node
+const DOT  = 18;   // .orbit-dot overhang above the label
 
-    /* The ring system sits low in the box and the model floats above it. The
-       ellipse the nodes travel on is squashed to TILT, so the gap at its centre
-       is far too shallow to hold a model - lifting it out is what buys the room.
-       Rings are given that same ellipse (diameter 2R, tilted to acos(TILT/R)) so
-       the nodes ride the outer ring exactly. */
-    const ringY = Math.round(h * 0.12);
-    box.style.setProperty('--ringY', `${ringY}px`);
+/* The box a node occupies at ring position i, in the units place() draws in.
+   The point that rides the ring is the dot at the node's TOP - the label hangs
+   below it - so the box is lopsided and a node sinks further than it rises.
+
+   Measured as the largest node rather than the one that happens to be there:
+   rotating brings a two-line label to the front and the ring must not resize
+   under it. */
+function nodeBox(i, wMax, hMax) {
+    const depth = (Math.cos(i * STEP) + 1) / 2;
+    const s = 0.72 + depth * 0.28;
+    return {
+        sin: Math.sin(i * STEP),
+        cos: Math.cos(i * STEP),
+        hw: wMax / 2 * s,
+        up: DOT * s,
+        down: hMax * s
+    };
+}
+
+/* The ring is sized from the room it has rather than from fixed fractions of
+   the box, so the model can sit dead centre: open the ellipse as wide and as
+   tall as the box allows, and the model is then however big the hole in the
+   middle turns out to be. Opening it up is the whole trick - the squashed
+   ellipse this started as leaves no centre worth filling. */
+function measure() {
+    const w = box.clientWidth / 2 - EDGE, h = box.clientHeight / 2 - EDGE;
+    const wMax = Math.max(...nodes.map(n => n.offsetWidth)) || 152;
+    const hMax = Math.max(...nodes.map(n => n.offsetHeight)) || 40;
+    const g = PROJECTS.map((_, i) => nodeBox(i, wMax, hMax));
+
+    // Every node lands inside the box: widest sideways, lowest and highest down
+    // and up. Vertical room is asymmetric because the label hangs.
+    R = Math.min(250, ...g.map(n =>
+        Math.abs(n.sin) < 0.01 ? Infinity : (w - n.hw) / Math.abs(n.sin)));
+    // TILT cannot pass R: the ring's tilt is acos(TILT/R), and tilting a circle
+    // only ever makes it shorter.
+    TILT = Math.min(R, ...g.map(n => {
+        const reach = n.cos > 0 ? n.down : n.up;   // which end leads the way out
+        return Math.abs(n.cos) < 0.01 ? Infinity : (h - reach) / Math.abs(n.cos);
+    }));
+
     box.style.setProperty('--ringD', `${Math.round(R * 2)}px`);
     box.style.setProperty('--ringRot', `${(Math.acos(Math.min(1, TILT / R)) * 180 / Math.PI).toFixed(1)}deg`);
 
-    const size = Math.max(140, Math.min(220, w * 0.38, h * 0.46));
-    // Park the model's lower edge just above the highest node on the ring.
-    const topNodeY = ringY + Math.min(...PROJECTS.map((_, i) => Math.cos(i * STEP))) * TILT;
-    const nodeHalf = (nodes[0].offsetHeight || 50) / 2;
-    const lift = topNodeY - nodeHalf - 10 - size / 2;
-    box.style.setProperty('--stage', `${Math.round(size)}px`);
-    box.style.setProperty('--lift', `${Math.round(lift)}px`);
+    /* Biggest centred square every node clears, on one axis or the other - a
+       node off to the side may sit at the model's height and still be clear. */
+    let size = Math.min(220, w);
+    for (const n of g) {
+        const sideways = Math.abs(n.sin) * R - n.hw;
+        const vertical = Math.max(n.cos * TILT - n.up, -(n.cos * TILT + n.down));
+        size = Math.min(size, (Math.max(sideways, vertical) - GAP) * 2);
+    }
+    box.style.setProperty('--stage', `${Math.round(Math.max(90, size))}px`);
     place();
 }
 

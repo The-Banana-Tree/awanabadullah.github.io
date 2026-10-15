@@ -18,23 +18,26 @@
     display: grid;
     grid-template-columns: 1fr clamp(280px, 28vw, 380px);
     gap: 18px;
-    min-height: 62vh;
+    align-items: stretch;
 }
+/* No `perspective` here on purpose. With it, a node's distance from the centre
+   was multiplied by 1100/(1100-z), which both threw the front node out past the
+   bottom edge and stopped the nodes sitting on the ring - a rotated circle and a
+   hand-placed ellipse put the same point at different z. Flat projection makes
+   the two exact, and depth still reads from the scale and fade in place(). */
 #orbitBox {
     position: relative;
     border: 2px solid var(--border);
-    min-height: 600px;
+    height: 510px;
     overflow: hidden;
-    perspective: 1100px;
 }
 
 /* The rings, same construction as .neural-spinner. Diameter and tilt come from
    JS so the outer ring is the exact ellipse the nodes travel on - they ride the
-   ring instead of floating near it. --ringY drops the whole ring system into
-   the lower half, which is what opens up the space the model sits in. */
+   ring instead of floating near it. */
 .orbit-rings {
     position: absolute;
-    top: calc(50% + var(--ringY, 90px)); left: 50%;
+    top: 50%; left: 50%;
     width: var(--ringD, 420px); height: var(--ringD, 420px);
     margin-top: calc(var(--ringD, 420px) / -2);
     margin-left: calc(var(--ringD, 420px) / -2);
@@ -58,7 +61,7 @@
    come from JS as --stage/--lift so they track the box. */
 .orbit-stage {
     position: absolute;
-    top: calc(50% + var(--lift, -110px)); left: 50%;
+    top: 50%; left: 50%;
     width: var(--stage, 240px);
     height: var(--stage, 240px);
     transform: translate3d(-50%, -50%, 0);
@@ -102,29 +105,30 @@
 }
 
 /* the carousel of project nodes */
-/* Shifted with top rather than a transform: a transform here would make the
-   track a stacking context and the nodes could no longer interleave with the
-   model stage by z-index. */
+/* Keep this element transform-free: a transform would make the track a stacking
+   context and the nodes could no longer interleave with the model stage. */
 .orbit-track {
     position: absolute;
-    top: calc(50% + var(--ringY, 90px)); left: 50%;
+    top: 50%; left: 50%;
     width: 0; height: 0;
     transform-style: preserve-3d;
 }
+/* Narrower than they were: every px the labels give back is a px of radius the
+   ring can use, and the radius is what opens the hole the model sits in. */
 .orbit-node {
     position: absolute;
-    width: 190px;
-    margin-left: -95px;
+    width: 152px;
+    margin-left: -76px;
     transform-style: preserve-3d;
     will-change: transform, opacity;
 }
 .orbit-node button {
     width: 100%;
-    padding: 12px 10px;
+    padding: 9px 8px;
     font-family: var(--font);
     font-weight: 700;
-    font-size: 0.72rem;
-    letter-spacing: 1.5px;
+    font-size: 0.66rem;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
     line-height: 1.4;
     color: var(--text);
@@ -183,12 +187,35 @@
 
 @media (max-width: 820px) {
     .orbit-layout { grid-template-columns: 1fr; }
-    #orbitBox { min-height: 470px; }
+    #orbitBox { height: 430px; }
     /* The front node reaches the bottom-left corner on a narrow box, so the
        hint moves up out of its way. */
     .orbit-hint { top: 12px; bottom: auto; }
     .orbit-node { width: 120px; margin-left: -60px; }
-    .orbit-node button { font-size: 0.62rem; padding: 9px 6px; }
+    .orbit-node button { font-size: 0.58rem; padding: 7px 5px; letter-spacing: 1px; }
+}
+
+/* On a phone five labels round the ring leave no middle worth putting a model
+   in - every px they take comes off the radius twice over. So the ring carries
+   bare markers and the name lives in the panel directly below, which was
+   repeating it anyway. The button stays as a 36px touch target under the dot. */
+@media (max-width: 560px) {
+    .orbit-node { width: 36px; margin-left: -18px; }
+    .orbit-node button {
+        height: 36px;
+        padding: 0;
+        font-size: 0;
+        border: 0;
+        background: none;
+    }
+    .orbit-node button:hover { background: none; }
+    .orbit-node.front button { background: none; box-shadow: none; }
+    .orbit-dot { width: 9px; height: 9px; margin-left: -4.5px; }
+    .orbit-node.front .orbit-dot {
+        width: 15px; height: 15px;
+        margin-left: -7.5px;
+        top: -22px;
+    }
 }
 
 </style>
