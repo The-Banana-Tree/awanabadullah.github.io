@@ -33,6 +33,10 @@ let running = false;
 /* A quarter turn off square: enough to read depth and the side of a part,
    without the foreshortening a 45 degree view puts on the front face. */
 const REST = Math.PI * 0.21;
+/* ...which then drifts, at about a third of the speed the cards spin at: one
+   turn a minute or so. Slow enough to read as a part being shown rather than
+   something whirling, fast enough that the model is clearly not a picture. */
+const DRIFT = 0.0016;
 
 export function makeViewer(canvas, projectId, { settle = false } = {}) {
     const build = MODELS[projectId];
@@ -63,6 +67,7 @@ export function makeViewer(canvas, projectId, { settle = false } = {}) {
         // A settling viewer always enters from the same side, so the turn it
         // makes on the way to rest is the same every time.
         spin: settle ? REST - Math.PI * 0.8 : Math.random() * Math.PI * 2,
+        rest: REST,           // settle only: the angle being chased, which drifts
         speed: 0.004 + Math.random() * 0.002,
         boot: 0,              // 0..1 entry animation
         booting: false
@@ -77,7 +82,10 @@ export function bootViewer(v) {
     v.boot = 0;
     v.booting = true;
     // Rewind a settling viewer so each arrival turns into place again.
-    if (v.settle) v.spin = REST - Math.PI * 0.8;
+    if (v.settle) {
+        v.rest = REST;
+        v.spin = REST - Math.PI * 0.8;
+    }
 }
 
 /* Orbit keeps one viewport at the centre of the ring and changes which model
@@ -140,12 +148,15 @@ function frame() {
             v.canvas.height = h * dpr;
         }
 
-        /* A settling viewer turns into place and stops there. Endless rotation
-           behind a static ring gave the eye two competing motions; coming to
-           rest also lets the model be read instead of watched. */
+        /* A settling viewer chases an angle rather than being given a speed.
+           That angle drifts, so one mechanism does both jobs: the big turn into
+           place on arrival is the chase closing a large gap, and the slow spin
+           afterwards is it tracking the drift. Easing keeps the handover
+           invisible - there is no moment where one takes over from the other. */
         if (v.settle) {
-            const d = Math.atan2(Math.sin(REST - v.spin), Math.cos(REST - v.spin));
-            v.spin += d * 0.055;
+            v.rest += DRIFT;
+            const gap = v.rest - v.spin;
+            v.spin += Math.atan2(Math.sin(gap), Math.cos(gap)) * 0.055;
         } else {
             v.spin += v.speed;
         }
