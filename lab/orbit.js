@@ -30,9 +30,11 @@ const nodes = PROJECTS.map((p, i) => {
    project is at the front, so selecting is what loads geometry. */
 const viewer = makeViewer(document.getElementById('cad'), PROJECTS[0].id);
 
-const EDGE = 10;   // breathing room between the ring and the box
-const GAP  = 14;   // clearance between the model and the nearest node
-const DOT  = 18;   // .orbit-dot overhang above the label
+const EDGE = 10;    // breathing room between the ring and the box
+const GAP  = 14;    // clearance between the model and the nearest node
+const DOT  = 18;    // .orbit-dot overhang above the label
+const LEAN = 0.36;  // TILT/R, i.e. how far the ring leans away from the viewer
+const BULK = 0.42;  // model's footprint as a fraction of its canvas, see below
 
 /* The box a node occupies at ring position i, in the units place() draws in.
    The point that rides the ring is the dot at the node's TOP - the label hangs
@@ -47,17 +49,25 @@ function nodeBox(i, wMax, hMax) {
     return {
         sin: Math.sin(i * STEP),
         cos: Math.cos(i * STEP),
+        depth,
         hw: wMax / 2 * s,
         up: DOT * s,
         down: hMax * s
     };
 }
 
-/* The ring is sized from the room it has rather than from fixed fractions of
-   the box, so the model can sit dead centre: open the ellipse as wide and as
-   tall as the box allows, and the model is then however big the hole in the
-   middle turns out to be. Opening it up is the whole trick - the squashed
-   ellipse this started as leaves no centre worth filling. */
+/* The ring keeps a fixed lean - a shallow ellipse seen from slightly above,
+   the way the hero's torus sits - and the box is sized to fit it rather than
+   the other way round. An earlier pass opened the ellipse up until a hole
+   appeared at its centre for the model; that bought room but flattened the
+   ring into a circle and lost the 3D read entirely.
+
+   So the model is not fitted into a hole. It sits at the centre of the ring
+   and the ring passes through it: nodes on the near side paint in front of it,
+   nodes on the far side behind, which is what sells the depth. Only the far
+   nodes need clearing, and they are cleared against the model's round
+   footprint rather than its square canvas - the corners of that canvas are
+   transparent, and labels read straight through them. */
 function measure() {
     const w = box.clientWidth / 2 - EDGE, h = box.clientHeight / 2 - EDGE;
     const wMax = Math.max(...nodes.map(n => n.offsetWidth)) || 152;
@@ -68,9 +78,7 @@ function measure() {
     // and up. Vertical room is asymmetric because the label hangs.
     R = Math.min(250, ...g.map(n =>
         Math.abs(n.sin) < 0.01 ? Infinity : (w - n.hw) / Math.abs(n.sin)));
-    // TILT cannot pass R: the ring's tilt is acos(TILT/R), and tilting a circle
-    // only ever makes it shorter.
-    TILT = Math.min(R, ...g.map(n => {
+    TILT = Math.min(R * LEAN, ...g.map(n => {
         const reach = n.cos > 0 ? n.down : n.up;   // which end leads the way out
         return Math.abs(n.cos) < 0.01 ? Infinity : (h - reach) / Math.abs(n.cos);
     }));
@@ -78,13 +86,14 @@ function measure() {
     box.style.setProperty('--ringD', `${Math.round(R * 2)}px`);
     box.style.setProperty('--ringRot', `${(Math.acos(Math.min(1, TILT / R)) * 180 / Math.PI).toFixed(1)}deg`);
 
-    /* Biggest centred square every node clears, on one axis or the other - a
-       node off to the side may sit at the model's height and still be clear. */
-    let size = Math.min(220, w);
+    let size = Math.min(220, w * 2, h * 2);
     for (const n of g) {
-        const sideways = Math.abs(n.sin) * R - n.hw;
-        const vertical = Math.max(n.cos * TILT - n.up, -(n.cos * TILT + n.down));
-        size = Math.min(size, (Math.max(sideways, vertical) - GAP) * 2);
+        if (n.depth > 0.5) continue;               // near side, draws over it
+        // Shortest distance from the centre to this node's box.
+        const dx = Math.max(0, Math.abs(n.sin) * R - n.hw);
+        const top = n.cos * TILT - n.up, bottom = n.cos * TILT + n.down;
+        const dy = top > 0 ? top : bottom < 0 ? -bottom : 0;
+        size = Math.min(size, (Math.hypot(dx, dy) - GAP) / BULK);
     }
     box.style.setProperty('--stage', `${Math.round(Math.max(90, size))}px`);
     place();

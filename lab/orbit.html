@@ -14,10 +14,15 @@
    existing torus, so it is literally the same object
    doing a new job.
    ================================================== */
+/* Capped and centred rather than spread across the full 1400px wrap. The ring
+   is only ever 500px across, so a full-width column left a lake of empty space
+   between the model and the text that was meant to describe it. */
 .orbit-layout {
     display: grid;
-    grid-template-columns: 1fr clamp(280px, 28vw, 380px);
-    gap: 18px;
+    grid-template-columns: minmax(0, 1fr) clamp(280px, 30vw, 360px);
+    gap: 14px;
+    max-width: 1020px;
+    margin: 0 auto;
     align-items: stretch;
 }
 /* No `perspective` here on purpose. With it, a node's distance from the centre
@@ -28,7 +33,7 @@
 #orbitBox {
     position: relative;
     border: 2px solid var(--border);
-    height: 510px;
+    height: 400px;
     overflow: hidden;
 }
 
@@ -93,15 +98,17 @@
     opacity: 0.6;
 }
 
+/* Pinned to the box, not under the model: centred beneath the stage it landed
+   on top of the front node's label. */
 .orbit-cad-tag {
     position: absolute;
-    left: 50%; bottom: -18px;
-    transform: translateX(-50%);
+    top: 14px; right: 14px;
     white-space: nowrap;
     font-size: 0.6rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     opacity: 0.3;
+    pointer-events: none;
 }
 
 /* the carousel of project nodes */
@@ -187,10 +194,12 @@
 
 @media (max-width: 820px) {
     .orbit-layout { grid-template-columns: 1fr; }
-    #orbitBox { height: 430px; }
+    #orbitBox { height: 360px; }
     /* The front node reaches the bottom-left corner on a narrow box, so the
        hint moves up out of its way. */
     .orbit-hint { top: 12px; bottom: auto; }
+    /* Swaps with the hint so the two don't meet in the middle of a narrow box. */
+    .orbit-cad-tag { top: auto; right: auto; bottom: 14px; left: 14px; }
     .orbit-node { width: 120px; margin-left: -60px; }
     .orbit-node button { font-size: 0.58rem; padding: 7px 5px; letter-spacing: 1px; }
 }
@@ -200,6 +209,9 @@
    bare markers and the name lives in the panel directly below, which was
    repeating it anyway. The button stays as a 36px touch target under the dot. */
 @media (max-width: 560px) {
+    /* Shorter than the desktop box: a shallow ring needs far less height than
+       it does width, and the leftover was reading as a hole above the model. */
+    #orbitBox { height: 330px; }
     .orbit-node { width: 36px; margin-left: -18px; }
     .orbit-node button {
         height: 36px;
@@ -246,8 +258,8 @@
             <div class="orbit-stage" id="stage">
                 <div class="orbit-core"></div>
                 <canvas id="cad"></canvas>
-                <span class="orbit-cad-tag">placeholder geometry</span>
             </div>
+            <span class="orbit-cad-tag">placeholder geometry</span>
             <div class="orbit-track" id="track"></div>
             <div class="orbit-ctrl">
                 <button id="prev" type="button" aria-label="Previous">&#9664;</button>
