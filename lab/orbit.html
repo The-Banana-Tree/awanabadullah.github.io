@@ -45,6 +45,21 @@
    site's language - while the model gets clean black to sit on. Scoped here, so
    the other prototypes keep their stars edge to edge. */
 #shootingStarsOverlay { z-index: 1; }
+
+/* Same square the site's own mute button uses, at bar height. */
+.sfx-toggle {
+    width: 34px; height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    line-height: 1;
+    background: var(--accent);
+    color: var(--bg);
+    border: 2px solid var(--border);
+    cursor: pointer;
+}
+.sfx-toggle:hover { filter: brightness(1.15); }
 .detail {
     position: relative;
     z-index: 2;
@@ -267,10 +282,8 @@
 <div id="shootingStarsOverlay"></div>
 
 <nav class="lab-bar">
-    <span class="lab-tag">Projects Lab</span>
-    <a href="constellation.html">1 · Constellation</a>
-    <a href="orbit.html" aria-current="page">2 · Orbit</a>
-    <a href="signal.html">3 · Signal</a>
+    <span class="lab-tag">Projects</span>
+    <button class="sfx-toggle" id="sfxToggle" type="button" title="Mute/Unmute sound"></button>
 </nav>
 
 <div class="lab-wrap">

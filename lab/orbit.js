@@ -1,5 +1,6 @@
 import { PROJECTS } from './projects.js';
 import { makeViewer, bootViewer, setViewerModel } from './viewer.js';
+import { sfx } from './sfx.js';
 
 const box = document.getElementById('orbitBox');
 const track = document.getElementById('track');
@@ -21,7 +22,13 @@ const nodes = PROJECTS.map((p, i) => {
     const n = document.createElement('div');
     n.className = 'orbit-node';
     n.innerHTML = `<span class="orbit-dot"></span><button type="button">${p.name}</button>`;
-    n.querySelector('button').addEventListener('click', () => go(i));
+    const b = n.querySelector('button');
+    b.addEventListener('click', () => { sfx.select(); go(i); });
+    // Only the front node answers a hover; the rest are behind and can't be
+    // clicked, so ticking at them would be a sound with nothing behind it.
+    b.addEventListener('pointerenter', e => {
+        if (e.pointerType === 'mouse' && i !== index) sfx.hover();
+    });
     track.appendChild(n);
     return n;
 });
@@ -148,6 +155,8 @@ function show(i) {
     // again here: that covers the first paint and re-picking the front node.
     setViewerModel(viewer, p.id);
     bootViewer(viewer);
+    // Silent on the first paint: sfx stays locked until the visitor acts.
+    sfx.arrive();
     detail.classList.remove('swap');
     void detail.offsetWidth;
     detail.classList.add('swap');
@@ -158,12 +167,36 @@ function show(i) {
         `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`;
 }
 
-document.getElementById('prev').addEventListener('click', () => go((index - 1 + N) % N));
-document.getElementById('next').addEventListener('click', () => go((index + 1) % N));
+function step(dir) {
+    sfx.turn(dir);
+    go((index + dir + N) % N);
+}
+
+document.getElementById('prev').addEventListener('click', () => step(-1));
+document.getElementById('next').addEventListener('click', () => step(1));
 addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft')  go((index - 1 + N) % N);
-    if (e.key === 'ArrowRight') go((index + 1) % N);
+    if (e.key === 'ArrowLeft')  step(-1);
+    if (e.key === 'ArrowRight') step(1);
 });
+
+/* Audio stays shut until the visitor does something. The listeners run before
+   the handlers above, so the gesture that opens the context is also the one
+   that gets heard. */
+['pointerdown', 'keydown'].forEach(ev =>
+    addEventListener(ev, () => sfx.unlock(), { once: true, capture: true }));
+
+/* ---------- mute ---------- */
+const sfxToggle = document.getElementById('sfxToggle');
+function paintToggle() {
+    sfxToggle.textContent = sfx.muted ? '🔇' : '🔊';
+    sfxToggle.setAttribute('aria-pressed', String(sfx.muted));
+}
+sfxToggle.addEventListener('click', () => {
+    sfx.setMuted(!sfx.muted);
+    paintToggle();
+    if (!sfx.muted) sfx.select();   // confirm it is back, in its own voice
+});
+paintToggle();
 
 new ResizeObserver(measure).observe(box);
 measure();
