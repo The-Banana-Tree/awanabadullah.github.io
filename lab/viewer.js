@@ -68,6 +68,20 @@ export function makeViewer(canvas, projectId) {
 
 export function bootViewer(v) { if (v) { v.boot = 0; v.booting = true; } }
 
+/* Orbit keeps one viewport at the centre of the ring and changes which model
+   is in it, so it needs to swap geometry inside a live viewer rather than
+   stand up a new one per project. */
+export function setViewerModel(v, projectId) {
+    const build = MODELS[projectId];
+    if (!v || !build || v.build === build) return;
+    v.scene.remove(v.pivot);
+    disposeGroup(v.pivot);
+    v.build = build;
+    v.pivot = fitModel(build());
+    v.scene.add(v.pivot);
+    bootViewer(v);
+}
+
 /* Materials take their colours when the geometry is built, so a theme flip
    after load would leave dark bodies sitting on a white card. Cheapest
    correct fix for five small models: rebuild them. */

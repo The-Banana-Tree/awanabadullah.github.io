@@ -23,19 +23,23 @@
 #orbitBox {
     position: relative;
     border: 2px solid var(--border);
-    min-height: 460px;
+    min-height: 600px;
     overflow: hidden;
     perspective: 1100px;
 }
 
-/* the rings, same construction as .neural-spinner */
+/* The rings, same construction as .neural-spinner. Diameter and tilt come from
+   JS so the outer ring is the exact ellipse the nodes travel on - they ride the
+   ring instead of floating near it. --ringY drops the whole ring system into
+   the lower half, which is what opens up the space the model sits in. */
 .orbit-rings {
     position: absolute;
-    top: 50%; left: 50%;
-    width: 340px; height: 340px;
-    margin: -170px 0 0 -170px;
+    top: calc(50% + var(--ringY, 90px)); left: 50%;
+    width: var(--ringD, 420px); height: var(--ringD, 420px);
+    margin-top: calc(var(--ringD, 420px) / -2);
+    margin-left: calc(var(--ringD, 420px) / -2);
     transform-style: preserve-3d;
-    transform: rotateX(68deg);
+    transform: rotateX(var(--ringRot, 68deg));
     pointer-events: none;
 }
 .orbit-ring {
@@ -45,32 +49,65 @@
     border-radius: 50%;
     opacity: 0.18;
 }
-.orbit-ring:nth-child(2) { inset: 40px; border-color: var(--accent); opacity: 0.14; }
-.orbit-ring:nth-child(3) { inset: 80px; opacity: 0.1; }
+.orbit-ring:nth-child(2) { inset: 12%; border-color: var(--accent); opacity: 0.14; }
+.orbit-ring:nth-child(3) { inset: 24%; opacity: 0.1; }
 
-/* the core the projects orbit */
+/* ---- the core the projects orbit ----
+   The selected project's model *is* the core. No panel, no frame: the model
+   floats at the centre of the ring, so the ring reads as orbiting it. Sizes
+   come from JS as --stage/--lift so they track the box. */
+.orbit-stage {
+    position: absolute;
+    top: calc(50% + var(--lift, -110px)); left: 50%;
+    width: var(--stage, 240px);
+    height: var(--stage, 240px);
+    transform: translate3d(-50%, -50%, 0);
+    z-index: 50;
+    pointer-events: none;
+}
+.orbit-stage canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+}
+
+/* the diamond that used to be the core, kept as a registration mark behind
+   the model so the centre still holds when a model is booting in */
 .orbit-core {
     position: absolute;
     top: 50%; left: 50%;
-    width: 54px; height: 54px;
-    margin: -27px 0 0 -27px;
+    width: 22%; height: 22%;
     border: 2px solid var(--accent);
-    transform: rotate(45deg);
-    opacity: 0.5;
-    pointer-events: none;
+    transform: translate(-50%, -50%) rotate(45deg);
+    opacity: 0.16;
 }
 .orbit-core::after {
     content: "";
     position: absolute;
-    inset: 12px;
+    inset: 22%;
     border: 1px solid var(--text);
     opacity: 0.6;
 }
 
+.orbit-cad-tag {
+    position: absolute;
+    left: 50%; bottom: -18px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.3;
+}
+
 /* the carousel of project nodes */
+/* Shifted with top rather than a transform: a transform here would make the
+   track a stacking context and the nodes could no longer interleave with the
+   model stage by z-index. */
 .orbit-track {
     position: absolute;
-    top: 50%; left: 50%;
+    top: calc(50% + var(--ringY, 90px)); left: 50%;
     width: 0; height: 0;
     transform-style: preserve-3d;
 }
@@ -116,13 +153,14 @@
 }
 .orbit-node.front .orbit-dot { background: var(--accent); opacity: 1; }
 
+/* Bottom-right, not bottom-centre: the front node now lands in the middle of
+   the lower edge and the two were sitting on top of each other. */
 .orbit-ctrl {
     position: absolute;
-    bottom: 14px; left: 50%;
-    transform: translateX(-50%);
+    bottom: 14px; right: 14px;
     display: flex;
     gap: 8px;
-    z-index: 5;
+    z-index: 200;
 }
 .orbit-ctrl button {
     width: 40px; height: 34px;
@@ -145,9 +183,11 @@
 
 @media (max-width: 820px) {
     .orbit-layout { grid-template-columns: 1fr; }
-    #orbitBox { min-height: 380px; }
-    .orbit-rings { width: 250px; height: 250px; margin: -125px 0 0 -125px; }
-    .orbit-node { width: 140px; margin-left: -70px; }
+    #orbitBox { min-height: 470px; }
+    /* The front node reaches the bottom-left corner on a narrow box, so the
+       hint moves up out of its way. */
+    .orbit-hint { top: 12px; bottom: auto; }
+    .orbit-node { width: 120px; margin-left: -60px; }
     .orbit-node button { font-size: 0.62rem; padding: 9px 6px; }
 }
 
@@ -166,7 +206,7 @@
 <div class="lab-wrap">
     <header class="lab-head">
         <h1>Orbit</h1>
-        <p>The wireframe torus already in your hero becomes the navigation. Projects ride a ring around a core; click one and it swings to the front.</p>
+        <p>The wireframe torus already in your hero becomes the navigation. Projects ride a ring around the core; click one and it swings to the front while its model boots into the centre.</p>
     </header>
 
     <div class="orbit-layout">
@@ -176,7 +216,11 @@
                 <div class="orbit-ring"></div>
                 <div class="orbit-ring"></div>
             </div>
-            <div class="orbit-core"></div>
+            <div class="orbit-stage" id="stage">
+                <div class="orbit-core"></div>
+                <canvas id="cad"></canvas>
+                <span class="orbit-cad-tag">placeholder geometry</span>
+            </div>
             <div class="orbit-track" id="track"></div>
             <div class="orbit-ctrl">
                 <button id="prev" type="button" aria-label="Previous">&#9664;</button>

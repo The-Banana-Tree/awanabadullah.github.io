@@ -1,4 +1,5 @@
 import { PROJECTS } from './projects.js';
+import { makeViewer, bootViewer, setViewerModel } from './viewer.js';
 
 const box = document.getElementById('orbitBox');
 const track = document.getElementById('track');
@@ -25,9 +26,35 @@ const nodes = PROJECTS.map((p, i) => {
     return n;
 });
 
+/* One viewport, parked at the middle of the ring. The model in it is whichever
+   project is at the front, so selecting is what loads geometry. */
+const viewer = makeViewer(document.getElementById('cad'), PROJECTS[0].id);
+
 function measure() {
-    R = Math.max(130, Math.min(250, box.clientWidth * 0.29));
-    TILT = Math.max(42, Math.min(78, box.clientHeight * 0.16));
+    const w = box.clientWidth, h = box.clientHeight;
+    /* R used to have a 130px floor, which on a phone pushed the widest pair of
+       nodes past the box edge and clipped them. It scales all the way down now. */
+    R = Math.min(250, w * 0.32);
+    // Capped under R: the ring's tilt is acos(TILT/R), which is NaN past it.
+    TILT = Math.max(42, Math.min(78, h * 0.16, R * 0.92));
+
+    /* The ring system sits low in the box and the model floats above it. The
+       ellipse the nodes travel on is squashed to TILT, so the gap at its centre
+       is far too shallow to hold a model - lifting it out is what buys the room.
+       Rings are given that same ellipse (diameter 2R, tilted to acos(TILT/R)) so
+       the nodes ride the outer ring exactly. */
+    const ringY = Math.round(h * 0.12);
+    box.style.setProperty('--ringY', `${ringY}px`);
+    box.style.setProperty('--ringD', `${Math.round(R * 2)}px`);
+    box.style.setProperty('--ringRot', `${(Math.acos(Math.min(1, TILT / R)) * 180 / Math.PI).toFixed(1)}deg`);
+
+    const size = Math.max(140, Math.min(220, w * 0.38, h * 0.46));
+    // Park the model's lower edge just above the highest node on the ring.
+    const topNodeY = ringY + Math.min(...PROJECTS.map((_, i) => Math.cos(i * STEP))) * TILT;
+    const nodeHalf = (nodes[0].offsetHeight || 50) / 2;
+    const lift = topNodeY - nodeHalf - 10 - size / 2;
+    box.style.setProperty('--stage', `${Math.round(size)}px`);
+    box.style.setProperty('--lift', `${Math.round(lift)}px`);
     place();
 }
 
@@ -76,6 +103,10 @@ function go(i) {
 
 function show(i) {
     const p = PROJECTS[i];
+    // setViewerModel only boots when the geometry actually changes, so boot
+    // again here: that covers the first paint and re-picking the front node.
+    setViewerModel(viewer, p.id);
+    bootViewer(viewer);
     detail.classList.remove('swap');
     void detail.offsetWidth;
     detail.classList.add('swap');
