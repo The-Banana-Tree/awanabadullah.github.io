@@ -149,6 +149,49 @@
     opacity: 0.6;
 }
 
+/* ---- the build-log sticker ----
+   Slapped on the model rather than parked in the panel: a project still being
+   built has something to read, and the model is what people look at. Sits
+   above every node so it is always clickable, but under the arrows. Placed off
+   --stage so it stays on the model's shoulder at any box size. */
+.orbit-sticker {
+    position: absolute;
+    top: calc(50% - var(--stage, 240px) * 0.25);
+    left: calc(50% + var(--stage, 240px) * 0.07);
+    z-index: 150;
+    width: 78px; height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 0.62rem;
+    line-height: 1.35;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 3px 4px 0 rgba(0,0,0,0.55);
+    transform: rotate(-13deg);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: stickOn 0.45s ease-out both;
+}
+.orbit-sticker:hover {
+    transform: rotate(-13deg) scale(1.07);
+    box-shadow: 4px 6px 0 rgba(0,0,0,0.65);
+}
+.orbit-sticker[hidden] { display: none; }
+/* Lands like a sticker being pressed on, once, when the project comes forward. */
+@keyframes stickOn {
+    from { opacity: 0; transform: rotate(-13deg) scale(1.5); }
+    to   { opacity: 1; transform: rotate(-13deg) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .orbit-sticker { animation: none; }
+}
+
 /* Pinned to the box, not under the model: centred beneath the stage it landed
    on top of the front node's label. */
 .orbit-cad-tag {
@@ -275,6 +318,9 @@
     }
     .orbit-node button:hover { background: none; }
     .orbit-node.front button { background: none; box-shadow: none; }
+    /* Same sticker against a much smaller model, so it has to come down or it
+       stops being a sticker and starts being the subject. */
+    .orbit-sticker { width: 62px; height: 62px; font-size: 0.52rem; letter-spacing: 1px; }
     .orbit-dot { width: 9px; height: 9px; margin-left: -4.5px; }
     .orbit-node.front .orbit-dot {
         width: 15px; height: 15px;
@@ -311,6 +357,7 @@
                 <div class="orbit-core"></div>
                 <canvas id="cad"></canvas>
             </div>
+            <a class="orbit-sticker" id="sticker" hidden><span>View<br>build<br>log</span></a>
             <span class="orbit-cad-tag">placeholder geometry</span>
             <div class="orbit-track" id="track"></div>
             <div class="orbit-ctrl">
@@ -324,6 +371,6 @@
 </div>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=4"></script>
+<script type="module" src="orbit.js?v=6"></script>
 </body>
 </html>

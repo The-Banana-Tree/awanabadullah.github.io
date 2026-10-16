@@ -1,6 +1,6 @@
-import { PROJECTS } from './projects.js?v=4';
-import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=4';
-import { sfx } from './sfx.js?v=4';
+import { PROJECTS } from './projects.js?v=6';
+import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=6';
+import { sfx } from './sfx.js?v=6';
 
 const box = document.getElementById('orbitBox');
 const track = document.getElementById('track');
@@ -160,8 +160,21 @@ function go(i) {
     requestAnimationFrame(tick);
 }
 
+const sticker = document.getElementById('sticker');
+
 function show(i) {
     const p = PROJECTS[i];
+    // The sticker rides the model, so it only exists for a project that has a
+    // log to open. Re-triggering the animation is what makes it read as being
+    // pressed on each time rather than fading in with the panel.
+    sticker.hidden = !p.log;
+    if (p.log) {
+        sticker.href = p.log;
+        sticker.setAttribute('aria-label', `Read the ${p.name} build log`);
+        sticker.style.animation = 'none';
+        void sticker.offsetWidth;
+        sticker.style.animation = '';
+    }
     // setViewerModel only boots when the geometry actually changes, so boot
     // again here: that covers the first paint and re-picking the front node.
     setViewerModel(viewer, p.id);
