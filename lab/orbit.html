@@ -153,34 +153,54 @@
    Slapped on the model rather than parked in the panel: a project still being
    built has something to read, and the model is what people look at. Sits
    above every node so it is always clickable, but under the arrows. Placed off
-   --stage so it stays on the model's shoulder at any box size. */
+   --stage so it stays on the model's shoulder at any box size.
+
+   The starburst is cut in CSS rather than dropped in as an image: it follows
+   the theme's colours, stays sharp at any size, and costs no request. The
+   outer element is the rim, the inner span is the face, same 16-spike cut at
+   slightly different scales - a border would be sliced off by the clip. */
 .orbit-sticker {
+    --burst: polygon(50.0% 0.0%, 58.1% 9.3%, 69.1% 3.8%, 73.1% 15.5%, 85.4% 14.6%, 84.5% 26.9%,
+        96.2% 30.9%, 90.7% 41.9%, 100.0% 50.0%, 90.7% 58.1%, 96.2% 69.1%, 84.5% 73.1%,
+        85.4% 85.4%, 73.1% 84.5%, 69.1% 96.2%, 58.1% 90.7%, 50.0% 100.0%, 41.9% 90.7%,
+        30.9% 96.2%, 26.9% 84.5%, 14.6% 85.4%, 15.5% 73.1%, 3.8% 69.1%, 9.3% 58.1%,
+        0.0% 50.0%, 9.3% 41.9%, 3.8% 30.9%, 15.5% 26.9%, 14.6% 14.6%, 26.9% 15.5%,
+        30.9% 3.8%, 41.9% 9.3%);
     position: absolute;
-    top: calc(50% - var(--stage, 240px) * 0.25);
-    left: calc(50% + var(--stage, 240px) * 0.07);
+    top: calc(50% - var(--stage, 240px) * 0.27);
+    left: calc(50% + var(--stage, 240px) * 0.05);
     z-index: 150;
-    width: 78px; height: 78px;
+    width: 94px; height: 94px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    background: var(--accent);
+    clip-path: var(--burst);
+    background: var(--border);
     color: var(--bg);
-    font-size: 0.62rem;
-    line-height: 1.35;
-    letter-spacing: 1.2px;
+    font-size: 0.58rem;
+    line-height: 1.3;
+    letter-spacing: 1px;
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
-    box-shadow: 3px 4px 0 rgba(0,0,0,0.55);
+    /* box-shadow would be clipped away with the corners; drop-shadow follows
+       the cut shape instead, spikes and all. */
+    filter: drop-shadow(3px 4px 0 rgba(0,0,0,0.55));
     transform: rotate(-13deg);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s, filter 0.2s;
     animation: stickOn 0.45s ease-out both;
+}
+.orbit-sticker span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 93%; height: 93%;
+    clip-path: var(--burst);
+    background: var(--accent);
 }
 .orbit-sticker:hover {
     transform: rotate(-13deg) scale(1.07);
-    box-shadow: 4px 6px 0 rgba(0,0,0,0.65);
+    filter: drop-shadow(4px 6px 0 rgba(0,0,0,0.65));
 }
 .orbit-sticker[hidden] { display: none; }
 /* Lands like a sticker being pressed on, once, when the project comes forward. */
@@ -320,7 +340,7 @@
     .orbit-node.front button { background: none; box-shadow: none; }
     /* Same sticker against a much smaller model, so it has to come down or it
        stops being a sticker and starts being the subject. */
-    .orbit-sticker { width: 62px; height: 62px; font-size: 0.52rem; letter-spacing: 1px; }
+    .orbit-sticker { width: 74px; height: 74px; font-size: 0.48rem; letter-spacing: 0.5px; }
     .orbit-dot { width: 9px; height: 9px; margin-left: -4.5px; }
     .orbit-node.front .orbit-dot {
         width: 15px; height: 15px;
@@ -371,6 +391,6 @@
 </div>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=6"></script>
+<script type="module" src="orbit.js?v=7"></script>
 </body>
 </html>
