@@ -166,6 +166,13 @@
         30.9% 96.2%, 26.9% 84.5%, 14.6% 85.4%, 15.5% 73.1%, 3.8% 69.1%, 9.3% 58.1%,
         0.0% 50.0%, 9.3% 41.9%, 3.8% 30.9%, 15.5% 26.9%, 14.6% 14.6%, 26.9% 15.5%,
         30.9% 3.8%, 41.9% 9.3%);
+    /* Yellow is the one loud colour neither theme has claimed - dark runs
+       cyan on green, light runs magenta - so the sticker reads as an object
+       stuck onto the page instead of more page furniture, and it keeps its
+       hue when the theme flips. Rim is a dark gold: black would vanish into
+       the dark background, and the face needs something to sit in. */
+    --sticker-face: #ffe000;
+    --sticker-rim: #c98a00;
     position: absolute;
     top: calc(50% - var(--stage, 240px) * 0.27);
     left: calc(50% + var(--stage, 240px) * 0.05);
@@ -175,8 +182,8 @@
     align-items: center;
     justify-content: center;
     clip-path: var(--burst);
-    background: var(--border);
-    color: var(--bg);
+    background: var(--sticker-rim);
+    color: #1a1200;
     font-size: 0.58rem;
     line-height: 1.3;
     letter-spacing: 1px;
@@ -186,30 +193,67 @@
     /* box-shadow would be clipped away with the corners; drop-shadow follows
        the cut shape instead, spikes and all. */
     filter: drop-shadow(3px 4px 0 rgba(0,0,0,0.55));
-    transform: rotate(-13deg);
-    transition: transform 0.2s, filter 0.2s;
-    animation: stickOn 0.45s ease-out both;
+    /* rotate and translate as their own properties rather than one transform:
+       the idle rock owns those two, which leaves `scale` free for :hover. Under
+       a transform shorthand the running animation would win and the hover would
+       never show. */
+    rotate: -13deg;
+    transition: scale 0.2s, filter 0.2s;
+    animation: stickOn 0.45s ease-out backwards,
+               stickerRock 4.2s 0.45s ease-in-out infinite;
 }
 .orbit-sticker span {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 93%; height: 93%;
     clip-path: var(--burst);
-    background: var(--accent);
+    background: var(--sticker-face);
+    animation: stickerWarm 3.2s ease-in-out infinite;
+}
+/* A gloss band crossing the face every few seconds, as if the light moved. The
+   span's clip-path crops it to the starburst, so it never leaks past a spike. */
+.orbit-sticker span::after {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: linear-gradient(105deg, transparent 44%, rgba(255,255,255,0.6) 50%, transparent 56%);
+    pointer-events: none;
+    animation: stickerShine 4.6s 1.1s ease-in-out infinite;
 }
 .orbit-sticker:hover {
-    transform: rotate(-13deg) scale(1.07);
+    scale: 1.07;
     filter: drop-shadow(4px 6px 0 rgba(0,0,0,0.65));
 }
 .orbit-sticker[hidden] { display: none; }
-/* Lands like a sticker being pressed on, once, when the project comes forward. */
+/* Lands like a sticker being pressed on, once, when the project comes forward.
+   No forwards fill: holding `scale: 1` here would outrank the hover. */
 @keyframes stickOn {
-    from { opacity: 0; transform: rotate(-13deg) scale(1.5); }
-    to   { opacity: 1; transform: rotate(-13deg) scale(1); }
+    from { opacity: 0; scale: 1.5; }
+    to   { opacity: 1; scale: 1; }
+}
+/* Never quite settled - the tilt breathes a couple of degrees either side of
+   where it landed, with a touch of float, so the thing looks pressed on by
+   hand rather than printed into the layout. */
+@keyframes stickerRock {
+    0%, 100% { rotate: -13deg;   translate: 0 0; }
+    35%      { rotate: -9.5deg;  translate: 0 -3px; }
+    70%      { rotate: -16deg;   translate: 0 1px; }
+}
+@keyframes stickerWarm {
+    0%, 100% { background: var(--sticker-face); }
+    50%      { background: #fff04d; }
+}
+@keyframes stickerShine {
+    0%, 62%   { transform: translateX(-115%); opacity: 0; }
+    66%       { opacity: 1; }
+    94%, 100% { transform: translateX(115%); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-    .orbit-sticker { animation: none; }
+    .orbit-sticker,
+    .orbit-sticker span,
+    .orbit-sticker span::after { animation: none; }
 }
 
 /* Pinned to the box, not under the model: centred beneath the stage it landed
@@ -389,6 +433,17 @@
         <aside class="detail" id="detail"></aside>
     </div>
 </div>
+
+<!-- Same footer as the home page, word for word. It is styled by the shared
+     assets/css/style.css already loaded above, so there is nothing to copy
+     across but the markup. -->
+<footer>
+    <p>© 2026 Awan Abadullah</p>
+    <br>
+    <p>this site is maintained by <strong>Yawie</strong> <span style="color: var(--accent)">🤖</span> — an AI assistant running on OpenClaw (claude-opus-5 under the hood), living in a Mac Mini called <em>Banana HQ</em> in Montréal, Canada. <span style="color: var(--accent)">🍌❤️</span></p>
+    <br>
+    <p>🎶 Music: Plinky by Stevia Sphere</p>
+</footer>
 
 <script src="stars.js?v=1"></script>
 <script type="module" src="orbit.js?v=7"></script>
