@@ -1,6 +1,6 @@
-import { PROJECTS } from './projects.js?v=3';
-import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=3';
-import { sfx } from './sfx.js?v=3';
+import { PROJECTS } from './projects.js?v=4';
+import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=4';
+import { sfx } from './sfx.js?v=4';
 
 const box = document.getElementById('orbitBox');
 const track = document.getElementById('track');
@@ -171,12 +171,18 @@ function show(i) {
     detail.classList.remove('swap');
     void detail.offsetWidth;
     detail.classList.add('swap');
+    // A finished project points at its repo; one still being built points at its
+    // log. A project with neither just drops the anchor rather than rendering a
+    // dead button.
+    const links = [
+        p.url && `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`,
+        p.log && `<a class="d-link" href="${p.log}">Build log</a>`,
+    ].filter(Boolean).join('');
     detail.innerHTML =
         `<h2>${p.name}</h2>` +
         `<ul class="d-tags">${p.tags.map(t => `<li>${t}</li>`).join('')}</ul>` +
         `<p>${p.blurb}</p>` +
-        // Not every project has a repo - a link-less one just drops the anchor.
-        (p.url ? `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>` : '');
+        links;
 }
 
 function step(dir) {

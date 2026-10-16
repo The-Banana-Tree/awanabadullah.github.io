@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hexapod · Build Log</title>
+<link rel="stylesheet" href="../assets/css/style.css?v=1">
+<link rel="stylesheet" href="../assets/css/shooting-stars.css?v=1">
+<link rel="stylesheet" href="lab.css?v=1">
+<style>
+/* ==================================================
+   HEXAPOD — BUILD LOG
+   A reading page, so it breaks the lab's wide grid and
+   runs one column at a comfortable measure. Everything
+   below the status strip is written from the build doc.
+   ================================================== */
+#shootingStarsOverlay { z-index: 1; }
+
+.log-wrap { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+
+.log-head h1 {
+    font-size: clamp(1.6rem, 6vw, 2.6rem);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+.log-head .stand {
+    font-size: 1.02rem;
+    font-weight: 400;
+    opacity: 0.75;
+    max-width: 58ch;
+    line-height: 1.7;
+}
+
+/* Hard facts up top, so the page answers "where is this at" before it asks
+   anyone to read a paragraph. */
+.status {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0;
+    border: 2px solid var(--border);
+    margin: 28px 0 44px;
+}
+.status div {
+    padding: 14px 16px;
+    border-right: 2px solid var(--border);
+}
+.status div:last-child { border-right: 0; }
+.status dt {
+    font-size: 0.64rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.45;
+    margin-bottom: 6px;
+}
+.status dd { margin: 0; font-size: 0.95rem; color: var(--accent); }
+.status dd small { display: block; font-size: 0.74rem; color: var(--text); opacity: 0.55; font-weight: 400; margin-top: 4px; }
+
+.entry { margin-bottom: 56px; }
+.entry > time {
+    display: block;
+    font-size: 0.68rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    opacity: 0.45;
+    margin-bottom: 8px;
+}
+.entry h2 {
+    font-size: clamp(1.05rem, 3.4vw, 1.4rem);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+.entry p {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 18px;
+}
+.entry p b { color: var(--accent); font-weight: 700; }
+
+figure { margin: 26px 0; }
+figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--border);
+    background: #fff;
+}
+/* The render comes off a square stage, so most of it is empty black above and
+   below the model. Cropped in the frame rather than in the file, so a
+   regenerated still drops straight in. */
+figure img.on-dark {
+    background: var(--bg);
+    aspect-ratio: 16 / 7;
+    object-fit: cover;
+    object-position: center 54%;
+}
+figcaption {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    opacity: 0.55;
+    line-height: 1.6;
+}
+
+/* The numbers the build has to hit. Not a spec sheet for its own sake - the
+   whole point of the entry is that they exist to be failed against. */
+.targets { list-style: none; padding: 0; margin: 22px 0; }
+.targets li {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    padding: 11px 0;
+    border-top: 1px dashed color-mix(in srgb, var(--text) 25%, transparent);
+    font-weight: 400;
+    font-size: 0.95rem;
+}
+.targets li:first-child { border-top: 0; }
+.targets b { flex: 0 0 7.5em; color: var(--accent); }
+
+.note {
+    border-left: 2px solid var(--accent);
+    padding: 4px 0 4px 18px;
+    margin: 26px 0;
+    font-weight: 400;
+    font-size: 0.97rem;
+    line-height: 1.75;
+    opacity: 0.9;
+}
+
+.log-foot {
+    border-top: 2px solid var(--border);
+    padding-top: 18px;
+    font-size: 0.74rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    opacity: 0.4;
+    line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+    .status div { border-right: 0; border-bottom: 2px solid var(--border); }
+    .status div:last-child { border-bottom: 0; }
+    .targets li { flex-direction: column; gap: 2px; }
+    .targets b { flex: none; }
+}
+</style>
+</head>
+<body>
+<div id="shootingStarsOverlay"></div>
+
+<nav class="lab-bar">
+    <span class="lab-tag">Projects</span>
+    <a href="orbit.html">&#9664; Back to projects</a>
+</nav>
+
+<div class="lab-wrap log-wrap">
+    <header class="log-head">
+        <h1>Hexapod</h1>
+        <p class="stand">Six legs, eighteen servos, and a deadline in December. This is the running log of a walking robot being built one joint at a time, starting with the only part that matters right now: a single leg that moves.</p>
+    </header>
+
+    <dl class="status">
+        <div>
+            <dt>Next milestone</dt>
+            <dd>One leg walking<small>by 15 Dec 2026</small></dd>
+        </div>
+        <div>
+            <dt>Spent on hardware</dt>
+            <dd>CA$24.90<small>of a CA$50 ceiling</small></dd>
+        </div>
+        <div>
+            <dt>Settled</dt>
+            <dd>Joints<small>servo, linkage, power still open</small></dd>
+        </div>
+    </dl>
+
+    <article class="entry">
+        <time datetime="2026-10-16">16 October 2026</time>
+        <h2>Four joints, two bearings</h2>
+
+        <p>Drawing the leg out flat settled an argument I had been having with myself about how many bearings this thing actually needs.</p>
+
+        <figure>
+            <img src="img/hexapod/leg-linkage.jpg" alt="Diagram of the leg linkage: a femur between the hip and knee, a pushrod running above it from a drive crank to a tibia lever, with bearings marked at the hip and knee and plain pins at both ends of the pushrod.">
+            <figcaption>The leg as a four-bar. Both servos stay back on the body, at the left; only the links travel.</figcaption>
+        </figure>
+
+        <p>That is the whole idea of the layout. The motors never leave the body, so the mass swinging around at the end of a lever is printed plastic and an M3 bolt instead of a servo. The drive crank pushes the top link, the top link swings the tibia lever, and the tibia folds down under the femur.</p>
+
+        <p>Joints <b>1</b> and <b>2</b> carry real load. The hip holds up the entire leg; the knee holds up everything below it, and both of them rotate through the whole gait. Those get the <b>623ZZ</b> bearings. Joints <b>3</b> and <b>4</b> are the two ends of a pushrod — they take a shove along one axis and barely swing at all. A plain M3 pin through a reamed hole does that job, and it is two fewer parts to stack up inside a joint that is already tight.</p>
+
+        <p>Two bearings a leg, six legs, twelve bearings. I ordered fifteen. Three spare is about right for a first print, where one of them always ends up pressed into a hole that turned out oval.</p>
+    </article>
+
+    <article class="entry">
+        <time datetime="2026-10-14">14 October 2026</time>
+        <h2>CA$24.90, and a longer list of things I didn't buy</h2>
+
+        <p>The order came down to two lines. A 400-piece M3 assortment — button-head screws from 6 to 20 mm, nuts, washers — for <b>CA$15.22</b>, and fifteen <b>623ZZ</b> bearings, 3 mm bore, 10 mm outside diameter, 4 mm wide, for <b>CA$9.68</b>. That is <b>CA$24.90</b> against a fifty dollar ceiling, before tax and shipping.</p>
+
+        <p>The more useful list is what did not go in the basket. No ball links — they are for articulated pushrods, and these are hinges, so all they would add is slop exactly where I do not want it. No smooth shafts, no dowel pins, no shaft collars, no heat-set inserts, no bought spacers. The spacers get printed, because the only thing they have to do is press against the <i>inner</i> race of the bearing and touch nothing else. A normal M3 flat washer is too wide for that: it lands on the shield, and the joint it was supposed to free up stops turning.</p>
+
+        <p>So the joint is a stationary M3 bolt doing the work of an axle. The bearing's outer ring sits in the moving printed link, the bolt passes through the fixed fork, a narrow printed sleeve goes either side on the inner race, and a nut clamps that stack without ever touching the shields. Then the link has to still spin freely, or the whole thing gets taken apart again.</p>
+
+        <p class="note">A fully threaded bolt is not a precision bearing axle, and I know it. For a first leg that has to prove it can move under load at all, it is good enough, and it costs four dollars instead of forty.</p>
+
+        <p>One thing I refuse to assume: that a nominal M3 screw is a good fit in a nominal 3 mm bore. I will measure the actual screw and the actual bearing, print a fit-test coupon, and only then commit dimensions to a real part. The 20 mm screws are provisional for the same reason — two fork walls, a 4 mm bearing, two sleeves and room for a nut add up faster than they look on paper, and 25 mm may turn out to be the honest answer.</p>
+    </article>
+
+    <article class="entry">
+        <time datetime="2026-10-14">14 October 2026</time>
+        <h2>What counts as working</h2>
+
+        <p>Numbers first, so there is something concrete to fail against. &ldquo;Fast&rdquo; is not a requirement; a speed measured on a named surface is.</p>
+
+        <ul class="targets">
+            <li><b>Speed</b><span>At least 0.20 m/s on a flat indoor floor, timed over a 2 m run. 0.40 m/s would be a good day.</span></li>
+            <li><b>Mass</b><span>Under 1.50 kg assembled, battery included. 1.60 kg gets used as the load case, which is a different number doing a different job.</span></li>
+            <li><b>Runtime</b><span>Fifteen minutes of actual walking, not fifteen minutes powered on.</span></li>
+            <li><b>Obstacle</b><span>Clear a 20 mm threshold.</span></li>
+            <li><b>Size</b><span>Roughly 270 mm across, leg tip to leg tip.</span></li>
+        </ul>
+
+        <p>Every one of those is provisional. Writing them down this early is not about being right, it is about having something that can be proved wrong by a stopwatch.</p>
+
+        <p>The weight budget is the same kind of guess. Eighteen servos come to <b>378 g</b> on their own. Battery, 130 to 200. Printed parts, 250 to 450 depending on how brave the infill is. Pi and sensors, 70 to 120. Wiring, power and hardware, 120 to 220. Call it somewhere between <b>948 g and 1.37 kg</b> — comfortable against the limit, and it will stop being comfortable the first time a real part replaces an estimate.</p>
+
+        <p>Mass is worth pinning early because it feeds itself: more battery is more mass, more mass wants stronger servos, stronger servos want more battery. At 1.60 kg standing on three feet, each foot carries about <b>5.2 N</b>. Walking is worse than standing, and joint torque depends on lever arm and linkage geometry rather than that number alone — but it is the floor to design up from.</p>
+
+        <figure>
+            <img class="on-dark" src="img/hexapod/cad.png" alt="Placeholder CAD view of the hexapod: a six-sided body plate with servo blocks around its edge, five stub legs, and one leg drawn out in full with bearings at the hip and knee.">
+            <figcaption>Placeholder geometry, with the one leg that is actually being designed drawn out in full. The other five are stubs until it walks.</figcaption>
+        </figure>
+
+        <p>Still open: the servo itself, horn included, which gets chosen from measured size, torque and speed rather than a spec sheet I liked the look of. Linkage lengths. Final fits. The power budget. The controller plan is a Raspberry Pi doing the thinking and an ESP32 handling gait, possibly one per side, but that is a problem for a robot that already moves.</p>
+
+        <p class="note">The rule at the bottom of the doc, which is really a note to myself: a basic moving leg before aesthetic refinements or AI.</p>
+    </article>
+
+    <p class="log-foot">Build log, updated from the working document as the design moves. Figures and numbers are provisional until a part has been printed, measured and loaded.</p>
+</div>
+
+<script src="stars.js?v=1"></script>
+</body>
+</html>
