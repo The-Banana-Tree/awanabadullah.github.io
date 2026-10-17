@@ -1,10 +1,11 @@
-import { PROJECTS } from './projects.js?v=8';
-import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=8';
-import { sfx } from './sfx.js?v=8';
+import { PROJECTS } from './projects.js?v=9';
+import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=9';
+import { sfx } from './sfx.js?v=9';
 
 const box = document.getElementById('orbitBox');
 const track = document.getElementById('track');
 const detail = document.getElementById('detail');
+const title = document.getElementById('projectTitle');
 const N = PROJECTS.length;
 const STEP = (Math.PI * 2) / N;
 
@@ -181,9 +182,14 @@ function show(i) {
     bootViewer(viewer);
     // Silent on the first paint: sfx stays locked until the visitor acts.
     sfx.arrive();
-    detail.classList.remove('swap');
-    void detail.offsetWidth;
-    detail.classList.add('swap');
+    // The page heading is the front project's name. Same swap animation as
+    // the panel, restarted the same way, so the two read as one change.
+    title.textContent = p.name;
+    [title, detail].forEach((el) => {
+        el.classList.remove('swap');
+        void el.offsetWidth;
+        el.classList.add('swap');
+    });
     // A finished project points at its repo; one still being built points at its
     // log. A project with neither just drops the anchor rather than rendering a
     // dead button.
@@ -191,8 +197,9 @@ function show(i) {
         p.url && `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`,
         p.log && `<a class="d-link" href="${p.log}">Build log</a>`,
     ].filter(Boolean).join('');
+    // No name in the panel: the heading above the model already carries it,
+    // and printed twice on one screen it read as a mistake.
     detail.innerHTML =
-        `<h2>${p.name}</h2>` +
         `<ul class="d-tags">${p.tags.map(t => `<li>${t}</li>`).join('')}</ul>` +
         `<p>${p.blurb}</p>` +
         links;
