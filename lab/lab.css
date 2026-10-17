@@ -42,7 +42,14 @@ body { min-height: 100svh; }
 }
 
 .lab-wrap {
-    padding: 86px clamp(16px, 4vw, 40px) 60px;
+    /* --bar-h is the fixed .lab-bar's own height (its content plus 10px of
+       padding either side and a 2px border); the page has to start below it.
+       --head-gap is then the air on both sides of the page heading: once for
+       the clearance above it, again as .lab-head's margin below. Stated once
+       so the two can't drift apart. */
+    --bar-h: 56px;
+    --head-gap: 30px;
+    padding: calc(var(--bar-h) + var(--head-gap)) clamp(16px, 4vw, 40px) 60px;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -53,12 +60,13 @@ body { min-height: 100svh; }
    Deliberately not the accent colour the rest of this page uses - the block
    is the point, and it flips with the theme on its own. */
 .lab-head {
-    /* The reserved line sits on the wrapper, not the heading: a min-height on
-       the inline-block would stretch the highlight bar past its own text and
-       leave the words floating at the top of a tall slab. The page still must
-       not jump when a two-line name is followed by a one-line one. */
-    min-height: 5rem;
-    margin-bottom: 18px;
+    /* Flex rather than a block: an inline-block heading leaves a baseline gap
+       hanging underneath it, which is invisible until you try to match the
+       space above. Centred, so where a reserved line is in play the leftover
+       splits evenly instead of all landing below the words. */
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--head-gap);
 }
 .lab-head h1 {
     display: inline-block;
@@ -121,5 +129,10 @@ body { min-height: 100svh; }
    phone, hence 150px of clearance. It is a label and one button now, so it
    fits on one row and the page can start right under it. */
 @media (max-width: 600px) {
-    .lab-wrap { padding-top: 76px; }
+    .lab-wrap { --head-gap: 20px; }
+    /* Only this narrow do the longer names wrap, and only some of them, so
+       reserve the second line here: otherwise the ring steps down and back
+       as you turn past Cylinder Painting Manipulator. Two lines at the small
+       end of the heading's clamp, 1.3rem at line-height 1.5. */
+    .lab-head { min-height: 3.9rem; }
 }
