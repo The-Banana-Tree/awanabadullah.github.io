@@ -47,17 +47,28 @@ body { min-height: 100svh; }
     margin: 0 auto;
 }
 /* The heading is the front project's name now, not a page title, so it sits
-   closer to the model it labels and carries a little more size. The standing
-   paragraph that used to follow it is gone. */
-.lab-head { margin-bottom: 18px; }
+   closer to the model it labels. Treatment is lifted from the home page hero:
+   the same inverted highlight block, text in --bg on a --text ground, so a
+   visitor arriving from the front page meets a title they recognise.
+   Deliberately not the accent colour the rest of this page uses - the block
+   is the point, and it flips with the theme on its own. */
+.lab-head {
+    /* The reserved line sits on the wrapper, not the heading: a min-height on
+       the inline-block would stretch the highlight bar past its own text and
+       leave the words floating at the top of a tall slab. The page still must
+       not jump when a two-line name is followed by a one-line one. */
+    min-height: 5rem;
+    margin-bottom: 18px;
+}
 .lab-head h1 {
-    font-size: clamp(1.5rem, 4vw, 2.3rem);
-    letter-spacing: 4px;
+    display: inline-block;
+    color: var(--bg);
+    background: var(--text);
+    font-size: clamp(1.3rem, 3.6vw, 1.8rem);
+    line-height: 1.5;
+    padding: 0 0.5rem;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--accent);
-    /* It swaps on every turn of the ring; without a reserved line the whole
-       page jumps whenever a name wraps to two lines and the next does not. */
-    min-height: 2.4em;
 }
 
 /* ---- shared detail panel ---- */
