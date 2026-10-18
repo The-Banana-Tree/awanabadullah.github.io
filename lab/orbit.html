@@ -6,7 +6,7 @@
 <title>Orbit · Projects Lab</title>
 <link rel="stylesheet" href="../assets/css/style.css?v=1">
 <link rel="stylesheet" href="../assets/css/shooting-stars.css?v=1">
-<link rel="stylesheet" href="lab.css?v=4">
+<link rel="stylesheet" href="lab.css?v=5">
 <style>
 /* ==================================================
    PROTOTYPE 2 — ORBIT
@@ -407,10 +407,14 @@
     <!-- The page title is whichever project is at the front, so the model
          below it is always labelled. It replaces a fixed "Orbit" heading and
          a paragraph explaining the ring, which the ring explains by turning.
-         aria-live, because for a screen reader this heading changing is the
-         only announcement that the selection moved. -->
+
+         The heading types itself out. aria-label carries the whole name so
+         the heading is never read half-typed, and the announcement of a
+         change moved to the off-screen live region below - a live region on
+         the heading itself would fire once per keystroke. -->
     <header class="lab-head">
-        <h1 id="projectTitle" aria-live="polite">Hexapod Robot</h1>
+        <h1 id="projectTitle" aria-label="Hexapod Robot">Hexapod Robot</h1>
+        <span id="projectAnnounce" class="sr-only" aria-live="polite">Hexapod Robot</span>
     </header>
 
     <div class="orbit-layout">
@@ -449,6 +453,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=9"></script>
+<script type="module" src="orbit.js?v=10"></script>
 </body>
 </html>

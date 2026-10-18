@@ -77,6 +77,23 @@ body { min-height: 100svh; }
     padding: 0 0.5rem;
     letter-spacing: 2px;
     text-transform: uppercase;
+    /* The name is typed in a character at a time, so the bar is one character
+       wide on the first frame. Hold the shortest name's width or the block
+       snaps out from a stub every time the ring turns. */
+    min-width: 7ch;
+}
+/* Same blinking underscore the home page hero ends on; @keyframes blink comes
+   from the shared stylesheet. */
+.lab-head h1 .cursor { animation: blink 1s step-end infinite; }
+
+/* Announced, never shown: the typed heading's readable twin. */
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0; border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 /* ---- shared detail panel ---- */
@@ -118,8 +135,8 @@ body { min-height: 100svh; }
 .detail .d-link:hover { background: var(--accent); color: var(--bg); }
 .detail .d-hint { font-size: 0.88rem; opacity: 0.7; text-align: center; }
 
-.detail.swap,
-.lab-head h1.swap { animation: dSwap 0.3s ease-out both; }
+/* Panel only. The heading types itself instead. */
+.detail.swap { animation: dSwap 0.3s ease-out both; }
 @keyframes dSwap {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
