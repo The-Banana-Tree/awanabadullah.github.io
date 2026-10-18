@@ -17,13 +17,6 @@ body { min-height: 100svh; }
     background: var(--bg);
     border-bottom: 2px solid var(--border);
 }
-.lab-bar .lab-tag {
-    font-size: 0.74rem;
-    letter-spacing: 2px;
-    opacity: 0.45;
-    margin-right: auto;
-    text-transform: uppercase;
-}
 .lab-bar a {
     padding: 7px 14px;
     font-size: 0.8rem;
@@ -35,10 +28,15 @@ body { min-height: 100svh; }
     opacity: 0.55;
 }
 .lab-bar a:hover { opacity: 1; }
-/* Icon only, so it gets a square rather than the text buttons' 7px/14px.
+/* Home sits where the "Projects" label used to, far left, and takes over its
+   margin-right: auto - that is what pushes anything after it (the log page's
+   back link) to the other end of the bar.
+
+   Icon only, so it gets a square rather than the text buttons' 7px/14px.
    href is "../", not "../index.html": the same two characters resolve from
    /lab/ whether the site is at a domain root or under a repo path on Pages. */
 .lab-home {
+    margin-right: auto;
     display: flex;
     align-items: center;
     justify-content: center;
