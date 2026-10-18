@@ -35,6 +35,18 @@ body { min-height: 100svh; }
     opacity: 0.55;
 }
 .lab-bar a:hover { opacity: 1; }
+/* Icon only, so it gets a square rather than the text buttons' 7px/14px.
+   href is "../", not "../index.html": the same two characters resolve from
+   /lab/ whether the site is at a domain root or under a repo path on Pages. */
+.lab-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1;
+}
 .lab-bar a[aria-current="page"] {
     opacity: 1;
     background: var(--accent);
