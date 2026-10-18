@@ -6,7 +6,10 @@
 <title>Orbit · Projects Lab</title>
 <link rel="stylesheet" href="../assets/css/style.css?v=1">
 <link rel="stylesheet" href="../assets/css/shooting-stars.css?v=1">
-<link rel="stylesheet" href="lab.css?v=5">
+<link rel="stylesheet" href="lab.css?v=6">
+<!-- In <head> on purpose: it sets data-theme off localStorage before the
+     first paint, so arriving in light mode does not flash dark. -->
+<script src="theme.js?v=1"></script>
 <style>
 /* ==================================================
    PROTOTYPE 2 — ORBIT
@@ -51,20 +54,9 @@
    the other prototypes keep their stars edge to edge. */
 #shootingStarsOverlay { z-index: 1; }
 
-/* Same square the site's own mute button uses, at bar height. */
-.sfx-toggle {
-    width: 34px; height: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.95rem;
-    line-height: 1;
-    background: var(--accent);
-    color: var(--bg);
-    border: 2px solid var(--border);
-    cursor: pointer;
-}
-.sfx-toggle:hover { filter: brightness(1.15); }
+/* The mute button used to be a small square in the bar up here. It lives in
+   the fixed controls column bottom right now, same as the home page, and
+   wears that stylesheet's .audio-toggle. */
 .detail {
     position: relative;
     z-index: 2;
@@ -400,7 +392,6 @@
 
 <nav class="lab-bar">
     <span class="lab-tag">Projects</span>
-    <button class="sfx-toggle" id="sfxToggle" type="button" title="Mute/Unmute sound"></button>
 </nav>
 
 <div class="lab-wrap">
@@ -442,6 +433,15 @@
     </div>
 </div>
 
+<!-- Where the home page keeps them: fixed, bottom right, in a column, so the
+     same buttons are under your thumb on every page of the site. The classes
+     come from the shared stylesheet; the home page hides the row until you
+     tap to start, which these pages have no equivalent of, hence .visible. -->
+<div class="controls-row visible">
+    <button class="audio-toggle" id="sfxToggle" type="button" title="Mute/Unmute sound" aria-label="Mute or unmute sound"><span class="audio-icon"></span></button>
+    <button class="theme-toggle" type="button" title="Toggle dark mode" aria-label="Toggle dark mode"><span class="theme-icon"></span></button>
+</div>
+
 <!-- The home page footer, less its music credit: the track and its mute
      toggle live on the home page only, so crediting it here would name
      something that never plays. Styled by the shared assets/css/style.css
@@ -453,6 +453,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=10"></script>
+<script type="module" src="orbit.js?v=11"></script>
 </body>
 </html>

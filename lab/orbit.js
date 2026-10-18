@@ -1,6 +1,6 @@
-import { PROJECTS } from './projects.js?v=10';
-import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=10';
-import { sfx } from './sfx.js?v=10';
+import { PROJECTS } from './projects.js?v=11';
+import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=11';
+import { sfx } from './sfx.js?v=11';
 
 const box = document.getElementById('orbitBox');
 const track = document.getElementById('track');
@@ -264,8 +264,11 @@ addEventListener('keydown', e => {
 
 /* ---------- mute ---------- */
 const sfxToggle = document.getElementById('sfxToggle');
+// The icon goes in the inner span, not on the button: that is the shape the
+// home page's .audio-toggle uses, and this now borrows its styling whole.
+const sfxIcon = sfxToggle.querySelector('.audio-icon');
 function paintToggle() {
-    sfxToggle.textContent = sfx.muted ? '🔇' : '🔊';
+    sfxIcon.textContent = sfx.muted ? '🔇' : '🔊';
     sfxToggle.setAttribute('aria-pressed', String(sfx.muted));
 }
 sfxToggle.addEventListener('click', () => {

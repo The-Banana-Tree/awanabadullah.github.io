@@ -86,6 +86,17 @@ body { min-height: 100svh; }
    from the shared stylesheet. */
 .lab-head h1 .cursor { animation: blink 1s step-end infinite; }
 
+/* ---- fixed controls, bottom right ----
+   .controls-row, .theme-toggle and .audio-toggle all come from the shared
+   stylesheet so these sit exactly where the home page's do. Two corrections
+   for using <button> rather than the home page's <div>: a button does not
+   inherit the page font, and it needs to clear the bar's z-index neighbours
+   - the build-log sticker rides at 150 and would otherwise cover a control
+   where they meet on a short screen. */
+.controls-row { z-index: 400; }
+.controls-row button { font-family: inherit; }
+.controls-row button:hover { filter: brightness(1.15); }
+
 /* Announced, never shown: the typed heading's readable twin. */
 .sr-only {
     position: absolute;

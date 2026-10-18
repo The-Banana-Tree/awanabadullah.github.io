@@ -6,7 +6,10 @@
 <title>Hexapod · Build Log</title>
 <link rel="stylesheet" href="../assets/css/style.css?v=1">
 <link rel="stylesheet" href="../assets/css/shooting-stars.css?v=1">
-<link rel="stylesheet" href="lab.css?v=5">
+<link rel="stylesheet" href="lab.css?v=6">
+<!-- In <head> on purpose: it sets data-theme off localStorage before the
+     first paint, so arriving in light mode does not flash dark. -->
+<script src="theme.js?v=1"></script>
 <style>
 /* ==================================================
    HEXAPOD — BUILD LOG
@@ -261,6 +264,14 @@ figcaption {
     </article>
 
     <p class="log-foot">Build log, updated from the working document as the design moves. Figures and numbers are provisional until a part has been printed, measured and loaded.</p>
+</div>
+
+<!-- Where the home page keeps them: fixed, bottom right, in a column, so the
+     same buttons are under your thumb on every page of the site. The classes
+     come from the shared stylesheet; the home page hides the row until you
+     tap to start, which these pages have no equivalent of, hence .visible. -->
+<div class="controls-row visible">
+    <button class="theme-toggle" type="button" title="Toggle dark mode" aria-label="Toggle dark mode"><span class="theme-icon"></span></button>
 </div>
 
 <!-- The home page footer, less its music credit: the track and its mute
