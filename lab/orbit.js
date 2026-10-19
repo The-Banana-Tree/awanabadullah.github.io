@@ -1,5 +1,5 @@
 import { PROJECTS, OTHER } from './projects.js?v=14';
-import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=12';
+import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=13';
 import { sfx } from './sfx.js?v=13';
 
 const box = document.getElementById('orbitBox');

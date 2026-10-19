@@ -8,7 +8,24 @@ import * as THREE from '../assets/vendor/three.module.min.js';
    builder is cut to the fewest parts that still name the thing. Detail that
    only survives at full size is noise here: overlapping edge lines pile up
    into a thicket and the silhouette stops reading. Rule of thumb, under ten
-   parts and under a dozen segments on anything round. */
+   parts and under a dozen segments on anything round.
+
+   The three on the Other Projects cards - door lock, gearbox, pipeline - are
+   read at about 140px on a phone, half the ring's size, so they are cut
+   harder still. Two things stop reading first at that size, and both are
+   worth knowing before adding anything:
+
+     Thin parts vanish. A 0.1-radius rod is about two pixels there. It does
+     not read as a rod, it reads as a smudge on top of whatever is behind it,
+     so anything that thin is better deleted than kept.
+
+     Repeated small features turn into a texture. Ten gear teeth at ring size
+     are countable; at thumbnail size they are a flickering band around a
+     disc. Fewer and chunkier survives the shrink and still says gear.
+
+   Deleting a part is also the cheapest way to make the rest bigger, because
+   fitModel scales to the bounding box - drop the long stub shaft and every
+   other part grows to fill the space it was holding. */
 
 /* Palette is read from the site's CSS variables so the models follow the
    theme instead of carrying their own colours. */
@@ -66,15 +83,21 @@ export function fitModel(model) {
 
 export function buildDoorLock() {
     const g = new THREE.Group();
-    // door slab
-    g.add(place(shell(new THREE.BoxGeometry(2.6, 4.2, 0.22)), -0.4, 0, 0));
+    /* The slab is deep rather than flat - 0.55 where it used to be 0.22. A
+       panel that thin has almost no side to it, so for a second or two of
+       every revolution the whole model turned edge-on and became a bright
+       line. Giving it a real thickness means there is always a face and a
+       side in view, which is the thing that says "door" at any angle. */
+    g.add(place(shell(new THREE.BoxGeometry(2.6, 4.2, 0.55)), -0.4, 0, 0));
     // One reader panel, not a reader plus a keypad: at this size the two
-    // plates sat on top of each other and read as a smudge.
-    g.add(place(shell(new THREE.BoxGeometry(0.9, 1.6, 0.18), ACCENT), 1.35, 0.2, 0.05));
-    // handle
-    g.add(place(shell(new THREE.CylinderGeometry(0.1, 0.1, 1.0, 8)), 0.6, -0.2, 0.28, Math.PI / 2, 0, 0));
+    // plates sat on top of each other and read as a smudge. Proud of the slab
+    // by enough to cast its own outline rather than share the slab's.
+    g.add(place(shell(new THREE.BoxGeometry(0.95, 1.7, 0.32), ACCENT), 1.3, 0.2, 0.3));
+    /* Handle kept but fattened to 0.18. At 0.1 it was under two pixels on a
+       phone card and read as a scratch across the door. */
+    g.add(place(shell(new THREE.CylinderGeometry(0.18, 0.18, 0.95, 10)), 0.55, -0.25, 0.45, Math.PI / 2, 0, 0));
     // deadbolt - the one part that says lock rather than door
-    g.add(place(shell(new THREE.BoxGeometry(0.5, 0.22, 0.22), MARK), 1.0, 1.5, 0));
+    g.add(place(shell(new THREE.BoxGeometry(0.6, 0.3, 0.3), MARK), 1.05, 1.5, 0));
     return g;
 }
 
@@ -137,30 +160,37 @@ export function buildGearbox() {
         }
         return gg;
     };
-    // Fewer, chunkier teeth. Eighteen and fourteen turned the rims into a
-    // band of flicker; ten and eight still say gear and you can count them.
-    g.add(place(gear(1.3, 0.4, 10, LINE), -0.85, -0.45, 0, 0.32, 0, 0));
+    /* Fewer, chunkier teeth again. Eighteen and fourteen turned the rims into
+       a band of flicker; ten and eight fixed that at ring size but came back
+       as a texture on a phone card. Eight and six, on fatter teeth, is the
+       first pair that still reads as two meshing gears at 140px. */
+    g.add(place(gear(1.3, 0.42, 8, LINE), -0.85, -0.45, 0, 0.32, 0, 0));
     // Bevel gear stood upright, meeting the first one at ninety degrees.
-    g.add(place(gear(0.95, 0.36, 8, ACCENT), 0.95, 0.45, 0, Math.PI / 2, 0, 0));
-    // One stub shaft, on the driven gear. A long one would dominate the
-    // bounding box and shrink everything else when the model is auto-fitted.
-    g.add(place(shell(new THREE.CylinderGeometry(0.16, 0.16, 1.1, 8), MARK), -0.85, 0.35, 0, 0.32, 0, 0));
+    g.add(place(gear(0.95, 0.38, 6, ACCENT), 0.95, 0.45, 0, Math.PI / 2, 0, 0));
+    /* The stub shaft is gone. At thumbnail size it was a two-pixel stripe
+       lying across the driven gear, and it was the tallest thing in the
+       bounding box - so dropping it both removes the smudge and lets
+       fitModel scale the two gears up into the room it was holding. */
     return g;
 }
 
 export function buildPipeline() {
     const g = new THREE.Group();
-    // three stages wired together: in -> transform -> out
+    /* Three stages: in -> transform -> out. Bigger and closer together than
+       they were, because the two thin rods that used to wire them up are
+       gone - at 0.07 radius they were barely a pixel on a phone and read as
+       dirt between the boxes. Three blocks stepping up in a line says
+       "pipeline" without needing the connectors drawn. */
     const colors = [ACCENT, LINE, MARK];
     for (let i = 0; i < 3; i++) {
-        const x = (i - 1) * 1.9;
-        g.add(place(shell(new THREE.BoxGeometry(1.2, 1.2, 1.2), colors[i]), x, (i - 1) * 0.55, 0, 0.3, 0.5, 0));
-        if (i < 2) {
-            g.add(place(shell(new THREE.CylinderGeometry(0.07, 0.07, 0.8, 6)), x + 0.95, (i - 0.5) * 0.55, 0, 0, 0, Math.PI / 2));
-        }
+        g.add(place(shell(new THREE.BoxGeometry(1.45, 1.45, 1.45), colors[i]),
+            (i - 1) * 1.85, (i - 1) * 0.62, 0, 0.3, 0.5, 0));
     }
-    // a torus looping back over the top: the automation feeding itself
-    g.add(place(shell(new THREE.TorusGeometry(1.5, 0.1, 6, 20), LINE), 0, 1.5, 0, Math.PI / 2.2, 0, 0));
+    /* A torus looping back over the top: the automation feeding itself.
+       Fatter tube and fewer segments round it - a 0.1 tube at 20 segments was
+       a hairline drawn in a hundred short strokes, which at thumbnail size is
+       a grey smear rather than a ring. */
+    g.add(place(shell(new THREE.TorusGeometry(1.6, 0.17, 5, 14), LINE), 0, 1.6, 0, Math.PI / 2.2, 0, 0));
     return g;
 }
 

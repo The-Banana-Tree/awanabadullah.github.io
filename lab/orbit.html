@@ -494,11 +494,12 @@
     .orbit-cards { grid-template-columns: minmax(0, 1fr); gap: 12px; }
     .ocard {
         display: grid;
-        grid-template-columns: clamp(84px, 26vw, 110px) minmax(0, 1fr);
-        gap: 12px;
-        /* Top-aligned: the writing outruns the thumbnail, and centring left
-           the model floating halfway down a card it is supposed to label. */
-        align-items: start;
+        grid-template-columns: clamp(116px, 34vw, 150px) minmax(0, 1fr);
+        gap: 13px;
+        /* Centred on the card's height, his call. Top-aligned left the model
+           in the upper corner with a column of dead space under it, because
+           the writing is always taller than a square thumbnail. */
+        align-items: center;
         padding: 12px;
     }
     .ocard-body { border-top: 0; padding: 0; }
@@ -589,6 +590,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=17"></script>
+<script type="module" src="orbit.js?v=18"></script>
 </body>
 </html>
