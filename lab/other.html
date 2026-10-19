@@ -15,8 +15,9 @@
    OTHER PROJECTS
    The three builds that are not robots, off the ring
    and onto one page. Each gets a row: its model on
-   one side, its text on the side. Sides alternate
-   down the page so the eye has somewhere to go.
+   the left, its text beside it. Same side every time,
+   so the page reads as two columns rather than three
+   rows that each need finding.
    ================================================== */
 #shootingStarsOverlay { z-index: 1; }
 
@@ -55,16 +56,10 @@
 }
 .op:first-child { border-top: 0; padding-top: 0; }
 
-/* Model left, right, left on the way down. order moves the grid items, so
-   nothing has to be re-nested to flip a row - but the track widths have to be
-   mirrored with it. Reordering alone put the model in the wide column and the
-   paragraph in the narrow one on every second row, which read as two
-   different page designs stacked on each other. */
-.op:nth-child(even) {
-    grid-template-columns: minmax(0, 1fr) clamp(240px, 32%, 340px);
-}
-.op:nth-child(even) .op-cad  { order: 2; }
-.op:nth-child(even) .op-text { order: 1; }
+/* Every model on the left, all the way down - his call on 2026-10-19, over an
+   alternating left-right version. It is the quieter read: one column of models
+   and one of prose, both starting on the same line, instead of the eye hunting
+   for where each row begins. */
 
 .op-cad { position: relative; border: 2px solid var(--border); }
 /* Square, because every model is auto-fitted into a square by fitModel and
@@ -132,12 +127,8 @@
 .op-link:hover { background: var(--accent); color: var(--bg); }
 
 @media (max-width: 760px) {
-    /* One column, and the model always leads - the alternating order above is
-       a left-right rhythm, and stacked it would only shuffle which block comes
-       first for no reason the reader can see. */
-    .op, .op:nth-child(even) { grid-template-columns: minmax(0, 1fr); }
-    .op:nth-child(even) .op-cad  { order: 0; }
-    .op:nth-child(even) .op-text { order: 0; }
+    /* One column: the model keeps leading, it just has the row to itself. */
+    .op { grid-template-columns: minmax(0, 1fr); }
     .op-cad { max-width: 320px; }
 }
 </style>
