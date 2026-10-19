@@ -199,6 +199,10 @@ body {
     box-shadow: 4px 4px 0px #000000;
 }
 
+/* The global `* { margin: 0 }` reset leaves these paragraphs flush against each
+   other. Scoped to this card so the other cards keep their own inline spacing. */
+.about-card p + p { margin-top: 1rem; }
+
 /* Sits at the foot of a card, after the copy. Inside the grid it reveals with
    the cards on tap, so it needs no hide/show handling of its own. */
 .card-cta {
