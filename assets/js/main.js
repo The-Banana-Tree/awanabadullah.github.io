@@ -160,6 +160,12 @@ function revealCards() {
     });
 }
 
+/* === HERO CTA === */
+function revealHeroCta() {
+    const cta = document.getElementById('heroCta');
+    if (cta) cta.classList.remove('hidden-cta');
+}
+
 /* === BUTTONS === */
 function showButtons() {
     if (controls) controls.classList.add('visible');
@@ -251,7 +257,10 @@ function handleFirstInteraction(e) {
     
     // Show cards
     revealCards();
-    
+
+    // Show the hero's See Projects button
+    revealHeroCta();
+
     // Show buttons
     showButtons();
     
