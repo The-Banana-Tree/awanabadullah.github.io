@@ -138,25 +138,22 @@ figcaption {
 .targets li:first-child { border-top: 0; }
 .targets b { flex: 0 0 7.5em; color: var(--accent); }
 
-.note {
+/* Says up front how the page gets written, because a log that updates itself is
+   worth declaring before anyone reads a line of it. */
+.info {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
     border-left: 2px solid var(--accent);
-    padding: 4px 0 4px 18px;
-    margin: 26px 0;
+    padding: 10px 0 10px 16px;
+    margin: 22px 0 0;
     font-weight: 400;
-    font-size: 0.97rem;
-    line-height: 1.75;
-    opacity: 0.9;
-}
-
-.log-foot {
-    border-top: 2px solid var(--border);
-    padding-top: 18px;
-    font-size: 0.74rem;
-    font-weight: 400;
-    letter-spacing: 1px;
-    opacity: 0.4;
+    font-size: 0.9rem;
     line-height: 1.7;
+    opacity: 0.85;
 }
+.info .icon { flex: 0 0 auto; font-style: normal; }
+.info p { margin: 0; }
 
 @media (max-width: 600px) {
     .status div { border-right: 0; border-bottom: 2px solid var(--border); }
@@ -178,6 +175,11 @@ figcaption {
     <header class="log-head">
         <h1>Hexapod</h1>
         <p class="stand">Six legs, eighteen servos, a deadline in December. One line per update, newest first. First job: one leg that moves.</p>
+
+        <div class="info">
+            <i class="icon" aria-hidden="true">&#8505;&#65039;</i>
+            <p>This page writes itself. An AI agent reads the working design document and adds a line here whenever something real changes. Numbers stay provisional until a part has been printed, measured and loaded.</p>
+        </div>
     </header>
 
     <dl class="status">
@@ -255,7 +257,6 @@ figcaption {
         <li><b>Size</b><span>About 270 mm, leg tip to leg tip.</span></li>
     </ul>
 
-    <p class="log-foot">Updated from the working document as the design moves. Numbers are provisional until a part has been printed, measured and loaded.</p>
 </div>
 
 <!-- Where the home page keeps them: fixed, bottom right, in a column, so the
