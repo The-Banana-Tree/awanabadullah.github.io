@@ -178,9 +178,45 @@ figcaption {
         </div>
         <div>
             <dt>Settled</dt>
-            <dd>Joints<small>servo, linkage, power still open</small></dd>
+            <dd>Joints, drive path<small>servo, lengths, power still open</small></dd>
         </div>
     </dl>
+
+    <article class="entry">
+        <time datetime="2026-10-18">18 October 2026</time>
+        <h2>One axis, two hubs</h2>
+
+        <p>The femur and the drive crank share the hip axle. Not near it, not above it &mdash; the same axis, a hub each, turning independently of one another. Redrawing the leg is what made that obvious; the earlier sketch left the crank's axis vague enough that I could read it either way, and I had been reading it the wrong way.</p>
+
+        <figure>
+            <img src="img/hexapod/coaxial-hip.png" alt="Side-view kinematic schematic of one leg: a coxa bracket at the left with a double-ringed pivot where a short orange crank and a long blue femur both begin, a green pushrod running above the femur and roughly parallel to it, and a purple tibia hanging from the knee pivot at the femur's outer end.">
+            <figcaption>Blue rings are free pivots. The double ring at the hip is the pair that matters &mdash; femur on drive A, crank on drive B, sharing one bolt and locked to nothing.</figcaption>
+        </figure>
+
+        <p>Which makes the drive path unambiguous at last. Drive A turns the femur about the hip and swings the whole leg. Drive B turns the stubby orange crank, the crank shoves the pushrod, the pushrod rotates the tibia lever, and the tibia swings about the knee pivot out at the far end of the femur. The tibia stays one straight rigid piece: the knee hole and the pushrod hole are two holes in the same part, with nothing hinged between them.</p>
+
+        <p>Then the part I actually like. The femur is the moving frame of the knee four-bar, so if I hold the crank still and swing the femur, the tibia holds its angle against the world. The leg lifts and the foot stays pointing where it was. Knee angle and leg swing come apart into two controls that do not fight each other, which is the nicest thing you can hand a gait controller.</p>
+
+        <figure>
+            <img src="img/hexapod/hip-motions.png" alt="Two panels comparing leg motions, each showing the linkage in a moved pose over a pale ghost of the neutral pose. Panel A moves the femur with the crank held fixed and the tibia stays parallel to the crank; panel B holds the femur and rotates the crank, which folds the tibia to a new knee angle.">
+            <figcaption>Left, the femur alone at &minus;31&deg; with the crank held. Right, the crank alone at 55&deg;. The angles are illustrative; the convention under them is not &mdash; equal crank and knee-lever lengths, pushrod parallel to the femur.</figcaption>
+        </figure>
+
+        <p>All of that is topology. Crank throw, pushrod length, the spacing of the two holes in the tibia, servo clearance &mdash; still illustrative, still waiting on calipers and the part already sitting on my desk.</p>
+    </article>
+
+    <article class="entry">
+        <time datetime="2026-10-18">18 October 2026</time>
+        <h2>Three handles before three servos</h2>
+
+        <p>No servos yet. The leg gets handles first, one per axis, and I turn it by hand &mdash; a joint that binds will bind just as hard with a motor on it, and I would rather find that out through my fingers than through a servo stalled against it.</p>
+
+        <p>Handles <b>A</b> and <b>B</b> sit coaxially on the hip axle, on opposite outer sides of the coxa bracket: A drives the femur, B drives the crank. Handle <b>C</b> turns the coxa about its vertical axis and is reached from under the body plate. A and B ride on the coxa bracket and travel with it. Only C is fixed to the body.</p>
+
+        <p>What makes this worth printing rather than fiddling with by eye: every handle hub copies the horn pattern and mounting footprint of the servo meant to replace it. Crank it by hand, find the interference, fix the part, then unbolt the handle and bolt a servo into the same holes.</p>
+
+        <p>One thing to get right before the plates go on the bed. The femur is a two-plate sandwich, and the plates have to be tied together near the hip with M3 spacer bolts sitting <i>outside</i> the crank's swing radius &mdash; put one inside that circle and the crank meets it on the way past. If the crank ends up living inside the sandwich, it needs a hub sleeve poking out through one femur plate for handle B to grab.</p>
+    </article>
 
     <article class="entry">
         <time datetime="2026-10-16">16 October 2026</time>
