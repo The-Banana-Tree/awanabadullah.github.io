@@ -92,7 +92,7 @@ body {
     opacity: 1;
 }
 .hero p {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     color: var(--accent);
     margin-bottom: 2rem;
 }
