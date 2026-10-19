@@ -53,6 +53,9 @@
     align-items: center;
     border-top: 2px solid var(--border);
     padding: clamp(26px, 4vw, 46px) 0;
+    /* The ring's sub-list links to a row by id, and .lab-bar is fixed over the
+       top of the page. Without this the heading lands under it. */
+    scroll-margin-top: calc(var(--bar-h, 56px) + 16px);
 }
 .op:first-child { border-top: 0; padding-top: 0; }
 
@@ -126,10 +129,36 @@
 }
 .op-link:hover { background: var(--accent); color: var(--bg); }
 
+/* ---- phones: the same rows, shrunk into cards ----
+   An earlier pass stacked each row - full-width model, text underneath - which
+   made one project about a screen and a half tall and turned three of them
+   into a scroll. His call was to keep them as cards and make them smaller, so
+   the model drops to a thumbnail and stays beside its text. Same reading order
+   as the desktop layout, about a third of the height. */
 @media (max-width: 760px) {
-    /* One column: the model keeps leading, it just has the row to itself. */
-    .op { grid-template-columns: minmax(0, 1fr); }
-    .op-cad { max-width: 320px; }
+    .op-list { display: flex; flex-direction: column; gap: 14px; }
+    .op {
+        grid-template-columns: clamp(84px, 26vw, 110px) minmax(0, 1fr);
+        gap: 14px;
+        /* Top-aligned: the text outruns the thumbnail, and centring it left
+           the model floating halfway down a card it is supposed to label. */
+        align-items: start;
+        border: 2px solid var(--border);
+        padding: 14px;
+    }
+    /* The rows were separated by a top rule; as cards they each need all four
+       sides, first one included. The full shorthand, not just the width: the
+       desktop rule above is `border-top: 0`, which sets the *style* to none,
+       and a none-styled border computes to 0px however wide you make it. */
+    .op:first-child { border-top: 2px solid var(--border); padding-top: 14px; }
+
+    .op-text h2 { font-size: 0.95rem; letter-spacing: 1.5px; margin-bottom: 8px; }
+    .op-tags { gap: 4px; margin-bottom: 10px; }
+    .op-tags li { font-size: 0.66rem; padding: 2px 6px; letter-spacing: 0.5px; }
+    .op-text p { font-size: 0.86rem; line-height: 1.6; margin-bottom: 12px; }
+    .op-link { padding: 8px 14px; font-size: 0.76rem; }
+    /* Unreadable at thumbnail size, and it is already said on the ring. */
+    .op-tag { display: none; }
 }
 </style>
 </head>
@@ -171,6 +200,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="other.js?v=1"></script>
+<script type="module" src="other.js?v=2"></script>
 </body>
 </html>

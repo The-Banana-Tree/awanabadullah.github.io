@@ -1,4 +1,4 @@
-import { PROJECTS } from './projects.js?v=12';
+import { PROJECTS, OTHER } from './projects.js?v=13';
 import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=12';
 import { sfx } from './sfx.js?v=13';
 
@@ -204,28 +204,48 @@ function typeTitle(text) {
     })();
 }
 
-const stickerLines = sticker.querySelector('span');
+const subList = document.getElementById('subList');
+
+/* A card that stands for several projects names them under the ring instead of
+   hiding them behind a press. Which projects is decided by the card's `items`
+   key, so the list is data like everything else here rather than a special
+   case for one id. */
+const COLLECTIONS = { other: OTHER };
 
 function show(i) {
     const p = PROJECTS[i];
-    /* The sticker rides the model, so it only exists for a project with
-       somewhere of its own to open - a build log, or in the 'other' card's
-       case the page the three non-robotics builds share. Its wording comes
-       from the project rather than the markup for the same reason: "View build
-       log" is a lie on a card that opens a list. Re-triggering the animation
-       is what makes it read as being pressed on each time rather than fading
-       in with the panel. */
-    const sub = p.log || p.page;
-    sticker.hidden = !sub;
-    if (sub) {
-        sticker.href = sub;
-        stickerLines.innerHTML = (p.sticker || ['View', 'build', 'log']).join('<br>');
-        sticker.setAttribute('aria-label', p.log
-            ? `Read the ${p.name} build log`
-            : `Open ${p.name}`);
+
+    /* What the card leads to, and how it says so. Three shapes:
+         log:   a build still being written - sticker over the model
+         items: a card standing for several projects - the list below, and
+                deliberately NO sticker and no button, his call: the three
+                names are more use on screen than a press promising them
+         url:   a finished project - 'View code' in the panel
+       The sticker rides the model, so re-triggering its animation is what
+       makes it read as being pressed on each time rather than fading in with
+       the panel. */
+    const items = COLLECTIONS[p.id];
+    sticker.hidden = !p.log;
+    if (p.log) {
+        sticker.href = p.log;
+        sticker.setAttribute('aria-label', `Read the ${p.name} build log`);
         sticker.style.animation = 'none';
         void sticker.offsetWidth;
         sticker.style.animation = '';
+    }
+
+    subList.hidden = !items;
+    if (items) {
+        subList.setAttribute('aria-label', `The ${items.length} projects on ${p.name}`);
+        // Each row lands on that project's own row of the shared page rather
+        // than the top of it, so the list reads as a table of contents.
+        subList.innerHTML = items.map((o, n) => `<li><a href="${p.page}#${o.id}">` +
+            `<span class="n">${n + 1}</span>` +
+            `<span class="nm">${o.name}</span>` +
+            `<span class="go">Open &#8599;</span>` +
+            `</a></li>`).join('');
+    } else {
+        subList.innerHTML = '';
     }
     // setViewerModel only boots when the geometry actually changes, so boot
     // again here: that covers the first paint and re-picking the front node.
@@ -239,14 +259,14 @@ function show(i) {
     detail.classList.remove('swap');
     void detail.offsetWidth;
     detail.classList.add('swap');
-    // A finished project points at its repo; one still being built points at its
-    // log; the 'other' card points at the page it stands for. A project with
-    // none of the three just drops the anchor rather than rendering a dead
-    // button.
+    /* A finished project points at its repo; one still being built points at
+       its log. A card standing for several gets no button at all - the list
+       under the ring is how you reach them, and a button beside it would be a
+       second door onto the same room. A project with nothing to point at just
+       drops the anchor rather than rendering a dead button. */
     const links = [
         p.url && `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`,
         p.log && `<a class="d-link" href="${p.log}">Build log</a>`,
-        p.page && `<a class="d-link" href="${p.page}">Open the page</a>`,
     ].filter(Boolean).join('');
     // No name in the panel: the heading above the model already carries it,
     // and printed twice on one screen it read as a mistake.

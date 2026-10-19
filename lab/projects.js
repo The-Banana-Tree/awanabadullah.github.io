@@ -42,10 +42,11 @@ export const PROJECTS = [
         name: 'Other Projects',
         blurb: 'Three builds with no legs or wheels on them: an RFID door lock, a bevel-and-helical gearbox, and the pile of Python that keeps the day from repeating itself. They share one seat on the ring and have a page of their own.',
         tags: ['Embedded', 'Mech Design', 'Python'],
-        page: 'other.html',
-        // Overrides the sticker's default "View / build / log" wording, since
-        // there is no log behind this one.
-        sticker: ['See', 'all', 'three']
+        /* Where its three live. orbit.js hangs a list of them under the ring
+           and links each row to `${page}#${id}`; this card gets no sticker and
+           no button, so the list is the only way through, which is the point -
+           the names are on screen rather than behind a press. */
+        page: 'other.html'
     }
 ];
 
