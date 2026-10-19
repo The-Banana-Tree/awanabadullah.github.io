@@ -219,12 +219,23 @@ const COLLECTIONS = { other: OTHER };
 let cardViewers = null;
 
 function buildCards(p, items) {
+    /* Each card carries what the standalone page used to: the model, the name,
+       its tags, the blurb and the way to the code. An article rather than one
+       big anchor - the View code button is the link, and a button nested
+       inside a link is not markup a browser will accept. */
     subCards.innerHTML = items.map(o =>
-        `<a class="ocard" href="${o.url}" target="_blank" rel="noopener">` +
+        `<article class="ocard">` +
             `<canvas data-model="${o.id}"></canvas>` +
             `<span class="ocard-tag">placeholder</span>` +
-            `<span class="ocard-name">${o.name}</span>` +
-        `</a>`).join('');
+            `<div class="ocard-body">` +
+                `<h3 class="ocard-name">${o.name}</h3>` +
+                `<ul class="ocard-tags">${o.tags.map(t => `<li>${t}</li>`).join('')}</ul>` +
+                `<p>${o.blurb}</p>` +
+                (o.url
+                    ? `<a class="ocard-link" href="${o.url}" target="_blank" rel="noopener">View code</a>`
+                    : '') +
+            `</div>` +
+        `</article>`).join('');
     cardViewers = [...subCards.querySelectorAll('canvas')]
         .map(c => makeViewer(c, c.dataset.model))
         .filter(Boolean);
@@ -235,9 +246,10 @@ function show(i) {
 
     /* What the card leads to, and how it says so. Three shapes:
          log:   a build still being written - sticker over the model
-         items: a card standing for several projects - a row of CAD boxes
-                below, replacing the detail panel entirely. No sticker, no
-                button and no prose on it, all his call
+         items: a card standing for several projects - a row of CAD cards
+                below, replacing the detail panel entirely. Each one carries
+                its own model, tags, blurb and View code button, so the card
+                itself needs no sticker and no button of its own
          url:   a finished project - 'View code' in the panel
        The sticker rides the model, so re-triggering its animation is what
        makes it read as being pressed on each time rather than fading in with

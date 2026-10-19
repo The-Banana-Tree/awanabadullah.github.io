@@ -49,28 +49,27 @@
 
 /* ---- what a card stands for, when it stands for more than one thing ----
    The Other Projects card used to carry a numbered list under the ring and a
-   blurb in the panel beside it. Both are gone on his instruction: a row of CAD
-   boxes says what the three are far faster than a list naming them and a
-   paragraph describing them, and the models were the point of this page from
-   the start. No prose on these at all - a name under each one, and the box
-   itself is the link to that project's code.
+   blurb in the panel beside it. Both are gone on his instruction, replaced by
+   a card per project: the model, which was the point of this page from the
+   start, plus the same writing the old standalone page carried - name, tags,
+   blurb, View code.
 
-   It spans the whole layout because the detail panel is hidden whenever it is
-   showing, so the row has the full width to itself rather than sitting in a
+   The row spans the whole layout because the detail panel is hidden whenever
+   it is showing, so it has the full width to itself rather than sitting in a
    column with a lake of empty space beside it. */
 .orbit-cards {
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
+    align-items: stretch;
 }
 .orbit-cards[hidden] { display: none; }
 .ocard {
-    display: block;
+    display: flex;
+    flex-direction: column;
     border: 2px solid var(--border);
     background: var(--bg);
-    text-decoration: none;
-    color: var(--text);
     position: relative;
     z-index: 2;
 }
@@ -81,20 +80,69 @@
     display: block;
     width: 100%;
     aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+}
+/* The writing, back on his instruction and carrying what the old standalone
+   page carried: name, tags, the blurb, and the way to the code. Stretched to
+   fill so the three cards end level however long each blurb runs - a short one
+   leaving a stub of a card next to a tall one was the thing to avoid. */
+.ocard-body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px 16px;
+    border-top: 2px solid var(--border);
 }
 .ocard-name {
     display: block;
-    padding: 10px 12px;
-    border-top: 2px solid var(--border);
-    font-size: 0.74rem;
+    font-size: 0.8rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--accent);
     line-height: 1.45;
+    margin-bottom: 10px;
 }
-.ocard:hover .ocard-name,
-.ocard:focus-visible .ocard-name { background: var(--accent); color: var(--bg); }
-.ocard:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Same treatment as the detail panel's .d-tags, restated rather than shared:
+   those are scoped to .detail, and widening them to reach in here would couple
+   the cards to a panel they exist to replace. */
+.ocard-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 0;
+    margin-bottom: 11px;
+}
+.ocard-tags li {
+    font-size: 0.68rem;
+    letter-spacing: 0.5px;
+    padding: 3px 7px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+.ocard-body p {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    font-weight: 400;
+    opacity: 0.85;
+    margin: 0 0 14px;
+}
+/* margin-top: auto pins it to the bottom of whichever card it is in, so the
+   three buttons line up across the row instead of each floating under its own
+   paragraph. */
+.ocard-link {
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 9px 16px;
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--border);
+    color: var(--accent);
+}
+.ocard-link:hover,
+.ocard-link:focus-visible { background: var(--accent); color: var(--bg); outline: none; }
 /* The same admission the ring makes under its hero. */
 .ocard-tag {
     position: absolute;
@@ -439,12 +487,27 @@
     /* Same sticker against a much smaller model, so it has to come down or it
        stops being a sticker and starts being the subject. */
     .orbit-sticker { width: 74px; height: 74px; font-size: 0.48rem; letter-spacing: 0.5px; }
-    /* Three across a phone leaves each model about 120px and wraps the longer
-       names to three lines. One per row instead, model shrunk to a thumbnail
-       beside its name - the same shape the cards take on the projects page. */
-    .orbit-cards { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-    .ocard { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; }
-    .ocard-name { border-top: 0; border-left: 2px solid var(--border); padding: 10px 14px; }
+    /* Three across a phone leaves each model about 120px with a paragraph
+       under it, which is a column of slivers. One card per row instead, model
+       shrunk to a thumbnail beside the writing rather than above it - the
+       whole card then fits on a screen. */
+    .orbit-cards { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .ocard {
+        display: grid;
+        grid-template-columns: clamp(84px, 26vw, 110px) minmax(0, 1fr);
+        gap: 12px;
+        /* Top-aligned: the writing outruns the thumbnail, and centring left
+           the model floating halfway down a card it is supposed to label. */
+        align-items: start;
+        padding: 12px;
+    }
+    .ocard-body { border-top: 0; padding: 0; }
+    .ocard-name { font-size: 0.76rem; margin-bottom: 8px; }
+    .ocard-tags { gap: 4px; margin-bottom: 9px; }
+    .ocard-tags li { font-size: 0.62rem; padding: 2px 6px; }
+    .ocard-body p { font-size: 0.82rem; line-height: 1.55; margin-bottom: 11px; }
+    .ocard-link { padding: 7px 12px; font-size: 0.7rem; }
+    /* Unreadable at thumbnail size, and the ring already says it above. */
     .ocard-tag { display: none; }
     .orbit-dot { width: 9px; height: 9px; margin-left: -4.5px; }
     .orbit-node.front .orbit-dot {
@@ -526,6 +589,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=16"></script>
+<script type="module" src="orbit.js?v=17"></script>
 </body>
 </html>
