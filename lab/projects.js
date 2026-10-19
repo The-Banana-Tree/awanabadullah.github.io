@@ -1,11 +1,11 @@
 /* The projects the orbit carries. Presentation lives in orbit.js; this file is
    only what is being presented.
 
-   Two lists, one ring. PROJECTS are the builds that get their own seat on the
-   ring; OTHER are the three that are not robots and share a single seat - the
-   'other' card at the end of PROJECTS is what opens their page. Both lists are
-   read by other.html as well, so each project is described in exactly one
-   place no matter which page it shows up on. */
+   Two lists, one ring, one page. PROJECTS are the builds that get their own
+   seat on the ring; OTHER are the three that are not robots and share a single
+   seat. Selecting that seat puts OTHER on screen as a row of CAD boxes under
+   the ring - there is no separate page for them any more, which is what he
+   asked for: everything lives on orbit.html. */
 
 export const PROJECTS = [
     // First in the list is first at the front of the ring, so the current build
@@ -41,12 +41,13 @@ export const PROJECTS = [
         id: 'other',
         name: 'Other Projects',
         blurb: 'Three builds with no legs or wheels on them: an RFID door lock, a bevel-and-helical gearbox, and the pile of Python that keeps the day from repeating itself. They share one seat on the ring and have a page of their own.',
-        tags: ['Embedded', 'Mech Design', 'Python'],
-        /* Where its three live. orbit.js hangs a list of them under the ring
-           and links each row to `${page}#${id}`; this card gets no sticker and
-           no button, so the list is the only way through, which is the point -
-           the names are on screen rather than behind a press. */
-        page: 'other.html'
+        /* No url, no log and no page of its own. orbit.js matches its id in
+           COLLECTIONS and puts the three below as CAD boxes, each linking
+           straight to that project's code - so this card needs nothing to
+           point at itself. Its tags and blurb are unused while the boxes are
+           showing (they replace the detail panel) and kept only so the card
+           still describes itself if that ever changes. */
+        tags: ['Embedded', 'Mech Design', 'Python']
     }
 ];
 

@@ -38,12 +38,6 @@
    one number that decides how big the hero reads. The ring does not grow with
    it: its lean caps the vertical radius, so the extra space goes to the model
    rather than spreading the nodes out. */
-.orbit-main {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    min-width: 0;
-}
 #orbitBox {
     position: relative;
     border: 2px solid var(--border);
@@ -53,56 +47,67 @@
     z-index: 2;
 }
 
-/* ---- sub-list, under the ring box ----
-   What a card stands for, when it stands for more than one thing. A row per
-   project, each one a link straight into its row on the shared page. The card
-   that uses this deliberately has no sticker and no button: naming the three
-   is more use than a press that promises "three of something". */
-.orbit-sublist {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+/* ---- what a card stands for, when it stands for more than one thing ----
+   The Other Projects card used to carry a numbered list under the ring and a
+   blurb in the panel beside it. Both are gone on his instruction: a row of CAD
+   boxes says what the three are far faster than a list naming them and a
+   paragraph describing them, and the models were the point of this page from
+   the start. No prose on these at all - a name under each one, and the box
+   itself is the link to that project's code.
+
+   It spans the whole layout because the detail panel is hidden whenever it is
+   showing, so the row has the full width to itself rather than sitting in a
+   column with a lake of empty space beside it. */
+.orbit-cards {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+.orbit-cards[hidden] { display: none; }
+.ocard {
+    display: block;
     border: 2px solid var(--border);
     background: var(--bg);
+    text-decoration: none;
+    color: var(--text);
     position: relative;
     z-index: 2;
 }
-.orbit-sublist[hidden] { display: none; }
-.orbit-sublist li { border-top: 1px dashed color-mix(in srgb, var(--text) 25%, transparent); }
-.orbit-sublist li:first-child { border-top: 0; }
-.orbit-sublist a {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    padding: 11px 16px;
-    text-decoration: none;
-    color: var(--text);
-    font-size: 0.86rem;
-    letter-spacing: 1px;
+/* Square, because every model is auto-fitted into a square by fitModel and
+   the viewer renders at the canvas's own aspect. Width-driven, so the row
+   reflows without the canvas having to be told anything. */
+.ocard canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
 }
-/* The index is the only thing holding a column, so the names line up under
-   each other rather than each starting at its own left edge. */
-.orbit-sublist .n {
-    flex: 0 0 1.6em;
-    font-size: 0.68rem;
-    opacity: 0.4;
-}
-.orbit-sublist .nm { flex: 1 1 auto; min-width: 0; }
-.orbit-sublist .go {
-    flex: 0 0 auto;
-    font-size: 0.68rem;
+.ocard-name {
+    display: block;
+    padding: 10px 12px;
+    border-top: 2px solid var(--border);
+    font-size: 0.74rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--accent);
-    opacity: 0;
+    line-height: 1.45;
 }
-.orbit-sublist a:hover { background: var(--accent); color: var(--bg); }
-.orbit-sublist a:hover .n { opacity: 0.7; }
-.orbit-sublist a:hover .go { opacity: 1; color: var(--bg); }
-/* Keyboard parity: the row has to announce itself on focus as well as hover,
-   or tabbing through the list is silent. */
-.orbit-sublist a:focus-visible { background: var(--accent); color: var(--bg); outline: none; }
-.orbit-sublist a:focus-visible .go { opacity: 1; color: var(--bg); }
+.ocard:hover .ocard-name,
+.ocard:focus-visible .ocard-name { background: var(--accent); color: var(--bg); }
+.ocard:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* The same admission the ring makes under its hero. */
+.ocard-tag {
+    position: absolute;
+    top: 7px; right: 9px;
+    font-size: 0.56rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.3;
+    pointer-events: none;
+}
+/* lab.css gives .detail `display: flex`, which beats the [hidden] default -
+   so hiding it needs saying here, at a specificity that wins. */
+.detail[hidden] { display: none; }
 
 /* The starfield is a fixed, full-page overlay at z-index 999999, so stars were
    streaking straight through the model and across the panel's text. Dropping it
@@ -434,6 +439,13 @@
     /* Same sticker against a much smaller model, so it has to come down or it
        stops being a sticker and starts being the subject. */
     .orbit-sticker { width: 74px; height: 74px; font-size: 0.48rem; letter-spacing: 0.5px; }
+    /* Three across a phone leaves each model about 120px and wraps the longer
+       names to three lines. One per row instead, model shrunk to a thumbnail
+       beside its name - the same shape the cards take on the projects page. */
+    .orbit-cards { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .ocard { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; }
+    .ocard-name { border-top: 0; border-left: 2px solid var(--border); padding: 10px 14px; }
+    .ocard-tag { display: none; }
     .orbit-dot { width: 9px; height: 9px; margin-left: -4.5px; }
     .orbit-node.front .orbit-dot {
         width: 15px; height: 15px;
@@ -466,10 +478,6 @@
     </header>
 
     <div class="orbit-layout">
-      <!-- Box and the sub-list are one column, so the list hangs directly off
-           the bottom of the ring box and the detail panel beside them keeps
-           its full height whether the list is there or not. -->
-      <div class="orbit-main">
         <div id="orbitBox">
             <div class="orbit-rings">
                 <div class="orbit-ring"></div>
@@ -490,13 +498,11 @@
             </div>
             <span class="orbit-hint">click a node · &#9664; &#9654; to rotate</span>
         </div>
-        <!-- Only a card that stands for several projects fills this; for
-             everything else it stays empty and takes no room. The list is how
-             you reach them - there is no sticker or button on such a card, so
-             what it contains is on screen rather than behind a press. -->
-        <ul class="orbit-sublist" id="subList" hidden></ul>
-      </div>
         <aside class="detail" id="detail"></aside>
+        <!-- Only a card that stands for several projects fills this; for every
+             other card it stays empty and takes no room. When it is showing,
+             the detail panel above is hidden - these boxes replaced it. -->
+        <div class="orbit-cards" id="subCards" hidden></div>
     </div>
 </div>
 
@@ -520,6 +526,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=15"></script>
+<script type="module" src="orbit.js?v=16"></script>
 </body>
 </html>

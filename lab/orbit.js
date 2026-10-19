@@ -1,4 +1,4 @@
-import { PROJECTS, OTHER } from './projects.js?v=13';
+import { PROJECTS, OTHER } from './projects.js?v=14';
 import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=12';
 import { sfx } from './sfx.js?v=13';
 
@@ -204,22 +204,40 @@ function typeTitle(text) {
     })();
 }
 
-const subList = document.getElementById('subList');
+const subCards = document.getElementById('subCards');
 
-/* A card that stands for several projects names them under the ring instead of
-   hiding them behind a press. Which projects is decided by the card's `items`
-   key, so the list is data like everything else here rather than a special
-   case for one id. */
+/* A card that stands for several projects shows them as CAD boxes under the
+   ring instead of hiding them behind a press. Which projects is decided here
+   rather than by an id check in show(), so a second collection card would need
+   no new code. */
 const COLLECTIONS = { other: OTHER };
+
+/* Built once, on the first card that needs them, and then only shown and
+   hidden. Rebuilding per selection would stand up three WebGL viewers every
+   time the ring came back round to this card; viewer.js retires a viewer when
+   its canvas leaves the document, so the old ones would churn for nothing. */
+let cardViewers = null;
+
+function buildCards(p, items) {
+    subCards.innerHTML = items.map(o =>
+        `<a class="ocard" href="${o.url}" target="_blank" rel="noopener">` +
+            `<canvas data-model="${o.id}"></canvas>` +
+            `<span class="ocard-tag">placeholder</span>` +
+            `<span class="ocard-name">${o.name}</span>` +
+        `</a>`).join('');
+    cardViewers = [...subCards.querySelectorAll('canvas')]
+        .map(c => makeViewer(c, c.dataset.model))
+        .filter(Boolean);
+}
 
 function show(i) {
     const p = PROJECTS[i];
 
     /* What the card leads to, and how it says so. Three shapes:
          log:   a build still being written - sticker over the model
-         items: a card standing for several projects - the list below, and
-                deliberately NO sticker and no button, his call: the three
-                names are more use on screen than a press promising them
+         items: a card standing for several projects - a row of CAD boxes
+                below, replacing the detail panel entirely. No sticker, no
+                button and no prose on it, all his call
          url:   a finished project - 'View code' in the panel
        The sticker rides the model, so re-triggering its animation is what
        makes it read as being pressed on each time rather than fading in with
@@ -234,19 +252,6 @@ function show(i) {
         sticker.style.animation = '';
     }
 
-    subList.hidden = !items;
-    if (items) {
-        subList.setAttribute('aria-label', `The ${items.length} projects on ${p.name}`);
-        // Each row lands on that project's own row of the shared page rather
-        // than the top of it, so the list reads as a table of contents.
-        subList.innerHTML = items.map((o, n) => `<li><a href="${p.page}#${o.id}">` +
-            `<span class="n">${n + 1}</span>` +
-            `<span class="nm">${o.name}</span>` +
-            `<span class="go">Open &#8599;</span>` +
-            `</a></li>`).join('');
-    } else {
-        subList.innerHTML = '';
-    }
     // setViewerModel only boots when the geometry actually changes, so boot
     // again here: that covers the first paint and re-picking the front node.
     setViewerModel(viewer, p.id);
@@ -256,14 +261,26 @@ function show(i) {
     // The page heading is the front project's name, typed out. No swap class
     // on it any more - a fade-and-rise fighting a type-on read as a stutter.
     typeTitle(p.name);
+
+    /* The CAD boxes and the detail panel are alternatives, never both: the
+       boxes went in precisely because the numbered list and the blurb were the
+       two things he wanted gone from this card. */
+    subCards.hidden = !items;
+    detail.hidden = !!items;
+    if (items) {
+        if (!cardViewers) buildCards(p, items);
+        subCards.setAttribute('aria-label', `The ${items.length} projects on ${p.name}`);
+        // Turn into place on each arrival, the way the ring's own model does.
+        cardViewers.forEach(bootViewer);
+        return;
+    }
+
     detail.classList.remove('swap');
     void detail.offsetWidth;
     detail.classList.add('swap');
     /* A finished project points at its repo; one still being built points at
-       its log. A card standing for several gets no button at all - the list
-       under the ring is how you reach them, and a button beside it would be a
-       second door onto the same room. A project with nothing to point at just
-       drops the anchor rather than rendering a dead button. */
+       its log. A project with neither just drops the anchor rather than
+       rendering a dead button. */
     const links = [
         p.url && `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`,
         p.log && `<a class="d-link" href="${p.log}">Build log</a>`,
