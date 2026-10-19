@@ -1,6 +1,6 @@
 import { PROJECTS } from './projects.js?v=11';
 import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=11';
-import { sfx } from './sfx.js?v=11';
+import { sfx } from './sfx.js?v=12';
 
 const box = document.getElementById('orbitBox');
 const track = document.getElementById('track');
