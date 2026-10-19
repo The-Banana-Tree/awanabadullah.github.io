@@ -191,11 +191,35 @@ export function buildHexapod() {
     return g;
 }
 
+export function buildOtherStack() {
+    const g = new THREE.Group();
+    /* Deliberately a placeholder and nothing else. This one rides the ring
+       card that stands for three unrelated builds - a door lock, a gearbox, a
+       pile of scripts - and whichever of their three models went here would
+       have quietly claimed the card for that project. Assorted blocks claim it
+       for none of them, and the three real models are on the page it opens.
+
+       A heap rather than a stack: three blocks taking the weight, three small
+       ones tumbled on and beside them, no two at the same angle. Cubes are the
+       one shape where every edge passes the 25 degree test, so the pile reads
+       as outlines however it is turned. */
+    const cube = (s, x, y, z, rx, ry, color) =>
+        place(shell(new THREE.BoxGeometry(s, s, s), color), x, y, z, rx, ry, 0);
+    g.add(cube(1.70, -0.90, -0.85,  0.20,  0.00,  0.22, LINE));
+    g.add(cube(1.40,  0.85, -0.95, -0.35,  0.00, -0.50, LINE));
+    g.add(cube(1.20, -0.15,  0.35,  0.55,  0.18,  0.75, ACCENT));
+    g.add(cube(0.80,  1.00,  0.25,  0.45,  0.40,  0.30, MARK));
+    g.add(cube(0.62, -1.25,  0.50, -0.60, -0.30,  0.90, ACCENT));
+    g.add(cube(0.50,  0.10,  1.25, -0.10,  0.25, -0.35, MARK));
+    return g;
+}
+
 export const MODELS = {
     rfid: buildDoorLock,
     manipulator: buildManipulator,
     tyler: buildRover,
     drill: buildGearbox,
     python: buildPipeline,
-    hexapod: buildHexapod
+    hexapod: buildHexapod,
+    other: buildOtherStack
 };

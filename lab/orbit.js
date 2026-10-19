@@ -1,5 +1,5 @@
-import { PROJECTS } from './projects.js?v=11';
-import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=11';
+import { PROJECTS } from './projects.js?v=12';
+import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=12';
 import { sfx } from './sfx.js?v=13';
 
 const box = document.getElementById('orbitBox');
@@ -204,15 +204,25 @@ function typeTitle(text) {
     })();
 }
 
+const stickerLines = sticker.querySelector('span');
+
 function show(i) {
     const p = PROJECTS[i];
-    // The sticker rides the model, so it only exists for a project that has a
-    // log to open. Re-triggering the animation is what makes it read as being
-    // pressed on each time rather than fading in with the panel.
-    sticker.hidden = !p.log;
-    if (p.log) {
-        sticker.href = p.log;
-        sticker.setAttribute('aria-label', `Read the ${p.name} build log`);
+    /* The sticker rides the model, so it only exists for a project with
+       somewhere of its own to open - a build log, or in the 'other' card's
+       case the page the three non-robotics builds share. Its wording comes
+       from the project rather than the markup for the same reason: "View build
+       log" is a lie on a card that opens a list. Re-triggering the animation
+       is what makes it read as being pressed on each time rather than fading
+       in with the panel. */
+    const sub = p.log || p.page;
+    sticker.hidden = !sub;
+    if (sub) {
+        sticker.href = sub;
+        stickerLines.innerHTML = (p.sticker || ['View', 'build', 'log']).join('<br>');
+        sticker.setAttribute('aria-label', p.log
+            ? `Read the ${p.name} build log`
+            : `Open ${p.name}`);
         sticker.style.animation = 'none';
         void sticker.offsetWidth;
         sticker.style.animation = '';
@@ -230,11 +240,13 @@ function show(i) {
     void detail.offsetWidth;
     detail.classList.add('swap');
     // A finished project points at its repo; one still being built points at its
-    // log. A project with neither just drops the anchor rather than rendering a
-    // dead button.
+    // log; the 'other' card points at the page it stands for. A project with
+    // none of the three just drops the anchor rather than rendering a dead
+    // button.
     const links = [
         p.url && `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`,
         p.log && `<a class="d-link" href="${p.log}">Build log</a>`,
+        p.page && `<a class="d-link" href="${p.page}">Open the page</a>`,
     ].filter(Boolean).join('');
     // No name in the panel: the heading above the model already carries it,
     // and printed twice on one screen it read as a mistake.
