@@ -26,10 +26,11 @@ function audio() {
         tame.type = 'lowpass';
         tame.frequency.value = 2600;
         master = ctx.createGain();
-        // 0.85 read too quiet against the site's music (Awan, 2026-10-19). The
-        // per-voice gains top out around 0.11 even when arrive() stacks, so
-        // there is plenty of headroom here before anything clips.
-        master.gain.value = 1.5;
+        // 0.85 read too quiet against the site's music, then 1.5 still did
+        // (Awan, 2026-10-19, asked for another 50%). The per-voice gains top
+        // out around 0.11 even when arrive() stacks, so this peaks near 0.26 of
+        // full scale - still a long way from clipping.
+        master.gain.value = 2.25;
         master.connect(tame).connect(ctx.destination);
     }
     if (ctx.state === 'suspended') ctx.resume();
