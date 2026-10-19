@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Systems Engineer | Awan Abadullah</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=10">
-    <link rel="stylesheet" href="assets/css/shooting-stars.css?v=10">
+    <link rel="stylesheet" href="assets/css/style.css?v=11">
+    <link rel="stylesheet" href="assets/css/shooting-stars.css?v=11">
     <!-- Background Music -->
     <audio id="backgroundMusic" loop autoplay muted>
         <source src="assets/audio/track.mp3" type="audio/mpeg">
@@ -38,11 +38,6 @@
         <section class="hero">
             <h1 id="typewriter"></h1>
             <p id="subtitle">Systems Engineer</p>
-            <!-- Hidden until the tap, same as the cards: before that the tap
-                 prompt owns the screen and a button here would just compete. -->
-            <div class="hero-cta hidden-cta" id="heroCta">
-                <a href="lab/orbit.html">🛰️ See Projects</a>
-            </div>
         </section>
         
         <section class="grid hidden-cards">
@@ -50,8 +45,13 @@
                 <h3>About Me</h3>
                 <img src="profile.jpg" alt="Awan Abadullah" style="max-width: 180px; height: auto; border-radius: 8px; margin: 1.5rem auto; display: block;">
                 <p>Hello, I'm Awan (some people also call me "Abad").</p>
-                <p>A Systems Engineer during the day.</p>
+                <p>A systems engineer in aerospace by day, and a robotics designer at night.</p>
                 <p>I love video games, messing with tech, reading self-help books every now and then, and just being introverted. In my free time, I love hanging out with my two cats and my wife, Hira.</p>
+                <!-- Lives in the card, so it reveals with the cards on tap and
+                     needs no reveal handling of its own. -->
+                <div class="card-cta" id="projectsCta">
+                    <a href="lab/orbit.html">🛰️ See Projects</a>
+                </div>
             </div>
             <div class="card">
                 <h3>My Stack</h3>
@@ -117,6 +117,6 @@
         <p>🎶 Music: Plinky by Stevia Sphere</p>
     </footer>
     
-    <script src="assets/js/main.js?v=10"></script>
+    <script src="assets/js/main.js?v=11"></script>
 </body>
 </html>

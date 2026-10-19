@@ -175,10 +175,10 @@ body {
     margin: 0;
     max-width: 100%;
 }
-/* One rule for every button on the page, so the hero CTA cannot drift away
+/* One rule for every button on the page, so the card CTA cannot drift away
    from the contact buttons it is meant to match. */
 .reach-out-card .contact-buttons a,
-.hero-cta a {
+.card-cta a {
     display: inline-block;
     width: 200px;
     padding: 1rem;
@@ -193,24 +193,18 @@ body {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 .reach-out-card .contact-buttons a:hover,
-.hero-cta a:hover {
+.card-cta a:hover {
     background: #b71c6d;
     transform: translate(-2px, -2px);
     box-shadow: 4px 4px 0px #000000;
 }
 
-/* Sits under the subtitle. Revealed on the same tap as the cards; the inline
-   transition is left to CSS so JS only has to drop the class. */
-.hero-cta {
-    margin-top: 0.5rem;
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-.hero-cta.hidden-cta {
-    opacity: 0;
-    transform: translateY(20px);
-    pointer-events: none;
+/* Sits at the foot of a card, after the copy. Inside the grid it reveals with
+   the cards on tap, so it needs no hide/show handling of its own. */
+.card-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
 }
 
 /* === FOOTER === */
