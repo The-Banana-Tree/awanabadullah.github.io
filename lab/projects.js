@@ -1,5 +1,12 @@
 /* The projects the orbit carries. Presentation lives in orbit.js; this file is
-   only what is being presented. */
+   only what is being presented.
+
+   Two lists, one ring. PROJECTS are the builds that get their own seat on the
+   ring; OTHER are the three that are not robots and share a single seat - the
+   'other' card at the end of PROJECTS is what opens their page. Both lists are
+   read by other.html as well, so each project is described in exactly one
+   place no matter which page it shows up on. */
+
 export const PROJECTS = [
     // First in the list is first at the front of the ring, so the current build
     // is what the page opens on.
@@ -11,13 +18,6 @@ export const PROJECTS = [
         // In progress, so there is no repo to send anyone to - the build log is
         // the thing worth reading instead.
         log: 'hexapod.html'
-    },
-    {
-        id: 'rfid',
-        name: 'RFID Door Lock',
-        blurb: 'RFID door lock mechanism with a backup keypad, built for work and residential doors. Reader, controller and a fail-safe entry path in one enclosure.',
-        tags: ['C', 'Embedded', 'RFID'],
-        url: 'https://github.com/awanabad/RFID-Door-Lock'
     },
     {
         id: 'manipulator',
@@ -32,6 +32,30 @@ export const PROJECTS = [
         blurb: 'Revision of an autonomous part collector, rebuilt around a systematic sensor and actuator selection process instead of whatever was in the parts bin.',
         tags: ['C++', 'Autonomous', 'Controls'],
         url: 'https://github.com/awanabad/Tyler-Version-2'
+    },
+    /* Last seat on the ring, and the only one that is a door rather than a
+       project: it carries no repo of its own, just the page the three below
+       are laid out on. Its model is a placeholder heap of cubes on purpose -
+       see buildOtherStack in models.js. */
+    {
+        id: 'other',
+        name: 'Other Projects',
+        blurb: 'Three builds with no legs or wheels on them: an RFID door lock, a bevel-and-helical gearbox, and the pile of Python that keeps the day from repeating itself. They share one seat on the ring and have a page of their own.',
+        tags: ['Embedded', 'Mech Design', 'Python'],
+        page: 'other.html',
+        // Overrides the sticker's default "View / build / log" wording, since
+        // there is no log behind this one.
+        sticker: ['See', 'all', 'three']
+    }
+];
+
+export const OTHER = [
+    {
+        id: 'rfid',
+        name: 'RFID Door Lock',
+        blurb: 'RFID door lock mechanism with a backup keypad, built for work and residential doors. Reader, controller and a fail-safe entry path in one enclosure.',
+        tags: ['C', 'Embedded', 'RFID'],
+        url: 'https://github.com/awanabad/RFID-Door-Lock'
     },
     {
         id: 'drill',

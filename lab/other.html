@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Other Projects · Awan Abadullah</title>
+<link rel="stylesheet" href="../assets/css/style.css?v=1">
+<link rel="stylesheet" href="../assets/css/shooting-stars.css?v=1">
+<link rel="stylesheet" href="lab.css?v=8">
+<!-- In <head> on purpose: it sets data-theme off localStorage before the
+     first paint, so arriving in light mode does not flash dark. -->
+<script src="theme.js?v=1"></script>
+<style>
+/* ==================================================
+   OTHER PROJECTS
+   The three builds that are not robots, off the ring
+   and onto one page. Each gets a row: its model on
+   the left, its text beside it. Same side every time,
+   so the page reads as two columns rather than three
+   rows that each need finding.
+   ================================================== */
+#shootingStarsOverlay { z-index: 1; }
+
+.op-wrap { position: relative; z-index: 2; max-width: 1060px; margin: 0 auto; }
+
+/* Not .lab-head's inverted block: that one is the ring's typed project name,
+   and reusing it here would promise a heading that changes. This is a plain
+   page title, in the accent, like the build log's. */
+.op-head h1 {
+    font-size: clamp(1.6rem, 6vw, 2.6rem);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+.op-head .stand {
+    font-size: 1.02rem;
+    font-weight: 400;
+    opacity: 0.75;
+    max-width: 60ch;
+    line-height: 1.7;
+}
+
+.op-list { margin: clamp(30px, 5vw, 52px) 0 0; }
+
+/* The model column is fixed and the text column takes the rest: a fr-fr split
+   grew the model past the size its placeholder geometry can carry, and a
+   300px-wide paragraph is not a paragraph. */
+.op {
+    display: grid;
+    grid-template-columns: clamp(240px, 32%, 340px) minmax(0, 1fr);
+    gap: clamp(20px, 4vw, 48px);
+    align-items: center;
+    border-top: 2px solid var(--border);
+    padding: clamp(26px, 4vw, 46px) 0;
+}
+.op:first-child { border-top: 0; padding-top: 0; }
+
+/* Every model on the left, all the way down - his call on 2026-10-19, over an
+   alternating left-right version. It is the quieter read: one column of models
+   and one of prose, both starting on the same line, instead of the eye hunting
+   for where each row begins. */
+
+.op-cad { position: relative; border: 2px solid var(--border); }
+/* Square, because every model is auto-fitted into a square by fitModel and
+   the viewer renders at the canvas's own aspect. Width-driven, so the row
+   reflows on a phone without the canvas having to be told. */
+.op-cad canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+/* Same admission the ring makes under its hero, same wording. */
+.op-tag {
+    position: absolute;
+    bottom: 7px; right: 9px;
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.op-text h2 {
+    font-size: clamp(1.1rem, 2.6vw, 1.45rem);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+/* The ring's .d-tags and .d-link, restated: those are scoped to .detail, and
+   widening them to reach in here would couple this page's layout to the
+   shared panel's. */
+.op-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin-bottom: 14px;
+}
+.op-tags li {
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    padding: 4px 9px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+.op-text p {
+    font-size: 1.02rem;
+    line-height: 1.72;
+    font-weight: 400;
+    opacity: 0.88;
+    margin: 0 0 18px;
+}
+.op-link {
+    display: inline-block;
+    padding: 11px 20px;
+    font-size: 0.88rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--border);
+    color: var(--accent);
+}
+.op-link:hover { background: var(--accent); color: var(--bg); }
+
+@media (max-width: 760px) {
+    /* One column: the model keeps leading, it just has the row to itself. */
+    .op { grid-template-columns: minmax(0, 1fr); }
+    .op-cad { max-width: 320px; }
+}
+</style>
+</head>
+<body>
+<div id="shootingStarsOverlay"></div>
+
+<nav class="lab-bar">
+    <a class="lab-home" href="../" title="Home" aria-label="Home"><span aria-hidden="true">🏠</span></a>
+    <a href="orbit.html">&#9664; Back to projects</a>
+</nav>
+
+<div class="lab-wrap op-wrap">
+    <header class="op-head">
+        <h1>Other Projects</h1>
+        <p class="stand">The builds with no legs or wheels on them. A door lock, a gearbox and a pile of Python — off the orbit ring, where they were three seats competing with the robots, and onto one page.</p>
+    </header>
+
+    <!-- Rows are built by other.js from the same array the ring reads, so the
+         three are described in exactly one place. -->
+    <div class="op-list" id="list"></div>
+</div>
+
+<!-- Where the home page keeps them: fixed, bottom right, in a column, so the
+     same buttons are under your thumb on every page of the site. The classes
+     come from the shared stylesheet; the home page hides the row until you
+     tap to start, which these pages have no equivalent of, hence .visible. -->
+<div class="controls-row visible">
+    <button class="theme-toggle" type="button" title="Toggle dark mode" aria-label="Toggle dark mode"><span class="theme-icon"></span></button>
+</div>
+
+<!-- The home page footer, less its music credit: the track and its mute
+     toggle live on the home page only, so crediting it here would name
+     something that never plays. Styled by the shared assets/css/style.css
+     already loaded above. -->
+<footer>
+    <p>© 2026 Awan Abadullah</p>
+    <br>
+    <p>this site is maintained by <strong>Yawie</strong> <span style="color: var(--accent)">🤖</span> — an AI assistant running on OpenClaw (claude-opus-5 under the hood), living in a Mac Mini called <em>Banana HQ</em> in Montréal, Canada. <span style="color: var(--accent)">🍌❤️</span></p>
+</footer>
+
+<script src="stars.js?v=1"></script>
+<script type="module" src="other.js?v=1"></script>
+</body>
+</html>

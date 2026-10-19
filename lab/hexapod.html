@@ -60,30 +60,43 @@
 .status dd { margin: 0; font-size: 0.95rem; color: var(--accent); }
 .status dd small { display: block; font-size: 0.74rem; color: var(--text); opacity: 0.55; font-weight: 400; margin-top: 4px; }
 
-.entry { margin-bottom: 56px; }
-.entry > time {
-    display: block;
+/* One line per update. The log grows by a single line at a time, so the whole
+   history stays skimmable instead of turning into a reading session. Date in
+   its own column, summary beside it, figure under the summary when there is
+   something worth showing. */
+.log { list-style: none; padding: 0; margin: 0 0 44px; }
+.log > li {
+    display: flex;
+    gap: 18px;
+    align-items: baseline;
+    padding: 16px 0;
+    border-top: 1px dashed color-mix(in srgb, var(--text) 25%, transparent);
+}
+.log > li:first-child { border-top: 0; }
+.log time {
+    flex: 0 0 6.5em;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.45;
+}
+.log .line { flex: 1 1 auto; min-width: 0; }
+.log p {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.97rem;
+    line-height: 1.7;
+}
+.log b { color: var(--accent); font-weight: 700; }
+.log figure { margin: 16px 0 0; }
+
+h3.block {
     font-size: 0.68rem;
     letter-spacing: 2.5px;
     text-transform: uppercase;
     opacity: 0.45;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
-.entry h2 {
-    font-size: clamp(1.05rem, 3.4vw, 1.4rem);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
-    line-height: 1.4;
-}
-.entry p {
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.8;
-    margin-bottom: 18px;
-}
-.entry p b { color: var(--accent); font-weight: 700; }
 
 figure { margin: 26px 0; }
 figure img {
@@ -125,31 +138,28 @@ figcaption {
 .targets li:first-child { border-top: 0; }
 .targets b { flex: 0 0 7.5em; color: var(--accent); }
 
-.note {
+/* Says up front how the page gets written, because a log that updates itself is
+   worth declaring before anyone reads a line of it. */
+.info {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
     border-left: 2px solid var(--accent);
-    padding: 4px 0 4px 18px;
-    margin: 26px 0;
+    padding: 10px 0 10px 16px;
+    margin: 22px 0 0;
     font-weight: 400;
-    font-size: 0.97rem;
-    line-height: 1.75;
-    opacity: 0.9;
-}
-
-.log-foot {
-    border-top: 2px solid var(--border);
-    padding-top: 18px;
-    font-size: 0.74rem;
-    font-weight: 400;
-    letter-spacing: 1px;
-    opacity: 0.4;
+    font-size: 0.9rem;
     line-height: 1.7;
+    opacity: 0.85;
 }
+.info .icon { flex: 0 0 auto; font-style: normal; }
+.info p { margin: 0; }
 
 @media (max-width: 600px) {
     .status div { border-right: 0; border-bottom: 2px solid var(--border); }
     .status div:last-child { border-bottom: 0; }
-    .targets li { flex-direction: column; gap: 2px; }
-    .targets b { flex: none; }
+    .targets li, .log > li { flex-direction: column; gap: 4px; }
+    .targets b, .log time { flex: none; }
 }
 </style>
 </head>
@@ -164,7 +174,12 @@ figcaption {
 <div class="lab-wrap log-wrap">
     <header class="log-head">
         <h1>Hexapod</h1>
-        <p class="stand">Six legs, eighteen servos, and a deadline in December. This is the running log of a walking robot being built one joint at a time, starting with the only part that matters right now: a single leg that moves.</p>
+        <p class="stand">Six legs, eighteen servos, a deadline in December. One line per update, newest first. First job: one leg that moves.</p>
+
+        <div class="info">
+            <i class="icon" aria-hidden="true">&#8505;&#65039;</i>
+            <p>This page writes itself. An AI agent reads the working design document and adds a line here whenever something real changes. Numbers stay provisional until a part has been printed, measured and loaded.</p>
+        </div>
     </header>
 
     <dl class="status">
@@ -178,92 +193,70 @@ figcaption {
         </div>
         <div>
             <dt>Settled</dt>
-            <dd>Joints<small>servo, linkage, power still open</small></dd>
+            <dd>Joints, drive path<small>servo, lengths, power still open</small></dd>
         </div>
     </dl>
 
-    <article class="entry">
-        <time datetime="2026-10-16">16 October 2026</time>
-        <h2>Eighty millimetres, probably</h2>
+    <ol class="log">
+        <li>
+            <time datetime="2026-10-18">18 Oct 2026</time>
+            <div class="line">
+                <p><b>One axis, two hubs.</b> The femur and the drive crank turn on the same hip bolt. Each gets its own hub. The tibia is one solid piece, so leg swing and knee angle come apart.</p>
+                <figure>
+                    <img src="img/hexapod/coaxial-hip.png" alt="Side-view kinematic schematic of one leg: a coxa bracket at the left with a double-ringed pivot where a short orange crank and a long blue femur both begin, a green pushrod running above the femur and roughly parallel to it, and a purple tibia hanging from the knee pivot at the femur's outer end.">
+                    <figcaption>Femur and crank share one bolt at the hip. Blue rings are free pivots.</figcaption>
+                </figure>
+            </div>
+        </li>
+        <li>
+            <time datetime="2026-10-18">18 Oct 2026</time>
+            <div class="line">
+                <p><b>Three handles before three servos.</b> No motors yet. I turn the leg by hand. Handles A and B sit on the hip, handle C under the body. Each hub copies the servo's bolt holes. The M3 spacer bolts have to clear the crank.</p>
+            </div>
+        </li>
+        <li>
+            <time datetime="2026-10-16">16 Oct 2026</time>
+            <div class="line">
+                <p><b>Eighty millimetres, probably.</b> The tibia is printed. Black PLA, about 80 mm. Its two holes set the knee lever. I have not measured them yet.</p>
+                <figure>
+                    <img src="img/hexapod/tibia-print.jpg" alt="Two photographs of the same 3D-printed tibia link lying on a pegboard: a long black tapered blade, widest at the top where a large circular opening sits, with a smaller hole directly above it and the body narrowing to a point at the far end.">
+                    <figcaption>Both knee holes are on this one part. The big seat takes the 623ZZ.</figcaption>
+                </figure>
+            </div>
+        </li>
+        <li>
+            <time datetime="2026-10-16">16 Oct 2026</time>
+            <div class="line">
+                <p><b>Four joints, two bearings.</b> 623ZZ bearings at the hip and knee, where the load is. Plain M3 pins at both ends of the pushrod. Twelve needed, fifteen ordered.</p>
+                <figure>
+                    <img src="img/hexapod/leg-linkage.jpg" alt="Diagram of the leg linkage: a femur between the hip and knee, a pushrod running above it from a drive crank to a tibia lever, with bearings marked at the hip and knee and plain pins at both ends of the pushrod.">
+                    <figcaption>The leg as a four-bar. Both servos stay on the body; only the links move.</figcaption>
+                </figure>
+            </div>
+        </li>
+        <li>
+            <time datetime="2026-10-14">14 Oct 2026</time>
+            <div class="line">
+                <p><b>CA$24.90 spent.</b> An M3 screw set, CA$15.22. Fifteen 623ZZ bearings, CA$9.68. The budget is CA$50. Spacers get printed, not bought.</p>
+            </div>
+        </li>
+        <li>
+            <time datetime="2026-10-14">14 Oct 2026</time>
+            <div class="line">
+                <p><b>What counts as working.</b> I wrote the targets down early so a stopwatch can prove them wrong. One rule: get a leg moving before anything pretty.</p>
+            </div>
+        </li>
+    </ol>
 
-        <p>There is a physical part now. The tibia came off the plate on the fifteenth, in black PLA, tapered from a fat knee end down to a point, carrying two holes and not one number I would defend.</p>
+    <h3 class="block">Targets, all provisional</h3>
+    <ul class="targets">
+        <li><b>Speed</b><span>0.20 m/s on a flat floor, over 2 m. 0.40 would be a good day.</span></li>
+        <li><b>Mass</b><span>Under 1.50 kg with battery. Design against 1.60 kg.</span></li>
+        <li><b>Runtime</b><span>Fifteen minutes of walking, not fifteen powered on.</span></li>
+        <li><b>Obstacle</b><span>Clear a 20 mm step.</span></li>
+        <li><b>Size</b><span>About 270 mm, leg tip to leg tip.</span></li>
+    </ul>
 
-        <figure>
-            <img src="img/hexapod/tibia-print.jpg" alt="Two photographs of the same 3D-printed tibia link lying on a pegboard: a long black tapered blade, widest at the top where a large circular opening sits, with a smaller hole directly above it and the body narrowing to a point at the far end.">
-            <figcaption>Both ends of the knee live on this one part. The large opening is the seat for the 623ZZ; the small hole above it is where the pushrod pin lands.</figcaption>
-        </figure>
-
-        <p>Call it 80 mm long. That is an estimate off the screen rather than a caliper reading, and the things I still have to measure outnumber the things I know &mdash; length, thickness, both hole diameters, and the centre-to-centre distance between them.</p>
-
-        <p>That last one is not bookkeeping. The gap between those two holes <i>is</i> the tibia lever, and the force in the pushrod is knee torque divided by that length. Lose a few millimetres there and the load climbs on the two joints I just decided could manage without bearings. The dimension I am least sure of sets the load case for the cheapest parts in the leg.</p>
-
-        <p>So the plain pins get built carefully, before I talk myself into bearings everywhere. Print the pushrod holes undersize, then drill or ream them to a close sliding fit on the M3. A washer between the moving links. A nyloc snugged until the axial play disappears and not a turn further. Then load it and go hunting &mdash; wear in the holes, slop at the knee. If either shows up, joints <b>3</b> and <b>4</b> get 623ZZ bearings and I pay for it in stack height.</p>
-    </article>
-
-    <article class="entry">
-        <time datetime="2026-10-16">16 October 2026</time>
-        <h2>Four joints, two bearings</h2>
-
-        <p>Drawing the leg out flat settled an argument I had been having with myself about how many bearings this thing actually needs.</p>
-
-        <figure>
-            <img src="img/hexapod/leg-linkage.jpg" alt="Diagram of the leg linkage: a femur between the hip and knee, a pushrod running above it from a drive crank to a tibia lever, with bearings marked at the hip and knee and plain pins at both ends of the pushrod.">
-            <figcaption>The leg as a four-bar. Both servos stay back on the body, at the left; only the links travel.</figcaption>
-        </figure>
-
-        <p>That is the whole idea of the layout. The motors never leave the body, so the mass swinging around at the end of a lever is printed plastic and an M3 bolt instead of a servo. The drive crank pushes the top link, the top link swings the tibia lever, and the tibia folds down under the femur.</p>
-
-        <p>Joints <b>1</b> and <b>2</b> carry real load. The hip holds up the entire leg; the knee holds up everything below it, and both of them rotate through the whole gait. Those get the <b>623ZZ</b> bearings. Joints <b>3</b> and <b>4</b> are the two ends of a pushrod — they take a shove along one axis and barely swing at all. A plain M3 pin through a reamed hole does that job, and it is two fewer parts to stack up inside a joint that is already tight.</p>
-
-        <p>Two bearings a leg, six legs, twelve bearings. I ordered fifteen. Three spare is about right for a first print, where one of them always ends up pressed into a hole that turned out oval.</p>
-    </article>
-
-    <article class="entry">
-        <time datetime="2026-10-14">14 October 2026</time>
-        <h2>CA$24.90, and a longer list of things I didn't buy</h2>
-
-        <p>The order came down to two lines. A 400-piece M3 assortment — button-head screws from 6 to 20 mm, nuts, washers — for <b>CA$15.22</b>, and fifteen <b>623ZZ</b> bearings, 3 mm bore, 10 mm outside diameter, 4 mm wide, for <b>CA$9.68</b>. That is <b>CA$24.90</b> against a fifty dollar ceiling, before tax and shipping.</p>
-
-        <p>The more useful list is what did not go in the basket. No ball links — they are for articulated pushrods, and these are hinges, so all they would add is slop exactly where I do not want it. No smooth shafts, no dowel pins, no shaft collars, no heat-set inserts, no bought spacers. The spacers get printed, because the only thing they have to do is press against the <i>inner</i> race of the bearing and touch nothing else. A normal M3 flat washer is too wide for that: it lands on the shield, and the joint it was supposed to free up stops turning.</p>
-
-        <p>So the joint is a stationary M3 bolt doing the work of an axle. The bearing's outer ring sits in the moving printed link, the bolt passes through the fixed fork, a narrow printed sleeve goes either side on the inner race, and a nut clamps that stack without ever touching the shields. Then the link has to still spin freely, or the whole thing gets taken apart again.</p>
-
-        <p class="note">A fully threaded bolt is not a precision bearing axle, and I know it. For a first leg that has to prove it can move under load at all, it is good enough, and it costs four dollars instead of forty.</p>
-
-        <p>One thing I refuse to assume: that a nominal M3 screw is a good fit in a nominal 3 mm bore. I will measure the actual screw and the actual bearing, print a fit-test coupon, and only then commit dimensions to a real part. The 20 mm screws are provisional for the same reason — two fork walls, a 4 mm bearing, two sleeves and room for a nut add up faster than they look on paper, and 25 mm may turn out to be the honest answer.</p>
-    </article>
-
-    <article class="entry">
-        <time datetime="2026-10-14">14 October 2026</time>
-        <h2>What counts as working</h2>
-
-        <p>Numbers first, so there is something concrete to fail against. &ldquo;Fast&rdquo; is not a requirement; a speed measured on a named surface is.</p>
-
-        <ul class="targets">
-            <li><b>Speed</b><span>At least 0.20 m/s on a flat indoor floor, timed over a 2 m run. 0.40 m/s would be a good day.</span></li>
-            <li><b>Mass</b><span>Under 1.50 kg assembled, battery included. 1.60 kg gets used as the load case, which is a different number doing a different job.</span></li>
-            <li><b>Runtime</b><span>Fifteen minutes of actual walking, not fifteen minutes powered on.</span></li>
-            <li><b>Obstacle</b><span>Clear a 20 mm threshold.</span></li>
-            <li><b>Size</b><span>Roughly 270 mm across, leg tip to leg tip.</span></li>
-        </ul>
-
-        <p>Every one of those is provisional. Writing them down this early is not about being right, it is about having something that can be proved wrong by a stopwatch.</p>
-
-        <p>The weight budget is the same kind of guess. Eighteen servos come to <b>378 g</b> on their own. Battery, 130 to 200. Printed parts, 250 to 450 depending on how brave the infill is. Pi and sensors, 70 to 120. Wiring, power and hardware, 120 to 220. Call it somewhere between <b>948 g and 1.37 kg</b> — comfortable against the limit, and it will stop being comfortable the first time a real part replaces an estimate.</p>
-
-        <p>Mass is worth pinning early because it feeds itself: more battery is more mass, more mass wants stronger servos, stronger servos want more battery. At 1.60 kg standing on three feet, each foot carries about <b>5.2 N</b>. Walking is worse than standing, and joint torque depends on lever arm and linkage geometry rather than that number alone — but it is the floor to design up from.</p>
-
-        <figure>
-            <img class="on-dark" src="img/hexapod/cad.png" alt="Placeholder CAD view of the hexapod: a six-sided body plate with servo blocks around its edge, five stub legs, and one leg drawn out in full with bearings at the hip and knee.">
-            <figcaption>Placeholder geometry, with the one leg that is actually being designed drawn out in full. The other five are stubs until it walks.</figcaption>
-        </figure>
-
-        <p>Still open: the servo itself, horn included, which gets chosen from measured size, torque and speed rather than a spec sheet I liked the look of. Linkage lengths. Final fits. The power budget. The controller plan is a Raspberry Pi doing the thinking and an ESP32 handling gait, possibly one per side, but that is a problem for a robot that already moves.</p>
-
-        <p class="note">The rule at the bottom of the doc, which is really a note to myself: a basic moving leg before aesthetic refinements or AI.</p>
-    </article>
-
-    <p class="log-foot">Build log, updated from the working document as the design moves. Figures and numbers are provisional until a part has been printed, measured and loaded.</p>
 </div>
 
 <!-- Where the home page keeps them: fixed, bottom right, in a column, so the
