@@ -26,11 +26,14 @@ function audio() {
         tame.type = 'lowpass';
         tame.frequency.value = 2600;
         master = ctx.createGain();
-        // 0.85 read too quiet against the site's music, then 1.5 still did
-        // (Awan, 2026-10-19, asked for another 50%). The per-voice gains top
-        // out around 0.11 even when arrive() stacks, so this peaks near 0.26 of
-        // full scale - still a long way from clipping.
-        master.gain.value = 2.25;
+        /* Raised three times on 2026-10-19: 0.85 read too quiet against the
+           site's music, then 1.5, then 2.25, and Awan asked for another 60%.
+           The per-voice gains top out around 0.11 even when arrive() stacks
+           every voice it has, so this peaks near 0.40 of full scale - loud,
+           and still with headroom rather than clipping.
+           check-sfx.js multiplies the worst cue by this and fails at 1.0, so
+           raising it again is safe to try: the probe says when it is too far. */
+        master.gain.value = 3.6;
         master.connect(tame).connect(ctx.destination);
     }
     if (ctx.state === 'suspended') ctx.resume();
