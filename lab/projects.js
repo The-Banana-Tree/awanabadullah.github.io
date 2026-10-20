@@ -7,6 +7,10 @@
    the ring - there is no separate page for them any more, which is what he
    asked for: everything lives on orbit.html. */
 
+/* Order is the ring's order, clockwise from the front: the first entry is what
+   the page opens on, and `other` is always the last seat because it is the door
+   out rather than a project. Everything between those two is his call on what
+   should be seen first. */
 export const PROJECTS = [
     // First in the list is first at the front of the ring, so the current build
     // is what the page opens on.
@@ -18,6 +22,19 @@ export const PROJECTS = [
         // In progress, so there is no repo to send anyone to - the build log is
         // the thing worth reading instead.
         log: 'hexapod.html'
+    },
+    /* Second seat, his call - straight after the build in progress rather than
+       at the back of the queue. */
+    {
+        id: 'mapsy',
+        name: 'MAPSY — Pool Cleaner',
+        blurb: 'Mobile Autonomous Pool Cleaner built at Western University: one robot doing four jobs, everything from vacuuming to chemical dosing. Sensors and propulsion written in C/C++, an image detection system in MATLAB, and the Innovative Design Prize at the Western Engineering Competition.',
+        tags: ['C/C++', 'MATLAB', 'Autonomous'],
+        /* No url: there is no repo for this one, so show() renders no 'View
+           code' button and the card is the hexapod's shape instead. No log
+           either - a write-up page is deferred until there are CAD, prototype
+           and final-product photos to put on it. When there are, a `log` key
+           here is the whole change. */
     },
     {
         id: 'manipulator',
@@ -32,16 +49,6 @@ export const PROJECTS = [
         blurb: 'Revision of an autonomous part collector, rebuilt around a systematic sensor and actuator selection process instead of whatever was in the parts bin.',
         tags: ['C++', 'Autonomous', 'Controls'],
         url: 'https://github.com/awanabad/Tyler-Version-2'
-    },
-    {
-        id: 'mapsy',
-        name: 'MAPSY — Pool Cleaner',
-        blurb: 'Mobile Autonomous Pool Cleaner built at Western University: one robot doing four jobs, everything from vacuuming to chemical dosing. Sensors and propulsion written in C/C++, an image detection system in MATLAB, and the Innovative Design Prize at the Western Engineering Competition.',
-        tags: ['C/C++', 'MATLAB', 'Autonomous'],
-        /* No url: there is no repo for this one, so show() renders no 'View
-           code' button and the card is the hexapod's shape instead. No log
-           either, yet - whether it gets a page of its own is still an open
-           question, and if it does, a `log` key here is the whole change. */
     },
     /* Last seat on the ring, and the only one that is a door rather than a
        project: it carries no repo of its own, just the page the three below
