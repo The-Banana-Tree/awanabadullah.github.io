@@ -33,6 +33,16 @@ export const PROJECTS = [
         tags: ['C++', 'Autonomous', 'Controls'],
         url: 'https://github.com/awanabad/Tyler-Version-2'
     },
+    {
+        id: 'mapsy',
+        name: 'MAPSY — Pool Cleaner',
+        blurb: 'Mobile Autonomous Pool Cleaner built at Western University: one robot doing four jobs, everything from vacuuming to chemical dosing. Sensors and propulsion written in C/C++, an image detection system in MATLAB, and the Innovative Design Prize at the Western Engineering Competition.',
+        tags: ['C/C++', 'MATLAB', 'Autonomous'],
+        /* No url: there is no repo for this one, so show() renders no 'View
+           code' button and the card is the hexapod's shape instead. No log
+           either, yet - whether it gets a page of its own is still an open
+           question, and if it does, a `log` key here is the whole change. */
+    },
     /* Last seat on the ring, and the only one that is a door rather than a
        project: it carries no repo of its own, just the page the three below
        are laid out on. Its model is a placeholder heap of cubes on purpose -

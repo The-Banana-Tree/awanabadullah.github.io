@@ -221,6 +221,58 @@ export function buildHexapod() {
     return g;
 }
 
+export function buildMapsy() {
+    const g = new THREE.Group();
+    /* A pool cleaner is a box that crawls, so the whole model is chunky by
+       nature and nothing here needs to be thin. Five shapes: hull, deck,
+       intake, brush, wheels. Everything a real one has besides those - the
+       filter cartridge, the dosing line, the float - is either inside the
+       hull or too slight to survive 146px, so it is left out rather than
+       drawn as a smudge across the shell.
+
+       The hull is narrow for its length on purpose, about 0.64 as wide as it
+       is long. fitModel only normalises the LONGEST axis, so a model that is
+       chunky in two of them at once has a diagonal far wider than the 4.4 it
+       was fitted to - and the slow spin swings that diagonal across the camera
+       once a revolution. At 2.4 wide this hull was cropped at both ends for
+       most of every turn. The rover, which frames cleanly, sits at 0.60; this
+       is the same trade, and it costs nothing the silhouette needs.
+
+       It also faces nose-left, because that is the side the viewer's rest
+       angle shows. Built nose-right, the intake and the brush - the two parts
+       that say what the machine is - spent most of the turn round the back and
+       it read as a plain green box. */
+    g.add(place(shell(new THREE.BoxGeometry(3.2, 1.15, 1.9)), 0, 0, 0));
+    /* A second, smaller box stepped back on top rather than one tall slab.
+       The step is what stops the silhouette being a plain rectangle at
+       thumbnail size - it gives the hull a nose and a back, which is the
+       cheapest way to say which end goes first. */
+    g.add(place(shell(new THREE.BoxGeometry(2.3, 0.65, 1.45)), 0.25, 0.86, 0));
+    /* The intake, on the nose rather than underneath. A real one takes water
+       in through the floor, but the viewer looks slightly down at the model
+       from y=0.9, so an underside mouth is a face nobody ever sees. Proud of
+       the hull by enough to draw its own outline instead of sharing the
+       hull's, same trick as the door lock's reader panel. */
+    g.add(place(shell(new THREE.BoxGeometry(0.45, 0.72, 1.35), ACCENT), -1.72, -0.12, 0));
+    /* The brush roller, and the one part where the segment count is doing
+       work. Six sides means every facet meets its neighbour at sixty degrees,
+       so all six edges clear the 25 degree test and the cylinder comes out
+       fluted along its whole length. Modelling actual bristles - or even ten
+       flutes - would have put a band of flicker across the front of the
+       machine, which is the gearbox's old mistake. Few and deep survives the
+       shrink. */
+    g.add(place(shell(new THREE.CylinderGeometry(0.44, 0.44, 1.7, 6), MARK), -1.62, -0.72, 0, Math.PI / 2, 0, 0));
+    /* Two fat drive wheels, not four: the brush roller already holds the front
+       up, so a second pair would only be two more discs competing with it. Set
+       proud of the hull sides so they read as wheels rather than as wells cut
+       into it. Ten sides, like the rover's - short and fat enough that the
+       facet stripes read as tread instead of as noise. */
+    [0.95, -0.95].forEach(z => {
+        g.add(place(shell(new THREE.CylinderGeometry(0.6, 0.6, 0.42, 10)), 0.95, -0.62, z, Math.PI / 2, 0, 0));
+    });
+    return g;
+}
+
 export function buildOtherArrow() {
     const g = new THREE.Group();
     /* The Other Projects card, and the one model here that is not a thing
@@ -270,5 +322,6 @@ export const MODELS = {
     drill: buildGearbox,
     python: buildPipeline,
     hexapod: buildHexapod,
+    mapsy: buildMapsy,
     other: buildOtherArrow
 };
