@@ -60,7 +60,9 @@
 .orbit-cards {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* Two across, his call, so the third sits under the first and the row of
+       three stops squeezing every blurb into a narrow column. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
     align-items: stretch;
 }
@@ -73,13 +75,15 @@
     position: relative;
     z-index: 2;
 }
-/* Square, because every model is auto-fitted into a square by fitModel and
-   the viewer renders at the canvas's own aspect. Width-driven, so the row
-   reflows without the canvas having to be told anything. */
+/* Wide, not square. Two cards across rather than three doubled their width,
+   and a square canvas at that width is a 500px-tall slab of mostly empty
+   space above and below the model - the viewer frames vertically, so height
+   past what the model needs is height it does not use. Width-driven either
+   way, so the grid reflows without the canvas being told anything. */
 .ocard canvas {
     display: block;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 3 / 2;
     flex: 0 0 auto;
 }
 /* The writing, back on his instruction and carrying what the old standalone
@@ -156,6 +160,13 @@
 /* lab.css gives .detail `display: flex`, which beats the [hidden] default -
    so hiding it needs saying here, at a specificity that wins. */
 .detail[hidden] { display: none; }
+
+/* ---- the wide ring, on a collection card only ----
+   Every other card keeps its panel in the second column, so the box stays in
+   the first. This one has no panel, and leaving the box where it was put a
+   370px lake of starfield beside it. The class is set from show(), so the box
+   is only ever wide on the card that actually freed the column. */
+.orbit-layout.wide #orbitBox { grid-column: 1 / -1; }
 
 /* The starfield is a fixed, full-page overlay at z-index 999999, so stars were
    streaking straight through the model and across the panel's text. Dropping it
@@ -502,6 +513,10 @@
         align-items: center;
         padding: 12px;
     }
+    /* Square again at thumbnail size: the model is beside the writing here,
+       not above it, so the canvas is as tall as it is wide or the model loses
+       the only dimension it has left. */
+    .ocard canvas { aspect-ratio: 1 / 1; }
     .ocard-body { border-top: 0; padding: 0; }
     .ocard-name { font-size: 0.76rem; margin-bottom: 8px; }
     .ocard-tags { gap: 4px; margin-bottom: 9px; }
@@ -590,6 +605,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=20"></script>
+<script type="module" src="orbit.js?v=22"></script>
 </body>
 </html>

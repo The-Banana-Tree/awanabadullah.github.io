@@ -94,7 +94,14 @@ function measure() {
 
     // A node at any angle lands inside the box: widest sideways, lowest and
     // highest down and up. Vertical room is asymmetric because the label hangs.
-    R = Math.min(250, ...g.map(n =>
+    /* The ceiling used to be 250, which never bound at the box's usual width -
+       the label-clearance constraint below lands around 237 there - but did
+       the moment the box went full-width on a collection card. The ring then
+       stayed its old size in a box nearly twice as wide and the thing read as
+       a frame around nothing, which is the failure this page keeps finding.
+       420 is high enough to let the ring open out and still be the constraint
+       that decides, so normal cards are completely unaffected. */
+    R = Math.min(420, ...g.map(n =>
         Math.abs(n.sin) < 0.01 ? Infinity : (w - n.hw) / Math.abs(n.sin)));
     TILT = Math.min(R * LEAN, ...g.map(n => {
         const reach = n.cos > 0 ? n.down : n.up;   // which end leads the way out
@@ -205,6 +212,7 @@ function typeTitle(text) {
 }
 
 const subCards = document.getElementById('subCards');
+const layout = document.querySelector('.orbit-layout');
 
 /* A card that stands for several projects shows them as CAD boxes under the
    ring instead of hiding them behind a press. Which projects is decided here
@@ -279,6 +287,10 @@ function show(i) {
        two things he wanted gone from this card. */
     subCards.hidden = !items;
     detail.hidden = !!items;
+    /* With the panel gone the second column is free, so the ring box takes it
+       rather than leaving a lake of starfield beside itself. Only on this kind
+       of card - every other one still needs that column for its panel. */
+    layout.classList.toggle('wide', !!items);
     if (items) {
         if (!cardViewers) buildCards(p, items);
         subCards.setAttribute('aria-label', `The ${items.length} projects on ${p.name}`);
