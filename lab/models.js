@@ -226,21 +226,57 @@ export function buildOtherStack() {
     /* Deliberately a placeholder and nothing else. This one rides the ring
        card that stands for three unrelated builds - a door lock, a gearbox, a
        pile of scripts - and whichever of their three models went here would
-       have quietly claimed the card for that project. Assorted blocks claim it
-       for none of them, and the three real models are on the page it opens.
+       have quietly claimed the card for that project. Blocks claim it for none
+       of them, and the three real models are on the cards below.
 
-       A heap rather than a stack: three blocks taking the weight, three small
-       ones tumbled on and beside them, no two at the same angle. Cubes are the
-       one shape where every edge passes the 25 degree test, so the pile reads
-       as outlines however it is turned. */
-    const cube = (s, x, y, z, rx, ry, color) =>
-        place(shell(new THREE.BoxGeometry(s, s, s), color), x, y, z, rx, ry, 0);
-    g.add(cube(1.70, -0.90, -0.85,  0.20,  0.00,  0.22, LINE));
-    g.add(cube(1.40,  0.85, -0.95, -0.35,  0.00, -0.50, LINE));
-    g.add(cube(1.20, -0.15,  0.35,  0.55,  0.18,  0.75, ACCENT));
-    g.add(cube(0.80,  1.00,  0.25,  0.45,  0.40,  0.30, MARK));
-    g.add(cube(0.62, -1.25,  0.50, -0.60, -0.30,  0.90, ACCENT));
-    g.add(cube(0.50,  0.10,  1.25, -0.10,  0.25, -0.35, MARK));
+       A tidy stack, not the tumbled heap this started as: every cube on the
+       same axes, spaced a hair wider than they are so each one keeps its own
+       outline instead of welding into a blob. Cubes are the one shape where
+       every edge passes the 25 degree test, so the stack reads as outlines
+       however it is turned. */
+    const S = 1.0, G = 1.08;
+    const cube = (x, y, z, color) =>
+        place(shell(new THREE.BoxGeometry(S, S, S), color), x * G, y * G, z * G);
+    /* Two layers, not three. Three stacked the model tall enough that fitting
+       it alongside the arrow pushed the cubes into the bottom of the ring box,
+       where the front node's label paints over them - and a stack that deep
+       stops being countable anyway. Four down, three up, one corner left open
+       so the top layer reads as separate blocks rather than a lid. */
+    g.add(cube(-0.5, -0.5, -0.5, LINE));
+    g.add(cube( 0.5, -0.5, -0.5, LINE));
+    g.add(cube(-0.5, -0.5,  0.5, ACCENT));
+    g.add(cube( 0.5, -0.5,  0.5, LINE));
+    g.add(cube(-0.5,  0.5, -0.5, ACCENT));
+    g.add(cube( 0.5,  0.5, -0.5, MARK));
+    g.add(cube(-0.5,  0.5,  0.5, LINE));
+
+    /* An arrow over the stack, pointing down at it - and, once the card is on
+       screen, down at the three project cards that sit under the ring. Four
+       sides on the head rather than a round cone: every facet then meets its
+       neighbour at ninety degrees, so the whole head is outlined instead of
+       turning into an unlined dark blob the way a smooth cone does. */
+    const arrow = new THREE.Group();
+    arrow.add(place(shell(new THREE.BoxGeometry(0.26, 0.95, 0.26), MARK), 0, 0.5, 0));
+    // rx only. An extra turn in the rz slot does not spin the head about its
+    // own axis, it tips the whole thing sideways, and the arrow stops pointing
+    // anywhere in particular.
+    arrow.add(place(shell(new THREE.ConeGeometry(0.46, 0.75, 4), MARK), 0, -0.38, 0, Math.PI, 0, 0));
+    // Apex sits just clear of the top layer at rest, and dips to touch it at
+    // the bottom of the bounce - which is what makes it read as pointing at
+    // the stack rather than floating above it.
+    arrow.position.set(0, 2.05, 0);
+    g.add(arrow);
+
+    /* The bounce. Exposed as a function on the group rather than run from a
+       timer in here: viewer.js already has the only frame loop on the page, so
+       it calls this once per frame and nothing else has to keep time. `bob` is
+       hung on userData too, so a headless check can prove the arrow moves
+       without having to read pixels. */
+    const restY = arrow.position.y;
+    g.userData.bob = arrow;
+    g.userData.animate = (t) => {
+        arrow.position.y = restY + Math.sin(t * 2.6) * 0.22;
+    };
     return g;
 }
 

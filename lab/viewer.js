@@ -1,5 +1,5 @@
 import * as THREE from '../assets/vendor/three.module.min.js';
-import { MODELS, fitModel, FIT_SIZE, syncPalette, ACCENT } from './models.js?v=13';
+import { MODELS, fitModel, FIT_SIZE, syncPalette, ACCENT } from './models.js?v=14';
 
 /* A small rotating CAD viewport per card.
    Five cards means five little scenes. Rather than five WebGL contexts, they
@@ -58,12 +58,20 @@ export function makeViewer(canvas, projectId, { settle = false } = {}) {
     camera.position.set(0, 0.9, (FIT_SIZE / 0.8) / (2 * Math.tan(THREE.MathUtils.degToRad(20))));
     camera.lookAt(0, 0, 0);
 
-    const pivot = fitModel(build());
+    /* fitModel wraps the built group in a pivot, so the group itself has to be
+       kept hold of separately - that is where a model hangs its own per-frame
+       animation, and reaching back through the pivot for it would depend on
+       how fitModel happens to nest things. */
+    const built = build();
+    const pivot = fitModel(built);
     scene.add(pivot);
 
     const ctx = canvas.getContext('2d');
     const v = {
         scene, camera, pivot, canvas, ctx, build, rim, settle,
+        // Optional, and most models have none: a function the model wants run
+        // once a frame, for a part that moves independently of the slow spin.
+        anim: built.userData.animate || null,
         // A settling viewer always enters from the same side, so the turn it
         // makes on the way to rest is the same every time.
         spin: settle ? REST - Math.PI * 0.8 : Math.random() * Math.PI * 2,
@@ -97,7 +105,11 @@ export function setViewerModel(v, projectId) {
     v.scene.remove(v.pivot);
     disposeGroup(v.pivot);
     v.build = build;
-    v.pivot = fitModel(build());
+    const built = build();
+    v.pivot = fitModel(built);
+    // Re-read it: the old model's animation closed over geometry that has just
+    // been disposed, so keeping it would move a part that no longer exists.
+    v.anim = built.userData.animate || null;
     v.scene.add(v.pivot);
     bootViewer(v);
 }
@@ -118,7 +130,11 @@ function rebuildAll() {
         const spinWas = v.pivot.rotation.y;
         v.scene.remove(v.pivot);
         disposeGroup(v.pivot);
-        v.pivot = fitModel(v.build());
+        const built = v.build();
+        v.pivot = fitModel(built);
+        // Same as in setViewerModel: the rebuilt model owns a new animation,
+        // and the old one points at geometry that has just been disposed.
+        v.anim = built.userData.animate || null;
         v.pivot.rotation.y = spinWas;
         v.scene.add(v.pivot);
         v.rim.color.setHex(ACCENT);
@@ -129,9 +145,17 @@ new MutationObserver(rebuildAll).observe(document.documentElement, {
     attributes: true, attributeFilter: ['data-theme']
 });
 
+/* A part that moves on its own - the Other Projects arrow bouncing - is the
+   one thing in here worth holding still for someone who asked for less motion.
+   The slow spin stays either way: it is what says the thing is a model rather
+   than a picture, and it predates this. */
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
 function frame() {
     requestAnimationFrame(frame);
     const { canvas: off, renderer } = sharedRenderer();
+    // One clock for every viewer, so two of the same model stay in step.
+    const now = performance.now() / 1000;
 
     for (let vi = viewers.length - 1; vi >= 0; vi--) {
         const v = viewers[vi];
@@ -166,6 +190,9 @@ function frame() {
         v.pivot.rotation.y = v.spin;
         v.pivot.scale.setScalar(0.4 + 0.6 * ease);
         v.pivot.rotation.x = (1 - ease) * 0.9;
+        // Run after the pivot is posed: the model moves a part inside it, and
+        // the pivot's own transform carries that along for free.
+        if (v.anim && !reduceMotion.matches) v.anim(now);
 
         sizeShared(renderer, off, v.canvas.width, v.canvas.height);
         v.camera.aspect = w / h;
