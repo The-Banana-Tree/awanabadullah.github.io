@@ -221,57 +221,40 @@ export function buildHexapod() {
     return g;
 }
 
-export function buildOtherStack() {
+export function buildOtherArrow() {
     const g = new THREE.Group();
-    /* Deliberately a placeholder and nothing else. This one rides the ring
-       card that stands for three unrelated builds - a door lock, a gearbox, a
-       pile of scripts - and whichever of their three models went here would
-       have quietly claimed the card for that project. Blocks claim it for none
-       of them, and the three real models are on the cards below.
+    /* The Other Projects card, and the one model here that is not a thing
+       being built. Any of the three real models - door lock, gearbox, pile of
+       scripts - would have quietly claimed the shared card for that one
+       project, and the cube stack this started as was a stand-in for all
+       three. His call was to drop the cubes and keep only the arrow, which
+       stops it pretending to be an object at all: it is a pointer, down at the
+       three project cards sitting under the ring.
 
-       A tidy stack, not the tumbled heap this started as: every cube on the
-       same axes, spaced a hair wider than they are so each one keeps its own
-       outline instead of welding into a blob. Cubes are the one shape where
-       every edge passes the 25 degree test, so the stack reads as outlines
-       however it is turned. */
-    const S = 1.0, G = 1.08;
-    const cube = (x, y, z, color) =>
-        place(shell(new THREE.BoxGeometry(S, S, S), color), x * G, y * G, z * G);
-    /* Two layers, not three. Three stacked the model tall enough that fitting
-       it alongside the arrow pushed the cubes into the bottom of the ring box,
-       where the front node's label paints over them - and a stack that deep
-       stops being countable anyway. Four down, three up, one corner left open
-       so the top layer reads as separate blocks rather than a lid. */
-    g.add(cube(-0.5, -0.5, -0.5, LINE));
-    g.add(cube( 0.5, -0.5, -0.5, LINE));
-    g.add(cube(-0.5, -0.5,  0.5, ACCENT));
-    g.add(cube( 0.5, -0.5,  0.5, LINE));
-    g.add(cube(-0.5,  0.5, -0.5, ACCENT));
-    g.add(cube( 0.5,  0.5, -0.5, MARK));
-    g.add(cube(-0.5,  0.5,  0.5, LINE));
-
-    /* An arrow over the stack, pointing down at it - and, once the card is on
-       screen, down at the three project cards that sit under the ring. Four
-       sides on the head rather than a round cone: every facet then meets its
-       neighbour at ninety degrees, so the whole head is outlined instead of
-       turning into an unlined dark blob the way a smooth cone does. */
+       Four sides on the head rather than a round cone. Every facet then meets
+       its neighbour at ninety degrees, so the whole head is outlined; a smooth
+       cone has no edge that passes the 25 degree test and renders as an
+       unlined dark blob among lined parts. */
     const arrow = new THREE.Group();
-    arrow.add(place(shell(new THREE.BoxGeometry(0.26, 0.95, 0.26), MARK), 0, 0.5, 0));
+    arrow.add(place(shell(new THREE.BoxGeometry(0.30, 1.50, 0.30), MARK), 0, 0.85, 0));
     // rx only. An extra turn in the rz slot does not spin the head about its
     // own axis, it tips the whole thing sideways, and the arrow stops pointing
     // anywhere in particular.
-    arrow.add(place(shell(new THREE.ConeGeometry(0.46, 0.75, 4), MARK), 0, -0.38, 0, Math.PI, 0, 0));
-    // Apex sits just clear of the top layer at rest, and dips to touch it at
-    // the bottom of the bounce - which is what makes it read as pointing at
-    // the stack rather than floating above it.
-    arrow.position.set(0, 2.05, 0);
+    arrow.add(place(shell(new THREE.ConeGeometry(0.62, 1.00, 4), MARK), 0, -0.40, 0, Math.PI, 0, 0));
     g.add(arrow);
 
     /* The bounce. Exposed as a function on the group rather than run from a
        timer in here: viewer.js already has the only frame loop on the page, so
        it calls this once per frame and nothing else has to keep time. `bob` is
        hung on userData too, so a headless check can prove the arrow moves
-       without having to read pixels. */
+       without having to read pixels.
+
+       Amplitude is in model units, applied after fitModel has scaled the
+       group, so it has to stay inside the 20% of margin the camera leaves
+       around a fitted model. The arrow is 2.5 units tall and fits to 4.4, so
+       0.22 here lands at about 0.39 on a 0.44 margin - slight, and it does not
+       clip at the top of the swing. Grow the arrow and this can grow with it;
+       shrink the arrow without shrinking this and it will. */
     const restY = arrow.position.y;
     g.userData.bob = arrow;
     g.userData.animate = (t) => {
@@ -287,5 +270,5 @@ export const MODELS = {
     drill: buildGearbox,
     python: buildPipeline,
     hexapod: buildHexapod,
-    other: buildOtherStack
+    other: buildOtherArrow
 };
