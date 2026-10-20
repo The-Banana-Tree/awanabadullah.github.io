@@ -1,4 +1,4 @@
-import { PROJECTS, OTHER } from './projects.js?v=16';
+import { PROJECTS, OTHER } from './projects.js?v=17';
 import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=16';
 import { sfx } from './sfx.js?v=14';
 
@@ -257,8 +257,11 @@ function show(i) {
     // projects.js moves the total on its own.
     counter.innerHTML = `<b>${i + 1}</b>/${N}`;
 
-    /* What the card leads to, and how it says so. Three shapes:
+    /* What the card leads to, and how it says so. Four shapes:
          log:   a build still being written - sticker over the model
+         page:  a finished project with a write-up - same sticker, different
+                words on it, because 'build log' would be a lie about a
+                project that ended in 2021
          items: a card standing for several projects - a row of CAD cards
                 below, replacing the detail panel entirely. Each one carries
                 its own model, tags, blurb and View code button, so the card
@@ -268,10 +271,18 @@ function show(i) {
        makes it read as being pressed on each time rather than fading in with
        the panel. */
     const items = COLLECTIONS[p.id];
-    sticker.hidden = !p.log;
-    if (p.log) {
-        sticker.href = p.log;
-        sticker.setAttribute('aria-label', `Read the ${p.name} build log`);
+    const read = p.log
+        ? { href: p.log,  face: 'View<br>build<br>log',   kind: 'build log' }
+        : p.page
+        ? { href: p.page, face: 'Read<br>the<br>write-up', kind: 'write-up' }
+        : null;
+    sticker.hidden = !read;
+    if (read) {
+        sticker.href = read.href;
+        // The face is written from here rather than sitting in the markup, so
+        // the two kinds of reading page cannot end up sharing one label.
+        sticker.innerHTML = `<span>${read.face}</span>`;
+        sticker.setAttribute('aria-label', `Read the ${p.name} ${read.kind}`);
         sticker.style.animation = 'none';
         void sticker.offsetWidth;
         sticker.style.animation = '';
@@ -308,11 +319,13 @@ function show(i) {
     void detail.offsetWidth;
     detail.classList.add('swap');
     /* A finished project points at its repo; one still being built points at
-       its log. A project with neither just drops the anchor rather than
-       rendering a dead button. */
+       its log; one that is done and written up points at the write-up. A
+       project with none of those just drops the anchor rather than rendering a
+       dead button. */
     const links = [
         p.url && `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`,
         p.log && `<a class="d-link" href="${p.log}">Build log</a>`,
+        p.page && `<a class="d-link" href="${p.page}">Write-up</a>`,
     ].filter(Boolean).join('');
     // No name in the panel: the heading above the model already carries it,
     // and printed twice on one screen it read as a mistake.

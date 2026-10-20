@@ -594,7 +594,9 @@
                 <div class="orbit-core"></div>
                 <canvas id="cad"></canvas>
             </div>
-            <a class="orbit-sticker" id="sticker" hidden><span>View<br>build<br>log</span></a>
+            <!-- Face left empty: show() writes it, because a build log and a
+                 finished write-up need different words on the same sticker. -->
+            <a class="orbit-sticker" id="sticker" hidden><span></span></a>
             <!-- aria-hidden: the ring is already a list of named buttons and
                  the heading announces the one at the front, so reading a
                  position out as well would only say the same thing twice. -->
@@ -635,6 +637,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=26"></script>
+<script type="module" src="orbit.js?v=27"></script>
 </body>
 </html>

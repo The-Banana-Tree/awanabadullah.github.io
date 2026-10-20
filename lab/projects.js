@@ -31,10 +31,11 @@ export const PROJECTS = [
         blurb: 'Mobile Autonomous Pool Cleaner built at Western University: one robot doing four jobs, everything from vacuuming to chemical dosing. Sensors and propulsion written in C/C++, an image detection system in MATLAB, and the Innovative Design Prize at the Western Engineering Competition.',
         tags: ['C/C++', 'MATLAB', 'Autonomous'],
         /* No url: there is no repo for this one, so show() renders no 'View
-           code' button and the card is the hexapod's shape instead. No log
-           either - a write-up page is deferred until there are CAD, prototype
-           and final-product photos to put on it. When there are, a `log` key
-           here is the whole change. */
+           code' button. `page` rather than `log` because the project is
+           finished - the hexapod's log is a dated diary that grows, this is a
+           write-up of something that already happened, and show() words both
+           the sticker and the panel button differently for each. */
+        page: 'mapsy.html'
     },
     {
         id: 'manipulator',
