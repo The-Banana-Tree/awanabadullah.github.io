@@ -213,6 +213,7 @@ function typeTitle(text) {
 
 const subCards = document.getElementById('subCards');
 const layout = document.querySelector('.orbit-layout');
+const counter = document.getElementById('counter');
 
 /* A card that stands for several projects shows them as CAD boxes under the
    ring instead of hiding them behind a press. Which projects is decided here
@@ -251,6 +252,10 @@ function buildCards(p, items) {
 
 function show(i) {
     const p = PROJECTS[i];
+
+    // Counted from the list, not written down anywhere: adding a project to
+    // projects.js moves the total on its own.
+    counter.innerHTML = `<b>${i + 1}</b>/${N}`;
 
     /* What the card leads to, and how it says so. Three shapes:
          log:   a build still being written - sticker over the model

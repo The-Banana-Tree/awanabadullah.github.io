@@ -371,6 +371,22 @@
 
 /* Pinned to the box, not under the model: centred beneath the stage it landed
    on top of the front node's label. */
+/* Where you are in the ring, top left of the box. The ring shows position by
+   turning, which tells you something is moving but not how much is left - six
+   nodes and four look much the same mid-spin. */
+.orbit-count {
+    position: absolute;
+    top: 13px; left: 14px;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    opacity: 0.4;
+    pointer-events: none;
+    font-variant-numeric: tabular-nums;
+}
+/* Only the current number is lit. The total is context, and at the same
+   weight the pair read as one four-character word rather than a count. */
+.orbit-count b { color: var(--accent); font-weight: 700; opacity: 1; }
+
 .orbit-cad-tag {
     position: absolute;
     top: 14px; right: 14px;
@@ -473,6 +489,9 @@
     .orbit-hint { top: 12px; bottom: auto; }
     /* Swaps with the hint so the two don't meet in the middle of a narrow box. */
     .orbit-cad-tag { top: auto; right: auto; bottom: 14px; left: 14px; }
+    /* The hint takes top left at this width, so the counter crosses to the
+       corner the cad tag just vacated rather than sitting on top of it. */
+    .orbit-count { left: auto; right: 14px; }
     .orbit-node { width: 142px; margin-left: -71px; }
     .orbit-node button { font-size: 0.66rem; padding: 8px 6px; letter-spacing: 1px; }
 }
@@ -569,6 +588,10 @@
                 <canvas id="cad"></canvas>
             </div>
             <a class="orbit-sticker" id="sticker" hidden><span>View<br>build<br>log</span></a>
+            <!-- aria-hidden: the ring is already a list of named buttons and
+                 the heading announces the one at the front, so reading a
+                 position out as well would only say the same thing twice. -->
+            <span class="orbit-count" id="counter" aria-hidden="true"></span>
             <span class="orbit-cad-tag">placeholder geometry</span>
             <div class="orbit-track" id="track"></div>
             <div class="orbit-ctrl">
@@ -605,6 +628,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=22"></script>
+<script type="module" src="orbit.js?v=23"></script>
 </body>
 </html>
