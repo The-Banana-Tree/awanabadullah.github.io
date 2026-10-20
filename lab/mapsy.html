@@ -238,31 +238,34 @@ figure.tall img {
        figure that has the full column to itself only shrinks it. */
     .fig-pair.level img { height: auto; object-fit: fill; }
 }
-/* Both of these strips hold exactly four cells, and at this width auto-fit
-   wraps them into a 2x2 rather than a column. Stripping the right-hand border
-   off every cell - which is what a single column would want - leaves the two
-   columns with no divider between them and the bottom row short of a border.
-   So: keep the 2x2 and close it properly. */
 @media (max-width: 600px) {
-    .status, .jobs { grid-template-columns: 1fr 1fr; }
-    .status div, .jobs li {
+    /* .jobs holds exactly four cells, and at this width auto-fit wraps them
+       into a 2x2 rather than a column. Stripping the right-hand border off
+       every cell - which is what a single column would want - leaves the two
+       columns with no divider between them and the bottom row short of a
+       border. So: keep the 2x2 and close it properly. */
+    .jobs { grid-template-columns: 1fr 1fr; }
+    .jobs li {
         border-right: 2px solid var(--border);
         border-bottom: 2px solid var(--border);
     }
-    .status div:nth-child(2n), .jobs li:nth-child(2n) { border-right: 0; }
-    .status div:nth-last-child(-n+2), .jobs li:nth-last-child(-n+2) { border-bottom: 0; }
+    .jobs li:nth-child(2n) { border-right: 0; }
+    .jobs li:nth-last-child(-n+2) { border-bottom: 0; }
+    /* .status is three cells, so a wrap would leave the second row half
+       empty. It goes to one column instead. */
+    .status { grid-template-columns: 1fr; }
+    .status div { border-right: 0; border-bottom: 2px solid var(--border); }
+    .status div:last-child { border-bottom: 0; }
     .targets li { flex-direction: column; gap: 4px; }
     .targets b { flex: none; }
     figure.tall img { max-height: none; width: 100%; }
 }
 /* Narrow enough that two columns of this stop being readable. */
 @media (max-width: 420px) {
-    .status, .jobs { grid-template-columns: 1fr; }
-    .status div, .jobs li { border-right: 0; }
-    .status div:last-child, .jobs li:last-child { border-bottom: 0; }
-    .status div:nth-last-child(2), .jobs li:nth-last-child(2) {
-        border-bottom: 2px solid var(--border);
-    }
+    .jobs { grid-template-columns: 1fr; }
+    .jobs li { border-right: 0; }
+    .jobs li:last-child { border-bottom: 0; }
+    .jobs li:nth-last-child(2) { border-bottom: 2px solid var(--border); }
 }
 </style>
 </head>
@@ -277,11 +280,11 @@ figure.tall img {
 <div class="lab-wrap case-wrap">
     <header class="case-head">
         <h1>MAPSY</h1>
-        <p class="stand">A pool cleaner that did all four jobs instead of one: skim the surface, vacuum the floor, chlorinate, hold the pH. Final-year mechatronic design project at Western University, five of us, written up here from the report we handed in.</p>
+        <p class="stand">A pool cleaner that did all four jobs instead of one: skim the surface, vacuum the floor, chlorinate, hold the pH. Final-year mechatronic design project at Western University, written up here from the final report.</p>
 
         <div class="info">
             <i class="icon" aria-hidden="true">&#8505;&#65039;</i>
-            <p>Every figure on this page is the team's own work — our CAD, our simulations, our plots, our prototype photos. The report also cited figures from other people's papers and product listings; those are not reproduced here.</p>
+            <p>Every figure on this page came out of the project itself — its CAD, its simulations, its plots, its prototype photos. The report also cited figures from other people's papers and product listings; those are not reproduced here.</p>
         </div>
     </header>
 
@@ -293,10 +296,6 @@ figure.tall img {
         <div>
             <dt>Submitted</dt>
             <dd>16 Apr 2021<small>final design report</small></dd>
-        </div>
-        <div>
-            <dt>Team</dt>
-            <dd>Five<small>mechatronic design</small></dd>
         </div>
         <div>
             <dt>Outcome</dt>
@@ -324,10 +323,10 @@ figure.tall img {
         </section>
 
         <section>
-            <h2>What we were aiming at</h2>
-            <p>One robot, doing all four, for less than the stack of single-purpose machines it replaced. It had to map the pool, steer around obstacles and towards debris, collect both floating and sunken debris, sink to the floor and come back up, dose the chemicals, and keep its own electronics dry while doing it.</p>
+            <h2>What it had to do</h2>
+            <p>One robot, doing all four, for less than the stack of single-purpose machines it replaced. MAPSY had to map the pool, steer around obstacles and towards debris, collect both floating and sunken debris, sink to the floor and come back up, dose the chemicals, and keep its own electronics dry while doing it.</p>
             <ul class="targets">
-                <li><b>Budget</b><span>$625 CAD for the prototype — $250 from the five of us, $375 from Western.</span></li>
+                <li><b>Budget</b><span>$625 CAD for the prototype, $375 of it funded by Western University.</span></li>
                 <li><b>Runtime</b><span>1.5 to 3 hours in a 4.5 × 9 × 2.5 m pool, about what the manual job costs you.</span></li>
                 <li><b>pH</b><span>Resolution of 0.1, enough to hold the water between 7.2 and 7.8.</span></li>
                 <li><b>Chlorine</b><span>1 to 3 ppm: enough to kill germs, little enough to swim in.</span></li>
@@ -368,7 +367,7 @@ figure.tall img {
 
         <section>
             <h2>Moving</h2>
-            <p>The propellers only had to beat drag. Taking the body as a cylinder — which overestimates the drag coefficient at 1.2, and we wanted the overestimate — with a projected frontal area of 0.296 m² at 0.025 m/s, the drag works out to <b>0.110 N</b>. That is the thrust the design had to produce, and it is a small number because the robot is slow on purpose.</p>
+            <p>The propellers only had to beat drag. Taking the body as a cylinder — which overestimates the drag coefficient at 1.2, and the overestimate was deliberate — with a projected frontal area of 0.296 m² at 0.025 m/s, the drag works out to <b>0.110 N</b>. That is the thrust the design had to produce, and it is a small number because the robot is slow on purpose.</p>
             <p>Running that back through simple momentum theory for a disk actuator, with the inlet speed taken as zero for the worst case of starting from rest, gives the propeller area and therefore the diameter: <b>53 mm</b> per propeller, four of them, each in a duct, driven by brushless motors and kept straight by a gyro measuring the deviation from a line.</p>
             <figure>
                 <img src="img/mapsy/frontal-area.jpg" width="1400" height="422" alt="Two panels side by side. Left: a simplified front-on diagram of the robot in blue water, a grey rectangle 750 mm wide and 300 mm tall with four teal circles at its corners 250 mm and 120 mm across, used as the projected frontal area. Right: the matching SolidWorks front view of the real robot, showing the white pipe frame, teal ballast tanks and propeller pods." loading="lazy">
@@ -384,7 +383,7 @@ figure.tall img {
                 <figcaption>The ballast in principle: pumps either side, water in to sink, water out to rise, and air kept in the compartment so it cannot collapse when it empties.</figcaption>
             </figure>
             <p>The first iteration used a single ballast and it worked, in the sense that the robot sank and resurfaced. It was also a bad idea. One ballast put the buoyant force low and towards the rear, well away from the centre of mass, and a net moment like that on something neutrally buoyant is how a robot ends up upside down on the bottom of a pool.</p>
-            <p>So it became two ballasts, placed so that the moments they apply about the mass centre are equal and opposite and cancel. That is the part of the project I still like best: rather than calculating a centre of buoyancy and then chasing it around the frame, the second tank made the calculation unnecessary.</p>
+            <p>So it became two ballasts, placed so that the moments they apply about the mass centre are equal and opposite and cancel. It is the neatest move in the design: rather than calculating a centre of buoyancy and then chasing it around the frame, the second tank made the calculation unnecessary.</p>
             <figure>
                 <img src="img/mapsy/ballast-refinement.png" width="1128" height="362" alt="Two CAD models side by side with an arrow between them: on the left a grey machined block with a curved channel through it, the first ballast iteration; on the right a smooth teal cylindrical tank with a small square port on its side, the redesigned version." loading="lazy">
                 <figcaption>First iteration to final: a machined block becomes a cylinder, and there are two of them.</figcaption>
@@ -435,9 +434,9 @@ figure.tall img {
 
         <section>
             <h2>What actually got built</h2>
-            <p>This is the part the renders above do not tell you: <b>the combined prototype was never assembled</b>. The project ran through COVID-19, the labs and the public pools were shut, and five people could not be in a room together to put it together. What exists is a set of working subsystems, tested separately, at a scale that fits in a bathroom.</p>
-            <p>The chassis was a toolbox. It was the right size to hold every electrical component except the Kinect, which was the single most expensive thing we owned and too risky to put near a possible leak — it also turned out to be heavy enough to upset the buoyancy, so it stayed out. Holes were drilled for the motor shafts and sealed with washers, and the whole thing was floated in a filled bathtub to check for leaks. It did not leak, and it floated.</p>
-            <p>The ballast was an ammunition box with two mini water pumps siliconed into it and an air-feeding tube to stop it collapsing on itself once emptied — the compressed-air version in the final design would have needed testing we had no way to do. It held 12.5 litres, it was airtight, and in a laundry sink it <b>submerged and resurfaced in 2 minutes</b>.</p>
+            <p>This is the part the renders above do not tell you: <b>the combined prototype was never assembled</b>. The project ran through COVID-19, the labs and the public pools were shut, and the subsystems could never be brought together in one place. What exists is a set of working subsystems, tested separately, at a scale that fits in a bathroom.</p>
+            <p>The chassis was a toolbox. It was the right size to hold every electrical component except the Kinect, which was the single most expensive component in the build and too risky to put near a possible leak — it also turned out to be heavy enough to upset the buoyancy, so it stayed out. Holes were drilled for the motor shafts and sealed with washers, and the whole thing was floated in a filled bathtub to check for leaks. It did not leak, and it floated.</p>
+            <p>The ballast was an ammunition box with two mini water pumps siliconed into it and an air-feeding tube to stop it collapsing on itself once emptied — the compressed-air version in the final design would have needed testing that was out of reach at the time. It held 12.5 litres, it was airtight, and in a laundry sink it <b>submerged and resurfaced in 2 minutes</b>.</p>
             <p>Mapping and navigation were prototyped together, since one drives the other: Kinect, laptop, Arduino, two brushless motors and speed controllers. Objects were put in front of the camera on dry land and the motors turned to face the nearest one. The image processing ran on the laptop rather than the Arduino, and by the end MATLAB was driving the motors directly. It proved the loop worked; it did not prove it worked in a pool, and the report said so.</p>
             <figure class="cap" style="--fw: 541px">
                 <img src="img/mapsy/prototype-ballast.jpg" width="541" height="365" alt="Four photographs of the ballast prototype on a patterned tablecloth: a black ammunition box with its lid open showing an internal divider, white tubing running out of the lid to two small water pumps, blue cable ties bundling the wiring, and black power adapters beside it." loading="lazy">
@@ -452,7 +451,7 @@ figure.tall img {
 
         <section>
             <h2>What it would have cost</h2>
-            <p>The prototype came in at about $528 CAD against the $625 we had. The production estimate — mechanical, electrical, machining, and the electrical safety certification a device like this needs — landed at roughly $1,521 CAD, against the market's four separate machines.</p>
+            <p>The prototype came in at about $528 CAD against the $625 available. The production estimate — mechanical, electrical, machining, and the electrical safety certification a device like this needs — landed at roughly $1,521 CAD, against the market's four separate machines.</p>
             <table class="cost">
                 <caption class="sr-only">Cost of MAPSY compared with buying one device for each cleaning task</caption>
                 <thead>
@@ -471,17 +470,18 @@ figure.tall img {
 
         <section>
             <h2>Looking back</h2>
-            <p>The honest summary is that the subsystems worked and the robot did not exist. Image segmentation found the nearest debris and gave its position and distance, the motors turned to face it, the ballast sank and resurfaced on a timer, and the vacuum was proven in simulation rather than water. Given a room and five people in it, those pieces bolt together.</p>
-            <p>Two things I would change. The power electronics never delivered the motor speed the motors were rated for, and the batteries not discharging at the right voltage is the likeliest reason — that wanted measuring properly rather than reasoning about. And segmenting on the blue channel is only as good as the assumption that pools are blue; a pool lit oddly, or debris that happens to sit in the same blue range, defeats it. A small neural network would not care about any of that, and that is the version I would build now.</p>
+            <p>The honest summary is that the subsystems worked and the robot did not exist. Image segmentation found the nearest debris and gave its position and distance, the motors turned to face it, the ballast sank and resurfaced on a timer, and the vacuum was proven in simulation rather than water. Given a room and the time to assemble them, those pieces bolt together.</p>
+            <p>Two things would be worth doing differently. The power electronics never delivered the motor speed the motors were rated for, and the batteries not discharging at the right voltage is the likeliest reason — that wanted measuring properly rather than reasoning about. And segmenting on the blue channel is only as good as the assumption that pools are blue; a pool lit oddly, or debris that happens to sit in the same blue range, defeats it. A small neural network would not care about any of that, and that is the version worth building now.</p>
         </section>
 
-        <!-- No roll call and no names, deliberately: this was a five-person
-             capstone and the page says so, but naming the other four is not
-             mine to do on my own site. The un-named line stays because
-             dropping it entirely would let the page read as a solo build. -->
+        <!-- Awan's call, twice over: no names, and no reference to who or how
+             many worked on it. The page describes the project and the
+             engineering and makes no authorship claim either way - which is
+             why the whole body is in neutral project voice rather than
+             first person. Course, date and prize are all that belong here. -->
         <section>
             <h2>Credits</h2>
-            <p>MAPSY was built by a <b>five-person capstone team</b> for MSE 4499, the Mechatronic Design Project at Western University, and the final report was submitted on 16 April 2021. My own share of it was the SolidWorks work, the MATLAB, and keeping the documentation straight; everything on this page came out of the report the five of us wrote.</p>
+            <p>MAPSY was designed for <b>MSE 4499</b>, the Mechatronic Design Project at Western University, and the final report was submitted on 16 April 2021. Everything on this page is drawn from that report.</p>
             <p>MAPSY won the <b>Innovative Design Prize</b> at the Western Engineering Competition.</p>
         </section>
 
