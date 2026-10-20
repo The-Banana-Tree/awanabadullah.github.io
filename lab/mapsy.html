@@ -214,21 +214,6 @@ figure.tall img {
 .cost td:last-child, .cost th:last-child { text-align: right; }
 .cost tr.total td { color: var(--accent); font-weight: 700; }
 
-/* Who did what. Name in the accent, the work beside it. */
-.team { list-style: none; padding: 0; margin: 22px 0 0; }
-.team li {
-    display: flex;
-    gap: 14px;
-    align-items: baseline;
-    padding: 11px 0;
-    border-top: 1px dashed color-mix(in srgb, var(--text) 25%, transparent);
-    font-weight: 400;
-    font-size: 0.95rem;
-    line-height: 1.7;
-}
-.team li:first-child { border-top: 0; }
-.team b { flex: 0 0 9.5em; color: var(--accent); }
-
 /* Says where the figures came from, up front. Republishing the report's cited
    figures would not have been ours to do, so the page says which ones these
    are instead of leaving it to be assumed. */
@@ -266,8 +251,8 @@ figure.tall img {
     }
     .status div:nth-child(2n), .jobs li:nth-child(2n) { border-right: 0; }
     .status div:nth-last-child(-n+2), .jobs li:nth-last-child(-n+2) { border-bottom: 0; }
-    .targets li, .team li { flex-direction: column; gap: 4px; }
-    .targets b, .team b { flex: none; }
+    .targets li { flex-direction: column; gap: 4px; }
+    .targets b { flex: none; }
     figure.tall img { max-height: none; width: 100%; }
 }
 /* Narrow enough that two columns of this stop being readable. */
@@ -490,16 +475,14 @@ figure.tall img {
             <p>Two things I would change. The power electronics never delivered the motor speed the motors were rated for, and the batteries not discharging at the right voltage is the likeliest reason — that wanted measuring properly rather than reasoning about. And segmenting on the blue channel is only as good as the assumption that pools are blue; a pool lit oddly, or debris that happens to sit in the same blue range, defeats it. A small neural network would not care about any of that, and that is the version I would build now.</p>
         </section>
 
+        <!-- No roll call and no names, deliberately: this was a five-person
+             capstone and the page says so, but naming the other four is not
+             mine to do on my own site. The un-named line stays because
+             dropping it entirely would let the page read as a solo build. -->
         <section>
-            <h2>The team</h2>
-            <ul class="team">
-                <li><b>Abad Ullah</b><span>SolidWorks, MATLAB, document control — that's me.</span></li>
-                <li><b>Paul Corrales</b><span>Software, mechanical design, SolidWorks.</span></li>
-                <li><b>Duncan Riviere</b><span>Electrical, concept generation, communication.</span></li>
-                <li><b>Mai Duo Wu</b><span>Software, electrical, image processing.</span></li>
-                <li><b>Steven Yang</b><span>SolidWorks, MATLAB, microcontrollers.</span></li>
-            </ul>
-            <p style="margin-top:22px">MSE 4499 Mechatronic Design Project, Western University, submitted 16 April 2021. MAPSY won the <b>Innovative Design Prize</b> at the Western Engineering Competition.</p>
+            <h2>Credits</h2>
+            <p>MAPSY was built by a <b>five-person capstone team</b> for MSE 4499, the Mechatronic Design Project at Western University, and the final report was submitted on 16 April 2021. My own share of it was the SolidWorks work, the MATLAB, and keeping the documentation straight; everything on this page came out of the report the five of us wrote.</p>
+            <p>MAPSY won the <b>Innovative Design Prize</b> at the Western Engineering Competition.</p>
         </section>
 
     </article>
