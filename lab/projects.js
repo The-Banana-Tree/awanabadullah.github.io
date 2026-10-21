@@ -62,6 +62,16 @@ export const PROJECTS = [
            the two appear together with no special case. */
         page: 'tyler.html'
     },
+    /* The only employer project on the ring, and the only one with no repo at
+       all - so it gets the CAD sticker and no 'View code' button beside it.
+       It sits straight after Tyler because that is where he asked for it. */
+    {
+        id: 'ledchest',
+        name: 'LED Chest Plate Indicator',
+        blurb: 'An embedded LED state indicator on the chest of a humanoid robot prototype at Sanctuary AI: two Adafruit strips behind the armour windows, a small controller running Python that turns a mode command into colour, and printed thin-wall diffusers so it reads as a lit panel rather than a row of dots. The robot carrying it was later covered by Bloomberg.',
+        tags: ['Embedded', 'Python', 'Integration'],
+        page: 'ledchest.html'
+    },
     /* Last seat on the ring, and the only one that is a door rather than a
        project: it carries no repo of its own, just the page the three below
        are laid out on. Its model is a placeholder heap of cubes on purpose -

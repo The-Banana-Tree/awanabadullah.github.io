@@ -677,6 +677,55 @@ export function buildMapsy() {
     return g;
 }
 
+export function buildChestPlate() {
+    const g = new THREE.Group();
+    /* The chest plate alone, not the robot it came off. That is the honest
+       scope of the project - he designed the indicator that goes in this
+       panel, not the humanoid around it - and it is also the only version of
+       this that survives at ring size. A whole humanoid reduced to 4.4 units
+       would put the one part that matters, two thin lit slots, at about two
+       pixels each.
+
+       Five parts: the panel, the raised centre it carries, the two lit
+       windows, and the controller on the back.
+
+       It faces nose-left. The viewer rests at 0.21pi, which shows the -x
+       side, so the lit face is on -x; built facing +x it would spend most of
+       the slow turn showing its blank back, which is the mistake MAPSY's
+       intake made once already.
+
+       Wider than it is tall on purpose, and very thin in x. fitModel only
+       normalises the LONGEST axis, so the number that matters is what the
+       spin sweeps: width 4.0 against thickness 0.5 is a plan diagonal of
+       4.03, which fits to 4.43 - comfortably inside the rover's 5.13 and
+       MAPSY's 5.17. A flat part turning about its own height is the easy
+       case; it is being chunky in two axes at once that crops. */
+    g.add(place(shell(new THREE.BoxGeometry(0.46, 2.60, 4.00)), 0, 0, 0));
+
+    /* The raised centre section, proud of the panel by enough to draw its own
+       outline rather than sharing the panel's - the same trick the door
+       lock's reader uses. Without it the plate is one rectangle and reads as
+       a plain slab from every angle. */
+    g.add(place(shell(new THREE.BoxGeometry(0.22, 1.70, 2.10)), -0.32, -0.10, 0));
+
+    /* The two windows, and the whole reason the part exists. Set proud of the
+       panel face and tilted to the angle they sit at in the CAD, so they read
+       as inset glass catching the light rather than as two stripes painted
+       on. ACCENT, because on this model they are the subject - everything
+       else here is the thing holding them. */
+    [-1.35, 1.35].forEach((z, i) => {
+        g.add(place(shell(new THREE.BoxGeometry(0.30, 1.60, 0.52), ACCENT),
+            -0.30, 0.10, z, i === 0 ? 0.22 : -0.22, 0, 0));
+    });
+
+    /* The controller, on the back where it actually is. One small MARK part,
+       and it earns the colour: it is the only thing on this model that says
+       there is something driving the lights rather than just two lit slots in
+       a panel. */
+    g.add(place(shell(new THREE.BoxGeometry(0.34, 0.60, 0.95), MARK), 0.36, 0.05, 0));
+    return g;
+}
+
 export function buildOtherArrow() {
     const g = new THREE.Group();
     /* The Other Projects card, and the one model here that is not a thing
@@ -727,5 +776,6 @@ export const MODELS = {
     python: buildPipeline,
     hexapod: buildHexapod,
     mapsy: buildMapsy,
+    ledchest: buildChestPlate,
     other: buildOtherArrow
 };
