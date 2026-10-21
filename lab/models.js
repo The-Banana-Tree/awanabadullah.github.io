@@ -223,53 +223,110 @@ export function buildHexapod() {
 
 export function buildMapsy() {
     const g = new THREE.Group();
-    /* A pool cleaner is a box that crawls, so the whole model is chunky by
-       nature and nothing here needs to be thin. Five shapes: hull, deck,
-       intake, brush, wheels. Everything a real one has besides those - the
-       filter cartridge, the dosing line, the float - is either inside the
-       hull or too slight to survive 146px, so it is left out rather than
-       drawn as a smudge across the shell.
+    /* MAPSY is not a crawler. It is a submersible that swims: two big ballast
+       tanks lying along the top, an open PVC pipe frame slung under them, four
+       ducted thrusters at the corners and a wide flat vacuum mouth across the
+       nose. The thing it replaced here - a closed box hull with a brush roller
+       and two drive wheels - was a different machine entirely, so this is a
+       rebuild rather than a patch. Nothing on the real one rolls.
 
-       The hull is narrow for its length on purpose, about 0.64 as wide as it
-       is long. fitModel only normalises the LONGEST axis, so a model that is
-       chunky in two of them at once has a diagonal far wider than the 4.4 it
-       was fitted to - and the slow spin swings that diagonal across the camera
-       once a revolution. At 2.4 wide this hull was cropped at both ends for
-       most of every turn. The rover, which frames cleanly, sits at 0.60; this
-       is the same trade, and it costs nothing the silhouette needs.
+       Eleven parts, which is over the ten this file usually holds to, and the
+       overrun is all structural. The four thrusters are the corners of the
+       silhouette and cannot be three. The frame has to be open - a solid slab
+       under the tanks is exactly the wrong read - and an open rectangle needs
+       members on both long sides plus something closing each end. The nose end
+       is closed by the intake, which was going to be there anyway, so the
+       frame costs three rather than four. That leaves one discretionary part,
+       the camera bar, and it earns its place below.
 
-       It also faces nose-left, because that is the side the viewer's rest
-       angle shows. Built nose-right, the intake and the brush - the two parts
-       that say what the machine is - spent most of the turn round the back and
-       it read as a plain green box. */
-    g.add(place(shell(new THREE.BoxGeometry(3.2, 1.15, 1.9)), 0, 0, 0));
-    /* A second, smaller box stepped back on top rather than one tall slab.
-       The step is what stops the silhouette being a plain rectangle at
-       thumbnail size - it gives the hull a nose and a back, which is the
-       cheapest way to say which end goes first. */
-    g.add(place(shell(new THREE.BoxGeometry(2.3, 0.65, 1.45)), 0.25, 0.86, 0));
-    /* The intake, on the nose rather than underneath. A real one takes water
-       in through the floor, but the viewer looks slightly down at the model
-       from y=0.9, so an underside mouth is a face nobody ever sees. Proud of
-       the hull by enough to draw its own outline instead of sharing the
-       hull's, same trick as the door lock's reader panel. */
-    g.add(place(shell(new THREE.BoxGeometry(0.45, 0.72, 1.35), ACCENT), -1.72, -0.12, 0));
-    /* The brush roller, and the one part where the segment count is doing
-       work. Six sides means every facet meets its neighbour at sixty degrees,
-       so all six edges clear the 25 degree test and the cylinder comes out
-       fluted along its whole length. Modelling actual bristles - or even ten
-       flutes - would have put a band of flicker across the front of the
-       machine, which is the gearbox's old mistake. Few and deep survives the
-       shrink. */
-    g.add(place(shell(new THREE.CylinderGeometry(0.44, 0.44, 1.7, 6), MARK), -1.62, -0.72, 0, Math.PI / 2, 0, 0));
-    /* Two fat drive wheels, not four: the brush roller already holds the front
-       up, so a second pair would only be two more discs competing with it. Set
-       proud of the hull sides so they read as wheels rather than as wells cut
-       into it. Ten sides, like the rover's - short and fat enough that the
-       facet stripes read as tread instead of as noise. */
-    [0.95, -0.95].forEach(z => {
-        g.add(place(shell(new THREE.CylinderGeometry(0.6, 0.6, 0.42, 10)), 0.95, -0.62, z, Math.PI / 2, 0, 0));
+       It is built nose-left. The viewer rests at 0.21pi, which shows the -x
+       side, so anything on +x spends most of the slow turn round the back. An
+       earlier cut had the intake on +x and the card read as a plain green box.
+
+       Stylised narrower than the real robot, deliberately. The real MAPSY is
+       close to square in plan; this is 2.44 across against 3.98 long, a ratio
+       of 0.61. fitModel only normalises the LONGEST axis, so a model chunky in
+       two axes at once carries a plan diagonal far wider than the FIT_SIZE it
+       was fitted to, and the spin swings that diagonal across the camera once
+       a revolution - cropped at both ends for most of every turn, while every
+       assertion still passes, because litPct goes up when a model overflows.
+       A square-in-plan MAPSY would sit near 0.95 and be unviewable. The rover,
+       which frames cleanly, is 0.60 and its fitted diagonal is 5.13; this one
+       lands at 5.17, so it frames like the rover does. Losing the true width
+       costs the silhouette nothing - the tanks still read as a pair and the
+       thrusters still read as four corners - so it is the right trade.
+
+       The tank-to-thruster size ratio is doing more work than it looks. A
+       first cut had 0.44 tanks against 0.37 thrusters, and because there are
+       four thrusters and only two tanks, the corners outweighed the top: the
+       model read as a heap of six similar drums rather than as two tanks
+       carried over four pods. Tanks up and thrusters down, to roughly 8:5,
+       is what separates them again - the same proportion the render has. */
+
+    /* The two ballast tanks, and the whole reason the machine is recognisable.
+       Big, teal, lying fore-and-aft, side by side with a slot of daylight
+       between them. They are the top of the silhouette from every angle, which
+       is why they get the most volume of anything here.
+
+       Ten sides, not sixteen. Edge lines are only drawn where two faces meet
+       at more than 25 degrees, so a sixteen-sided tube (22.5 a facet) comes
+       out as an unlined dark mass among lined parts - the smooth-cone failure.
+       Ten gives 36 degree facets, so the tanks are fluted down their length
+       and read as cylinders rather than as two dark lozenges. */
+    [-0.70, 0.70].forEach(z => {
+        g.add(place(shell(new THREE.CylinderGeometry(0.52, 0.52, 2.4, 10), ACCENT),
+            0.05, 0.68, z, 0, 0, Math.PI / 2));
     });
+
+    /* The PVC frame. A faithful plumbing diagram - rails, elbows, uprights,
+       tees - would be a thicket of thin rods, and at 0.1 radius each one is a
+       smudge rather than a pipe. So it is the fewest, chunkiest members that
+       still read as a skeleton: two long side rails at 0.17 radius, which is
+       about 30px across on the ring, and one cross pipe closing the tail. The
+       nose end is closed by the intake. Eight sides each, so the 45 degree
+       facets outline and they read as pipe rather than as wire. */
+    [-0.84, 0.84].forEach(z => {
+        g.add(place(shell(new THREE.CylinderGeometry(0.16, 0.16, 3.2, 8)),
+            0, 0, z, 0, 0, Math.PI / 2));
+    });
+    g.add(place(shell(new THREE.CylinderGeometry(0.16, 0.16, 1.70, 8)),
+        1.50, 0, 0, Math.PI / 2, 0, 0));
+
+    /* Four ducted thrusters, hung below the frame line at the corners. Short
+       fat cylinders on the fore-aft axis, because that is a duct seen from the
+       side and a duct is the part of a thruster that has a silhouette. No
+       blades inside them: four sets of blades is four repeated small features,
+       which at this size is a texture, not a propeller. Ten sides, like the
+       rover's wheels - the facet stripes read as a shroud. */
+    [-1.40, 1.40].forEach(x => {
+        [-0.84, 0.84].forEach(z => {
+            g.add(place(shell(new THREE.CylinderGeometry(0.32, 0.32, 0.62, 10), ACCENT),
+                x, -0.40, z, 0, 0, Math.PI / 2));
+        });
+    });
+
+    /* The vacuum intake: wide, flat, and projecting off the nose. Nearly four
+       times as wide as it is tall, which is the proportion that says "mouth"
+       rather than "bumper", and wider than the frame so it overhangs the rails
+       it caps. It doubles as the frame's front cross member - its back face
+       meets both rail ends - which is both what the real one does and how the
+       part count stays at eleven. Left in the line colour because it is white
+       on the real machine and because the teal is spoken for: tanks and
+       thrusters are the accent, and a third accent mass would flatten them. */
+    g.add(place(shell(new THREE.BoxGeometry(0.64, 0.44, 1.90)), -1.95, -0.06, 0));
+
+    /* The camera bar, in the trough between the tanks. The one discretionary
+       part and the only mark colour, which is what buys it the space: at ring
+       size it is a bright chip in the dark valley between two big teal drums,
+       and that valley is otherwise the one place on the model where nothing
+       happens. It is also the autonomy - the vision that picks the debris out
+       is the A in MAPSY - so if a single small part is going to carry a
+       colour, this is the one worth spending it on.
+
+       Set a shade wider than the 0.36 trough it sits in, so it bridges the two
+       tanks and stands proud of them instead of sinking between them. Buried
+       flush it was a two-pixel magenta line and read as a rendering artefact. */
+    g.add(place(shell(new THREE.BoxGeometry(0.95, 0.34, 0.46), MARK), 0.10, 0.98, 0));
     return g;
 }
 
