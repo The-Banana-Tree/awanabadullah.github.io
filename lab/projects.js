@@ -54,7 +54,13 @@ export const PROJECTS = [
            rather than given a project of its own, which was his call. */
         blurb: 'Parts collecting and deposit robot for the mechatronics systems lab at Western University: it sweeps the floor for dropped hardware, steers around obstacles on ultrasonic and bumper feedback, then homes on an infrared beacon to dock and charge every 90 seconds. Version two rebuilt it around a systematic sensor and actuator selection process.',
         tags: ['C++', 'Autonomous', 'Controls'],
-        url: 'https://github.com/awanabad/Tyler-Version-2'
+        url: 'https://github.com/awanabad/Tyler-Version-2',
+        /* Both keys on purpose, and the only entry carrying both: `url` puts
+           'View code' in the panel for the repo, `page` adds the 'View project
+           CAD' sticker on the model and a 'Write-up' button beside the repo
+           link. show() builds that link row from whichever keys it finds, so
+           the two appear together with no special case. */
+        page: 'tyler.html'
     },
     /* Last seat on the ring, and the only one that is a door rather than a
        project: it carries no repo of its own, just the page the three below

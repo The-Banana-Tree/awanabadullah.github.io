@@ -1,4 +1,4 @@
-import { PROJECTS, OTHER } from './projects.js?v=18';
+import { PROJECTS, OTHER } from './projects.js?v=19';
 import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=18';
 import { sfx } from './sfx.js?v=14';
 

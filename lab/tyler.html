@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tyler · Part Collector</title>
+<link rel="stylesheet" href="../assets/css/style.css?v=1">
+<link rel="stylesheet" href="../assets/css/shooting-stars.css?v=1">
+<link rel="stylesheet" href="lab.css?v=8">
+<!-- In <head> on purpose: it sets data-theme off localStorage before the
+     first paint, so arriving in light mode does not flash dark. -->
+<script src="theme.js?v=1"></script>
+<style>
+/* ==================================================
+   TYLER — PART COLLECTOR
+
+   Same furniture as mapsy.html (lab-bar, .case-head,
+   .status, .info, figures, footer) so the two reading
+   pages are recognisably the same site, and the same
+   decision to keep it all in a local <style> block so
+   lab.css needs no change.
+
+   Written short on purpose. His brief was "a very
+   short write up ... focus on making it skimmable for
+   recruiters", so the numbers are hoisted into .status
+   and .targets where they can be read without reading,
+   and the prose is five sections of two or three
+   sentences. Shorter than MAPSY's page even after
+   MAPSY's recut - that is the point, not an accident.
+
+   Nothing here carries .jobs, .cost, .fig-pair or
+   figure.tall: no figure on this page needs them, and
+   copying dead CSS across would only invite someone to
+   use it.
+   ================================================== */
+#shootingStarsOverlay { z-index: 1; }
+
+.case-wrap { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; }
+
+.case-head h1 {
+    font-size: clamp(1.6rem, 6vw, 2.6rem);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+.case-head .stand {
+    font-size: 1.02rem;
+    font-weight: 400;
+    opacity: 0.75;
+    max-width: 58ch;
+    line-height: 1.7;
+}
+
+/* Hard facts up top, same strip as MAPSY and the build log: what it was,
+   what it cost, and how it actually ended, before anyone reads a paragraph.
+   On a page built to survive twenty seconds this strip does more work than
+   any section under it. */
+.status {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0;
+    border: 2px solid var(--border);
+    margin: 28px 0 44px;
+}
+.status div {
+    padding: 14px 16px;
+    border-right: 2px solid var(--border);
+}
+.status div:last-child { border-right: 0; }
+.status dt {
+    font-size: 0.64rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.45;
+    margin-bottom: 6px;
+}
+.status dd { margin: 0; font-size: 0.95rem; color: var(--accent); }
+.status dd small { display: block; font-size: 0.74rem; color: var(--text); opacity: 0.55; font-weight: 400; margin-top: 4px; }
+
+/* style.css zeroes every margin, so prose on this page sets its own. Scoped to
+   the article so the shared furniture above keeps its own spacing. */
+.case { margin-top: 8px; }
+.case p {
+    margin: 0 0 16px;
+    font-weight: 400;
+    font-size: 0.97rem;
+    line-height: 1.75;
+}
+.case p:last-child { margin-bottom: 0; }
+.case b { color: var(--accent); font-weight: 700; }
+
+.case section { margin-bottom: 52px; }
+.case h2 {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+    border-bottom: 2px solid var(--border);
+}
+
+figure { margin: 26px 0; }
+figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--border);
+    /* Every figure here is a SolidWorks render or a phone photo and carries
+       its own white or grey ground, so the frame backs them in white in both
+       themes rather than letting dark mode show through. */
+    background: #fff;
+}
+figcaption {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    opacity: 0.55;
+    line-height: 1.6;
+}
+
+/* Three of these came out of the report narrower than this column, and
+   stretching a 654px diagram across 820px only makes it soft. --fw is that
+   figure's own pixel width: it fills the column on a phone and stops growing
+   at its native size on a desktop. */
+figure.cap {
+    width: min(100%, var(--fw));
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* The numbers the design had to hit. Same shape as MAPSY's and the hexapod's:
+   a label and the reason, because a constraint without its reason is a spec.
+   This is the block a recruiter actually stops on. */
+.targets { list-style: none; padding: 0; margin: 22px 0 0; }
+.targets li {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    padding: 11px 0;
+    border-top: 1px dashed color-mix(in srgb, var(--text) 25%, transparent);
+    font-weight: 400;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+.targets li:first-child { border-top: 0; }
+.targets b { flex: 0 0 7.5em; color: var(--accent); }
+
+/* Says where the figures came from, up front - same note MAPSY carries,
+   worded for this report. Republishing the catalogue and datasheet images it
+   cited for bought-in parts would not have been his to do, so the page says
+   which ones these are instead of leaving it to be assumed. */
+.info {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-left: 2px solid var(--accent);
+    padding: 10px 0 10px 16px;
+    margin: 22px 0 0;
+    font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    opacity: 0.85;
+}
+.info .icon { flex: 0 0 auto; font-style: normal; }
+.info p { margin: 0; font-size: 0.9rem; }
+
+@media (max-width: 600px) {
+    /* .status is three cells, so an auto-fit wrap would leave the second row
+       half empty. It goes to one column instead, which is also why this page
+       needs none of MAPSY's 2x2 border repair. */
+    .status { grid-template-columns: 1fr; }
+    .status div { border-right: 0; border-bottom: 2px solid var(--border); }
+    .status div:last-child { border-bottom: 0; }
+    .targets li { flex-direction: column; gap: 4px; }
+    .targets b { flex: none; }
+}
+</style>
+</head>
+<body>
+<div id="shootingStarsOverlay"></div>
+
+<nav class="lab-bar">
+    <a class="lab-home" href="../" title="Home" aria-label="Home"><span aria-hidden="true">🏠</span></a>
+    <a href="orbit.html">&#9664; Back to projects</a>
+</nav>
+
+<div class="lab-wrap case-wrap">
+    <header class="case-head">
+        <h1>Tyler</h1>
+        <p class="stand">I built a robot that drives itself round a university lab, sweeps up the screws and standoffs people drop on the floor, and carries them back to a charging station to tip into the bins. A mechatronic systems design project at Western University, written up here from the final design report.</p>
+
+        <div class="info">
+            <i class="icon" aria-hidden="true">&#8505;&#65039;</i>
+            <p>Every figure on this page is my own — the CAD straight out of SolidWorks, and a photograph of the prototype on the bench. The report also reproduced catalogue and datasheet images for parts I bought in; I have not republished any of those.</p>
+        </div>
+    </header>
+
+    <dl class="status">
+        <div>
+            <dt>Project</dt>
+            <dd>MSE Design Project<small>Western University</small></dd>
+        </div>
+        <div>
+            <dt>Budget</dt>
+            <dd>$100<small>prototype, scored in a 3-minute showcase</small></dd>
+        </div>
+        <div>
+            <dt>Outcome</dt>
+            <dd>Built and demonstrated<small>collected parts; never docked reliably</small></dd>
+        </div>
+    </dl>
+
+    <article class="case">
+
+        <figure>
+            <img src="img/tyler/assembly-iso.jpg" width="910" height="730" alt="Isometric SolidWorks render of the finished robot: a blue rectangular frame chassis, a red hinged ramp sloping down to the floor at the front with a grey roller at each end of it, a pale green rectangular part container covering the whole rear deck, two green drive wheels at the mid-point and a dark battery box at the back.">
+            <figcaption>What I designed. The hinged ramp and belt rollers at the front, the part container across the whole back deck, two drive wheels on the centreline and a caster behind them.</figcaption>
+        </figure>
+
+        <section>
+            <h2>The problem</h2>
+            <p>Screws, standoffs and bushings get dropped on the floor of the MSE design lab all day, and anything left there is swept away by the custodial staff. The lab wanted an autonomous machine to collect them into bins on the east wall. Picking parts up is the easy half: the robot also has to find its own way back to a charging station every <b>90 seconds</b>, from anywhere in the room, with nobody driving it. I had <b>$100</b> to prove the idea.</p>
+            <ul class="targets">
+                <li><b>Height</b><span>14 cm, the measured clearance under the lab tables — which is where most parts end up.</span></li>
+                <li><b>Width</b><span>21 cm, the measured width of the charging station entrance.</span></li>
+                <li><b>Mass</b><span>Under 5 kg, both for the showcase score and to make turning easier.</span></li>
+                <li><b>Charge cycle</b><span>Docked every 90 s, so I gave the sweep 45 s and the trip home the other 45.</span></li>
+                <li><b>Coverage</b><span>90% of the parts on the floor, including the ones under the tables.</span></li>
+                <li><b>Own parts</b><span>Fewer than half the components bought in off the VEX shelf — the showcase scored self-engineered parts.</span></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Getting parts off the floor</h2>
+            <p>I looked at a rotary brush and at vacuum suction first. A brush has to fling parts to move them, which means some of them miss the container or jam the mechanism, and it needs a tall housing to throw them up a ramp — height I did not have. Vacuum wanted more power and more complexity than the job was worth.</p>
+            <p>What I built instead is a hinged ramp that stays flush to the floor as the robot drives, with a thick shag carpet belt running round two rollers just above it. The belt grabs whatever the robot drives over and drags it up the ramp into the container. Each roller hangs off a slotted arm, so the gap between belt and ramp and the reach of the belt out over the floor are both adjustable without remaking a part.</p>
+            <figure>
+                <img src="img/tyler/belt-mechanism.jpg" width="923" height="851" alt="Close-up CAD render of the collection mechanism: two grey cylindrical rollers mounted on olive-green slotted arms bolted to the blue chassis rails, with the red triangular ramp between and below them and a brown pulley on the end of the upper roller shaft." loading="lazy">
+                <figcaption>The belt I ran round two rollers above the hinged ramp. I hung the rollers off slotted arms, so the gap to the ramp and the reach over the floor can both be tuned without remaking anything.</figcaption>
+            </figure>
+            <figure>
+                <img src="img/tyler/prototype-belt.jpg" width="1400" height="1050" alt="Photograph of the prototype on a lab bench: a white and blue 3D-printed chassis carrying a thick grey shag carpet belt stretched over two rollers, with two ultrasonic sensor modules mounted low at the front, red and blue jumper wires running back along the frame, and a green wheel visible at the rear." loading="lazy">
+                <figcaption>The belt on the prototype I built. I tested a thick shag carpet first and never needed the second material — parts were grabbed and pulled up the ramp immediately.</figcaption>
+            </figure>
+        </section>
+
+        <section>
+            <h2>The 14 cm ceiling</h2>
+            <p>Driving under the lab tables left me 14 cm of height for the entire machine, and that one number decided most of it. The container could not sit high enough to simply tip into the bins from where it rode, so I designed a lift that raises it first and tips it second: a geared three-bar linkage on a 180° servo, with a 36-tooth and a 60-tooth gear and a 12-tooth idler between them to turn both shafts the same way.</p>
+            <p>The short links swing faster than the long ones, so as the container rises it is also dragged backwards along a slot joint, reaching out past the back of the robot before it tilts and lets the parts slide straight down into the bin. At rest it lies flat and forward, level with the top of the ramp. The finished design came out at <b>11.7 cm</b>.</p>
+            <!-- The labelled 'Lift Mechanism' diagram from the report's
+                 appendix sat here and came out: it names the long link, the
+                 short link and the servo, all of which the paragraph above
+                 already says, and the progression figure below shows the same
+                 linkage doing the thing that matters. It is still on disk at
+                 img/tyler/lift-linkage.png - putting it back is one figure
+                 block, which is the way removals are kept on this site. -->
+            <figure class="cap" style="--fw: 670px">
+                <img src="img/tyler/lift-progression.jpg" width="670" height="986" alt="Four stacked side-view CAD renders showing the lift travel. In the first the green container lies flat on the blue chassis; in the following three the brown links rotate progressively upright, raising the container, pulling it rearwards and tilting it to a steep angle over the back of the robot." loading="lazy">
+                <figcaption>My lift through its travel, from flat to fully extended. It lifts and pulls back before it tips, so the parts land in the bin rather than behind the robot.</figcaption>
+            </figure>
+        </section>
+
+        <section>
+            <h2>Finding its way home</h2>
+            <p>Four ultrasonic sensors: two facing forward for walls and obstacles, one on each side to check there is room to turn before committing to one. Two infrared receivers — one facing left to catch the beacon at the charging station, one facing backwards to line the container up with the bins once the robot is close. Two limit switches on the rear corners tell it when it has actually touched the station.</p>
+            <p>Driving straight is encoder work: I compare the left and right counts and brake whichever motor has run ahead. U-turns are the same counts run to a tested value, and the sweep is a zigzag of those. At 45 seconds the robot abandons the sweep and drives a clockwise lap just inside the walls until the left-facing receiver sees the beacon, then rotates on the spot — that sensor sits on the same centreline as the wheels, so turning in place aims it at the entrance.</p>
+            <figure class="cap" style="--fw: 738px">
+                <img src="img/tyler/sensor-mounts.png" width="738" height="804" alt="Two labelled CAD views stacked. The upper shows the bare grey chassis with red arrows marking three Ultrasonic Sensor Mounts at the front and sides and a Side Infrared Sensor Mount on the right rail. The lower shows the assembled robot from the rear with arrows marking the Rear Infrared Sensor Mount under the container and two Bumper Switch Mounts on the back corners." loading="lazy">
+                <figcaption>Where I put the sensors, and why each one is there. I built the mounts into the chassis itself rather than bolting them on afterwards.</figcaption>
+            </figure>
+        </section>
+
+        <section>
+            <h2>What worked, and what did not</h2>
+            <p>The belt was the best thing on the robot: once it had driven over a part, it essentially never failed to pull it up into the container. The lift worked exactly as I had drawn it, extending to the tipping angle and snapping back into its rest ledge. Obstacle avoidance held up too — the prototype ran past the time limit without getting stuck.</p>
+            <p>Navigation did not. The right drive motor was also turning the rollers through a pulley, so it lost speed under that load and the robot curved right whatever I did to the correction factor. <b>The zigzag had to be thrown out</b> for a rough 100° left turn at every obstacle, which re-sweeps ground it has already covered. Arriving at the station from a random angle then meant it hit the sides of the bay instead of entering, and <b>it was more likely to end up in an alignment loop than to dock</b>. It never deposited parts reliably, which was the one thing the showcase scored.</p>
+            <p>Three smaller failures worth saying: larger parts jammed between the ramp and the rollers and stopped the belt; the front ultrasonics pinged the underside of the tables and turned the robot away from clearance it actually had; and none of the motors I tried had the torque to drive the belt alone, which is why the prototype drove it off a wheel shaft. Sorting parts by material was offered and I dropped it deliberately — too big, too heavy and too expensive against three constraints I had no room to spend.</p>
+            <figure class="cap" style="--fw: 820px">
+                <img src="img/tyler/drive-pulleys.jpg" width="820" height="470" alt="Rear isometric CAD render of the robot with the part container shown raised, exposing the blue chassis, the grey drive motor and the brown pulleys and belt on the right-hand side that transmit drive from the wheel shaft up to the roller." loading="lazy">
+                <figcaption>The pulley I drove the rollers from on the prototype, taken off the right wheel shaft. It is also what made the robot curve, and the fix in my final design is a DC motor of its own.</figcaption>
+            </figure>
+        </section>
+
+    </article>
+</div>
+
+<!-- Where the home page keeps them: fixed, bottom right, in a column, so the
+     same buttons are under your thumb on every page of the site. -->
+<div class="controls-row visible">
+    <button class="theme-toggle" type="button" title="Toggle dark mode" aria-label="Toggle dark mode"><span class="theme-icon"></span></button>
+</div>
+
+<!-- The home page footer, less its music credit: the track and its mute
+     toggle live on the home page only, so crediting it here would name
+     something that never plays. -->
+<footer>
+    <p>© 2026 Awan Abadullah</p>
+    <br>
+    <p>this site is maintained by <strong>Yawie</strong> <span style="color: var(--accent)">🤖</span> — an AI assistant running on OpenClaw (claude-opus-5 under the hood), living in a Mac Mini called <em>Banana HQ</em> in Montréal, Canada. <span style="color: var(--accent)">🍌❤️</span></p>
+</footer>
+
+<script src="stars.js?v=1"></script>
+</body>
+</html>
