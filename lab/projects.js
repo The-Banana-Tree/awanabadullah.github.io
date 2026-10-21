@@ -47,7 +47,12 @@ export const PROJECTS = [
     {
         id: 'tyler',
         name: 'Tyler v2 — Part Collector',
-        blurb: 'Revision of an autonomous part collector, rebuilt around a systematic sensor and actuator selection process instead of whatever was in the parts bin.',
+        /* His wording, less the plural: "our mechatronics systems lab" became
+           "the", because `we`/`our`/`us` are barred across his portfolio - the
+           plural implies the collaborators the names were removed to avoid.
+           One word back if he ever wants it. The v1 report is folded in here
+           rather than given a project of its own, which was his call. */
+        blurb: 'Parts collecting and deposit robot for the mechatronics systems lab at Western University: it sweeps the floor for dropped hardware, steers around obstacles on ultrasonic and bumper feedback, then homes on an infrared beacon to dock and charge every 90 seconds. Version two rebuilt it around a systematic sensor and actuator selection process.',
         tags: ['C++', 'Autonomous', 'Controls'],
         url: 'https://github.com/awanabad/Tyler-Version-2'
     },
