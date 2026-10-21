@@ -261,7 +261,11 @@ function show(i) {
          log:   a build still being written - sticker over the model
          page:  a finished project with a write-up - same sticker, different
                 words on it, because 'build log' would be a lie about a
-                project that ended in 2021
+                project that ended in 2021. The face says 'View project CAD'
+                because that is what these pages are led by and what he asked
+                the sticker to promise; the panel button below still says
+                'Write-up', which is two names for one page - his call to
+                make, flagged rather than decided here.
          items: a card standing for several projects - a row of CAD cards
                 below, replacing the detail panel entirely. Each one carries
                 its own model, tags, blurb and View code button, so the card
@@ -274,7 +278,7 @@ function show(i) {
     const read = p.log
         ? { href: p.log,  face: 'View<br>build<br>log',   kind: 'build log' }
         : p.page
-        ? { href: p.page, face: 'Read<br>the<br>write-up', kind: 'write-up' }
+        ? { href: p.page, face: 'View<br>project<br>CAD', kind: 'project CAD' }
         : null;
     sticker.hidden = !read;
     if (read) {
@@ -282,7 +286,10 @@ function show(i) {
         // The face is written from here rather than sitting in the markup, so
         // the two kinds of reading page cannot end up sharing one label.
         sticker.innerHTML = `<span>${read.face}</span>`;
-        sticker.setAttribute('aria-label', `Read the ${p.name} ${read.kind}`);
+        // 'View' rather than 'Read' for both kinds: it is the verb already on
+        // the hexapod's own sticker face, and 'Read the ... project CAD' is
+        // not a thing anyone says.
+        sticker.setAttribute('aria-label', `View the ${p.name} ${read.kind}`);
         sticker.style.animation = 'none';
         void sticker.offsetWidth;
         sticker.style.animation = '';
