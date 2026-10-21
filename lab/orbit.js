@@ -278,7 +278,7 @@ function show(i) {
     const read = p.log
         ? { href: p.log,  face: 'View<br>build<br>log',   kind: 'build log' }
         : p.page
-        ? { href: p.page, face: 'View<br>project<br>CAD', kind: 'project CAD' }
+        ? { href: p.page, face: 'View<br>project<br>CADs', kind: 'project CADs' }
         : null;
     sticker.hidden = !read;
     if (read) {
@@ -338,7 +338,7 @@ function show(i) {
     const links = [
         p.url && `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`,
         p.log && `<a class="d-link" href="${p.log}">Build log</a>`,
-        p.page && `<a class="d-link" href="${p.page}">View project CAD</a>`,
+        p.page && `<a class="d-link" href="${p.page}">View project CADs</a>`,
     ].filter(Boolean).join('');
     // No name in the panel: the heading above the model already carries it,
     // and printed twice on one screen it read as a mistake.
