@@ -20,12 +20,20 @@
    so the column is a little wider than the log's and
    every section is written around what it can show.
 
-   RECUT: it was 12 sections and 17 figures, which read
-   like the report pasted in. Now 9 and 11, kept for
-   what they show about the engineering rather than for
-   telling the story in order. `.fig-pair.level` and
-   `figure.tall` are left in place unused - their only
-   figures went, and putting one back should not also
+   RECUT TWICE. First from 12 sections and 17 figures to
+   9 and 11, which read like the report cut down. Now to
+   5 sections for a recruiter, who gives a page like this
+   about twenty seconds and skims it rather than reading
+   it: all 11 figures stay, the hard evidence is hoisted
+   into the standfirst, the .status strip, the headings,
+   the numbers in <b> and the captions, and the prose
+   under them is support rather than the main event.
+   Shaped against tyler.html, which was written to this
+   brief from the start.
+
+   `.jobs`, `.fig-pair.level` and `figure.tall` are left
+   in place unused - their markup went, and putting a
+   figure or the four-chore strip back should not also
    mean writing the CSS again.
    ================================================== */
 #shootingStarsOverlay { z-index: 1; }
@@ -47,8 +55,11 @@
     line-height: 1.7;
 }
 
-/* Hard facts up top, same strip as the build log: what it was, who made it,
-   when, and how it ended, before anyone reads a paragraph. */
+/* Hard facts up top, same strip as the build log and Tyler's page: what it
+   was, when it went in, and how it ended, before anyone reads a paragraph. On
+   a page built to survive twenty seconds this strip does more work than any
+   section under it, and it is where MSE 4499, the date and the prize live now
+   that the Credits section that used to repeat them is gone. */
 .status {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -101,6 +112,12 @@ h3.block {
     opacity: 0.45;
     margin-bottom: 4px;
 }
+/* The evidence strip sits between the hero figure and the first section, so it
+   takes a quiet label rather than an <h2>: an <h2> out here would read as a
+   sixth section, and the page is five. Its spacing has to match a section's,
+   or the gap above 'The problem' collapses and the two run together. */
+.case > h3.block { margin-top: 34px; }
+.case > h3.block + .targets { margin-top: 10px; margin-bottom: 52px; }
 
 figure { margin: 26px 0; }
 figure img {
@@ -160,8 +177,11 @@ figure.tall img {
     margin: 0 auto;
 }
 
-/* The four chores the robot was meant to replace. A filled row of four, not a
-   diagram - the point is only that there are four of them and one machine. */
+/* The four chores the robot was meant to replace: a filled row of four, not a
+   diagram. UNUSED since the recruiter recut - the standfirst already names all
+   four jobs in its first line, so the row was saying the same thing twice to
+   someone who has twenty seconds. Kept because restoring it is one <ul>, and
+   the phone rules below are the fiddly half. It holds exactly four cells. */
 .jobs {
     list-style: none;
     display: grid;
@@ -182,8 +202,13 @@ figure.tall img {
 .jobs li:last-child { border-right: 0; }
 .jobs b { display: block; margin-bottom: 5px; opacity: 1; }
 
-/* The numbers the design had to hit. Same shape as the hexapod's targets: a
-   label and the reason, because a constraint without its reason is a spec. */
+/* Same shape as the hexapod's and Tyler's targets - a label and the reason,
+   because a number without its reason is a spec sheet - but this page points
+   it at different numbers since the recut. It used to carry the requirements
+   (pH resolution, chlorine ppm, water temperature range), which are the water
+   chemistry rather than the engineering; it now carries the six results that
+   actually decided the design, directly under the hero render where a skimmer
+   is still looking. This is the block a recruiter stops on. */
 .targets { list-style: none; padding: 0; margin: 22px 0 0; }
 .targets li {
     display: flex;
@@ -318,16 +343,24 @@ figure.tall img {
             <figcaption>What I ended up with. Two ballast tanks on a PVC pipe frame, four ducted propellers, the vacuum intake at the front and the camera looking out over it.</figcaption>
         </figure>
 
+        <!-- Straight under the hero render, because this is the block that has
+             to land inside the first twenty seconds. Six results, each with the
+             decision it drove - the same .targets furniture the page already
+             had, pointed at the engineering instead of the water chemistry. -->
+        <h3 class="block">The numbers that decided it</h3>
+        <ul class="targets">
+            <li><b>Vision</b><span>Otsu's method on the blue channel alone, segmenting debris in 0.564 s — and a kernel-density check so it knows when there is none.</span></li>
+            <li><b>Thrust</b><span>0.110 N of drag at 0.025 m/s, run through momentum theory to four ducted propellers at 53 mm.</span></li>
+            <li><b>Ballast</b><span>+193 N of net buoyancy, cancelled by taking on 19.7 L of water across two tanks whose moments cancel too.</span></li>
+            <li><b>Vacuum</b><span>250 rad/s for a 1 m/s inflow in Flow Simulation — faster than the robot drives, or it misses the debris.</span></li>
+            <li><b>Structure</b><span>Static FEA on every subassembly at 3.5 m depth: worst factor of safety above 1.6.</span></li>
+            <li><b>Built and tested</b><span>A 12.5 L ballast that submerged and resurfaced in 2 minutes, and a chassis that survived a bathtub.</span></li>
+        </ul>
+
         <section>
             <h2>The problem</h2>
-            <p>Cleaning a pool is four chores, not one, and the session runs about 45 minutes at least twice a week. In 2021 I could buy a machine for any single one of them and nothing at all that did the four together, so full automation meant three or four devices that did not work with each other — and the cleaners among them navigated at random, off bump switches and proximity sensors rather than any idea of where the dirt was. That gap is what I built MAPSY for.</p>
-            <ul class="jobs">
-                <li><b>Skim</b>Floating leaves and insects off the surface.</li>
-                <li><b>Vacuum</b>Sediment off the pool floor.</li>
-                <li><b>Chlorinate</b>Disinfectant held at a safe concentration.</li>
-                <li><b>Balance pH</b>Acid or base dosed to keep the water in range.</li>
-            </ul>
-            <p>So I costed mine against that stack. The prototype I actually built came in at about <b>$528 CAD</b>; the production design, machining and electrical safety certification included, at roughly <b>$1,521</b>.</p>
+            <p>Cleaning a pool is four chores, not one — skim the surface, vacuum the floor, chlorinate, hold the pH — and the session runs about 45 minutes at least twice a week. In 2021 I could buy a machine for any single one of them and nothing at all that did the four together, and the cleaners among them navigated at random, off bump switches and proximity sensors rather than any idea of where the dirt was.</p>
+            <p>So I costed one machine against that stack, on <b>$625</b> of prototype budget. What I built came in at about <b>$528 CAD</b>; costed properly for production, machining and electrical safety certification included, roughly <b>$1,521</b> against <b>$2,668</b> for four machines that still would not talk to each other.</p>
             <table class="cost">
                 <caption class="sr-only">Cost of MAPSY compared with buying one device for each cleaning task</caption>
                 <thead>
@@ -342,26 +375,13 @@ figure.tall img {
         </section>
 
         <section>
-            <h2>What I was aiming at</h2>
-            <p>I wanted one robot doing all four jobs for less than the stack it replaced: map the pool, steer around obstacles and towards debris, collect it off the surface and off the floor, sink and come back up, dose the chemicals, and keep its own electronics dry throughout. These are the numbers I held it to.</p>
-            <ul class="targets">
-                <li><b>Budget</b><span>$625 CAD for the prototype, $375 of it funded by Western.</span></li>
-                <li><b>Runtime</b><span>1.5 to 3 hours in a 4.5 × 9 × 2.5 m pool, about what the manual job costs you.</span></li>
-                <li><b>pH</b><span>Resolution of 0.1, enough to hold the water between 7.2 and 7.8.</span></li>
-                <li><b>Chlorine</b><span>1 to 3 ppm: enough to kill germs, little enough to swim in.</span></li>
-                <li><b>Water</b><span>18 to 40 °C, which covers every season except winter.</span></li>
-            </ul>
-        </section>
-
-        <section>
             <h2>Seeing the debris</h2>
-            <p>I wrote out several candidate concepts for each function and scored them on a decision matrix before drawing any of them properly. What I picked: image segmentation from an RGB-D camera for mapping, four ducted propellers for navigation, vacuum suction for collection, active ballasting for submersion rather than fighting buoyancy with downward thrust all day, and a pH meter over a colorimeter.</p>
             <figure>
                 <img src="img/mapsy/subsystem-map.png" width="817" height="773" alt="Diagram of the final concept: a wireframe view of the MAPSY robot with five labelled arrows pointing into it — Mapping via image segmentation using RGB-D, Navigation via a ducted propeller system, Debris collection via a vacuuming system, Submersion via active ballasting, and Chemical control via pH sensors and peristaltic pumps." loading="lazy">
-                <figcaption>The five subsystems I settled on, in one frame. I ran all of them through a single Arduino Uno on the prototype.</figcaption>
+                <figcaption>The five subsystems I settled on, scored against the alternatives on a decision matrix before I drew any of them properly: RGB-D segmentation, ducted propellers, vacuum suction, active ballasting, pH metering. I ran all of them through a single Arduino Uno on the prototype.</figcaption>
             </figure>
-            <p>Mapping is where the real work went. Pool tiles are almost always blue, which turns out to be useful: in an image of a pool floor nearly every pixel has a very high blue-channel value, and anything that does not is probably the thing I am looking for. So I ran the vision on the blue channel alone and split that histogram into foreground and background with <b>Otsu's method</b>, thresholding iteratively until the split settled. Opening and eroding first dropped the isolated specks and smoothed the contours, which matters more underwater than it sounds, because uneven refraction distorts the image constantly. A Kinect gave me the colour image and the depth together, so a segmented piece of debris arrived with its position and its distance for free. The whole segmentation took <b>0.564 seconds</b>.</p>
-            <p>My first version had a real flaw: Otsu's method will happily threshold an image into foreground and background whether or not there is any debris in it. It always found something. I fixed it by smoothing the histogram into a continuous line with a kernel density function and then looking at its shape — real debris produced <b>four or more critical points</b>, meaning two genuine peaks, and anything flatter than that meant a clean pool floor and no reason to chase anything.</p>
+            <p>Mapping is where the real work went. Pool tiles are almost always blue, so in an image of a pool floor nearly every pixel has a very high blue-channel value and anything that does not is probably what I am looking for: I ran the vision on the blue channel alone and split that histogram into foreground and background with <b>Otsu's method</b>, opening and eroding first to drop the specks that constant underwater refraction throws up. A Kinect gave me colour and depth together, so a segmented piece of debris arrived with its position and its distance for free, in <b>0.564 seconds</b>.</p>
+            <p>My first version had a real flaw, and I caught it myself: Otsu's method will happily threshold an image whether or not there is any debris in it, so it always found something. I fixed it by smoothing the histogram into a continuous line with a kernel density function and counting critical points on the curve — <b>four or more</b> meant two genuine peaks and real debris, and anything flatter than that meant a clean pool floor and no reason to chase anything.</p>
             <div class="fig-pair">
                 <figure>
                     <img src="img/mapsy/histogram-blue.png" width="524" height="418" alt="MATLAB histogram titled Blue Channel Value Number of Pixels, with blue channel value on the x axis from 0 to 255 and number of pixels on the y axis up to 30,000, showing a tall spike near zero, a low middle region with a small bump around 110, and a second broad rise towards 250." loading="lazy">
@@ -376,13 +396,13 @@ figure.tall img {
 
         <section>
             <h2>Moving, sinking, surfacing</h2>
-            <p>Forward, I only had to beat drag. Taking the body as a cylinder — which overestimates the drag coefficient at <b>1.2</b>, and I wanted the overestimate — with a projected frontal area of <b>0.296 m²</b> at <b>0.025 m/s</b>, the drag works out to <b>0.110 N</b>. A small number, because the robot is slow on purpose. I ran that back through simple momentum theory for a disk actuator, taking the inlet speed as zero for the worst case of starting from rest, and sized the propellers at <b>53 mm</b> — four of them, each in a duct, on brushless motors, kept straight by a gyro measuring the deviation from a line.</p>
+            <p>Forward, I only had to beat drag. Taking the body as a cylinder — which overestimates the drag coefficient at <b>1.2</b>, and I wanted the overestimate — a projected frontal area of <b>0.296 m²</b> at <b>0.025 m/s</b> works out to <b>0.110 N</b>. I ran that back through simple momentum theory for a disk actuator, with the inlet speed at zero for the worst case of starting from rest, and sized the propellers at <b>53 mm</b>: four of them, each in a duct, on brushless motors, kept straight by a gyro measuring the deviation from a line.</p>
             <figure>
                 <img src="img/mapsy/frontal-area.jpg" width="1400" height="422" alt="Two panels side by side. Left: a simplified front-on diagram of the robot in blue water, a grey rectangle 750 mm wide and 300 mm tall with four teal circles at its corners 250 mm and 120 mm across, used as the projected frontal area. Right: the matching SolidWorks front view of the real robot, showing the white pipe frame, teal ballast tanks and propeller pods." loading="lazy">
                 <figcaption>The frontal area I used in the drag calculation, and the geometry it stands in for.</figcaption>
             </figure>
-            <p>Downward was the harder half. I added up the weight and the displaced volume of every component and got a net buoyancy of <b>+193 N</b>: the robot did not merely float, it floated hard, and nothing about its mass was going to change that. Reaching the floor meant taking on <b>19.7 litres</b> of water — the volume whose weight cancels that net upward force — and pumping the same water back out to resurface.</p>
-            <p>My first iteration used a single ballast and it worked, in the sense that the robot sank and resurfaced. It was also a bad idea. One ballast put the buoyant force low and towards the rear, well away from the centre of mass, and a net moment like that on something neutrally buoyant is how a robot ends up upside down on the bottom of a pool. So I went to two, placed so that the moments they apply about the mass centre are equal and opposite and cancel. It is the part I still like best: rather than calculate a centre of buoyancy and then chase it around the frame, the second tank made the calculation unnecessary.</p>
+            <p>Downward was the harder half. Adding up the weight and the displaced volume of every component gave a net buoyancy of <b>+193 N</b> — the robot did not merely float, it floated hard — so reaching the floor meant taking on <b>19.7 litres</b> of water, the volume whose weight cancels that force, and pumping it back out to resurface.</p>
+            <p>My first iteration used a single ballast and it did sink, which was the trap: one tank puts the buoyant force low and towards the rear, well away from the centre of mass, and a net moment like that on something neutrally buoyant is how a robot ends up upside down on the bottom of a pool. So I went to two, equidistant, applying equal and opposite moments — the part I still like best, because rather than calculate a centre of buoyancy and then chase it around the frame, the second tank made the calculation unnecessary.</p>
             <figure>
                 <img src="img/mapsy/ballast-moments.png" width="1000" height="624" alt="Diagram at the waterline showing the robot body as a pale rectangle with two teal circular ballasts, one at each end, half submerged. A red arrow labelled B points up from each ballast, with a dimension line showing the two are equidistant from a dashed centre line, under the heading that the upward buoyant forces apply equal and opposite moments about the centre line." loading="lazy">
                 <figcaption>I set the two tanks equidistant from the centre line, so the moments cancel instead of tipping it.</figcaption>
@@ -390,8 +410,8 @@ figure.tall img {
         </section>
 
         <section>
-            <h2>Vacuuming without clogging it</h2>
-            <p>I had two conditions to satisfy with the vacuum: the pressure outside the storage had to exceed the pressure inside it, and the inward flow had to be faster than the robot's own forward speed. Fail the second and the robot simply drives past the debris it is nominally sucking at. I had no prototype budget for the vacuum, so I settled it in SolidWorks Flow Simulation instead — an external study with the motor stepped up in increments until both conditions held, which happened at <b>250 rad/s</b> and a peak inflow of <b>1 m/s</b>.</p>
+            <h2>Vacuuming, and the shell around it</h2>
+            <p>Two conditions had to hold for the vacuum: pressure outside the storage above pressure inside it, and an inward flow faster than the robot's own forward speed — fail the second and it drives straight past the debris it is nominally sucking at. With no prototype budget left for the vacuum I settled it in SolidWorks Flow Simulation instead, stepping the motor up until both held, which happened at <b>250 rad/s</b> and a peak inflow of <b>1 m/s</b>.</p>
             <figure class="cap" style="--fw: 556px">
                 <img src="img/mapsy/vacuum-flow.png" width="556" height="406" alt="SolidWorks Flow Simulation result showing blue and green flow trajectory lines converging from a large surrounding box into the wide rectangular intake at the front of the vacuum assembly and swirling through the transparent storage body, with a velocity scale from 0 to 1 metre per second at the right." loading="lazy">
                 <figcaption>The flow trajectories I simulated into the intake, peaking at about 1 m/s.</figcaption>
@@ -400,13 +420,8 @@ figure.tall img {
                 <img src="img/mapsy/vacuum-refinement.jpg" width="1400" height="468" alt="Two CAD views with an arrow between them. Left: the first vacuum layout, a plain open box with the teal propeller motor mounted behind it at the back. Right: the revised layout, with the propeller moved to the mouth of the storage behind the intake funnel and the storage reshaped with a perforated top." loading="lazy">
                 <figcaption>I moved the propeller from the back of the storage to its entrance, so debris stacked up behind it instead of blinding the filter.</figcaption>
             </figure>
-            <p>That move was my second refinement. My first layout had the propeller at the back of the storage vessel behind a protective filter, which meant every piece of debris the robot collected went straight onto that filter and stayed there. Moving the propeller to the storage entrance lets debris accumulate behind it and removes the filter entirely — at the cost of needing blades sharp enough that leaves get cut through rather than wrapped around them.</p>
-        </section>
-
-        <section>
-            <h2>The shell</h2>
-            <p>I hung everything off a PVC pipe network with machined housings — acrylic where something needed to see out, ABS where it needed stiffness, polypropylene for the ballasts — because the chassis failing at depth shorts out every electronic inside it.</p>
-            <p>So I ran a static FEA study on every subassembly with the water pressure at <b>3.5 m</b> applied to all surfaces, and the worst factor of safety that came back was greater than <b>1.6</b>.</p>
+            <p>My first layout had the propeller at the back of the storage behind a protective filter, which meant every piece of debris collected landed on that filter and stayed there. Moving it to the storage entrance lets debris stack up behind the propeller and removes the filter entirely, at the cost of blades sharp enough to cut leaves through rather than wrap them.</p>
+            <p>All of it hangs off a PVC pipe network with machined housings — acrylic where something needed to see out, ABS where it needed stiffness, polypropylene for the ballasts — and a chassis failing at depth shorts out every electronic inside it. So I ran a static FEA study on every subassembly with the water pressure at <b>3.5 m</b> applied to all surfaces, and the worst factor of safety that came back was greater than <b>1.6</b>.</p>
             <figure class="cap" style="--fw: 376px">
                 <img src="img/mapsy/chassis-fos.png" width="376" height="251" alt="SolidWorks factor-of-safety plot of the PVC pipe frame, the whole structure shaded red for the highest factor of safety band, with red pressure arrows applied all over its surfaces and green restraint symbols at the joints, beside a colour scale." loading="lazy">
                 <figcaption>The factor of safety I got on the pipe frame under 3.5 m of water. Red is the safe end of this scale.</figcaption>
@@ -416,9 +431,8 @@ figure.tall img {
         <section>
             <h2>What actually got built</h2>
             <p>This is the part the renders above do not tell you: <b>I never got to assemble the full thing</b>. The project ran through COVID-19, the labs and the public pools were shut, and I could not get the subsystems into one room to put them together. What exists is a set of working subsystems, tested separately, at a scale that fits in a bathroom.</p>
-            <p>I used a toolbox for the chassis — the right size for every electrical component except the Kinect, which was the most expensive thing in the build, too risky near a possible leak and heavy enough to upset the buoyancy, so I left it out. I drilled holes for the motor shafts, sealed them with washers, and floated the whole thing in a filled bathtub to check for leaks. It did not leak, and it floated.</p>
-            <p>For the ballast I used an ammunition box, two mini water pumps siliconed into it, and an air-feeding tube to stop it collapsing on itself once emptied. It held <b>12.5 litres</b>, it was airtight, and in a laundry sink it <b>submerged and resurfaced in 2 minutes</b>.</p>
-            <p>I prototyped mapping and navigation together, since one drives the other: Kinect, laptop, Arduino, two brushless motors and speed controllers. I put objects in front of the camera on dry land and the motors turned to face the nearest one. The image processing ran on the laptop rather than the Arduino, and by the end MATLAB was driving the motors directly. It proved the loop worked; it did not prove it worked in a pool, and the report said so.</p>
+            <p>For the chassis I used a toolbox, drilled holes for the motor shafts, sealed them with washers and floated the whole thing in a filled bathtub to check for leaks: it did not leak, and it floated. I left the Kinect out of it on purpose — the most expensive thing in the build, too risky near a possible leak and heavy enough to upset the buoyancy. For the ballast I used an ammunition box, two mini water pumps siliconed into it, and an air-feeding tube to stop it collapsing on itself once emptied: <b>12.5 litres</b>, airtight, and in a laundry sink it <b>submerged and resurfaced in 2 minutes</b>.</p>
+            <p>I prototyped mapping and navigation together, since one drives the other — Kinect, laptop, Arduino, two brushless motors and speed controllers — and on dry land the motors turned to face the nearest object I put in front of the camera, with MATLAB driving them directly by the end. It proved the loop worked; it did not prove it worked in a pool, and the report said so.</p>
             <figure class="cap" style="--fw: 541px">
                 <img src="img/mapsy/prototype-ballast.jpg" width="541" height="365" alt="Four photographs of the ballast prototype on a patterned tablecloth: a black ammunition box with its lid open showing an internal divider, white tubing running out of the lid to two small water pumps, blue cable ties bundling the wiring, and black power adapters beside it." loading="lazy">
                 <figcaption>The ballast I actually built — an ammunition box, two mini pumps, silicone, and a tube feeding it air.</figcaption>
@@ -427,25 +441,19 @@ figure.tall img {
                 <img src="img/mapsy/prototype-electronics.jpg" width="279" height="540" alt="Photograph looking down into a white clip-lid plastic box containing a breadboard with green and yellow LEDs lit, two small blue motors, loose jumper wires and a blue USB cable running out of the box." loading="lazy">
                 <figcaption>My electronics, powered up in a sealed box. Waterproofing the thing they had to live in was most of the problem.</figcaption>
             </figure>
-            <p>I never built the vacuum or the chemical systems at all, and I dropped both on purpose rather than for lack of time: the chemical loop is a sensor reading a value and a pump dispensing a fixed dose, which is not where the risk was, and the vacuum had been answered well enough in simulation.</p>
+            <p>I never built the vacuum or the chemical systems at all, and I dropped both on purpose rather than for lack of time: the chemical loop is a sensor reading a value and a pump dispensing a fixed dose, which is not where the risk was, and the vacuum had been answered well enough in simulation. The honest summary is that I got the subsystems working and never got the robot — given a room and the time, those pieces bolt together.</p>
+            <p>Two things I would change. The power electronics never delivered the speed the motors were rated for, and the batteries not discharging at the right voltage is the likeliest reason — that wanted measuring properly rather than reasoning about. And segmenting on the blue channel is only as good as the assumption that pools are blue: a small neural network would not care, and it is the version I would build now.</p>
         </section>
 
-        <section>
-            <h2>Looking back</h2>
-            <p>The honest summary is that I got the subsystems working and never got the robot. Given a room and the time to assemble them, those pieces bolt together.</p>
-            <p>Two things I would change. The power electronics never delivered the speed the motors were rated for, and the batteries not discharging at the right voltage is the likeliest reason — that wanted measuring properly rather than reasoning about. And segmenting on the blue channel is only as good as the assumption that pools are blue; a small neural network would not care about that, and it is the version I would build now.</p>
-        </section>
-
-        <!-- Awan's call, made three times over: no names, no reference to who
-             or how many worked on it, and the prose in first person singular
-             as his own build, to match the hexapod log. `we`/`our`/`us` stay
-             barred - the plural implies the collaborators the names came out
-             to avoid. Course, date and prize are all that belong here. -->
-        <section>
-            <h2>Credits</h2>
-            <p>I built MAPSY for <b>MSE 4499</b>, the Mechatronic Design Project at Western University, and the final report went in on 16 April 2021. Everything on this page is drawn from that report.</p>
-            <p>MAPSY won the <b>Innovative Design Prize</b> at the Western Engineering Competition.</p>
-        </section>
+        <!-- The Credits section that used to sit here is gone: it said MSE
+             4499, Western University, the April 2021 submission and the
+             Innovative Design Prize, all four of which the .status strip at the
+             top already shows a skimmer without them reading a word. The rule
+             it carried still stands and is not up for revisiting - Awan's call,
+             made three times over: no names, no reference to who or how many
+             worked on it, and the prose in first person singular as his own
+             build, to match the hexapod log. `we`/`our`/`us` stay barred, the
+             plural implies the collaborators the names came out to avoid. -->
 
     </article>
 </div>
