@@ -326,13 +326,19 @@ function show(i) {
     void detail.offsetWidth;
     detail.classList.add('swap');
     /* A finished project points at its repo; one still being built points at
-       its log; one that is done and written up points at the write-up. A
+       its log; one that is done and written up points at its CAD page. A
        project with none of those just drops the anchor rather than rendering a
-       dead button. */
+       dead button.
+
+       The `page` button says the same words as the sticker that rides the
+       model - his call, asked and answered: the button read 'Write-up' while
+       the sticker read 'View project CAD', which gave one page two names.
+       Singular on both, so they match exactly; a mismatched plural here would
+       be the same fault wearing one letter. */
     const links = [
         p.url && `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`,
         p.log && `<a class="d-link" href="${p.log}">Build log</a>`,
-        p.page && `<a class="d-link" href="${p.page}">Write-up</a>`,
+        p.page && `<a class="d-link" href="${p.page}">View project CAD</a>`,
     ].filter(Boolean).join('');
     // No name in the panel: the heading above the model already carries it,
     // and printed twice on one screen it read as a mistake.
