@@ -1,5 +1,5 @@
 import * as THREE from '../assets/vendor/three.module.min.js';
-import { MODELS, fitModel, FIT_SIZE, syncPalette, ACCENT } from './models.js?v=19';
+import { MODELS, fitModel, FIT_SIZE, syncPalette, ACCENT } from './models.js?v=20';
 
 /* A small rotating CAD viewport per card.
    Five cards means five little scenes. Rather than five WebGL contexts, they

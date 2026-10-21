@@ -127,20 +127,243 @@ export function buildManipulator() {
     return g;
 }
 
-export function buildRover() {
+/* Extrudes a flat profile across the model's width. Both of Tyler's signature
+   parts are shapes in side view swept sideways - which is what they are on the
+   real machine too, a ramp and a belt loop both drawn in section and given a
+   width - and neither is reachable from the primitives the rest of this file
+   uses. Profile points are given in world x and y, so the part needs no
+   placement at all and the arithmetic in the comments can be read straight off
+   the numbers. bevelEnabled is false because a bevel rounds every corner into
+   facets that fall under the 25 degree edge test and the outline disappears. */
+function extrude(points, width) {
+    const shape = new THREE.Shape(points.map(([x, y]) => new THREE.Vector2(x, y)));
+    const geo = new THREE.ExtrudeGeometry(shape, { depth: width, bevelEnabled: false });
+    geo.translate(0, 0, -width / 2);
+    return geo;
+}
+
+export function buildTyler() {
     const g = new THREE.Group();
-    // chassis
-    g.add(place(shell(new THREE.BoxGeometry(3.4, 0.7, 2.0)), 0, 0, 0));
-    // collection bin - what the thing is for, so it stays
-    g.add(place(shell(new THREE.BoxGeometry(1.5, 0.9, 1.6), ACCENT), -0.75, 0.8, 0));
-    // scoop
-    g.add(place(shell(new THREE.BoxGeometry(1.1, 0.5, 1.8), MARK), 2.0, -0.2, 0, 0, 0, 0.3));
-    // Sensor mast dropped: a thin pole and a small head read as two stray
-    // lines above the bin and nothing else.
-    const wheel = () => shell(new THREE.CylinderGeometry(0.62, 0.62, 0.36, 10));
-    [[-1.1, 1.1], [1.1, 1.1], [-1.1, -1.1], [1.1, -1.1]].forEach(([x, z]) => {
-        g.add(place(wheel(), x, -0.5, z, Math.PI / 2, 0, 0));
+    /* Tyler is a parts collector, and it is a vehicle - which makes it the one
+       model here where wheels are the right answer rather than the trap they
+       were on MAPSY. The risk runs the other way instead: a box on wheels with
+       a bin on top is the generic rover this builder replaced, and it said
+       nothing about this machine. Two things in the final design report are
+       what make it itself, and both of them are shapes rather than details.
+
+       Built against the report's CAD: the assembly isos (Part Container on
+       Final Assembly, DC Motor Mounted to Chassis and Pulleys, Infrared Sensor
+       Mounts), the Belt Mechanism and Ramp part drawings, the Chassis and
+       Three Wheel Base views, the Lift Mechanism Progression strip, and the
+       photograph of the carpeted belt on the built prototype.
+
+         The front end is a carpeted belt running round two rollers, slung over
+         a hinged ramp whose leading edge rides flush to the floor. Parts get
+         dragged up the throat between the two. Nothing else on the ring has a
+         nose that reaches the ground, so this is the silhouette.
+
+         The part container does not just sit there. A geared three-bar linkage
+         on a servo lifts it and tips it backwards over the collection bins -
+         lift-then-tip, which the report says was forced by the 14 cm height
+         limit, because there was no height left to store parts high enough to
+         pour them out. So it is modelled mid-tip, at 30 degrees, rather than
+         lying flat. Flat, it is a lid; tipped, it is the mechanism, and a tray
+         standing up in the air cannot be confused with MAPSY's drums or with
+         the old rover's bin.
+
+       Ten parts, which is the rule of thumb for this file rather than an
+       overrun, but the budget is tight enough to say where it went. The two
+       lift links are one part each and both are load-bearing on the read: a
+       tray tipped 30 degrees with nothing under it looks broken rather than
+       lifted, and one link reads as a prop while two read as a linkage. The
+       caster is a sliver of a part and stays because three wheels is the
+       design decision - two drive wheels centred on the length so it can spin
+       on the spot, one caster carrying the rear - and four would quietly make
+       it a rover again. What did not survive: the open ladder chassis (the
+       real one is see-through in every render, but the tray covers it, so the
+       eight members that would cost bought nothing), the four slotted roller
+       arms, the side drive belt and pulleys, and every sensor. Four ultrasonic
+       cans, two infrared and two bumper switches are eight small objects on
+       the rim of the machine, which is the repeated-small-features failure -
+       they would read as a rash, not as a sensor fit.
+
+       Built nose-left. The viewer rests at 0.21pi, which shows the -x side, so
+       the belt, the ramp and the raised end of the tray are all on -x and the
+       tail is what spends the slow turn round the back.
+
+       Box is 2.44 wide x 4.05 long x 2.16 tall. Width/length is 0.603, which
+       is the rover's 0.595 and well inside the 0.65 ceiling; the fitted
+       diagonal is FIT_SIZE * sqrt(1 + 0.603^2) = 5.137, between the rover's
+       5.13 and MAPSY's 5.15, so it cannot swing wider than the viewport
+       part-way round the turn the way a model chunky in two axes at once
+       does. The height is free - fitModel only normalises the longest axis,
+       which is the 4.05 length, and height never rotates into the camera - so
+       the tray could be tipped as far as it needed to be without costing
+       anything on screen. It fits to 2.35 tall, against MAPSY's 2.63. */
+
+    const FLOOR = -1.00;
+
+    /* Chassis. The real one is an open rectangular ladder - side rails, cross
+       members, a gearbox cage at the rear corner, holes everywhere. All of
+       that is under the part container, which covers it, so it is one slab:
+       3.10 long, 0.36 thick, sitting 0.24 clear of the floor. Thin enough that
+       the wheels stand proud of it the way they do in the rear view, thick
+       enough not to turn into a line when the spin takes it edge-on. */
+    g.add(place(shell(new THREE.BoxGeometry(3.10, 0.36, 2.00)), 0.20, -0.58, 0));
+
+    /* The ramp: a wedge, thin at the lip and 0.26 thick where it meets the
+       chassis, hinged on the mount crossbeam at the front third so the leading
+       edge stays flush to the floor as the machine drives. Drawn as a profile
+       rather than as an inclined box because the part drawing is a wedge and
+       because a 0.16 plate seen at a glancing angle is a bright line and
+       nothing else - the report's own figure is a plate that tapers to a point.
+
+       Its lip is at y -1.00, which is the floor, and the wheels and the lip
+       are the only things that touch it. The top face climbs 0.62 over 1.50,
+       so 22.5 degrees - shallower than the belt above it, which is what opens
+       the throat out towards the back instead of pinching it shut.
+
+       1.92 wide against the belt's 1.64. On the real machine the ramp, the
+       rollers and the belt are all the same width, 172 mm. Here the ramp is
+       wider on purpose: equal widths put two inclined masses in exactly the
+       same plan outline and they merged into one wedge from above and from
+       the nose, so the 0.14 of ramp showing each side of the belt is the only
+       thing that says these are two parts and that one runs over the other. */
+    g.add(shell(extrude([
+        [-1.95, FLOOR], [-0.45, -0.38], [-0.45, -0.64]
+    ], 1.92)));
+
+    /* The belt, and the part that names the machine. A loop of thick shag
+       carpet round two 15 mm rollers - so in side view it is a stadium, two
+       circles and the two tangents between them, which is one profile rather
+       than a slab plus two cylinders. Drawn as ten points: four 45 degree
+       facets round each roller end and a straight run along each side. Forty
+       five degrees clears the 25 degree edge test comfortably, so both ends
+       carry their facet lines and read as something wrapped round a roller;
+       a smooth arc would have come out as an unlined dark blob among lined
+       parts, which is the failure a lathe or a cone gives you here.
+
+       Rollers at (-2.00, -0.58) and (-0.46, 0.12), belt half-thickness 0.30.
+       That puts the lowest point of the loop at -0.86, which is 0.14 above the
+       floor and 0.33 ahead of the ramp's lip - the report is specific that the
+       lead edge of the belt extends forward over the floor beyond the end of
+       the ramp, and that overhang is what makes the nose read as reaching for
+       something rather than as a bumper. The gap to the ramp below opens from
+       0.12 at the lip to 0.18 at the crossbeam: a throat, and the one place on
+       the model where daylight means a mechanism.
+
+       Accent, with the tray. These two are the machine and everything else is
+       the trolley they are carried on. */
+    const A = [-2.00, -0.58], B = [-0.46, 0.12], R = 0.30;
+    const axis = Math.atan2(B[1] - A[1], B[0] - A[0]) + Math.PI / 2;
+    const loop = [];
+    [A, B].forEach((c, end) => {
+        for (let i = 0; i <= 4; i++) {
+            const a = axis + end * Math.PI + i * Math.PI / 4;
+            loop.push([c[0] + Math.cos(a) * R, c[1] + Math.sin(a) * R]);
+        }
     });
+    g.add(shell(extrude(loop, 1.64), ACCENT));
+
+    /* The part container, caught mid-tip. A flat platform with low walls on
+       the real machine; here one slab, because four walls 0.08 thick is four
+       parts spent on something that is a hairline at ring size.
+
+       Tipped 30 degrees with the front end up, which is the direction the lift
+       works: the short links swing further than the long ones through the
+       36/60 tooth gear pair, so the tray is dragged backwards along its slot
+       joint as it rises and then tips off the back into the bins. A turn in
+       the rz slot of place() is a sideways tip rather than a spin about the
+       part's own axis, which is exactly what is wanted - and the sign matters,
+       because rz sends +x towards +y, so a positive angle would raise the tail
+       and pour the parts over the ramp. It is -0.52.
+
+       Centred at x 0.72 so the low end finishes at 1.77, a hair past the back
+       of the chassis at 1.75, which is where the report puts it at full
+       extension; the raised end reaches y 1.16 and hangs out over the back of
+       the belt. It is the tallest thing on the model and it cost nothing. */
+    g.add(place(shell(new THREE.BoxGeometry(2.30, 0.20, 1.90), ACCENT),
+        0.72, 0.50, 0, 0, 0, -0.52));
+
+    /* The two lift links, in the wedge of daylight the tipped tray opens up.
+       Long link forward, short link aft, both leaning back at 0.26 - the
+       proportions off the Lift Mechanism figure, where the pair are plainly
+       different lengths and that difference is the whole trick. Centred on z
+       rather than doubled either side: a pair each side is four parts for a
+       detail that, from the rest angle, is behind a 0.52 wheel anyway.
+
+       Both run a little way into the tray and into the chassis at their ends,
+       so they read as pinned rather than as two sticks balanced in a gap. */
+    g.add(place(shell(new THREE.BoxGeometry(0.22, 1.06, 0.26)), 0.32, 0.08, 0, 0, 0, -0.26));
+    g.add(place(shell(new THREE.BoxGeometry(0.20, 0.62, 0.24)), 1.06, -0.14, 0, 0, 0, -0.26));
+
+    /* Drive wheels. 0.52 radius against the 0.36 chassis, so two fifths of
+       each one stands above the deck the way the rear view shows, and
+       they are the widest thing on the model at 1.22 a side - they set the
+       2.44 and therefore the plan ratio. Ten sides: 36 degree facets, so they
+       are lined across the tread instead of coming out as dark discs.
+
+       At x 0.10, which is the middle of the chassis rather than the middle of
+       the whole machine. The report centres them on the length of the device
+       so it can rotate on the spot, but the nose that reaches the floor is
+       0.9 of overhang in front of the chassis, and putting the wheels at the
+       middle of that drags them forward under the ramp where they look like
+       they are holding the belt up. */
+    [-1.08, 1.08].forEach(z => {
+        g.add(place(shell(new THREE.CylinderGeometry(0.52, 0.52, 0.28, 10)),
+            0.10, -0.48, z, Math.PI / 2, 0, 0));
+    });
+
+    /* The caster, at the rear centre. Small, and most of it is up inside the
+       chassis - only 0.24 of it shows below the slab, which is all a caster
+       ever shows. It earns the part because the three-point stance is a
+       decision the report defends at length (two driven wheels to keep the
+       mass down, one idler to carry a rear-biased centre of gravity), and
+       because a fourth corner wheel is the first thing that would make this
+       read as the generic rover again. Eight sides, not ten: it is a little
+       over half the radius of a drive wheel, and at that size ten facets stop
+       resolving and come back as a smudge.
+
+       At x 1.46 rather than the 1.54 it was first given, so its rim finishes
+       at 1.74 and stays inside the chassis. A caster trailing past the tail is
+       what a caster does, but it was setting the back of the bounding box by
+       0.05 - and the length is the axis fitModel normalises on, so a detail
+       part was quietly deciding the scale of the whole model. */
+    g.add(place(shell(new THREE.CylinderGeometry(0.28, 0.28, 0.18, 8)),
+        1.46, -0.72, 0, Math.PI / 2, 0, 0));
+
+    /* MSEduino and the 7.4V battery, as one block on the deck just behind the
+       crossbeam. The only mark colour on the model, and it is spent here for
+       the same reason MAPSY's deck stack was: the tipped tray opens a wedge of
+       empty dark air almost a unit deep over the chassis, and a bright chip is
+       what stops that being a hole. It is also the honest answer to where the
+       electronics live - the report is explicit that the height limit forced
+       the board, the battery and the linkage down inside the chassis and under
+       the container, out of sight.
+
+       It has to stand 0.86 tall to be worth drawing at all, and that number
+       was found twice rather than chosen. At 0.34, lying flat on the deck the
+       way the real board does, it was inside the drive wheel's own x range
+       from -0.40 to 0.60 and below the wheel's crown at 0.04, so through most
+       of the turn there was a 0.52 octagon parked directly in front of it and
+       the mark colour showed as a magenta hairline or not at all - the same
+       part spent for nothing that MAPSY's camera bar was before it was raised
+       above the tanks. Taking it to 0.74 cleared the wheels and brought it
+       back at the two side-on views, and still left it covered at the rest
+       angle, because the belt crowns at 0.40 and the belt is what stands
+       between the deck and the camera at 0.21pi. 0.86 puts the top at 0.46,
+       just over the belt, which is the height that buys the one view the card
+       actually sits on. Checked by shooting nine angles through the turn, not
+       by reasoning about it - the first two heights both looked fine in the
+       side elevation this was drawn in.
+
+       Threaded between the three things that share that deck: forward of the
+       belt's rear end at -0.179, and pushed out to z -0.47 so it misses the
+       forward lift link, which is 0.26 wide on the centreline. Off-centre also
+       means the spin carries it across the gap rather than parking it dead
+       middle, and it is on the -z side with the board and battery bay that the
+       chassis drawing puts at the rear left. */
+    g.add(place(shell(new THREE.BoxGeometry(0.60, 0.86, 0.66), MARK), 0.16, 0.03, -0.47));
     return g;
 }
 
@@ -499,7 +722,7 @@ export function buildOtherArrow() {
 export const MODELS = {
     rfid: buildDoorLock,
     manipulator: buildManipulator,
-    tyler: buildRover,
+    tyler: buildTyler,
     drill: buildGearbox,
     python: buildPipeline,
     hexapod: buildHexapod,
