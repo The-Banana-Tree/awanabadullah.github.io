@@ -224,109 +224,233 @@ export function buildHexapod() {
 export function buildMapsy() {
     const g = new THREE.Group();
     /* MAPSY is not a crawler. It is a submersible that swims: two big ballast
-       tanks lying along the top, an open PVC pipe frame slung under them, four
-       ducted thrusters at the corners and a wide flat vacuum mouth across the
-       nose. The thing it replaced here - a closed box hull with a brush roller
-       and two drive wheels - was a different machine entirely, so this is a
-       rebuild rather than a patch. Nothing on the real one rolls.
+       tanks carried high over an open PVC cage, four teardrop thruster pods
+       slung at the corners and a wide flat vacuum mouth across the nose. The
+       thing it replaced here - a closed box hull with a brush roller and two
+       drive wheels - was a different machine entirely. Nothing on the real one
+       rolls, and this pass is about making sure nothing on the model looks
+       like it does either.
 
-       Eleven parts, which is over the ten this file usually holds to, and the
-       overrun is all structural. The four thrusters are the corners of the
-       silhouette and cannot be three. The frame has to be open - a solid slab
-       under the tanks is exactly the wrong read - and an open rectangle needs
-       members on both long sides plus something closing each end. The nose end
-       is closed by the intake, which was going to be there anyway, so the
-       frame costs three rather than four. That leaves one discretionary part,
-       the camera bar, and it earns its place below.
+       Second fidelity pass, against lab/img/mapsy/final-design-iso.jpg. The
+       first rebuild had the right parts in the right places and still read
+       wrong in two ways, both of which are about silhouette rather than
+       inventory:
+
+         The corner pods were CylinderGeometry drums. A short fat cylinder on
+         the fore-aft axis is a duct seen from the side, which is what they
+         were meant to be - but it is also exactly a wheel seen from the side,
+         and four of them at the corners of a frame is a rover no matter what
+         is sitting on top. They are lathed teardrops now (below).
+
+         The frame was two horizontal rails plus a tail cross pipe, all at one
+         height. That is a sled. The render is a tall open cage: corner
+         uprights carrying rails top and bottom, with the tanks riding on the
+         top rails and daylight the full length between tank belly and bottom
+         rail. Height is the thing that stops it being a flat chassis with
+         cargo on it.
+
+       Sixteen parts, against eleven before and the ten this file usually
+       holds to. The overrun is bought with the two things above and nothing
+       else. Four pods are the corners of the silhouette and cannot be three.
+       The cage is eight members - two bottom rails, two top rails, four
+       uprights - and every one of them is load-bearing on the read: drop the
+       top rails and the tanks float on two posts; drop the uprights and it is
+       the old sled again. It cost nothing to close the tail, because the two
+       rear uprights and the rails they join already make a portal there, so
+       the old tail cross pipe is gone. The camera bar and the render's dark
+       deck cluster merged into one part rather than two - same chip of mark
+       colour in the trough between the tanks, now reading as the equipment
+       stack it is on the real machine.
 
        It is built nose-left. The viewer rests at 0.21pi, which shows the -x
-       side, so anything on +x spends most of the slow turn round the back. An
-       earlier cut had the intake on +x and the card read as a plain green box.
+       side, so anything on +x spends most of the slow turn round the back.
+       The intake stays on -x; so does the bulbous end of every pod, which is
+       the half of the teardrop worth seeing.
 
-       Stylised narrower than the real robot, deliberately. The real MAPSY is
-       close to square in plan; this is 2.44 across against 3.98 long, a ratio
-       of 0.61. fitModel only normalises the LONGEST axis, so a model chunky in
-       two axes at once carries a plan diagonal far wider than the FIT_SIZE it
-       was fitted to, and the spin swings that diagonal across the camera once
-       a revolution - cropped at both ends for most of every turn, while every
-       assertion still passes, because litPct goes up when a model overflows.
-       A square-in-plan MAPSY would sit near 0.95 and be unviewable. The rover,
-       which frames cleanly, is 0.60 and its fitted diagonal is 5.13; this one
-       lands at 5.17, so it frames like the rover does. Losing the true width
-       costs the silhouette nothing - the tanks still read as a pair and the
-       thrusters still read as four corners - so it is the right trade.
+       Stylised narrower than the real robot, deliberately, and the height
+       added here had to be paid for in plan. fitModel only normalises the
+       LONGEST axis, so a model chunky in two axes at once carries a plan
+       diagonal far wider than the FIT_SIZE it was fitted to, and the spin
+       swings that diagonal across the camera once a revolution - cropped at
+       both ends for most of every turn, while every assertion still passes,
+       because litPct goes up when a model overflows. New box is 2.58 wide x
+       4.23 long x 2.35 tall. Width/length is 0.610, against 0.613 before and
+       the rover's 0.595, and since the fitted diagonal is just
+       FIT_SIZE * sqrt(1 + ratio^2) it lands at 5.154 - a hair tighter than the
+       5.17 it was, and beside the rover's 5.12. Height fits to 2.447, which is
+       the rover's 2.426, so the cage got taller without the model getting
+       bigger on screen: the length grew with it.
 
-       The tank-to-thruster size ratio is doing more work than it looks. A
-       first cut had 0.44 tanks against 0.37 thrusters, and because there are
-       four thrusters and only two tanks, the corners outweighed the top: the
-       model read as a heap of six similar drums rather than as two tanks
-       carried over four pods. Tanks up and thrusters down, to roughly 8:5,
-       is what separates them again - the same proportion the render has. */
+       The tank-to-pod size ratio is doing more work than it looks. A first
+       cut had 0.44 tanks against 0.37 thrusters, and because there are four
+       pods and only two tanks, the corners outweighed the top: the model read
+       as a heap of six similar drums rather than as two tanks carried over
+       four pods. 0.50 against 0.35, roughly 8:5, is what separates them - the
+       same proportion the render has, and it survives the pods changing
+       shape. */
 
-    /* The two ballast tanks, and the whole reason the machine is recognisable.
-       Big, teal, lying fore-and-aft, side by side with a slot of daylight
-       between them. They are the top of the silhouette from every angle, which
-       is why they get the most volume of anything here.
+    /* The two ballast tanks, and the whole reason the machine is
+       recognisable. Big, teal, lying fore-and-aft, side by side with a slot
+       of daylight between them, and now riding on top of the cage rather than
+       sitting in it. They are the top of the silhouette from every angle.
 
        Ten sides, not sixteen. Edge lines are only drawn where two faces meet
        at more than 25 degrees, so a sixteen-sided tube (22.5 a facet) comes
-       out as an unlined dark mass among lined parts - the smooth-cone failure.
-       Ten gives 36 degree facets, so the tanks are fluted down their length
-       and read as cylinders rather than as two dark lozenges. */
-    [-0.70, 0.70].forEach(z => {
-        g.add(place(shell(new THREE.CylinderGeometry(0.52, 0.52, 2.4, 10), ACCENT),
-            0.05, 0.68, z, 0, 0, Math.PI / 2));
+       out as an unlined dark mass among lined parts - the smooth-cone
+       failure. Ten gives 36 degree facets, so the tanks are fluted down their
+       length and read as cylinders rather than as two dark lozenges.
+
+       y of 1.054 is not arbitrary: the top rails run at z +-0.78 with a 0.16
+       radius, so their crowns are at 0.58, and a 0.50 tank centred on z +-0.62
+       meets that height exactly 0.16 off its own axis. The tanks rest on the
+       rails instead of floating above them or sinking through. */
+    [-0.62, 0.62].forEach(z => {
+        g.add(place(shell(new THREE.CylinderGeometry(0.50, 0.50, 2.50, 10), ACCENT),
+            0.12, 1.054, z, 0, 0, Math.PI / 2));
     });
 
-    /* The PVC frame. A faithful plumbing diagram - rails, elbows, uprights,
-       tees - would be a thicket of thin rods, and at 0.1 radius each one is a
-       smudge rather than a pipe. So it is the fewest, chunkiest members that
-       still read as a skeleton: two long side rails at 0.17 radius, which is
-       about 30px across on the ring, and one cross pipe closing the tail. The
-       nose end is closed by the intake. Eight sides each, so the 45 degree
-       facets outline and they read as pipe rather than as wire. */
-    [-0.84, 0.84].forEach(z => {
-        g.add(place(shell(new THREE.CylinderGeometry(0.16, 0.16, 3.2, 8)),
-            0, 0, z, 0, 0, Math.PI / 2));
-    });
-    g.add(place(shell(new THREE.CylinderGeometry(0.16, 0.16, 1.70, 8)),
-        1.50, 0, 0, Math.PI / 2, 0, 0));
+    /* The four thruster pods, and the fix this pass exists for. In the render
+       they are ovoids: a blunt rounded dome at the front swelling to a
+       shoulder a third of the way back, then a long taper to a point at the
+       tail. A lathe is the one primitive that gives that in a single part -
+       nine profile points turned about the fore-aft axis - and the shape has
+       no circular side view at any angle, which is the whole point. A drum
+       has one, and four drums at the corners of a frame read as wheels
+       however the rest of the model is dressed.
 
-    /* Four ducted thrusters, hung below the frame line at the corners. Short
-       fat cylinders on the fore-aft axis, because that is a duct seen from the
-       side and a duct is the part of a thruster that has a silhouette. No
-       blades inside them: four sets of blades is four repeated small features,
-       which at this size is a texture, not a propeller. Ten sides, like the
-       rover's wheels - the facet stripes read as a shroud. */
-    [-1.40, 1.40].forEach(x => {
-        [-0.84, 0.84].forEach(z => {
-            g.add(place(shell(new THREE.CylinderGeometry(0.32, 0.32, 0.62, 10), ACCENT),
-                x, -0.40, z, 0, 0, Math.PI / 2));
+       Eight segments round, not twenty. A smooth surface has no edge that
+       passes the 25 degree test and renders as an unlined dark blob among
+       lined parts; eight gives 45 degree facets, so each pod carries eight
+       meridian lines running nose to tail. Those lines do as much work as the
+       outline does - they run along the body, so they say "pod" rather than
+       "disc" even where the silhouette is foreshortened.
+
+       The profile reaches full radius a quarter of the way back and then
+       tapers for the remaining three quarters. A first cut put the shoulder
+       at the middle and the pod came out a lemon - tapered at both ends,
+       symmetrical, no telling which way it faced. Blunt in front and long
+       behind is what makes it read as something pointed into the water.
+
+       That shaping also places two circumferential rings in the front third
+       (70 to 41 degrees at the first joint, 41 to 13 at the second, both over
+       the threshold) and none in the back two thirds, which is the seam the
+       render's pods have. More rings would have banded the body into a stack
+       of discs, which is the failure mode this part is escaping.
+
+       Dome on -x, point on +x, same orientation on all four: the bulbous end
+       faces the viewer's rest angle, and the taper runs away round the back
+       where it is read as depth rather than as detail. The rz slot of place()
+       is a sideways tip, not a spin about the part's own axis - which for a
+       surface of revolution is exactly what is wanted here, since -PI/2 lays
+       the lathe's Y axis down onto world +x. */
+    const POD = [
+        [0.000, -0.62], [0.215, -0.540], [0.312, -0.430], [0.350, -0.270],
+        [0.348, -0.080], [0.325, 0.140], [0.255, 0.380], [0.145, 0.570],
+        [0.000, 0.700]
+    ].map(([r, y]) => new THREE.Vector2(r, y));
+    /* Fore and aft pairs set 0.30 apart. At 0.12 the four of them ran into one
+       another from side on and read as one lumpy mass under the frame rather
+       than as four pods, which is most of the way back to the problem this
+       part was redrawn to fix. */
+    [-0.62, 1.00].forEach(x => {
+        [-0.94, 0.94].forEach(z => {
+            g.add(place(shell(new THREE.LatheGeometry(POD, 8), ACCENT),
+                x, -0.48, z, 0, 0, -Math.PI / 2));
         });
     });
 
-    /* The vacuum intake: wide, flat, and projecting off the nose. Nearly four
-       times as wide as it is tall, which is the proportion that says "mouth"
-       rather than "bumper", and wider than the frame so it overhangs the rails
-       it caps. It doubles as the frame's front cross member - its back face
-       meets both rail ends - which is both what the real one does and how the
-       part count stays at eleven. Left in the line colour because it is white
-       on the real machine and because the teal is spoken for: tanks and
-       thrusters are the accent, and a third accent mass would flatten them. */
-    g.add(place(shell(new THREE.BoxGeometry(0.64, 0.44, 1.90)), -1.95, -0.06, 0));
+    /* The PVC cage. A faithful plumbing diagram - every rail, elbow, tee and
+       union - would be a thicket of thin rods, and at 0.1 radius each one is
+       a smudge rather than a pipe. So it is the fewest, chunkiest members
+       that still read as a skeleton with height in it: a long rail at each
+       corner of the plan, twice over at two heights, and four uprights
+       joining them. Eight sides each, so the 45 degree facets outline and
+       they read as pipe rather than as wire.
 
-    /* The camera bar, in the trough between the tanks. The one discretionary
-       part and the only mark colour, which is what buys it the space: at ring
-       size it is a bright chip in the dark valley between two big teal drums,
-       and that valley is otherwise the one place on the model where nothing
+       Bottom rails at y -0.48 and top rails at y 0.42 put 0.90 of clear air
+       between them, which is more than the 0.68 the bottom rail and the pods
+       occupy together - so from side on the open middle of the cage is the
+       biggest single thing in the silhouette after the tanks. That gap is the
+       daylight the render has under the tanks and the old flat frame had
+       nowhere to put. */
+    [-0.48, 0.42].forEach(y => {
+        [-0.78, 0.78].forEach(z => {
+            g.add(place(shell(new THREE.CylinderGeometry(0.16, 0.16, 3.61, 8)),
+                0.105, y, z, 0, 0, Math.PI / 2));
+        });
+    });
+    /* The uprights, set at -1.55 and 1.75 so they land near the ends of the
+       rails rather than under the tanks - which is where the render puts
+       them, and which leaves the tank spans visibly unsupported in the middle
+       the way a real pair of saddles would. The 0.15 of rail left proud
+       beyond each one reads as the stub past an elbow. 0.15 rather than 0.16
+       radius so an upright crossing a rail still shows the rail's line. */
+    [-1.55, 1.75].forEach(x => {
+        [-0.78, 0.78].forEach(z => {
+            g.add(place(shell(new THREE.CylinderGeometry(0.15, 0.15, 0.90, 8)),
+                x, -0.03, z));
+        });
+    });
+
+    /* The vacuum intake: wide, flat, flared, and projecting off the nose. Over
+       five times as wide as it is tall, which is the proportion that says
+       "mouth" rather than "bumper". 2.16 across against the cage's 1.88, so it
+       overhangs the rails by 0.14 a side - the render's scoop is noticeably
+       wider than the frame it is bolted to, and that overhang is most of what
+       distinguishes it from a front bumper at this size.
+
+       It is deliberately not as wide as the pods, which reach 2.58. A first
+       cut had the scoop at 2.34 and from dead nose-on it covered all four of
+       them, so the one view that should show the pods standing outboard of
+       everything showed a plain slab instead. The cage and the tanks came in
+       0.06 and 0.04 a side to pay for it, which costs the plan nothing: the
+       pods were already the widest thing on the model and still set the
+       2.58, so the width/length ratio and the fitted diagonal are untouched.
+       It still doubles as
+       the cage's front closure, its back face biting 0.18 into both bottom
+       rails, which is both what the real one does and how the part count is
+       not seventeen. Left in the line colour because it is white on the real
+       machine and because the teal is spoken for: tanks and pods are the
+       accent, and a third accent mass would flatten them.
+
+       A box was the obvious shape and read as a slab bolted to the nose. The
+       render's is a horn that opens out, so this is a four-sided frustum -
+       the only primitive here that tapers - turned flat-side up with a
+       thetaStart of PI/4, then scaled out of square. Scale is applied inside
+       the part's own frame before the rotation, so the two factors are on
+       local x and z (height and width) while local y stays the 0.80 length.
+       Every facet of a square frustum meets its neighbour at ninety degrees
+       whatever it is scaled to, so the outline survives the stretch; only the
+       shading is slightly off, which on a flat white part nobody reads. */
+    const scoop = shell(new THREE.CylinderGeometry(0.30, 0.20, 0.80, 4, 1, false, Math.PI / 4));
+    scoop.scale.set(1.037, 1, 5.092);
+    g.add(place(scoop, -1.92, -0.26, 0, 0, 0, Math.PI / 2));
+
+    /* The deck equipment stack, in the trough between the tanks - the render's
+       dark cluster of housings and the camera bar, taken as one part rather
+       than as two small ones that would have fought each other at this size.
+       The only mark colour on the model, which is what buys it the space: at
+       ring size it is a bright chip in the dark valley between two big teal
+       drums, and that valley is otherwise the one place where nothing
        happens. It is also the autonomy - the vision that picks the debris out
        is the A in MAPSY - so if a single small part is going to carry a
        colour, this is the one worth spending it on.
 
-       Set a shade wider than the 0.36 trough it sits in, so it bridges the two
-       tanks and stands proud of them instead of sinking between them. Buried
-       flush it was a two-pixel magenta line and read as a rendering artefact. */
-    g.add(place(shell(new THREE.BoxGeometry(0.95, 0.34, 0.46), MARK), 0.10, 0.98, 0));
+       Proud in both axes it is seen in. 0.46 wide against the 0.24 trough, so
+       it bridges the two tanks rather than sinking between them, and tall
+       enough to clear the tank crowns by 0.18 - at 0.54 it sat entirely below
+       them and was invisible from every angle the slow spin passes through,
+       which is a part spent for nothing. Standing over the tanks it also
+       splits them: from three quarters on, two teal drums 0.32 apart merge
+       into one mass, and a bright block in the gap is what keeps them two.
+
+       It is the only thing on the model that sets the overall height, and
+       that is affordable in a way plan size is not. fitModel scales on the
+       longest axis, which is the 4.23 length, so height neither changes the
+       scale nor rotates into the camera - it fills 2.63 of the 5.5 units the
+       viewport covers and cannot crop. The plan diagonal is the one that
+       swings, and this part does not touch it. */
+    g.add(place(shell(new THREE.BoxGeometry(0.85, 0.90, 0.46), MARK), 0.15, 1.25, 0));
     return g;
 }
 
