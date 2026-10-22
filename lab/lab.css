@@ -158,6 +158,16 @@ body { min-height: 100svh; }
     align-self: flex-start;
     max-width: 100%;
 }
+/* The panel is stretched to the ring box's height, so whatever the blurb does
+   not use falls out of the bottom of it - 80px on a short blurb, and 164px
+   once the panel was widened and the same words wrapped into fewer lines. A
+   button floating two thirds of the way down a box with a hole under it is
+   the half-empty-container failure this page keeps finding. Pinned to the
+   bottom instead, the way .ocard-link already pins the sub-cards' buttons so
+   the three end level: the air moves above the button, where it reads as the
+   panel being spaced out rather than cut short. First link only - Tyler has
+   two, and they travel down as a pair. */
+.detail .d-link:first-of-type { margin-top: auto; }
 .detail .d-hint { font-size: 0.88rem; opacity: 0.7; text-align: center; }
 
 /* Panel only. The heading types itself instead. */

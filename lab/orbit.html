@@ -6,7 +6,7 @@
 <title>Orbit · Projects Lab</title>
 <link rel="stylesheet" href="../assets/css/style.css?v=2">
 <link rel="stylesheet" href="../assets/css/shooting-stars.css?v=1">
-<link rel="stylesheet" href="lab.css?v=9">
+<link rel="stylesheet" href="lab.css?v=10">
 <!-- In <head> on purpose: it sets data-theme off localStorage before the
      first paint, so arriving in light mode does not flash dark. -->
 <script src="theme.js?v=1"></script>
@@ -17,9 +17,27 @@
    existing torus, so it is literally the same object
    doing a new job.
    ================================================== */
-/* Capped and centred rather than spread across the full 1400px wrap. The ring
-   is only ever 500px across, so a full-width column left a lake of empty space
-   between the model and the text that was meant to describe it. */
+/* ---- one left edge down the page ----
+   The layout is capped rather than spread across the full 1400px wrap: the
+   ring is only ever so wide, and a full-width column left a lake of empty
+   space between the model and the text meant to describe it. But the cap was
+   only on the layout, and the heading above it ran to the wrap's own padding
+   edge - so on a desktop the title started 90px to the left of the box it
+   labels, 150px at 1440, while at 1024 (where the cap does not bind) the two
+   lined up. His words: "make the spacing align on the desktop version".
+
+   So the cap is a value both of them read, and the heading is centred on the
+   same measure. Anything else that joins this column should read it too
+   rather than write down its own number. */
+.lab-wrap { --layout-w: 1020px; }
+/* margin-left/right rather than the shorthand: lab.css gives this element
+   margin-bottom: var(--head-gap), which is the air the whole page's rhythm is
+   measured off, and a `margin: 0 auto` here would quietly take it away. */
+.lab-head {
+    max-width: var(--layout-w);
+    margin-left: auto;
+    margin-right: auto;
+}
 .orbit-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) clamp(280px, 30vw, 360px);
@@ -29,9 +47,31 @@
        means every box is the same distance from its neighbour as the heading
        is from the ring. It shrinks to 20px under 600px on its own. */
     gap: var(--head-gap);
-    max-width: 1020px;
+    max-width: var(--layout-w);
     margin: 0 auto;
     align-items: stretch;
+}
+/* ---- the write-up stops being a column of offcuts ----
+   At 360px the panel gave its prose a 316px measure, which in this page's
+   monospace is 32 characters a line - his "a bit cramped". 460px takes it to
+   42, which is a readable line.
+
+   The 100px comes from the page, not from the ring: the cap moves with it, so
+   the box column stays at exactly the 630px it has always been. That is not
+   tidiness, it is the whole constraint. --stage is min(w, h) of the box and on
+   a desktop the box is wider than it is tall, so the model's size is decided
+   by HEIGHT alone - widen the box and the model does not grow with it, it just
+   gets more empty floor to stand on. A first pass that let the box take the
+   width put the ring at 519px around the same 366px model and the thing read
+   as adrift. ringD 459 / stage 366 are unchanged by all of this.
+
+   A query rather than a wider clamp, because the clamp's 30vw is what keeps
+   the panel modest at the widths where the box is tight: push the panel out at
+   1024 and the box falls under 570, at which point the ring measures smaller
+   than the model inside it. Nothing below 1200px moves at all. */
+@media (min-width: 1200px) {
+    .lab-wrap { --layout-w: 1120px; }   /* 630 box + 30 gap + 460 panel */
+    .orbit-layout { grid-template-columns: minmax(0, 1fr) 460px; }
 }
 /* No `perspective` here on purpose. With it, a node's distance from the centre
    was multiplied by 1100/(1100-z), which both threw the front node out past the
@@ -523,6 +563,6 @@
 </footer>
 
 <script src="stars.js?v=1"></script>
-<script type="module" src="orbit.js?v=36"></script>
+<script type="module" src="orbit.js?v=38"></script>
 </body>
 </html>

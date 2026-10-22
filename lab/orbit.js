@@ -100,7 +100,10 @@ function measure() {
        stayed its old size in a box nearly twice as wide and the thing read as
        a frame around nothing, which is the failure this page keeps finding.
        420 is high enough to let the ring open out and still be the constraint
-       that decides, so normal cards are completely unaffected. */
+       that decides, so normal cards are completely unaffected. It survived the
+       layout cap going to 1120px untouched: the wide box reaches 1120 and the
+       ring holds at 840, which is 0.75 of it, still clear of the 0.72 ratio
+       check-other.js fails below. */
     R = Math.min(420, ...g.map(n =>
         Math.abs(n.sin) < 0.01 ? Infinity : (w - n.hw) / Math.abs(n.sin)));
     TILT = Math.min(R * LEAN, ...g.map(n => {
