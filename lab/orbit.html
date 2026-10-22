@@ -354,16 +354,11 @@
    weight the pair read as one four-character word rather than a count. */
 .orbit-count b { color: var(--accent); font-weight: 700; opacity: 1; }
 
-.orbit-cad-tag {
-    position: absolute;
-    top: 14px; right: 14px;
-    white-space: nowrap;
-    font-size: 0.68rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    opacity: 0.3;
-    pointer-events: none;
-}
+/* The "placeholder geometry" tag that sat in the box's top-right corner is
+   gone on his instruction, element and styles both. The models are still
+   placeholder geometry built in models.js; the page just no longer says so.
+   The sub-cards under Other Projects carry their own .ocard-tag and he only
+   named this one, so those are untouched. */
 
 /* The carousel of project nodes.
 
@@ -454,10 +449,10 @@
     /* The front node reaches the bottom-left corner on a narrow box, so the
        hint moves up out of its way. */
     .orbit-hint { top: 12px; bottom: auto; }
-    /* Swaps with the hint so the two don't meet in the middle of a narrow box. */
-    .orbit-cad-tag { top: auto; right: auto; bottom: 14px; left: 14px; }
-    /* The hint takes top left at this width, so the counter crosses to the
-       corner the cad tag just vacated rather than sitting on top of it. */
+    /* Still needed with the cad tag gone, and not because of it: the hint has
+       just taken top left, which is where the counter sits by default, so the
+       counter has to cross to top right or the two print over each other.
+       check-other.js fails if they ever overlap. */
     .orbit-count { left: auto; right: 14px; }
     .orbit-node { width: 142px; margin-left: -71px; }
     .orbit-node button { font-size: 0.66rem; padding: 8px 6px; letter-spacing: 1px; }
@@ -560,7 +555,6 @@
                  the heading announces the one at the front, so reading a
                  position out as well would only say the same thing twice. -->
             <span class="orbit-count" id="counter" aria-hidden="true"></span>
-            <span class="orbit-cad-tag">placeholder geometry</span>
             <div class="orbit-track" id="track"></div>
             <div class="orbit-ctrl">
                 <button id="prev" type="button" aria-label="Previous">&#9664;</button>
