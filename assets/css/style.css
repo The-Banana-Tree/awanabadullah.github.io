@@ -175,10 +175,22 @@ body {
     margin: 0;
     max-width: 100%;
 }
-/* One rule for every button on the page, so the card CTA cannot drift away
-   from the contact buttons it is meant to match. */
+/* One rule for every button on the SITE, so the card CTA cannot drift away
+   from the contact buttons it is meant to match - and now so the lab pages
+   cannot drift away from either. The lab's buttons used to be an accent
+   outline that inverted on hover, which is exactly the drift this rule was
+   written to stop; they are listed here rather than restyled over there so
+   there is still only one place the shape is written down.
+
+   Deliberately hardcoded hex rather than the theme variables, even though the
+   lab pages are theme-aware: the home page carries these same buttons through
+   both themes already, so magenta-on-black and magenta-on-grey are both
+   proven. The lab only adds layout around them (see .d-link / .ocard-link in
+   lab/lab.css). */
 .reach-out-card .contact-buttons a,
-.card-cta a {
+.card-cta a,
+.detail .d-link,
+.ocard-link {
     display: inline-block;
     width: 200px;
     padding: 1rem;
@@ -193,7 +205,11 @@ body {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 .reach-out-card .contact-buttons a:hover,
-.card-cta a:hover {
+.card-cta a:hover,
+.detail .d-link:hover,
+.detail .d-link:focus-visible,
+.ocard-link:hover,
+.ocard-link:focus-visible {
     background: #b71c6d;
     transform: translate(-2px, -2px);
     box-shadow: 4px 4px 0px #000000;

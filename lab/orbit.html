@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Orbit · Projects Lab</title>
-<link rel="stylesheet" href="../assets/css/style.css?v=1">
+<link rel="stylesheet" href="../assets/css/style.css?v=2">
 <link rel="stylesheet" href="../assets/css/shooting-stars.css?v=1">
-<link rel="stylesheet" href="lab.css?v=8">
+<link rel="stylesheet" href="lab.css?v=9">
 <!-- In <head> on purpose: it sets data-theme off localStorage before the
      first paint, so arriving in light mode does not flash dark. -->
 <script src="theme.js?v=1"></script>
@@ -138,20 +138,10 @@
 }
 /* margin-top: auto pins it to the bottom of whichever card it is in, so the
    three buttons line up across the row instead of each floating under its own
-   paragraph. */
-.ocard-link {
-    margin-top: auto;
-    align-self: flex-start;
-    padding: 9px 16px;
-    font-size: 0.78rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 2px solid var(--border);
-    color: var(--accent);
-}
-.ocard-link:hover,
-.ocard-link:focus-visible { background: var(--accent); color: var(--bg); outline: none; }
+   paragraph. Everything else about this button - fill, border, shadow, the
+   shift on hover - comes from the site's one button rule in style.css, the
+   same rule the home page's contact buttons use. */
+.ocard-link { margin-top: auto; }
 /* The same admission the ring makes under its hero. */
 .ocard-tag {
     position: absolute;
@@ -548,7 +538,10 @@
     .ocard-tags { gap: 4px; margin-bottom: 9px; }
     .ocard-tags li { font-size: 0.62rem; padding: 2px 6px; }
     .ocard-body p { font-size: 0.82rem; line-height: 1.55; margin-bottom: 11px; }
-    .ocard-link { padding: 7px 12px; font-size: 0.7rem; }
+    /* No size override any more: the shared button rule's 1rem padding is the
+       touch target, and its 200px is already capped to the column by
+       max-width in lab.css. Shrinking the type here would undo the thing he
+       asked for, which is that these look like the home page's buttons. */
     /* Unreadable at thumbnail size, and the ring already says it above. */
     .ocard-tag { display: none; }
     .orbit-dot { width: 9px; height: 9px; margin-left: -4.5px; }
