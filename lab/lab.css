@@ -168,6 +168,17 @@ body { min-height: 100svh; }
    panel being spaced out rather than cut short. First link only - Tyler has
    two, and they travel down as a pair. */
 .detail .d-link:first-of-type { margin-top: auto; }
+/* Only between one button and the next, which is why it is a sibling selector
+   and not a bigger gap on .detail: that gap also sets heading-to-blurb and
+   blurb-to-tags, and widening those would space out the whole panel to fix two
+   buttons. At the panel's own 14px the pair read as one two-line control -
+   Tyler is the only card with both View code and View project CADs, and they
+   are separate destinations. Doubled to 28px so they read as two.
+
+   This is paid for in box height: the panel is the taller grid item on that
+   card, so every px here is a px #orbitBox has to grow to keep the two columns
+   ending level. See the height note on #orbitBox in orbit.html. */
+.detail .d-link + .d-link { margin-top: 14px; }
 .detail .d-hint { font-size: 0.88rem; opacity: 0.7; text-align: center; }
 
 /* Panel only. The heading types itself instead. */
