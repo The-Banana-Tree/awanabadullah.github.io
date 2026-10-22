@@ -33,8 +33,8 @@ export const PROJECTS = [
         /* No url: there is no repo for this one, so show() renders no 'View
            code' button. `page` rather than `log` because the project is
            finished - the hexapod's log is a dated diary that grows, this is a
-           write-up of something that already happened, and show() words both
-           the sticker and the panel button differently for each. */
+           write-up of something that already happened, and show() words the
+           panel button differently for each. */
         page: 'mapsy.html'
     },
     {
@@ -56,15 +56,14 @@ export const PROJECTS = [
         tags: ['C++', 'Autonomous', 'Controls'],
         url: 'https://github.com/awanabad/Tyler-Version-2',
         /* Both keys on purpose, and the only entry carrying both: `url` puts
-           'View code' in the panel for the repo, `page` adds the 'View project
-           CAD' sticker on the model and a 'Write-up' button beside the repo
-           link. show() builds that link row from whichever keys it finds, so
-           the two appear together with no special case. */
+           'View code' in the panel for the repo, `page` puts 'View project
+           CADs' beside it. show() builds that link row from whichever keys it
+           finds, so the two appear together with no special case. */
         page: 'tyler.html'
     },
     /* The only employer project on the ring, and the only one with no repo at
-       all - so it gets the CAD sticker and no 'View code' button beside it.
-       It sits straight after Tyler because that is where he asked for it. */
+       all - so its panel carries the CAD button and nothing else. It sits
+       straight after Tyler because that is where he asked for it. */
     {
         id: 'ledchest',
         name: 'LED Chest Plate Indicator',

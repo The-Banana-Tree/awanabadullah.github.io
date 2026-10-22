@@ -1,4 +1,4 @@
-import { PROJECTS, OTHER } from './projects.js?v=20';
+import { PROJECTS, OTHER } from './projects.js?v=21';
 import { makeViewer, bootViewer, setViewerModel } from './viewer.js?v=19';
 import { sfx } from './sfx.js?v=14';
 
@@ -169,8 +169,6 @@ function go(i) {
     requestAnimationFrame(tick);
 }
 
-const sticker = document.getElementById('sticker');
-
 /* ---- the heading types itself ----
    Same effect as the home page hero: a character at a time, then a blinking
    underscore. Faster here, because the hero types once on arrival while this
@@ -257,43 +255,21 @@ function show(i) {
     // projects.js moves the total on its own.
     counter.innerHTML = `<b>${i + 1}</b>/${N}`;
 
-    /* What the card leads to, and how it says so. Four shapes:
-         log:   a build still being written - sticker over the model
-         page:  a finished project with a write-up - same sticker, different
-                words on it, because 'build log' would be a lie about a
-                project that ended in 2021. The face says 'View project CAD'
-                because that is what these pages are led by and what he asked
-                the sticker to promise; the panel button below still says
-                'Write-up', which is two names for one page - his call to
-                make, flagged rather than decided here.
+    /* What the card leads to, and how it says so. Three shapes now:
+         log:   a build still being written - 'Build log' in the panel
+         page:  a finished project with a write-up - 'View project CADs' in
+                the panel, which since the sticker came off is the only way
+                in to mapsy.html, tyler.html and ledchest.html
          items: a card standing for several projects - a row of CAD cards
                 below, replacing the detail panel entirely. Each one carries
                 its own model, tags, blurb and View code button, so the card
-                itself needs no sticker and no button of its own
+                itself needs no button of its own
          url:   a finished project - 'View code' in the panel
-       The sticker rides the model, so re-triggering its animation is what
-       makes it read as being pressed on each time rather than fading in with
-       the panel. */
+       There was a fourth thing here until he asked for it gone: a yellow
+       starburst stuck on the model, carrying the same link as the panel
+       button under a shortened label. The link row below is the whole of it
+       now - one route per page, named once. */
     const items = COLLECTIONS[p.id];
-    const read = p.log
-        ? { href: p.log,  face: 'View<br>build<br>log',   kind: 'build log' }
-        : p.page
-        ? { href: p.page, face: 'View<br>project<br>CADs', kind: 'project CADs' }
-        : null;
-    sticker.hidden = !read;
-    if (read) {
-        sticker.href = read.href;
-        // The face is written from here rather than sitting in the markup, so
-        // the two kinds of reading page cannot end up sharing one label.
-        sticker.innerHTML = `<span>${read.face}</span>`;
-        // 'View' rather than 'Read' for both kinds: it is the verb already on
-        // the hexapod's own sticker face, and 'Read the ... project CAD' is
-        // not a thing anyone says.
-        sticker.setAttribute('aria-label', `View the ${p.name} ${read.kind}`);
-        sticker.style.animation = 'none';
-        void sticker.offsetWidth;
-        sticker.style.animation = '';
-    }
 
     // setViewerModel only boots when the geometry actually changes, so boot
     // again here: that covers the first paint and re-picking the front node.
@@ -330,11 +306,9 @@ function show(i) {
        project with none of those just drops the anchor rather than rendering a
        dead button.
 
-       The `page` button says the same words as the sticker that rides the
-       model - his call, asked and answered: the button read 'Write-up' while
-       the sticker read 'View project CAD', which gave one page two names.
-       Singular on both, so they match exactly; a mismatched plural here would
-       be the same fault wearing one letter. */
+       These are the only routes to the reading pages now. Tyler is the one
+       entry with both `url` and `page`, and gets both buttons with no special
+       case. The wording is his, twice asked for, down to the plural CADs. */
     const links = [
         p.url && `<a class="d-link" href="${p.url}" target="_blank" rel="noopener">View code</a>`,
         p.log && `<a class="d-link" href="${p.log}">Build log</a>`,

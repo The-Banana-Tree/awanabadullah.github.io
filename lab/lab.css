@@ -101,8 +101,9 @@ body { min-height: 100svh; }
    stylesheet so these sit exactly where the home page's do. Two corrections
    for using <button> rather than the home page's <div>: a button does not
    inherit the page font, and it needs to clear the bar's z-index neighbours
-   - the build-log sticker rides at 150 and would otherwise cover a control
-   where they meet on a short screen. */
+   - the ring's own arrows sit at 200 inside the box and would otherwise cover
+   a control where they meet on a short screen. (400 was first set against a
+   sticker riding at 150; that is gone, the arrows still want clearing.) */
 .controls-row { z-index: 400; }
 .controls-row button { font-family: inherit; }
 .controls-row button:hover { filter: brightness(1.15); }
