@@ -91,6 +91,39 @@
     background: var(--bg);
     z-index: 2;
 }
+/* ---- the box and the panel end on the same line ----
+   .orbit-layout is align-items: stretch and for four of the five panelled
+   cards that already did the work - the panel stretched to exactly the box's
+   470px. Tyler was the odd one out, 470 against 496, and the cause is not the
+   panel failing to stretch: the box has a DEFINITE height, so it cannot
+   stretch at all, while the grid's row is auto and sized by whichever item is
+   taller. Tyler's panel is the only one whose content (two buttons now 28px
+   apart) exceeds 470, so on that card the row grew to the panel and the box
+   stayed put. Nothing was wrong with align-items.
+
+   So the row has to stop being the taller of the two, which means the box has
+   to be at least as tall as the tallest panel: 510px, measured off Tyler with
+   the new button gap, not guessed. Every panel now stretches to 510 and all
+   five end level. The other direction - capping the panel to 470 - was
+   rejected: Tyler's content needs 506 inside the border, so 36px of it would
+   have been clipped or left a hole, which is the half-empty-container failure
+   this page keeps rediscovering.
+
+   What this costs, because box height is the one number that decides how big
+   the model reads: --stage goes 366 -> 399. --ringD is width-driven and stays
+   459, and TILT is still capped by R * LEAN, so the ring's size and lean do
+   not move - only the model grows.
+
+   Scoped two ways on purpose. min-width 821px because under that the layout
+   is one column, the two boxes stack and there is no line to end on; the 420
+   and 390 heights below stay the phone's. And :not(.wide) because Other
+   Projects has no panel to align to - but note the specificity, (1,2,0)
+   against #orbitBox's (1,0,0), which is exactly why this sits inside a query
+   rather than beside the rule above: unscoped it would outrank both phone
+   heights and the narrow box would silently grow to 510. */
+@media (min-width: 821px) {
+    .orbit-layout:not(.wide) #orbitBox { height: 510px; }
+}
 
 /* ---- what a card stands for, when it stands for more than one thing ----
    The Other Projects card used to carry a numbered list under the ring and a
