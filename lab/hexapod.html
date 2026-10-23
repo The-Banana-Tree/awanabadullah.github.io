@@ -193,11 +193,27 @@ figcaption {
         </div>
         <div>
             <dt>Settled</dt>
-            <dd>Joints, drive path<small>servo, lengths, power still open</small></dd>
+            <dd>Joints, drive path, controller<small>servo, lengths, power still open</small></dd>
         </div>
     </dl>
 
     <ol class="log">
+        <li>
+            <time datetime="2026-10-22">22 Oct 2026</time>
+            <div class="line">
+                <p><b>One Pi, two ESP32s.</b> The Pi picks the gait and sends each foot a target. One ESP32 drives the three left legs, the other the three right, nine servos each. Both boards work out their own joint angles from the targets they are given. The tripods are grouped in software, so the wiring stays short and mirrored.</p>
+            </div>
+        </li>
+        <li>
+            <time datetime="2026-10-21">21 Oct 2026</time>
+            <div class="line">
+                <p><b>Femur cracked during assembly.</b> The whole leg went together for the first time: femur, pushrod, tibia. The femur broke while I was building it, and several bolts were the wrong length for their stacks. Hot glue is holding it together for a gentle hand sweep and nothing else. The femur gets reprinted before anything is powered or loaded.</p>
+                <figure>
+                    <img src="img/hexapod/full-leg-rom.jpg" alt="Two photographs side by side of the same assembled leg on a pegboard, held in different positions: a dark printed femur with a pale pushrod bolted above it, a long black tibia hanging from the knee, bolts and a silver bearing at the pivots, and clear hot glue visible around the joints.">
+                    <figcaption>Both poses were set by hand. The clear smears at the pivots are the glue.</figcaption>
+                </figure>
+            </div>
+        </li>
         <li>
             <time datetime="2026-10-21">21 Oct 2026</time>
             <div class="line">
