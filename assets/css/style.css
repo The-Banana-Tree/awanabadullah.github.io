@@ -219,6 +219,44 @@ body {
    other. Scoped to this card so the other cards keep their own inline spacing. */
 .about-card p + p { margin-top: 1rem; }
 
+/* Was an inline style on the <img>. Out here so the desktop rule below can
+   override it without !important. */
+.about-portrait {
+    max-width: 180px;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem auto;
+    display: block;
+}
+
+/* === ABOUT ME, FULL WIDTH ON DESKTOP ===
+   His ask: the About Me card spans the whole row, the other four keep the
+   layout they had. `.grid` is `repeat(auto-fit, minmax(280px, 1fr))` inside a
+   900px container, which works out to exactly two columns on a desktop - so
+   `1 / -1` takes both and the remaining four pair up underneath, untouched.
+
+   700px is where the second column appears (280 x 2 + 24 gap + 64 padding),
+   so the rule starts exactly when there is a row to span. Below that the grid
+   is a single column and the card is already full width - nothing to do.
+
+   The portrait floats instead of staying centred. At 836px a centred 180px
+   image with three short paragraphs under it leaves most of the card empty,
+   which is the one thing this layout cannot afford; floated, the copy wraps
+   around it and fills the row. Float rather than a nested grid on purpose:
+   the paragraph count is not fixed, and a `grid-row: span 3` would quietly
+   break the first time a sentence is added. */
+@media (min-width: 700px) {
+    .about-card { grid-column: 1 / -1; }
+    .about-portrait {
+        float: left;
+        margin: 0.25rem 2rem 1rem 0;
+    }
+    /* The See Projects button is the card's last child and would otherwise
+       ride up beside the portrait. Cleared, it stays on its own line under
+       everything, where it was before. */
+    .about-card .card-cta { clear: both; }
+}
+
 /* Sits at the foot of a card, after the copy. Inside the grid it reveals with
    the cards on tap, so it needs no hide/show handling of its own. */
 .card-cta {

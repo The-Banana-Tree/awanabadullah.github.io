@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Robot Maker and Systems Engineer | Awan Abadullah</title>
-    <link rel="stylesheet" href="assets/css/style.css?v=19">
+    <link rel="stylesheet" href="assets/css/style.css?v=20">
     <link rel="stylesheet" href="assets/css/shooting-stars.css?v=18">
     <!-- Background Music -->
     <audio id="backgroundMusic" loop autoplay muted>
@@ -43,7 +43,10 @@
         <section class="grid hidden-cards">
             <div class="card about-card">
                 <h3>About Me</h3>
-                <img src="profile.jpg" alt="Awan Abadullah" style="max-width: 180px; height: auto; border-radius: 8px; margin: 1.5rem auto; display: block;">
+                <!-- Styling moved to .about-portrait in style.css: the desktop
+                     rule needs to override these, and an inline style can only
+                     be beaten with !important. -->
+                <img class="about-portrait" src="profile.jpg" alt="Awan Abadullah">
                 <p>Hello, I'm Awan.</p>
                 <p>A systems engineer in aerospace by day 🚀, and a robot maker at night 🤖.</p>
                 <p>I love video games, messing with tech, and reading self-help books every now and then. In my free time, I love hanging out with my two cats and my wife, Hira.</p>
