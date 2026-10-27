@@ -30,14 +30,16 @@ export const PROJECTS = [
        rotation straight after the build in progress, ahead of the capstone.
 
        Scope, because it is the one entry on the ring where the honest claim is
-       narrower than the machine: his work was the LEFT chest plate - its
-       mechanical design, its code and its assembly - not the indicator as a
-       whole, not the chest, and not Phoenix. The blurb says "left chest plate"
-       on purpose and the word should not quietly come out again. */
+       narrower than the machine: his work was BOTH chest plates - their
+       mechanical design, their programming and their assembly - but not the
+       chest assembly they bolt into, and not Phoenix. Corrected on 2026-10-27:
+       an earlier pass had narrowed this to the left plate only, which
+       undersold it. "both chest plates" is the claim; the boundary that must
+       stay is the chest assembly and the robot, not a count of plates. */
     {
         id: 'ledchest',
         name: 'LED Chest Plate Indicator',
-        blurb: 'I designed and integrated the left chest plate of the LED state indicator on Phoenix, the humanoid robot prototype at Sanctuary AI: I modelled that plate in CAD around its LED strip, printed thin-wall diffusers so it reads as a lit panel rather than a row of dots, and a small controller running Python turns a mode command into colour. The robot carrying it was later covered by Bloomberg.',
+        blurb: 'I designed and integrated both chest plates of the LED state indicator on Phoenix, the humanoid robot prototype at Sanctuary AI: I modelled the plates in CAD around their LED strips, printed thin-wall diffusers so each reads as a lit panel rather than a row of dots, and a small controller running Python turns a mode command into colour. The robot carrying them was later covered by Bloomberg.',
         tags: ['CAD', 'Embedded', 'Integration'],
         page: 'ledchest.html'
     },

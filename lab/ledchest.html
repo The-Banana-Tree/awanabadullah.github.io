@@ -189,11 +189,11 @@ figure.cap {
 <div class="lab-wrap case-wrap">
     <header class="case-head">
         <h1>LED Chest Plate</h1>
-        <p class="stand">I did the mechanical design, the code and the assembly for the left chest plate of the LED state indicator on Phoenix, the humanoid robot prototype at Sanctuary AI — the lights that tell anyone standing in front of it what the machine is currently doing.</p>
+        <p class="stand">I did the mechanical design, the programming and the assembly for both chest plates of the LED state indicator on Phoenix, the humanoid robot prototype at Sanctuary AI — the lights that tell anyone standing in front of it what the machine is currently doing.</p>
 
         <div class="info">
             <i class="icon" aria-hidden="true">&#8505;&#65039;</i>
-            <p>The figures on this page are CAD views of the chest plates themselves, cropped out of the wider assembly; the left plate is the one I worked on. The robot carrying it was shown publicly, and nothing here goes beyond that part.</p>
+            <p>The figures on this page are CAD views of the chest plates themselves, cropped out of the wider assembly; both plates are the ones I worked on. The robot carrying them was shown publicly, and nothing here goes beyond that part.</p>
         </div>
     </header>
 
@@ -204,7 +204,7 @@ figure.cap {
         </div>
         <div>
             <dt>My part</dt>
-            <dd>Left plate, end to end<small>CAD, printing, electronics, code, assembly</small></dd>
+            <dd>Both plates, end to end<small>CAD, printing, electronics, code, assembly</small></dd>
         </div>
         <div>
             <dt>Outcome</dt>
@@ -216,47 +216,47 @@ figure.cap {
 
         <figure class="cap" style="--fw: 382px">
             <img src="img/ledchest/plate-front.jpg" width="382" height="228" alt="CAD render of the robot's chest plate seen head on: a wide angular panel carrying the company monogram in the centre, with a tall four-sided translucent window set into the armour on each side of it.">
-            <figcaption>The chest front, with an angled window either side of the monogram. The left plate is the one I modelled.</figcaption>
+            <figcaption>The chest front, with an angled window either side of the monogram. I modelled the plate on each side of it.</figcaption>
         </figure>
 
         <section>
             <h2>Telling you what it is doing</h2>
             <p>A humanoid prototype is an opaque thing to stand next to. It is not obvious from the outside whether it is powered, idle, running, or waiting on something, and anyone sharing a room with it has a reasonable interest in knowing which. I was asked to put that state somewhere a person reads without being told to, so it went on the chest — roughly eye height, facing whoever is in front of it.</p>
-            <p>I had to work inside an existing machine rather than bolt a box onto it. My part was the left plate: I modelled it in CAD along with its diffuser, its LEDs and the controller it carries, and it had to come off the robot as easily as it went on. The plate on the other side, the chest assembly and the machine they bolt onto were not mine.</p>
+            <p>I had to work inside an existing machine rather than bolt a box onto it. My part was the pair of plates: I modelled each one in CAD along with its diffuser, its LEDs and the controller it carries, and they had to come off the robot as easily as they went on. The chest assembly behind them and the machine they bolt onto were not mine.</p>
         </section>
 
         <section>
             <h2>Two strips and a controller</h2>
-            <p>I specified and sourced the electronics for my plate rather than designing a board: <b>an Adafruit RGB LED strip</b> behind its window, driven by <b>a small Adafruit controller running Python</b>. The robot sends the controller <b>a command that selects a mode</b>, and the colour and the pattern for that mode are worked out on the controller itself.</p>
+            <p>I specified and sourced the electronics rather than designing a board: <b>two Adafruit LED strips</b>, one behind each plate's window, driven by <b>a small Adafruit controller running Python</b>. The robot sends the controller <b>a command that selects a mode</b>, and the colour and the pattern for that mode are worked out on the controller itself.</p>
             <p>I would defend that split in an interview. The robot does not have to know what any state looks like in RGB, and I did not have to touch robot software to change one — it is a mode name on one side of the wire and a small Python file on the other.</p>
             <ul class="targets">
-                <li><b>Emitters</b><span>An Adafruit RGB LED strip, behind the window in the left plate.</span></li>
+                <li><b>Emitters</b><span>Adafruit RGB LED strips, one behind the window in each plate.</span></li>
                 <li><b>Controller</b><span>A small Adafruit board running Python, holding the status logic itself.</span></li>
                 <li><b>Interface</b><span>One command in, selecting a mode; colour and pattern resolved on the board.</span></li>
                 <li><b>Diffuser</b><span>Printed in house, thin walled, to spread the strip across the whole window.</span></li>
-                <li><b>Packaging</b><span>A recessed channel up the plate's inner face locates the strip; the connector routes along the top edge, clear of the window.</span></li>
-                <li><b>Mounting</b><span>Magnets holding the plate on, so it comes off for service without tools.</span></li>
+                <li><b>Packaging</b><span>A recessed channel up each plate's inner face locates its strip; the connector routes along the top edge, clear of the window.</span></li>
+                <li><b>Mounting</b><span>Magnets holding the plates on, so they come off for service without tools.</span></li>
             </ul>
             <figure class="cap" style="--fw: 540px">
                 <img src="img/ledchest/plate-inside.jpg" width="540" height="400" alt="CAD render of the chest plate seen from behind: the inside face of the angular panel with a long recessed channel running up each side where an LED strip sits, a dark strip fitted in the right-hand channel, and a yellow connector attached to the hardware along the top edge." loading="lazy">
-                <figcaption>The inner face, with the channel I ran up the plate to seat its strip. I took the connector along the top edge, where it stays clear of the window.</figcaption>
+                <figcaption>An inner face, with the channel I ran up each plate to seat its strip. I took the connector along the top edge, where it stays clear of the window.</figcaption>
             </figure>
         </section>
 
         <section>
             <h2>Printing the light</h2>
             <p>A bare strip behind a window reads as a row of bright dots, not as a lit panel, which looks like a fault rather than a signal. So I printed the diffuser in house: <b>thin walls and tight clearances</b>, thin enough to pass and scatter the light rather than block it, and tight enough that the part located itself in the channel instead of rattling around in it. Printing it is what made that iterable — the wall thickness is the variable that decides whether it reads as a panel, and I could change it and have the next one in my hand the same day.</p>
-            <p>My plate is held on with <b>magnets</b>, so it comes off the robot by hand. That was the point: the diffuser or the strip can be got at without tools and without taking the torso apart, which is the difference between a part that can be iterated on a working robot and one that cannot.</p>
+            <p>I held each plate on with <b>magnets</b>, so it comes off the robot by hand. That was the point: the diffuser or the strip can be got at without tools and without taking the torso apart, which is the difference between a part that can be iterated on a working robot and one that cannot.</p>
             <figure class="cap" style="--fw: 480px">
                 <img src="img/ledchest/strip-on-plate.jpg" width="480" height="420" alt="CAD render of the chest armour in pale outline with a single dark LED strip shown in position, running diagonally up the left side of the centre panel; the strip is drawn as a row of ten square emitters in a rectangular housing." loading="lazy">
-                <figcaption>The strip in position on my plate. Laid out like this each emitter is a separate point of light, which is the whole reason I printed anything to sit in front of it.</figcaption>
+                <figcaption>A strip in position on one of my plates. Laid out like this each emitter is a separate point of light, which is the whole reason I printed anything to sit in front of it.</figcaption>
             </figure>
         </section>
 
         <section>
             <h2>Where it ended up</h2>
             <p>The system shipped on the prototype, and the robot carrying it was later <a href="https://m.youtube.com/watch?v=cjN9ov_2zJs" target="_blank" rel="noopener">covered by Bloomberg</a> in early reporting on humanoid robots. I can point at the indicator on the chest in that footage.</p>
-            <p>I should be straight about the size of this one. It is one plate: a focused piece of hardware and software integration inside a much larger machine, <b>not a robot I built</b> and not the chest it sits in. What I think it is good evidence of is a part taken from CAD through printed prototypes to something that shipped on a robot — choosing and sourcing the electronics, packaging them inside a plate I had modelled around them, and making the mechanical side, the firmware and what the robot sends down the wire all agree on the same thing.</p>
+            <p>I should be straight about the size of this one. It is a pair of plates: a focused piece of hardware and software integration inside a much larger machine, <b>not a robot I built</b> and not the chest they sit in. What I think it is good evidence of is a part taken from CAD through printed prototypes to something that shipped on a robot — choosing and sourcing the electronics, packaging them inside plates I had modelled around them, and making the mechanical side, the firmware and what the robot sends down the wire all agree on the same thing.</p>
         </section>
 
     </article>
