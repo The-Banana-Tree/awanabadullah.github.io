@@ -37,6 +37,18 @@ export const PROJECTS = [
            panel button differently for each. */
         page: 'mapsy.html'
     },
+    /* Third seat, moved up from fifth on 2026-10-27 at his word. The only
+       employer project on the ring and the only one with no repo at all - so
+       its panel carries the CAD button and nothing else. Professional humanoid
+       hardware now lands in the first rotation, straight after the build in
+       progress and the capstone, rather than behind two university projects. */
+    {
+        id: 'ledchest',
+        name: 'LED Chest Plate Indicator',
+        blurb: 'I designed and integrated the LED state indicator on the chest of Phoenix, the humanoid robot prototype at Sanctuary AI: I modelled the plate in CAD around two Adafruit strips, printed thin-wall diffusers so it reads as a lit panel rather than a row of dots, and a small controller running Python turns a mode command into colour. The robot carrying it was later covered by Bloomberg.',
+        tags: ['CAD', 'Embedded', 'Integration'],
+        page: 'ledchest.html'
+    },
     {
         id: 'manipulator',
         name: 'Cylinder Painting Manipulator',
@@ -65,16 +77,6 @@ export const PROJECTS = [
            CADs' beside it. show() builds that link row from whichever keys it
            finds, so the two appear together with no special case. */
         page: 'tyler.html'
-    },
-    /* The only employer project on the ring, and the only one with no repo at
-       all - so its panel carries the CAD button and nothing else. It sits
-       straight after Tyler because that is where he asked for it. */
-    {
-        id: 'ledchest',
-        name: 'LED Chest Plate Indicator',
-        blurb: 'I designed and integrated the LED state indicator on the chest of a humanoid robot prototype at Sanctuary AI: two Adafruit strips behind the armour windows, a small controller running Python that turns a mode command into colour, and printed thin-wall diffusers so it reads as a lit panel rather than a row of dots. The robot carrying it was later covered by Bloomberg.',
-        tags: ['Embedded', 'Python', 'Integration'],
-        page: 'ledchest.html'
     },
     /* Last seat on the ring, and the only one that is a door rather than a
        project: it carries no repo of its own, just the page the three below
