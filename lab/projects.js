@@ -17,7 +17,7 @@ export const PROJECTS = [
     {
         id: 'hexapod',
         name: 'Hexapod Robot',
-        blurb: 'Six-legged walker about 270 mm across, three body-mounted servos per leg driving lightweight printed links. M3 bolts run as axles through 623ZZ bearings; one leg has to walk before the other five get built.',
+        blurb: 'I am building a six-legged walker about 270 mm across: three body-mounted servos per leg driving lightweight printed links, with the knee driven from the hip through a four-bar rather than a servo at the joint. M3 bolts run as axles through 623ZZ bearings. One leg has to walk before the other five get built.',
         tags: ['Robotics', 'CAD', '3D Printing'],
         // In progress, so there is no repo to send anyone to - the build log is
         // the thing worth reading instead.
@@ -28,7 +28,7 @@ export const PROJECTS = [
     {
         id: 'mapsy',
         name: 'MAPSY — Pool Cleaner',
-        blurb: 'Mobile Autonomous Pool Cleaner built at Western University: one robot doing four jobs, everything from vacuuming to chemical dosing. Sensors and propulsion written in C/C++, an image detection system in MATLAB, and the Innovative Design Prize at the Western Engineering Competition.',
+        blurb: 'I designed a pool cleaner that did all four jobs instead of one — skim, vacuum, chlorinate, hold pH — for my final year at Western University. Debris detection in MATLAB, sensors and propulsion in C/C++, ballast and thrust sized from the drag numbers, FEA on every subassembly. It took the Innovative Design Prize at the Western Engineering Competition.',
         tags: ['C/C++', 'MATLAB', 'Autonomous'],
         /* No url: there is no repo for this one, so show() renders no 'View
            code' button. `page` rather than `log` because the project is
@@ -40,7 +40,7 @@ export const PROJECTS = [
     {
         id: 'manipulator',
         name: 'Cylinder Painting Manipulator',
-        blurb: 'A 3-DOF articulated manipulator for coating gas cylinders in a plant. Kinematics worked out in MATLAB, then driven through the full coating envelope.',
+        blurb: 'I worked out the kinematics for a 3-DOF articulated manipulator that coats gas cylinders in a plant — modelled in MATLAB, then driven through the full coating envelope.',
         tags: ['MATLAB', 'Robotics', 'Kinematics'],
         url: 'https://github.com/awanabad/Cylinder-Painting-Manipulator'
     },
@@ -52,7 +52,12 @@ export const PROJECTS = [
            plural implies the collaborators the names were removed to avoid.
            One word back if he ever wants it. The v1 report is folded in here
            rather than given a project of its own, which was his call. */
-        blurb: 'Parts collecting and deposit robot for the mechatronics systems lab at Western University: it sweeps the floor for dropped hardware, steers around obstacles on ultrasonic and bumper feedback, then homes on an infrared beacon to dock and charge every 90 seconds. Version two rebuilt it around a systematic sensor and actuator selection process.',
+        /* Kept to roughly the length of the blurb it replaced on purpose: this
+           is the one card with two buttons, so its panel is the tallest on the
+           ring and the box is sized to it. probe.js fails the moment the panel
+           stops ending level with the box - an earlier, fuller version of this
+           blurb ran it 84px over. */
+        blurb: 'I built a robot that sweeps the mechatronics lab at Western University for dropped hardware and carries it back to a charging station to tip out: a belt-and-ramp pickup under a measured 14 cm ceiling, ultrasonic and bumper obstacle avoidance, infrared homing every 90 s. It collected parts; docking never got reliable.',
         tags: ['C++', 'Autonomous', 'Controls'],
         url: 'https://github.com/awanabad/Tyler-Version-2',
         /* Both keys on purpose, and the only entry carrying both: `url` puts
@@ -67,7 +72,7 @@ export const PROJECTS = [
     {
         id: 'ledchest',
         name: 'LED Chest Plate Indicator',
-        blurb: 'An embedded LED state indicator on the chest of a humanoid robot prototype at Sanctuary AI: two Adafruit strips behind the armour windows, a small controller running Python that turns a mode command into colour, and printed thin-wall diffusers so it reads as a lit panel rather than a row of dots. The robot carrying it was later covered by Bloomberg.',
+        blurb: 'I designed and integrated the LED state indicator on the chest of a humanoid robot prototype at Sanctuary AI: two Adafruit strips behind the armour windows, a small controller running Python that turns a mode command into colour, and printed thin-wall diffusers so it reads as a lit panel rather than a row of dots. The robot carrying it was later covered by Bloomberg.',
         tags: ['Embedded', 'Python', 'Integration'],
         page: 'ledchest.html'
     },

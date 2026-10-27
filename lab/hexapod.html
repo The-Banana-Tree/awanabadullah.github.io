@@ -87,7 +87,25 @@
     font-size: 0.97rem;
     line-height: 1.7;
 }
+/* An entry that needs a second paragraph is rare - most are one line - so the
+   gap is a sibling rule rather than a margin on every p, which would push the
+   figures away from the lines they belong to. */
+.log p + p { margin-top: 12px; }
 .log b { color: var(--accent); font-weight: 700; }
+
+/* The mechanism, stated once before the dated log. A line like "the crank
+   still hits its own hardware" means nothing to a reader who does not yet know
+   there is a crank. Reuses .targets and figure wholesale - the only thing it
+   needs of its own is prose weight, because the shared stylesheet opens with
+   * { font-weight: 700 } and an unclassed paragraph comes out bold. */
+.arch { margin: 0 0 44px; }
+.arch > p {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.97rem;
+    line-height: 1.7;
+    max-width: 62ch;
+}
 .log figure { margin: 16px 0 0; }
 
 h3.block {
@@ -197,6 +215,33 @@ figcaption {
         </div>
     </dl>
 
+    <!-- Above the log on purpose: the dated lines are a conversation about a
+         mechanism, and this is the mechanism. Everything in it comes out of the
+         working design document. The closing line keeps it honest - none of
+         these lengths or fits are measured yet, and the log below is where that
+         happens. -->
+    <section class="arch">
+        <h3 class="block">Mechanical architecture</h3>
+        <p>Three degrees of freedom per leg, and all three servos sit on the body — only printed links move, so the mass being swung around stays small. There is no servo at the knee: it is driven from the hip through a four-bar.</p>
+
+        <ul class="targets">
+            <li><b>Coxa</b><span>Yaw about a vertical axis, driven from under the body plate. This is the axis that aims the leg.</span></li>
+            <li><b>Hip</b><span>Femur and knee-drive crank turn about the <em>same</em> horizontal axle on separate hubs, free to rotate independently of each other.</span></li>
+            <li><b>Knee</b><span>Crank, then pushrod, then tibia lever. The femur is the moving frame of that four-bar, so with the crank held still the tibia keeps its angle while the whole leg swings.</span></li>
+            <li><b>Pivots</b><span>623ZZ bearings, 3 × 10 × 4 mm, at the hip and the knee where the bending load is. Plain M3 bolts as pins at both ends of the pushrod.</span></li>
+            <li><b>Bearing seats</b><span>Outer race captured in the moving link, printed sleeves clamping the inner race only — so tightening the nut cannot squeeze the joint shut.</span></li>
+            <li><b>Tibia</b><span>One rigid printed part carrying both the knee pivot and the pushrod hole, which is what keeps leg swing and knee angle separable.</span></li>
+        </ul>
+
+        <figure>
+            <img src="img/hexapod/hip-motions.png" width="1999" height="869" alt="Two-panel kinematic diagram headed 'Two independent motions from the same lower hip axis'. Panel A, femur motion: the blue femur swings up while the orange crank is held fixed, and the purple tibia stays parallel to the crank. Panel B, knee and crank motion: the femur is held fixed while the crank rotates, and the green pushrod swings the tibia to a different knee angle. Pale links show the neutral pose in both panels.">
+            <figcaption>Why the two inputs are worth sharing an axle: one swings the leg, the other bends the knee, and neither disturbs the other. The angles are illustrative — the point is which link moves when.</figcaption>
+        </figure>
+
+        <p>Lengths, servo and fits are all still open. The log below is where they get measured and argued with.</p>
+    </section>
+
+    <h3 class="block">Build log</h3>
     <ol class="log">
         <li>
             <time datetime="2026-10-23">23 Oct 2026</time>
@@ -214,6 +259,7 @@ figcaption {
             <time datetime="2026-10-21">21 Oct 2026</time>
             <div class="line">
                 <p><b>Femur cracked during assembly.</b> The whole leg went together for the first time: femur, pushrod, tibia. The femur broke while I was building it, and several bolts were the wrong length for their stacks. Hot glue is holding it together for a gentle hand sweep and nothing else. The femur gets reprinted before anything is powered or loaded.</p>
+                <p><b>What it changed.</b> Four rules came out of it: measure the whole grip stack — link thicknesses, bearing, sleeves, washers, nut — before choosing a bolt length, instead of picking one that looks about right; never take up play by tightening a nut into a free pivot, which is what the sleeves are there for; reinforce the femur around the pivot bosses and rethink the print orientation there, because that is where it split; and prove the stack-up on one leg before printing six.</p>
                 <figure>
                     <img src="img/hexapod/full-leg-rom.jpg" alt="Two photographs side by side of the same assembled leg on a pegboard, held in different positions: a dark printed femur with a pale pushrod bolted above it, a long black tibia hanging from the knee, bolts and a silver bearing at the pivots, and clear hot glue visible around the joints.">
                     <figcaption>Both poses were set by hand. The clear smears at the pivots are the glue.</figcaption>
