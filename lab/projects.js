@@ -23,8 +23,27 @@ export const PROJECTS = [
         // the thing worth reading instead.
         log: 'hexapod.html'
     },
-    /* Second seat, his call - straight after the build in progress rather than
-       at the back of the queue. */
+    /* Second seat, moved up from third on 2026-10-27 at his word (it came up
+       from fifth to third earlier the same day). The only employer project on
+       the ring and the only one with no repo at all - so its panel carries the
+       CAD button and nothing else. Professional humanoid hardware now opens the
+       rotation straight after the build in progress, ahead of the capstone.
+
+       Scope, because it is the one entry on the ring where the honest claim is
+       narrower than the machine: his work was the LEFT chest plate - its
+       mechanical design, its code and its assembly - not the indicator as a
+       whole, not the chest, and not Phoenix. The blurb says "left chest plate"
+       on purpose and the word should not quietly come out again. */
+    {
+        id: 'ledchest',
+        name: 'LED Chest Plate Indicator',
+        blurb: 'I designed and integrated the left chest plate of the LED state indicator on Phoenix, the humanoid robot prototype at Sanctuary AI: I modelled that plate in CAD around its LED strip, printed thin-wall diffusers so it reads as a lit panel rather than a row of dots, and a small controller running Python turns a mode command into colour. The robot carrying it was later covered by Bloomberg.',
+        tags: ['CAD', 'Embedded', 'Integration'],
+        page: 'ledchest.html'
+    },
+    /* Third seat, down one from second on 2026-10-27 to let the employer
+       project in ahead of it. Still the capstone, and still ahead of the two
+       older university builds. */
     {
         id: 'mapsy',
         name: 'MAPSY — Pool Cleaner',
@@ -36,18 +55,6 @@ export const PROJECTS = [
            write-up of something that already happened, and show() words the
            panel button differently for each. */
         page: 'mapsy.html'
-    },
-    /* Third seat, moved up from fifth on 2026-10-27 at his word. The only
-       employer project on the ring and the only one with no repo at all - so
-       its panel carries the CAD button and nothing else. Professional humanoid
-       hardware now lands in the first rotation, straight after the build in
-       progress and the capstone, rather than behind two university projects. */
-    {
-        id: 'ledchest',
-        name: 'LED Chest Plate Indicator',
-        blurb: 'I designed and integrated the LED state indicator on the chest of Phoenix, the humanoid robot prototype at Sanctuary AI: I modelled the plate in CAD around two Adafruit strips, printed thin-wall diffusers so it reads as a lit panel rather than a row of dots, and a small controller running Python turns a mode command into colour. The robot carrying it was later covered by Bloomberg.',
-        tags: ['CAD', 'Embedded', 'Integration'],
-        page: 'ledchest.html'
     },
     {
         id: 'manipulator',
