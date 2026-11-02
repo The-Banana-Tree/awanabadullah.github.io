@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hexapod · Build Log</title>
+<title>Hexapod · Linkage-driven leg</title>
 <link rel="stylesheet" href="../assets/css/style.css?v=3">
 <link rel="stylesheet" href="../assets/css/shooting-stars.css?v=1">
 <link rel="stylesheet" href="lab.css?v=11">
@@ -12,14 +12,26 @@
 <script src="theme.js?v=1"></script>
 <style>
 /* ==================================================
-   HEXAPOD — BUILD LOG
-   A reading page, so it breaks the lab's wide grid and
-   runs one column at a comfortable measure. Everything
-   below the status strip is written from the build doc.
+   HEXAPOD — PROJECT PAGE
+   Redesigned 2 Nov 2026 from a dated build log into a
+   project page: goal, mechanism, architecture, then
+   what is actually built versus what is only drawn.
+   The dated log still exists, compacted into the
+   archive at the bottom.
+
+   Everything factual here comes from the working
+   design document. Nothing on this page is a measured
+   number - nothing has been powered or loaded yet, and
+   the page says so rather than implying otherwise.
+
+   Note for any future edit: the shared stylesheet
+   opens with * { font-weight: 700 }, so every prose
+   element below needs its own font-weight: 400 or it
+   ships bold and the hierarchy collapses.
    ================================================== */
 #shootingStarsOverlay { z-index: 1; }
 
-.log-wrap { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+.log-wrap { position: relative; z-index: 2; max-width: 780px; margin: 0 auto; }
 
 .log-head h1 {
     font-size: clamp(1.6rem, 6vw, 2.6rem);
@@ -29,21 +41,23 @@
     margin-bottom: 10px;
 }
 .log-head .stand {
-    font-size: 1.02rem;
+    font-size: 1.05rem;
     font-weight: 400;
-    opacity: 0.75;
-    max-width: 58ch;
+    opacity: 0.8;
+    max-width: 60ch;
     line-height: 1.7;
 }
 
 /* Hard facts up top, so the page answers "where is this at" before it asks
-   anyone to read a paragraph. */
+   anyone to read a paragraph. Four cells, so the phone rule below has to close
+   the 2x2 - the three-cell version of this strip used to wrap with no divider
+   between the top two. */
 .status {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 0;
     border: 2px solid var(--border);
-    margin: 28px 0 44px;
+    margin: 28px 0 36px;
 }
 .status div {
     padding: 14px 16px;
@@ -60,90 +74,75 @@
 .status dd { margin: 0; font-size: 0.95rem; color: var(--accent); }
 .status dd small { display: block; font-size: 0.74rem; color: var(--text); opacity: 0.55; font-weight: 400; margin-top: 4px; }
 
-/* One line per update. The log grows by a single line at a time, so the whole
-   history stays skimmable instead of turning into a reading session. Date in
-   its own column, summary beside it, figure under the summary when there is
-   something worth showing. */
-.log { list-style: none; padding: 0; margin: 0 0 44px; }
-.log > li {
-    display: flex;
-    gap: 18px;
-    align-items: baseline;
-    padding: 16px 0;
-    border-top: 1px dashed color-mix(in srgb, var(--text) 25%, transparent);
+/* Section rhythm. One rule, so sections cannot drift apart from each other. */
+section.blk { margin: 0 0 46px; }
+section.blk > p {
+    margin: 0 0 14px;
+    font-weight: 400;
+    font-size: 0.97rem;
+    line-height: 1.7;
+    max-width: 64ch;
 }
-.log > li:first-child { border-top: 0; }
-.log time {
-    flex: 0 0 6.5em;
-    font-size: 0.68rem;
-    letter-spacing: 2px;
+section.blk > p:last-child { margin-bottom: 0; }
+
+h2.sec {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    opacity: 0.45;
+    color: var(--accent);
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
 }
-.log .line { flex: 1 1 auto; min-width: 0; }
-.log p {
-    margin: 0;
-    font-weight: 400;
-    font-size: 0.97rem;
-    line-height: 1.7;
-}
-/* An entry that needs a second paragraph is rare - most are one line - so the
-   gap is a sibling rule rather than a margin on every p, which would push the
-   figures away from the lines they belong to. */
-.log p + p { margin-top: 12px; }
-.log b { color: var(--accent); font-weight: 700; }
-
-/* The mechanism, stated once before the dated log. A line like "the crank
-   still hits its own hardware" means nothing to a reader who does not yet know
-   there is a crank. Reuses .targets and figure wholesale - the only thing it
-   needs of its own is prose weight, because the shared stylesheet opens with
-   * { font-weight: 700 } and an unclassed paragraph comes out bold. */
-.arch { margin: 0 0 44px; }
-.arch > p {
-    margin: 0;
-    font-weight: 400;
-    font-size: 0.97rem;
-    line-height: 1.7;
-    max-width: 62ch;
-}
-.log figure { margin: 16px 0 0; }
-
 h3.block {
     font-size: 0.68rem;
     letter-spacing: 2.5px;
     text-transform: uppercase;
     opacity: 0.45;
-    margin-bottom: 4px;
+    margin: 0 0 8px;
 }
 
-figure { margin: 26px 0; }
-figure img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border: 2px solid var(--border);
-    background: #fff;
-}
-/* The render comes off a square stage, so most of it is empty black above and
-   below the model. Cropped in the frame rather than in the file, so a
-   regenerated still drops straight in. */
-figure img.on-dark {
-    background: var(--bg);
-    aspect-ratio: 16 / 7;
-    object-fit: cover;
-    object-position: center 54%;
-}
-figcaption {
-    margin-top: 10px;
-    font-size: 0.8rem;
+/* A short tag that marks a whole section as not-yet-real. The electronics
+   section is entirely unbuilt, and a reader skimming headings should learn
+   that from the heading, not from a sentence four paragraphs down. */
+.tag {
+    display: inline-block;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     font-weight: 400;
-    opacity: 0.55;
-    line-height: 1.6;
+    border: 1px solid currentColor;
+    padding: 3px 7px;
+    margin-left: 10px;
+    opacity: 0.7;
+    vertical-align: middle;
+    letter-spacing: 1.5px;
 }
 
-/* The numbers the build has to hit. Not a spec sheet for its own sake - the
-   whole point of the entry is that they exist to be failed against. */
-.targets { list-style: none; padding: 0; margin: 22px 0; }
+/* Bulleted mechanism/architecture points. Chevron rather than a disc, to match
+   the terminal language the rest of the site is written in. */
+.points { list-style: none; padding: 0; margin: 0 0 18px; }
+.points li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 11px;
+    font-weight: 400;
+    font-size: 0.97rem;
+    line-height: 1.7;
+    max-width: 64ch;
+}
+.points li:last-child { margin-bottom: 0; }
+.points li::before {
+    content: "\25B8";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent);
+}
+
+/* Label/value rows. Used for the joint breakdown and the target numbers - two
+   lists that are both "short name, one line of detail". */
+.targets { list-style: none; padding: 0; margin: 18px 0 0; }
 .targets li {
     display: flex;
     gap: 14px;
@@ -152,32 +151,214 @@ figcaption {
     border-top: 1px dashed color-mix(in srgb, var(--text) 25%, transparent);
     font-weight: 400;
     font-size: 0.95rem;
+    line-height: 1.6;
 }
 .targets li:first-child { border-top: 0; }
-.targets b { flex: 0 0 7.5em; color: var(--accent); }
+.targets b { flex: 0 0 8.5em; color: var(--accent); }
 
-/* Says up front how the page gets written, because a log that updates itself is
-   worth declaring before anyone reads a line of it. */
+/* Built versus not built, side by side, because the comparison IS the point -
+   stacking them lets a skim read the first column and stop. */
+.split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 2px solid var(--border);
+    margin: 0 0 18px;
+}
+.split > div { padding: 16px 18px; }
+.split > div:first-child { border-right: 2px solid var(--border); }
+.split h3.block { opacity: 0.6; }
+.split ul { list-style: none; padding: 0; margin: 0; }
+.split li {
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+.split li:last-child { margin-bottom: 0; }
+.split li::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.split .done li::before { content: "\2713"; color: var(--accent); }
+.split .todo li::before { content: "\25CB"; opacity: 0.5; }
+
+/* The honesty line under the split. It is the single most important sentence
+   on the page for anyone judging whether the rest can be trusted, so it gets
+   the accent rule rather than being buried in a paragraph. */
+.caveat {
+    border-left: 2px solid var(--accent);
+    padding: 10px 0 10px 16px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    opacity: 0.85;
+}
+
+/* Dated decisions. Same two-column shape the old log used, kept because it
+   skims well - date in a fixed column, the substance beside it. */
+.decisions { list-style: none; padding: 0; margin: 0; }
+.decisions > li {
+    display: flex;
+    gap: 18px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-top: 1px dashed color-mix(in srgb, var(--text) 25%, transparent);
+}
+.decisions > li:first-child { border-top: 0; padding-top: 0; }
+.decisions time {
+    flex: 0 0 6.5em;
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.45;
+}
+.decisions .line { flex: 1 1 auto; min-width: 0; }
+.decisions p {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.97rem;
+    line-height: 1.7;
+}
+.decisions p + p { margin-top: 10px; }
+.decisions b { color: var(--accent); font-weight: 700; }
+.decisions figure { margin: 16px 0 0; }
+
+/* Figures. White ground by default because the doc's diagrams are
+   white-background exports; .on-dark is for renders off the site's own stage. */
+figure { margin: 24px 0; }
+figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--border);
+    background: #fff;
+}
+figure.hero { margin-top: 0; }
+figcaption {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    opacity: 0.55;
+    line-height: 1.6;
+}
+
+/* The electronics block diagram is inline SVG rather than an image: it has to
+   stay legible in both themes, and it is the one figure on the page that is a
+   drawing of a decision rather than a photograph of a thing. Strokes and text
+   read the theme variables, so it inverts with everything else. */
+.earch {
+    border: 2px solid var(--border);
+    padding: 18px 16px;
+    margin: 0 0 18px;
+}
+.earch svg { display: block; width: 100%; height: auto; }
+.earch text { font-family: inherit; font-weight: 400; }
+.earch .bx { fill: none; stroke: var(--border); stroke-width: 2; }
+.earch .bx-a { fill: none; stroke: var(--accent); stroke-width: 2; }
+.earch .ttl { font-size: 15px; font-weight: 700; fill: var(--accent); letter-spacing: 1px; }
+.earch .sub { font-size: 12px; fill: var(--text); opacity: 0.72; }
+.earch .arw { stroke: var(--text); stroke-width: 2; opacity: 0.55; fill: none; }
+.earch .arwh { fill: var(--text); opacity: 0.55; }
+.earch .rail { font-size: 11.5px; fill: var(--text); opacity: 0.5; letter-spacing: 0.5px; }
+
+/* The archive. Collapsed by default - the full dated record is worth keeping
+   and is not worth anyone's first thirty seconds. */
+details.archive {
+    border: 2px solid var(--border);
+    padding: 0;
+    margin: 0 0 46px;
+}
+details.archive summary {
+    cursor: pointer;
+    padding: 14px 18px;
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    list-style: none;
+}
+details.archive summary::-webkit-details-marker { display: none; }
+details.archive summary::after {
+    content: "[ + ]";
+    float: right;
+    opacity: 0.6;
+}
+details.archive[open] summary::after { content: "[ \2212 ]"; }
+details.archive[open] summary { border-bottom: 2px solid var(--border); }
+.archive-body { padding: 16px 18px 18px; }
+.archive-body ol { list-style: none; padding: 0; margin: 0; }
+.archive-body li {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding: 10px 0;
+    border-top: 1px dashed color-mix(in srgb, var(--text) 25%, transparent);
+    font-weight: 400;
+    font-size: 0.89rem;
+    line-height: 1.6;
+}
+.archive-body li:first-child { border-top: 0; }
+.archive-body time {
+    flex: 0 0 6.5em;
+    font-size: 0.66rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.45;
+}
+.archive-body li > span { flex: 1 1 auto; min-width: 0; }
+.archive-body b { color: var(--accent); font-weight: 700; }
+
+/* Says up front how the page gets written, because a page that updates itself
+   is worth declaring before anyone reads a line of it. */
 .info {
     display: flex;
     gap: 12px;
     align-items: flex-start;
     border-left: 2px solid var(--accent);
     padding: 10px 0 10px 16px;
-    margin: 22px 0 0;
+    margin: 20px 0 0;
     font-weight: 400;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     line-height: 1.7;
-    opacity: 0.85;
+    opacity: 0.8;
 }
 .info .icon { flex: 0 0 auto; font-style: normal; }
 .info p { margin: 0; }
 
+@media (max-width: 700px) {
+    /* The diagram scales with its viewBox, so on a phone the 12px sub-labels
+       land at roughly 6 effective pixels. Bumping the user-unit size grows the
+       text relative to the boxes instead of relative to the screen, which is
+       the only lever that helps here. Kept modest - the longest sub-label is
+       about 250 units in a 300-unit box, so there is not much room. */
+    .earch .sub { font-size: 14px; }
+    .earch .rail { font-size: 13px; }
+    .earch .ttl { font-size: 16px; }
+
+    .split { grid-template-columns: 1fr; }
+    .split > div:first-child {
+        border-right: 0;
+        border-bottom: 2px solid var(--border);
+    }
+}
 @media (max-width: 600px) {
+    /* A four-cell strip wraps to 2x2 here, and dropping border-right for a
+       single column would leave the two columns with no divider between them.
+       Close the 2x2 first, then go single-column lower down. */
+    .status div { border-right: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+    .status div:nth-child(2n) { border-right: 0; }
+    .status div:nth-last-child(-n+2) { border-bottom: 0; }
+    .targets li, .decisions > li, .archive-body li { flex-direction: column; gap: 4px; }
+    .targets b, .decisions time, .archive-body time { flex: none; }
+}
+@media (max-width: 420px) {
     .status div { border-right: 0; border-bottom: 2px solid var(--border); }
     .status div:last-child { border-bottom: 0; }
-    .targets li, .log > li { flex-direction: column; gap: 4px; }
-    .targets b, .log time { flex: none; }
 }
 </style>
 </head>
@@ -192,180 +373,267 @@ figcaption {
 <div class="lab-wrap log-wrap">
     <header class="log-head">
         <h1>Hexapod</h1>
-        <p class="stand">Six legs, eighteen servos, a deadline in December. One line per update, newest first. First job: one leg that moves.</p>
+        <p class="stand">A 270 mm six-legged robot with every servo on the body and no motor at the knee — the knee is driven through a four-bar linkage instead. First milestone: one leg with all three joints moving, by 15 December 2026.</p>
 
         <div class="info">
             <i class="icon" aria-hidden="true">&#8505;&#65039;</i>
-            <p>This page writes itself. An AI agent reads the working design document and adds a line here whenever something real changes. Numbers stay provisional until a part has been printed, measured and loaded.</p>
+            <p>This page is written automatically by an AI agent from my working design document. Every number here is provisional until the part is printed, measured and loaded.</p>
         </div>
     </header>
 
     <dl class="status">
         <div>
-            <dt>Next milestone</dt>
-            <dd>One leg walking<small>by 15 Dec 2026</small></dd>
+            <dt>Milestone</dt>
+            <dd>One 3-DOF leg<small>by 15 Dec 2026</small></dd>
         </div>
         <div>
-            <dt>Spent on hardware</dt>
+            <dt>Stage</dt>
+            <dd>Unpowered mechanism<small>nothing driven or loaded yet</small></dd>
+        </div>
+        <div>
+            <dt>Leg revision</dt>
+            <dd>V8<small>in Onshape; V6 was the last built</small></dd>
+        </div>
+        <div>
+            <dt>Hardware spend</dt>
             <dd>CA$24.90<small>of a CA$50 ceiling</small></dd>
-        </div>
-        <div>
-            <dt>Settled</dt>
-            <dd>Joints, drive path, controller<small>servo, lengths, power still open</small></dd>
         </div>
     </dl>
 
-    <!-- Above the log on purpose: the dated lines are a conversation about a
-         mechanism, and this is the mechanism. Everything in it comes out of the
-         working design document. The closing line keeps it honest - none of
-         these lengths or fits are measured yet, and the log below is where that
-         happens. -->
-    <section class="arch">
-        <h3 class="block">Mechanical architecture</h3>
-        <p>Three degrees of freedom per leg, and all three servos sit on the body — only printed links move, so the mass being swung around stays small. There is no servo at the knee: it is driven from the hip through a four-bar.</p>
+    <figure class="hero">
+        <img src="img/hexapod/servo-received.jpg" width="740" height="560" alt="Photograph looking down at a white pegboard: a bright orange printed leg linkage of two short parallel bars bolted together with a long tapered arm reaching off to the left, lying next to a small black Miuzei MG996R servo with a gold label and a black horn fitted, its orange and brown wires running off the top edge.">
+        <figcaption>The current printed linkage beside the first MG996R, 2 November 2026. The servo case is nearly the size of the whole linkage, which is the packaging problem this design has not solved yet.</figcaption>
+    </figure>
+
+    <section class="blk">
+        <h2 class="sec">The goal</h2>
+        <p>Build a walking hexapod of about 270 mm, three degrees of freedom per leg, with all eighteen servos mounted on the body so the moving links stay light. The knee is the interesting part: there is no servo at the joint, so it has to be driven from the hip through a linkage.</p>
+        <p>The rule I set myself at the start was a basic moving leg before any aesthetic refinement or autonomy work — one leg, three joints, actually moving, before anything gets duplicated six times.</p>
+
+        <h3 class="block">Targets — all provisional, all set to be failed against</h3>
+        <ul class="targets">
+            <li><b>Speed</b><span>0.20 m/s on a flat indoor floor, timed over 2 m. 0.40 m/s would be a good day.</span></li>
+            <li><b>Mass</b><span>Under 1.50 kg with battery. Designed against 1.60 kg as a load case.</span></li>
+            <li><b>Runtime</b><span>Fifteen minutes of walking, not fifteen minutes powered on.</span></li>
+            <li><b>Obstacle</b><span>Clear a 20 mm threshold.</span></li>
+            <li><b>Size</b><span>About 270 mm, leg tip to leg tip.</span></li>
+            <li><b>Load case</b><span>At 1.60 kg on three supporting feet, 5.2 N per foot.</span></li>
+        </ul>
+    </section>
+
+    <section class="blk">
+        <h2 class="sec">Mechanical architecture</h2>
+        <ul class="points">
+            <li>Three joints per leg — coxa yaw, femur pitch, knee — and all three servos bolt to the body, so almost no mass is swung out at the end of a leg.</li>
+            <li>There is no servo at the knee. A short crank at the hip pushes a pushrod out along the femur to a lever on the tibia, and that four-bar bends the knee.</li>
+            <li>The femur and the knee-drive crank turn about the <em>same</em> hip axle on separate hubs, independently driven. Because the femur is the moving frame of the four-bar, holding the crank and swinging the femur leaves the tibia's angle unchanged — so leg swing and knee angle come apart into two controls that do not fight each other.</li>
+            <li>The tibia is one rigid printed link carrying both the knee pivot and the pushrod hole as separate holes in the same piece. No intermediate hinge.</li>
+            <li>623ZZ ball bearings, 3 mm bore × 10 mm OD × 4 mm wide, only at the hip and the knee — the two joints that carry the bending load. Both pushrod ends are plain M3 bolts in reamed holes.</li>
+            <li>Bearing seats capture the outer race in the moving link; printed sleeves touch only the inner race, so tightening the nut clamps the stack without squeezing the joint shut.</li>
+        </ul>
 
         <ul class="targets">
             <li><b>Coxa</b><span>Yaw about a vertical axis, driven from under the body plate. This is the axis that aims the leg.</span></li>
-            <li><b>Hip</b><span>Femur and knee-drive crank turn about the <em>same</em> horizontal axle on separate hubs, free to rotate independently of each other.</span></li>
-            <li><b>Knee</b><span>Crank, then pushrod, then tibia lever. The femur is the moving frame of that four-bar, so with the crank held still the tibia keeps its angle while the whole leg swings.</span></li>
-            <li><b>Pivots</b><span>623ZZ bearings, 3 × 10 × 4 mm, at the hip and the knee where the bending load is. Plain M3 bolts as pins at both ends of the pushrod.</span></li>
-            <li><b>Bearing seats</b><span>Outer race captured in the moving link, printed sleeves clamping the inner race only — so tightening the nut cannot squeeze the joint shut.</span></li>
-            <li><b>Tibia</b><span>One rigid printed part carrying both the knee pivot and the pushrod hole, which is what keeps leg swing and knee angle separable.</span></li>
+            <li><b>Hip</b><span>Femur and crank on one horizontal axle, two hubs, not locked to each other.</span></li>
+            <li><b>Knee</b><span>Crank → pushrod → tibia lever. Free pivots at both pushrod ends and at the knee.</span></li>
+            <li><b>Bearings</b><span>12 of the 15 ordered go into six legs at two per leg, leaving 3 spare.</span></li>
+            <li><b>Pushrod ends</b><span>Printed undersize and reamed to a sliding fit on the M3. Each pin carries the full pushrod force.</span></li>
         </ul>
 
         <figure>
-            <img src="img/hexapod/hip-motions.png" width="1999" height="869" alt="Two-panel kinematic diagram headed 'Two independent motions from the same lower hip axis'. Panel A, femur motion: the blue femur swings up while the orange crank is held fixed, and the purple tibia stays parallel to the crank. Panel B, knee and crank motion: the femur is held fixed while the crank rotates, and the green pushrod swings the tibia to a different knee angle. Pale links show the neutral pose in both panels.">
-            <figcaption>Why the two inputs are worth sharing an axle: one swings the leg, the other bends the knee, and neither disturbs the other. The angles are illustrative — the point is which link moves when.</figcaption>
+            <img src="img/hexapod/leg-linkage.jpg" width="1280" height="1016" alt="Diagram of the leg linkage drawn as a four-bar: a grey femur running from a hip pivot to a knee pivot, an orange pushrod above it connecting a purple drive crank at the hip to a green tibia lever at the knee, with the tibia hanging below. A numbered legend marks the hip and knee as 623ZZ bearings on M3 bolts and both pushrod ends as plain M3 pins in reamed holes." loading="lazy">
+            <figcaption>The leg as a four-bar, with the pivot hardware marked. Filled circles are bearings, open circles are plain pins — bearings only where the bending load actually is.</figcaption>
         </figure>
 
-        <p>Lengths, servo and fits are all still open. The log below is where they get measured and argued with.</p>
+        <figure>
+            <img src="img/hexapod/hip-motions.png" width="1999" height="869" alt="Two-panel kinematic diagram headed 'Two independent motions from the same lower hip axis'. Panel A, femur motion: the blue femur swings up while the orange crank is held fixed, and the purple tibia stays parallel to the crank. Panel B, knee and crank motion: the femur is held fixed while the crank rotates, and the green pushrod swings the tibia to a different knee angle. Pale links show the neutral pose in both panels." loading="lazy">
+            <figcaption>Why the two inputs are worth sharing one axle: one swings the leg, the other bends the knee, and neither disturbs the other. The angles are illustrative — what matters is which link moves when.</figcaption>
+        </figure>
     </section>
 
-    <h3 class="block">Build log</h3>
-    <ol class="log">
-        <li>
-            <time datetime="2026-11-02">2 Nov 2026</time>
-            <div class="line">
-                <p><b>MG996R in hand, and in CAD.</b> The first of the three servos arrived, and beside the printed linkage it is obvious how much room one of these takes. I have modelled it in Onshape with its horn arm, so the mounts get drawn around the real shape instead of a guess. Weight, usable travel and horn fit on my printed hubs are all still unmeasured. Nothing gets loaded until it has run on its own 6 V bench rail.</p>
-                <figure>
-                    <img src="img/hexapod/servo-received.jpg" width="740" height="560" alt="Photograph looking down at a white pegboard: a bright orange printed leg linkage of two short parallel bars bolted together with a long tapered arm reaching off to the left, lying next to a small black Miuzei MG996R servo with a gold label and a black horn fitted, its orange and brown wires running off the top edge. A pair of black-handled pliers sits below them." loading="lazy">
-                    <figcaption>As received, next to the printed leg linkage. The case is why packing eighteen of these inside the body is the part I have not solved.</figcaption>
-                </figure>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-28">28 Oct 2026</time>
-            <div class="line">
-                <p><b>A picture of where this is going.</b> There is now an AI-made render of the finished robot in my notes. It is styling only and not a design: it hangs a servo off every joint, while my plan keeps the servos on the body and reaches the knee with a pushrod. I am keeping it as a look to aim at, and nothing in it is decided.</p>
-                <figure>
-                    <img src="img/hexapod/concept-render.jpg" width="1200" height="800" alt="Product-style render of a finished six-legged robot standing on a pale surface: a rounded white body plate with a blue trim panel and two camera lenses at the front, six legs of silver and blue segments with black servo blocks at every joint, orange wiring tucked along the links, and black rubber feet." loading="lazy">
-                    <figcaption>The look, not the build. Every joint here carries its own servo, which is the one thing the real leg deliberately does not do.</figcaption>
-                </figure>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-28">28 Oct 2026</time>
-            <div class="line">
-                <p><b>MG996R servos for leg 1.</b> I bought three Miuzei MG996Rs for the coxa, femur and crank, which drops the 17 g B13DLM I leaned towards on 19 Oct. Stall is 11 kg·cm at 6 V against its 3.8, so the first powered test has room to spare. The cost is weight: 55 g each, so eighteen would be 990 g against a 378 g budget and put the robot over 1.50 kg. Fine for one leg, and I choose the real servo after this one has been loaded.</p>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-23">23 Oct 2026</time>
-            <div class="line">
-                <p><b>Sixth version, no breakages.</b> The new leg is visibly slimmer than the one that cracked, and it went together whole. The crank still hits its own hardware before the end of its travel. Next is a rough coxa bracket, so I can turn all three axes by hand.</p>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-22">22 Oct 2026</time>
-            <div class="line">
-                <p><b>One Pi, two ESP32s.</b> The Pi picks the gait and sends each foot a target. One ESP32 drives the three left legs, the other the three right, nine servos each. Both boards work out their own joint angles from the targets they are given. The tripods are grouped in software, so the wiring stays short and mirrored.</p>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-21">21 Oct 2026</time>
-            <div class="line">
-                <p><b>Femur cracked during assembly.</b> The whole leg went together for the first time: femur, pushrod, tibia. The femur broke while I was building it, and several bolts were the wrong length for their stacks. Hot glue is holding it together for a gentle hand sweep and nothing else. The femur gets reprinted before anything is powered or loaded.</p>
-                <p><b>What it changed.</b> Four rules came out of it: measure the whole grip stack — link thicknesses, bearing, sleeves, washers, nut — before choosing a bolt length, instead of picking one that looks about right; never take up play by tightening a nut into a free pivot, which is what the sleeves are there for; reinforce the femur around the pivot bosses and rethink the print orientation there, because that is where it split; and prove the stack-up on one leg before printing six.</p>
-                <figure>
-                    <img src="img/hexapod/full-leg-rom.jpg" alt="Two photographs side by side of the same assembled leg on a pegboard, held in different positions: a dark printed femur with a pale pushrod bolted above it, a long black tibia hanging from the knee, bolts and a silver bearing at the pivots, and clear hot glue visible around the joints.">
-                    <figcaption>Both poses were set by hand. The clear smears at the pivots are the glue.</figcaption>
-                </figure>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-21">21 Oct 2026</time>
-            <div class="line">
-                <p><b>Crank, pushrod and tibia, bolted together.</b> The knee half of the four-bar is built. Crank at one end, pushrod across the top, the black tibia at the other, with the pivot bolts through all three. I have not powered it or put any load on it yet.</p>
-                <figure>
-                    <img src="img/hexapod/knee-linkage.jpg" alt="Photograph of the assembled knee linkage lying flat on a wooden desk: a small grey drive crank at the left, a straight grey pushrod running horizontally from it, and a long tapered black tibia at the right, joined by bolts at both pushrod ends, with a silver bearing seated in the tibia's large lower hole.">
-                    <figcaption>The bearing is already in the tibia's knee hole. That is the joint that bolts to the femur next.</figcaption>
-                </figure>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-19">19 Oct 2026</time>
-            <div class="line">
-                <p><b>A 17 g servo, maybe.</b> The AGFRC B13DLM V2 is small enough to hide inside the body and weighs 17 g, which takes all eighteen from 378 g down to about 306 g. It gives 3.8 kg·cm at 6 V, and a stall figure is not what a servo can hold all day. Eighteen of them is US$359.82. I order none of it until one leg has been built and loaded.</p>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-18">18 Oct 2026</time>
-            <div class="line">
-                <p><b>One axis, two hubs.</b> The femur and the drive crank turn on the same hip bolt. Each gets its own hub. The tibia is one solid piece, so leg swing and knee angle come apart.</p>
-                <figure>
-                    <img src="img/hexapod/coaxial-hip.png" alt="Side-view kinematic schematic of one leg: a coxa bracket at the left with a double-ringed pivot where a short orange crank and a long blue femur both begin, a green pushrod running above the femur and roughly parallel to it, and a purple tibia hanging from the knee pivot at the femur's outer end.">
-                    <figcaption>Femur and crank share one bolt at the hip. Blue rings are free pivots.</figcaption>
-                </figure>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-18">18 Oct 2026</time>
-            <div class="line">
-                <p><b>Three handles before three servos.</b> No motors yet. I turn the leg by hand. Handles A and B sit on the hip, handle C under the body. Each hub copies the servo's bolt holes. The M3 spacer bolts have to clear the crank.</p>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-16">16 Oct 2026</time>
-            <div class="line">
-                <p><b>Eighty millimetres, probably.</b> The tibia is printed. Black PLA, about 80 mm. Its two holes set the knee lever. I have not measured them yet.</p>
-                <figure>
-                    <img src="img/hexapod/tibia-print.jpg" alt="Two photographs of the same 3D-printed tibia link lying on a pegboard: a long black tapered blade, widest at the top where a large circular opening sits, with a smaller hole directly above it and the body narrowing to a point at the far end.">
-                    <figcaption>Both knee holes are on this one part. The big seat takes the 623ZZ.</figcaption>
-                </figure>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-16">16 Oct 2026</time>
-            <div class="line">
-                <p><b>Four joints, two bearings.</b> 623ZZ bearings at the hip and knee, where the load is. Plain M3 pins at both ends of the pushrod. Twelve needed, fifteen ordered.</p>
-                <figure>
-                    <img src="img/hexapod/leg-linkage.jpg" alt="Diagram of the leg linkage: a femur between the hip and knee, a pushrod running above it from a drive crank to a tibia lever, with bearings marked at the hip and knee and plain pins at both ends of the pushrod.">
-                    <figcaption>The leg as a four-bar. Both servos stay on the body; only the links move.</figcaption>
-                </figure>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-14">14 Oct 2026</time>
-            <div class="line">
-                <p><b>CA$24.90 spent.</b> An M3 screw set, CA$15.22. Fifteen 623ZZ bearings, CA$9.68. The budget is CA$50. Spacers get printed, not bought.</p>
-            </div>
-        </li>
-        <li>
-            <time datetime="2026-10-14">14 Oct 2026</time>
-            <div class="line">
-                <p><b>What counts as working.</b> I wrote the targets down early so a stopwatch can prove them wrong. One rule: get a leg moving before anything pretty.</p>
-            </div>
-        </li>
-    </ol>
+    <section class="blk">
+        <h2 class="sec">Electronics architecture <span class="tag">Designed, not built</span></h2>
+        <p>Distributed control, chosen 22 October. One Raspberry Pi plans the gait; two ESP32s split the robot by physical side and do their own kinematics. Nothing below has been wired — no board has been powered, and the PWM driver choice is the part I am least sure of.</p>
 
-    <h3 class="block">Targets, all provisional</h3>
-    <ul class="targets">
-        <li><b>Speed</b><span>0.20 m/s on a flat floor, over 2 m. 0.40 would be a good day.</span></li>
-        <li><b>Mass</b><span>Under 1.50 kg with battery. Design against 1.60 kg.</span></li>
-        <li><b>Runtime</b><span>Fifteen minutes of walking, not fifteen powered on.</span></li>
-        <li><b>Obstacle</b><span>Clear a 20 mm step.</span></li>
-        <li><b>Size</b><span>About 270 mm, leg tip to leg tip.</span></li>
-    </ul>
+        <div class="earch">
+            <svg viewBox="0 0 760 416" role="img" aria-labelledby="earchTitle earchDesc">
+                <title id="earchTitle">Planned control architecture</title>
+                <desc id="earchDesc">A Raspberry Pi gait coordinator feeds two ESP32 boards, one for the left legs and one for the right. Each ESP32 drives a PCA9685 sixteen-channel PWM driver, and each driver controls nine servos, for eighteen servos in total.</desc>
+
+                <rect class="bx-a" x="230" y="4" width="300" height="56" rx="4"/>
+                <text class="ttl" x="380" y="26" text-anchor="middle">RASPBERRY PI</text>
+                <text class="sub" x="380" y="46" text-anchor="middle">plans gait · foot XYZ · timing</text>
+
+                <path class="arw" d="M330 60 L190 104"/>
+                <polygon class="arwh" points="190,112 184,98 198,100"/>
+                <path class="arw" d="M430 60 L570 104"/>
+                <polygon class="arwh" points="570,112 562,100 576,98"/>
+                <text class="rail" x="380" y="92" text-anchor="middle">wired serial</text>
+
+                <rect class="bx" x="40" y="116" width="300" height="62" rx="4"/>
+                <text class="ttl" x="190" y="140" text-anchor="middle">ESP32 — LEFT</text>
+                <text class="sub" x="190" y="159" text-anchor="middle">interpolate · four-bar IK</text>
+                <text class="sub" x="190" y="173" text-anchor="middle">clamp limits · report faults</text>
+
+                <rect class="bx" x="420" y="116" width="300" height="62" rx="4"/>
+                <text class="ttl" x="570" y="140" text-anchor="middle">ESP32 — RIGHT</text>
+                <text class="sub" x="570" y="159" text-anchor="middle">interpolate · four-bar IK</text>
+                <text class="sub" x="570" y="173" text-anchor="middle">clamp limits · report faults</text>
+
+                <path class="arw" d="M190 178 L190 214"/>
+                <polygon class="arwh" points="190,222 184,208 196,208"/>
+                <path class="arw" d="M570 178 L570 214"/>
+                <polygon class="arwh" points="570,222 564,208 576,208"/>
+
+                <rect class="bx" x="40" y="226" width="300" height="54" rx="4"/>
+                <text class="ttl" x="190" y="249" text-anchor="middle">PCA9685</text>
+                <text class="sub" x="190" y="268" text-anchor="middle">16-channel PWM · 9 used</text>
+
+                <rect class="bx" x="420" y="226" width="300" height="54" rx="4"/>
+                <text class="ttl" x="570" y="249" text-anchor="middle">PCA9685</text>
+                <text class="sub" x="570" y="268" text-anchor="middle">16-channel PWM · 9 used</text>
+
+                <path class="arw" d="M190 280 L190 316"/>
+                <polygon class="arwh" points="190,324 184,310 196,310"/>
+                <path class="arw" d="M570 280 L570 316"/>
+                <polygon class="arwh" points="570,324 564,310 576,310"/>
+
+                <rect class="bx-a" x="40" y="328" width="300" height="54" rx="4"/>
+                <text class="ttl" x="190" y="351" text-anchor="middle">9 SERVOS — LEFT</text>
+                <text class="sub" x="190" y="370" text-anchor="middle">3 coxa · 3 femur · 3 crank</text>
+
+                <rect class="bx-a" x="420" y="328" width="300" height="54" rx="4"/>
+                <text class="ttl" x="570" y="351" text-anchor="middle">9 SERVOS — RIGHT</text>
+                <text class="sub" x="570" y="370" text-anchor="middle">3 coxa · 3 femur · 3 crank</text>
+
+                <text class="rail" x="380" y="406" text-anchor="middle">Separate regulated servo rail · common ground with the logic boards</text>
+            </svg>
+        </div>
+
+        <ul class="points">
+            <li>The Pi runs the gait state machine, plans each foot's XYZ waypoints, stamps them with a common start time and duration, and hands them to both boards. It does not stream individual servo increments.</li>
+            <li>Each ESP32 takes three legs — nine channels — and is nobody's master. It validates the command, aligns to the shared start time, interpolates, runs inverse kinematics, clamps geometry and speed limits, and reports completion or fault. One board can run stored trajectories on the bench without the Pi.</li>
+            <li>The left/right split is about keeping wiring short and the harness mirrored. The tripod gait is a <em>software</em> grouping and cuts across both boards.</li>
+            <li>A PCA9685 per side generates the servo PWM, because a stock ESP32 does not have nine good PWM outputs to spare. This is the least settled box on the diagram.</li>
+            <li>The inverse kinematics has to model the four-bar — crank angle to tibia angle. Treating the tibia as a directly driven servo joint would be wrong, and is the specific mistake this mechanism invites.</li>
+            <li>Hobby RC servos report nothing back. Forward kinematics gives an <em>expected</em> foot position, never a measured one, and labelling an open-loop estimate as actual position is a trap I want to stay out of.</li>
+            <li>Servos run from a separate regulated rail sharing ground with the logic — never off a 3.3 V board pin. Leg 1 on the bench needs 6 V at 7.5 A peak, which is three MG996Rs stalling at once.</li>
+        </ul>
+    </section>
+
+    <section class="blk">
+        <h2 class="sec">Where it actually is</h2>
+        <div class="split">
+            <div>
+                <h3 class="block">Built</h3>
+                <ul class="done">
+                    <li>Tibia link printed, black PLA, roughly 80 mm</li>
+                    <li>Knee crank–pushrod linkage bolted up with a bearing seated</li>
+                    <li>First full leg assembled — and the femur fractured doing it</li>
+                    <li>V6 leg reprinted and assembled with nothing broken</li>
+                    <li>One MG996R servo received</li>
+                    <li>Servo and horn arm modelled in Onshape; leg now at V8</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="block">Designed, not built</h3>
+                <ul class="todo">
+                    <li>Coxa bracket and the three-handle hand-crank rig</li>
+                    <li>Every piece of electronics — Pi, both ESP32s, both PCA9685s, harness, power rail</li>
+                    <li>Inverse kinematics and gait code</li>
+                    <li>Servo mounts and hubs on the real leg</li>
+                    <li>Legs 2 to 6, the body plate, the battery</li>
+                </ul>
+            </div>
+        </div>
+        <p class="caveat">Nothing has been powered and nothing has been loaded. There is no measured figure anywhere on this page — no torque, current, range of motion, friction or deflection number exists yet, and the servo's own weight, usable travel, pulse range and horn fit are all still open. The one known unresolved fault is that the crank collides with its own fasteners before the end of its intended stroke.</p>
+    </section>
+
+    <section class="blk">
+        <h2 class="sec">Decisions and iterations</h2>
+        <ol class="decisions">
+            <li>
+                <time datetime="2026-11-02">2 Nov 2026</time>
+                <div class="line">
+                    <p><b>First servo in hand, and in CAD.</b> The MG996R arrived and is now modelled in Onshape with its horn arm, so the mounts get drawn around the real shape instead of a datasheet drawing. It stays the tentative leg 1 servo until the arrival checks are done — weight, usable travel, pulse range per unit, horn spline fit on the printed hubs, deadband jitter at rest.</p>
+                    <figure>
+                        <img src="img/hexapod/cad-servo-assembly.jpg" width="775" height="480" alt="Onshape CAD view of two dark grey MG996R servo models stacked one above the other, with a long tapered orange arm part fitted to the upper servo's horn and a silver multi-hole servo horn on the lower one." loading="lazy">
+                        <figcaption>The Onshape assembly — two MG996R models with the printed arm on the upper horn. Photographed off the screen rather than exported, so it is soft.</figcaption>
+                    </figure>
+                </div>
+            </li>
+            <li>
+                <time datetime="2026-10-28">28 Oct 2026</time>
+                <div class="line">
+                    <p><b>Swapped to a servo I know is too heavy.</b> I bought three Miuzei MG996Rs for leg 1 instead of the 17 g AGFRC B13DLM V2 I had been considering. The MG996R gives 11 kgf·cm stalled at 6 V against the B13DLM's 3.8, and at an illustrative 100 mm foot reach the 5.2 N static load needs about 5.3 kgf·cm at the femur — so the first powered test has roughly a factor of two in hand instead of none.</p>
+                    <p>The cost is weight, and it is not a small one. At 55 g each, eighteen come to about 990 g against a 378 g servo budget, putting the whole robot at roughly 1.56–1.98 kg — over the 1.50 kg target. The bigger case also makes hiding servos inside the body harder. I took it for leg 1 only; the eighteen-servo choice stays open until one leg has been loaded.</p>
+                </div>
+            </li>
+            <li>
+                <time datetime="2026-10-23">23 Oct 2026</time>
+                <div class="line">
+                    <p><b>V6 went together without breaking.</b> The reprinted leg is visibly slimmer than the one that cracked and assembled clean — the first build that did. The crank still hits its own fasteners before the end of its travel, so that is the open fault, and the hold point is explicit: resolve the interference and show smooth unpowered motion before any servo mount is finalised or any load is applied.</p>
+                </div>
+            </li>
+            <li>
+                <time datetime="2026-10-22">22 Oct 2026</time>
+                <div class="line">
+                    <p><b>Split the control problem by side.</b> One Pi for gait, two ESP32s for nine servos each, divided left and right. The reason is wiring length and a mirrored harness, not the gait itself — the tripod grouping cuts across both boards and lives in software. It also means one board and one leg is a complete bench setup, which is what I actually need next.</p>
+                </div>
+            </li>
+            <li>
+                <time datetime="2026-10-21">21 Oct 2026</time>
+                <div class="line">
+                    <p><b>The femur broke while I was assembling it.</b> The knee half went together fine — crank, pushrod and tibia bolted up with the bearing seated. Adding the femur to make the first whole leg split it during assembly, and several of the M3 lengths I had picked turned out wrong for their joint stacks. Hot glue is holding it for hand-set poses only; nothing gets driven or loaded on a glued leg.</p>
+                    <p>What I took from it: measure the whole grip stack — link thicknesses, bearing, sleeves, washers, nut — <em>before</em> choosing a bolt length, get full nyloc engagement without using the nut to crush a free pivot, check clearance and free rotation at all three moving joints before final tightening, and reinforce the fractured section around the pivot bosses while reviewing print orientation.</p>
+                    <figure>
+                        <img src="img/hexapod/full-leg-rom.jpg" width="1420" height="880" alt="Two photographs side by side of the same assembled leg on a pegboard, held in different positions: a dark printed femur with a pale pushrod bolted above it, a long black tibia hanging from the knee, bolts and a silver bearing at the pivots, and clear hot glue visible around the joints." loading="lazy">
+                        <figcaption>Both poses set by hand. The clear smears at the pivots are hot glue holding it for this check and nothing else.</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="img/hexapod/knee-linkage.jpg" width="645" height="740" alt="Photograph of the assembled knee linkage lying flat on a wooden desk: a small grey drive crank at the left, a straight grey pushrod running horizontally from it, and a long tapered black tibia at the right, joined by bolts at both pushrod ends, with a silver bearing seated in the tibia's large lower hole." loading="lazy">
+                        <figcaption>Earlier the same day — the knee half on its own, bearing already seated in the tibia. That is the joint the femur bolts to.</figcaption>
+                    </figure>
+                </div>
+            </li>
+            <li>
+                <time datetime="2026-10-18">18 Oct 2026</time>
+                <div class="line">
+                    <p><b>Corrected the hip to one axis, two hubs.</b> The earlier schematic was wrong. The femur and the drive crank turn about the same lower hip axis on separate hubs that are not locked to each other, and the tibia is a single rigid link with the knee pivot and the pushrod hole as two holes in the same piece. That is what makes the parallelogram behave — and what lets leg swing and knee angle be commanded independently.</p>
+                    <figure>
+                        <img src="img/hexapod/coaxial-hip.png" width="1999" height="1218" alt="Side-view kinematic schematic of one leg: a coxa bracket at the left with a double-ringed pivot where a short orange crank and a long blue femur both begin, a green pushrod running above the femur and roughly parallel to it, and a purple tibia hanging from the knee pivot at the femur's outer end." loading="lazy">
+                        <figcaption>The corrected schematic. Femur and crank share one bolt at the hip; the blue rings are free pivots.</figcaption>
+                    </figure>
+                </div>
+            </li>
+            <li>
+                <time datetime="2026-10-16">16 Oct 2026</time>
+                <div class="line">
+                    <p><b>Bearings only where the load is.</b> I put 623ZZ bearings at the hip and the knee, which carry the leg's bending loads, and plain M3 pins in reamed holes at both pushrod ends instead. That is twelve bearings for six legs out of the fifteen I ordered. Each plain pin carries the full pushrod force — knee torque divided by the tibia lever length — so those holes get checked for wear after the first load tests, and go to bearings if slop shows up. The first part off the printer was the tibia, and I still have not put calipers on it.</p>
+                </div>
+            </li>
+        </ol>
+    </section>
+
+    <details class="archive">
+        <summary>Full dated log</summary>
+        <div class="archive-body">
+            <ol>
+                <li><time datetime="2026-11-02">2 Nov 2026</time><span><b>MG996R received, and modelled.</b> First of the three servos in hand; servo and horn arm now in Onshape. Arrival checks all still open.</span></li>
+                <li><time datetime="2026-10-28">28 Oct 2026</time><span><b>MG996R chosen for leg 1.</b> Three bought on 26 Oct, replacing the B13DLM as the candidate. Three times the stall torque, three times the weight. Also pinned an AI-made render of the finished robot as a styling reference — it shows a servo at every joint, which is the one thing this design does not do, so it is not on this page.</span></li>
+                <li><time datetime="2026-10-23">23 Oct 2026</time><span><b>V6 assembled, no breakages.</b> Slimmer than the leg that cracked. Crank interference still unresolved. Next build is a provisional coxa bracket for a manual 3-DOF test.</span></li>
+                <li><time datetime="2026-10-22">22 Oct 2026</time><span><b>Controller architecture selected.</b> One Pi, two ESP32s split left and right, nine servos each. Servo model, PWM driver and power budget stay open.</span></li>
+                <li><time datetime="2026-10-21">21 Oct 2026</time><span><b>First full leg, and the first breakage.</b> Knee linkage assembled in the morning; the femur fractured during full-leg assembly and several bolt lengths were wrong for their stacks. Hot-glued for hand poses only.</span></li>
+                <li><time datetime="2026-10-21">21 Oct 2026</time><span><b>Pushrod pivot note.</b> For the walking build, a rigid sleeve plus washers and a nyloc — the sleeve gives a solid clamping path so tightening cannot squeeze the rotating link. Nyloc stops loosening; it does not stop binding.</span></li>
+                <li><time datetime="2026-10-19">19 Oct 2026</time><span><b>A 17 g servo, considered.</b> AGFRC B13DLM V2 — 17 g, 3.8 kgf·cm at 6 V, US$19.99 each, eighteen for US$359.82. Small enough to hide in the body but torque unproven. Superseded on 28 Oct.</span></li>
+                <li><time datetime="2026-10-18">18 Oct 2026</time><span><b>Coaxial hip, corrected.</b> Femur and crank on one axis, separate hubs, rigid single-piece tibia.</span></li>
+                <li><time datetime="2026-10-18">18 Oct 2026</time><span><b>Three handles before three servos.</b> Handles A and B coaxial on the hip, C under the body for coxa yaw. Each hub copies the future servo's bolt pattern so servos drop into the same holes later.</span></li>
+                <li><time datetime="2026-10-16">16 Oct 2026</time><span><b>Four joints, two bearings.</b> 623ZZ at hip and knee, plain M3 pins at both pushrod ends. Twelve needed, fifteen ordered.</span></li>
+                <li><time datetime="2026-10-15">15 Oct 2026</time><span><b>First printed part.</b> Tapered tibia link in black PLA, roughly 80 mm by eye. Length, thickness, both hole diameters and the hole spacing all still to be measured with calipers.</span></li>
+                <li><time datetime="2026-10-14">14 Oct 2026</time><span><b>Targets written down, parts ordered.</b> CA$24.90 of a CA$50 goods budget — an M3 screw, nut and washer assortment and fifteen 623ZZ bearings. Spacers get printed, not bought. Targets set early so a stopwatch can prove them wrong.</span></li>
+            </ol>
+        </div>
+    </details>
 
 </div>
 
