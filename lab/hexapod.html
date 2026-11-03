@@ -49,9 +49,11 @@
 }
 
 /* Hard facts up top, so the page answers "where is this at" before it asks
-   anyone to read a paragraph. Four cells, so the phone rule below has to close
-   the 2x2 - the three-cell version of this strip used to wrap with no divider
-   between the top two. */
+   anyone to read a paragraph. THREE cells since 3 Nov 2026 (Awan took the
+   hardware-spend cell off). Three is the awkward count for an auto-fit grid:
+   at a phone width it wraps 2-up and leaves the second row half empty, which
+   is the recurring half-empty-container fault on this site. So the phone rule
+   below goes straight to a single column rather than trying to close a 2x2. */
 .status {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -347,18 +349,14 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
     }
 }
 @media (max-width: 600px) {
-    /* A four-cell strip wraps to 2x2 here, and dropping border-right for a
-       single column would leave the two columns with no divider between them.
-       Close the 2x2 first, then go single-column lower down. */
-    .status div { border-right: 2px solid var(--border); border-bottom: 2px solid var(--border); }
-    .status div:nth-child(2n) { border-right: 0; }
-    .status div:nth-last-child(-n+2) { border-bottom: 0; }
-    .targets li, .decisions > li, .archive-body li { flex-direction: column; gap: 4px; }
-    .targets b, .decisions time, .archive-body time { flex: none; }
-}
-@media (max-width: 420px) {
+    /* Single column outright. At three cells the auto-fit grid would otherwise
+       put two on the first row and one on the second, leaving an empty half -
+       and the 2x2 divider repair that a four-cell strip needs does not apply. */
+    .status { grid-template-columns: 1fr; }
     .status div { border-right: 0; border-bottom: 2px solid var(--border); }
     .status div:last-child { border-bottom: 0; }
+    .targets li, .decisions > li, .archive-body li { flex-direction: column; gap: 4px; }
+    .targets b, .decisions time, .archive-body time { flex: none; }
 }
 </style>
 </head>
@@ -393,10 +391,6 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         <div>
             <dt>Leg revision</dt>
             <dd>V8<small>in Onshape; V6 was the last built</small></dd>
-        </div>
-        <div>
-            <dt>Hardware spend</dt>
-            <dd>CA$24.90<small>of a CA$50 ceiling</small></dd>
         </div>
     </dl>
 
