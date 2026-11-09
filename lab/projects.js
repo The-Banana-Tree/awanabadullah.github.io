@@ -17,7 +17,7 @@ export const PROJECTS = [
     {
         id: 'hexapod',
         name: 'Hexapod Robot',
-        blurb: 'I am building a six-legged walker about 270 mm across: three body-mounted servos per leg driving lightweight printed links, with the knee driven from the hip through a four-bar rather than a servo at the joint. M3 bolts run as axles through 623ZZ bearings. One leg has to walk before the other five get built.',
+        blurb: 'I am building a six-legged walker about 270 mm across: three body-mounted servos per leg driving lightweight printed links, with the knee driven from the body through a five-bar rather than a servo at the joint. M3 bolts run as axles through 623ZZ bearings. One leg has to walk before the other five get built.',
         tags: ['Robotics', 'CAD', '3D Printing'],
         // In progress, so there is no repo to send anyone to - the build log is
         // the thing worth reading instead.
