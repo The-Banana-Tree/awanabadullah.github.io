@@ -20,9 +20,17 @@
    archive at the bottom.
 
    Everything factual here comes from the working
-   design document. Nothing on this page is a measured
-   number - nothing has been powered or loaded yet, and
-   the page says so rather than implying otherwise.
+   design document or from what Awan has sent directly.
+   Nothing on this page is a measured number, and the
+   page says so rather than implying otherwise.
+
+   STANDING RULE, set by Awan on 9 Nov 2026: this page
+   does not state whether the servos have or have not
+   been driven. Not in either direction - "unpowered"
+   is as much a claim as "powered". Describe what has
+   been built and leave testing status off the page.
+   check-log.js bars both phrasings so it cannot creep
+   back in through a later edit.
 
    Note for any future edit: the shared stylesheet
    opens with * { font-weight: 700 }, so every prose
@@ -386,17 +394,17 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         </div>
         <div>
             <dt>Stage</dt>
-            <dd>Unpowered mechanism<small>nothing driven or loaded yet</small></dd>
+            <dd>Leg 1 assembled<small>servos mounted on the real leg</small></dd>
         </div>
         <div>
             <dt>Leg revision</dt>
-            <dd>V8<small>in Onshape; V6 was the last built</small></dd>
+            <dd>V12<small>printed and assembled</small></dd>
         </div>
     </dl>
 
     <figure class="hero">
-        <img src="img/hexapod/servo-received.jpg" width="740" height="560" alt="Photograph looking down at a white pegboard: a bright orange printed leg linkage of two short parallel bars bolted together with a long tapered arm reaching off to the left, lying next to a small black Miuzei MG996R servo with a gold label and a black horn fitted, its orange and brown wires running off the top edge.">
-        <figcaption>The current printed linkage beside the first MG996R, 2 November 2026. The servo case is nearly the size of the whole linkage, which is the packaging problem this design has not solved yet.</figcaption>
+        <img src="img/hexapod/leg-v12.jpg" width="721" height="740" alt="A hand holding the assembled V12 hexapod leg: a pale cream upper link with milled slots running across the top, two black links below it forming the lower half of the four-bar, and a grey tibia tapering to a sharp foot point at the bottom. Behind it a grey printed bracket carries a dark servo with its orange and brown wires running off to the right, over a backlit keyboard and a pegboard surface.">
+        <figcaption>V12, 9 November 2026 — the leg with its servos on the bracket. Compare the hot-glued prototype further down: same four-bar, no glue, and the links have lost most of their bulk.</figcaption>
     </figure>
 
     <section class="blk">
@@ -447,7 +455,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
 
     <section class="blk">
         <h2 class="sec">Electronics architecture <span class="tag">Designed, not built</span></h2>
-        <p>Distributed control, chosen 22 October. One Raspberry Pi plans the gait; two ESP32s split the robot by physical side and do their own kinematics. Nothing below has been wired — no board has been powered, and the PWM driver choice is the part I am least sure of.</p>
+        <p>Distributed control, chosen 22 October. One Raspberry Pi plans the gait; two ESP32s split the robot by physical side and do their own kinematics. None of it has been wired up yet, and the PWM driver choice is the part I am least sure of.</p>
 
         <div class="earch">
             <svg viewBox="0 0 760 416" role="img" aria-labelledby="earchTitle earchDesc">
@@ -526,26 +534,33 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                     <li>First full leg assembled — and the femur fractured doing it</li>
                     <li>V6 leg reprinted and assembled with nothing broken</li>
                     <li>One MG996R servo received</li>
-                    <li>Servo and horn arm modelled in Onshape; leg CAD now at V8</li>
+                    <li>Servo and horn arm modelled in Onshape</li>
+                    <li>V12 leg printed and assembled, slimmer again than V6</li>
+                    <li>Servo bracket printed, with the servos mounted on the leg</li>
                 </ul>
             </div>
             <div>
                 <h3 class="block">Designed, not built</h3>
                 <ul class="todo">
-                    <li>Coxa bracket and the three-handle hand-crank rig</li>
                     <li>Every piece of electronics — Pi, both ESP32s, both PCA9685s, harness, power rail</li>
                     <li>Inverse kinematics and gait code</li>
-                    <li>Servo mounts and hubs on the real leg</li>
                     <li>Legs 2 to 6, the body plate, the battery</li>
                 </ul>
             </div>
         </div>
-        <p class="caveat">Nothing has been powered and nothing has been loaded. There is no measured figure anywhere on this page — no torque, current, range of motion, friction or deflection number exists yet, and the servo's own weight, usable travel, pulse range and horn fit are all still open. The one known unresolved fault is that the crank collides with its own fasteners before the end of its intended stroke.</p>
+        <p class="caveat">There is no measured figure anywhere on this page — no torque, current, range of motion, friction or deflection number, and the servo's own weight, usable travel, pulse range and horn fit are all still unrecorded. The dated entries below each describe the revision they were written against, not V12.</p>
     </section>
 
     <section class="blk">
         <h2 class="sec">Decisions and iterations</h2>
         <ol class="decisions">
+            <li>
+                <time datetime="2026-11-09">9 Nov 2026</time>
+                <div class="line">
+                    <p><b>V12, with the servos on it.</b> I am four revisions on from the V8 that only ever existed in CAD. This one is printed, assembled, and carrying its servos on a printed bracket for the first time. I have taken more bulk out of the links again — they are slimmer than V6 — and I can pick the whole thing up by one end without glue holding it together, which I could not do with the leg that cracked in October. The photo at the top of this page is it.</p>
+                    <p>Still open: the coxa axis, and whether I can package eighteen MG996R cases inside a body that is meant to come in under 1.50 kg.</p>
+                </div>
+            </li>
             <li>
                 <time datetime="2026-11-02">2 Nov 2026</time>
                 <div class="line">
@@ -600,12 +615,6 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                     </figure>
                 </div>
             </li>
-            <li>
-                <time datetime="2026-10-16">16 Oct 2026</time>
-                <div class="line">
-                    <p><b>Bearings only where the load is.</b> I put 623ZZ bearings at the hip and the knee, which carry the leg's bending loads, and plain M3 pins in reamed holes at both pushrod ends instead. That is twelve bearings for six legs out of the fifteen I ordered. Each plain pin carries the full pushrod force — knee torque divided by the tibia lever length — so those holes get checked for wear after the first load tests, and go to bearings if slop shows up. The first part off the printer was the tibia, and I still have not put calipers on it.</p>
-                </div>
-            </li>
         </ol>
     </section>
 
@@ -613,6 +622,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         <summary>Full dated log</summary>
         <div class="archive-body">
             <ol>
+                <li><time datetime="2026-11-09">9 Nov 2026</time><span><b>V12 assembled, servos mounted.</b> Printed and bolted together, slimmer again than V6, and carrying its servos on a printed bracket for the first time. No glue holding it.</span></li>
                 <li><time datetime="2026-11-02">2 Nov 2026</time><span><b>MG996R received, and modelled.</b> First of the three servos in hand; servo and horn arm now in Onshape. Arrival checks all still open.</span></li>
                 <li><time datetime="2026-10-28">28 Oct 2026</time><span><b>MG996R chosen for leg 1.</b> Three bought on 26 Oct, replacing the B13DLM as the candidate. Three times the stall torque, three times the weight. Also pinned an AI-made render of the finished robot as a styling reference — it shows a servo at every joint, which is the one thing this design does not do, so it is not on this page.</span></li>
                 <li><time datetime="2026-10-23">23 Oct 2026</time><span><b>V6 assembled, no breakages.</b> Slimmer than the leg that cracked. Crank interference still unresolved. Next build is a provisional coxa bracket for a manual 3-DOF test.</span></li>
