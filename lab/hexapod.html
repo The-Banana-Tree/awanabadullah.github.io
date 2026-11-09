@@ -379,7 +379,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
 <div class="lab-wrap log-wrap">
     <header class="log-head">
         <h1>Hexapod</h1>
-        <p class="stand">A 270 mm six-legged robot with every servo on the body and no motor at the knee — the knee is driven through a four-bar linkage instead. First milestone: one leg with all three joints moving, by 15 December 2026.</p>
+        <p class="stand">A 270 mm six-legged robot with every servo on the body and no motor at the knee — the knee is driven through a five-bar linkage instead. First milestone: one leg with all three joints moving, by 15 December 2026.</p>
 
         <div class="info">
             <i class="icon" aria-hidden="true">&#8505;&#65039;</i>
@@ -403,8 +403,8 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
     </dl>
 
     <figure class="hero">
-        <img src="img/hexapod/leg-v12.jpg" width="721" height="740" alt="A hand holding the assembled V12 hexapod leg: a pale cream upper link with milled slots running across the top, two black links below it forming the lower half of the four-bar, and a grey tibia tapering to a sharp foot point at the bottom. Behind it a grey printed bracket carries a dark servo with its orange and brown wires running off to the right, over a backlit keyboard and a pegboard surface.">
-        <figcaption>V12, 9 November 2026 — the leg with its servos on the bracket. Compare the hot-glued prototype further down: same four-bar, no glue, and the links have lost most of their bulk.</figcaption>
+        <img src="img/hexapod/leg-v12.jpg" width="721" height="740" alt="A hand holding the assembled V12 hexapod leg: a pale cream upper link with milled slots running across the top, two black links below it making up the lower half of the chain, and a grey tibia tapering to a sharp foot point at the bottom. Behind it a grey printed bracket carries a dark servo with its orange and brown wires running off to the right, over a backlit keyboard and a pegboard surface.">
+        <figcaption>V12, 9 November 2026 — the leg with its servos on the bracket. This is a five-bar, not the four-bar the earlier revisions used, and it is the first build with no glue in it.</figcaption>
     </figure>
 
     <section class="blk">
@@ -427,30 +427,20 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         <h2 class="sec">Mechanical architecture</h2>
         <ul class="points">
             <li>Three joints per leg — coxa yaw, femur pitch, knee — and all three servos bolt to the body, so almost no mass is swung out at the end of a leg.</li>
-            <li>There is no servo at the knee. A short crank at the hip pushes a pushrod out along the femur to a lever on the tibia, and that four-bar bends the knee.</li>
-            <li>The femur and the knee-drive crank turn about the <em>same</em> hip axle on separate hubs, independently driven. Because the femur is the moving frame of the four-bar, holding the crank and swinging the femur leaves the tibia's angle unchanged — so leg swing and knee angle come apart into two controls that do not fight each other.</li>
-            <li>The tibia is one rigid printed link carrying both the knee pivot and the pushrod hole as separate holes in the same piece. No intermediate hinge.</li>
-            <li>623ZZ ball bearings, 3 mm bore × 10 mm OD × 4 mm wide, only at the hip and the knee — the two joints that carry the bending load. Both pushrod ends are plain M3 bolts in reamed holes.</li>
+            <li>There is no servo at the knee. Both drive inputs sit back on the body and the chain closes through the leg as a <em>five-bar</em>, so the knee angle follows from where those two inputs are rather than from a motor at the joint. V12 changed this: every revision up to V6 ran a four-bar, and the dated entries below still describe that older arrangement.</li>
+            <li>The tibia is one rigid printed link carrying both of its pivots as separate holes in the same piece. No intermediate hinge.</li>
+            <li>623ZZ ball bearings, 3 mm bore × 10 mm OD × 4 mm wide, at the hip and the knee — the two joints that carry the bending load. The remaining pivots are plain M3 bolts in reamed holes.</li>
             <li>Bearing seats capture the outer race in the moving link; printed sleeves touch only the inner race, so tightening the nut clamps the stack without squeezing the joint shut.</li>
         </ul>
 
         <ul class="targets">
             <li><b>Coxa</b><span>Yaw about a vertical axis, driven from under the body plate. This is the axis that aims the leg.</span></li>
-            <li><b>Hip</b><span>Femur and crank on one horizontal axle, two hubs, not locked to each other.</span></li>
-            <li><b>Knee</b><span>Crank → pushrod → tibia lever. Free pivots at both pushrod ends and at the knee.</span></li>
+            <li><b>Knee</b><span>Driven from the body through the five-bar chain. No servo at the joint.</span></li>
             <li><b>Bearings</b><span>12 of the 15 ordered go into six legs at two per leg, leaving 3 spare.</span></li>
-            <li><b>Pushrod ends</b><span>Printed undersize and reamed to a sliding fit on the M3. Each pin carries the full pushrod force.</span></li>
+            <li><b>Plain pivots</b><span>Printed undersize and reamed to a sliding fit on the M3, with a washer between the moving links.</span></li>
         </ul>
 
-        <figure>
-            <img src="img/hexapod/leg-linkage.jpg" width="1280" height="1016" alt="Diagram of the leg linkage drawn as a four-bar: a grey femur running from a hip pivot to a knee pivot, an orange pushrod above it connecting a purple drive crank at the hip to a green tibia lever at the knee, with the tibia hanging below. A numbered legend marks the hip and knee as 623ZZ bearings on M3 bolts and both pushrod ends as plain M3 pins in reamed holes." loading="lazy">
-            <figcaption>The leg as a four-bar, with the pivot hardware marked. Filled circles are bearings, open circles are plain pins — bearings only where the bending load actually is.</figcaption>
-        </figure>
-
-        <figure>
-            <img src="img/hexapod/hip-motions.png" width="1999" height="869" alt="Two-panel kinematic diagram headed 'Two independent motions from the same lower hip axis'. Panel A, femur motion: the blue femur swings up while the orange crank is held fixed, and the purple tibia stays parallel to the crank. Panel B, knee and crank motion: the femur is held fixed while the crank rotates, and the green pushrod swings the tibia to a different knee angle. Pale links show the neutral pose in both panels." loading="lazy">
-            <figcaption>Why the two inputs are worth sharing one axle: one swings the leg, the other bends the knee, and neither disturbs the other. The angles are illustrative — what matters is which link moves when.</figcaption>
-        </figure>
+        <p>The five-bar schematic has not been drawn yet — the photo at the top of the page is the current reference, and the diagrams further down show the four-bar arrangement it replaced.</p>
     </section>
 
     <section class="blk">
@@ -474,12 +464,12 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
 
                 <rect class="bx" x="40" y="116" width="300" height="62" rx="4"/>
                 <text class="ttl" x="190" y="140" text-anchor="middle">ESP32 — LEFT</text>
-                <text class="sub" x="190" y="159" text-anchor="middle">interpolate · four-bar IK</text>
+                <text class="sub" x="190" y="159" text-anchor="middle">interpolate · five-bar IK</text>
                 <text class="sub" x="190" y="173" text-anchor="middle">clamp limits · report faults</text>
 
                 <rect class="bx" x="420" y="116" width="300" height="62" rx="4"/>
                 <text class="ttl" x="570" y="140" text-anchor="middle">ESP32 — RIGHT</text>
-                <text class="sub" x="570" y="159" text-anchor="middle">interpolate · four-bar IK</text>
+                <text class="sub" x="570" y="159" text-anchor="middle">interpolate · five-bar IK</text>
                 <text class="sub" x="570" y="173" text-anchor="middle">clamp limits · report faults</text>
 
                 <path class="arw" d="M190 178 L190 214"/>
@@ -517,7 +507,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
             <li>Each ESP32 takes three legs — nine channels — and is nobody's master. It validates the command, aligns to the shared start time, interpolates, runs inverse kinematics, clamps geometry and speed limits, and reports completion or fault. One board can run stored trajectories on the bench without the Pi.</li>
             <li>The left/right split is about keeping wiring short and the harness mirrored. The tripod gait is a <em>software</em> grouping and cuts across both boards.</li>
             <li>A PCA9685 per side generates the servo PWM, because a stock ESP32 does not have nine good PWM outputs to spare. This is the least settled box on the diagram.</li>
-            <li>The inverse kinematics has to model the four-bar — crank angle to tibia angle. Treating the tibia as a directly driven servo joint would be wrong, and is the specific mistake this mechanism invites.</li>
+            <li>The inverse kinematics has to model the five-bar chain, mapping the two body-side input angles to the foot. Treating the tibia as a directly driven servo joint would be wrong, and is the specific mistake this mechanism invites.</li>
             <li>Hobby RC servos report nothing back. Forward kinematics gives an <em>expected</em> foot position, never a measured one, and labelling an open-loop estimate as actual position is a trap I want to stay out of.</li>
             <li>Servos run from a separate regulated rail sharing ground with the logic — never off a 3.3 V board pin. Leg 1 on the bench needs 6 V at 7.5 A peak, which is three MG996Rs stalling at once.</li>
         </ul>
@@ -557,8 +547,12 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
             <li>
                 <time datetime="2026-11-09">9 Nov 2026</time>
                 <div class="line">
-                    <p><b>V12, with the servos on it.</b> I am four revisions on from the V8 that only ever existed in CAD. This one is printed, assembled, and carrying its servos on a printed bracket for the first time. I have taken more bulk out of the links again — they are slimmer than V6 — and I can pick the whole thing up by one end without glue holding it together, which I could not do with the leg that cracked in October. The photo at the top of this page is it.</p>
+                    <p><b>V12, and the knee is a five-bar now.</b> I moved off the four-bar that every revision up to V6 used — V12 closes the chain as a five-bar instead. It is also the first leg that is printed, assembled and carrying its servos on a printed bracket, with more bulk taken out of the links again, and I can pick the whole thing up by one end with no glue in it, which I could not do with the leg that cracked in October.</p>
                     <p>Still open: the coxa axis, and whether I can package eighteen MG996R cases inside a body that is meant to come in under 1.50 kg.</p>
+                    <figure>
+                        <img src="img/hexapod/leg-linkage.jpg" width="1280" height="1016" alt="Diagram of the earlier leg linkage drawn as a four-bar: a grey femur running from a hip pivot to a knee pivot, an orange pushrod above it connecting a purple drive crank at the hip to a green tibia lever at the knee, with the tibia hanging below. A numbered legend marks the hip and knee as 623ZZ bearings on M3 bolts and both pushrod ends as plain M3 pins in reamed holes." loading="lazy">
+                        <figcaption>What V12 replaced: the four-bar, crank to pushrod to tibia lever, with bearings drawn at the two loaded joints and plain pins at the rest. The bearing and pin choices carried over; the topology did not.</figcaption>
+                    </figure>
                 </div>
             </li>
             <li>
