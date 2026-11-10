@@ -400,20 +400,20 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         </div>
         <div>
             <dt>Stage</dt>
-            <dd>Leg 1 assembled<small>three servos mounted in the printed frame</small></dd>
+            <dd>Leg 1 assembled<small>all three joints, servos in one printed frame</small></dd>
         </div>
         <div>
             <dt>Leg revision</dt>
-            <dd>V12<small>printed and assembled</small></dd>
+            <dd>V15<small>printed and assembled</small></dd>
         </div>
     </dl>
 
     <figure class="hero">
         <div class="hero-grid">
-            <img src="img/hexapod/leg-v12-side.jpg" width="676" height="676" alt="Side view of the assembled V12 hexapod leg held above a pegboard desk. Three dark servo cases sit together in a black printed frame, while two orange links and one black link form the five-bar chain leading to a long orange tibia. The matching CAD assembly is open on the monitor behind it.">
-            <img src="img/hexapod/leg-v12-angle.jpg" width="676" height="676" alt="Front three-quarter view of the assembled V12 leg held by its servo frame. The orange and black linkage pivots around the compact stack of three servos, with the long orange tibia reaching down to the desk and the servo leads loose beside it.">
+            <img src="img/hexapod/leg-v15-side.jpg" width="676" height="676" alt="Side view of the assembled V15 hexapod leg held above a pegboard desk. Three dark servo cases sit together in a black printed frame, while two orange links and one black link form the five-bar chain leading to a long orange tibia. The matching CAD assembly is open on the monitor behind it.">
+            <img src="img/hexapod/leg-v15-angle.jpg" width="676" height="676" alt="Front three-quarter view of the assembled V15 leg held by its servo frame. The orange and black linkage pivots around the compact stack of three servos, with the long orange tibia reaching down to the desk and the servo leads loose beside it.">
         </div>
-        <figcaption>V12, photographed 10 November 2026 — side and front views of the assembled five-bar leg, with three servos mounted together in the printed frame and the matching CAD open behind it.</figcaption>
+        <figcaption>V15, photographed 10 November 2026 — side and front views of the assembled five-bar leg. All three joints are in it: the coxa plus the two body-side inputs that close the five-bar, with their servos in one printed frame and the matching CAD open behind.</figcaption>
     </figure>
 
     <section class="blk">
@@ -435,8 +435,8 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
     <section class="blk">
         <h2 class="sec">Mechanical architecture</h2>
         <ul class="points">
-            <li>Three joints per leg — coxa yaw, femur pitch, knee — and all three servos bolt to the body, so almost no mass is swung out at the end of a leg.</li>
-            <li>There is no servo at the knee. Both drive inputs sit back on the body and the chain closes through the leg as a <em>five-bar</em>, so the knee angle follows from where those two inputs are rather than from a motor at the joint. V12 changed this: every revision up to V6 ran a four-bar, and the dated entries below still describe that older arrangement.</li>
+            <li>Three joints per leg — coxa yaw, femur pitch, knee — and all three servos bolt to the body, so almost no mass is swung out at the end of a leg. On V15 all three are in the assembly, their servos sharing one printed frame.</li>
+            <li>There is no servo at the knee. Both drive inputs sit back on the body and the chain closes through the leg as a <em>five-bar</em>, so the knee angle follows from where those two inputs are rather than from a motor at the joint. This arrived at V12: every revision up to V6 ran a four-bar, and the dated entries below still describe that older arrangement.</li>
             <li>The tibia is one rigid printed link carrying both of its pivots as separate holes in the same piece. No intermediate hinge.</li>
             <li>623ZZ ball bearings, 3 mm bore × 10 mm OD × 4 mm wide, at the hip and the knee — the two joints that carry the bending load. The remaining pivots are plain M3 bolts in reamed holes.</li>
             <li>Bearing seats capture the outer race in the moving link; printed sleeves touch only the inner race, so tightening the nut clamps the stack without squeezing the joint shut.</li>
@@ -449,7 +449,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
             <li><b>Plain pivots</b><span>Printed undersize and reamed to a sliding fit on the M3, with a washer between the moving links.</span></li>
         </ul>
 
-        <p>The five-bar schematic has not been drawn yet — the photo at the top of the page is the current reference, and the diagrams further down show the four-bar arrangement it replaced.</p>
+        <p>The five-bar schematic has not been drawn yet — the photo at the top of the page is the current reference, and the diagram further down shows the four-bar arrangement it replaced.</p>
         <p>Next I need to test the motion limits across the full chain. I will probably have to modify this geometry once I can see where it runs out of travel or binds.</p>
     </section>
 
@@ -537,6 +537,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                     <li>Servo and horn arm modelled in Onshape</li>
                     <li>V12 leg printed and assembled, slimmer again than V6</li>
                     <li>Servo bracket printed, with the servos mounted on the leg</li>
+                    <li>V15 assembled with all three joints, three servos in one printed frame</li>
                 </ul>
             </div>
             <div>
@@ -548,16 +549,23 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                 </ul>
             </div>
         </div>
-        <p class="caveat">There is no measured figure anywhere on this page — no torque, current, range of motion, friction or deflection number, and the servo's own weight, usable travel, pulse range and horn fit are all still unrecorded. The dated entries below each describe the revision they were written against, not V12.</p>
+        <p class="caveat">There is no measured figure anywhere on this page — no torque, current, range of motion, friction or deflection number, and the servo's own weight, usable travel, pulse range and horn fit are all still unrecorded. The dated entries below each describe the revision they were written against, not V15.</p>
     </section>
 
     <section class="blk">
         <h2 class="sec">Decisions and iterations</h2>
         <ol class="decisions">
             <li>
+                <time datetime="2026-11-10">10 Nov 2026</time>
+                <div class="line">
+                    <p><b>V15, with all three joints in one frame.</b> Three revisions on from V12 and the leg now carries every joint it is supposed to have — the coxa plus the two body-side inputs that close the five-bar — with all three servos stacked into a single printed frame instead of the bracket V12 used. That closes the coxa question I left open yesterday: the axis is in the assembly, not just the CAD.</p>
+                    <p>Next I need to test the motion limits across the full chain, and I expect to modify this geometry once I can see where it runs out of travel or binds.</p>
+                </div>
+            </li>
+            <li>
                 <time datetime="2026-11-09">9 Nov 2026</time>
                 <div class="line">
-                    <p><b>V12, and the knee is a five-bar now.</b> I moved off the four-bar that every revision up to V6 used — V12 closes the chain as a five-bar instead. It is also the first leg that is printed, assembled and carrying three servos together in a printed frame, with more bulk taken out of the links again, and I can pick the whole thing up by one end with no glue in it, which I could not do with the leg that cracked in October.</p>
+                    <p><b>V12, and the knee is a five-bar now.</b> I moved off the four-bar that every revision up to V6 used — V12 closes the chain as a five-bar instead. It is also the first leg that is printed, assembled and carrying its servos on a printed bracket, with more bulk taken out of the links again, and I can pick the whole thing up by one end with no glue in it, which I could not do with the leg that cracked in October.</p>
                     <p>Still open: the coxa axis, and whether I can package eighteen MG996R cases inside a body that is meant to come in under 1.50 kg.</p>
                     <figure>
                         <img src="img/hexapod/leg-linkage.jpg" width="1280" height="1016" alt="Diagram of the earlier leg linkage drawn as a four-bar: a grey femur running from a hip pivot to a knee pivot, an orange pushrod above it connecting a purple drive crank at the hip to a green tibia lever at the knee, with the tibia hanging below. A numbered legend marks the hip and knee as 623ZZ bearings on M3 bolts and both pushrod ends as plain M3 pins in reamed holes." loading="lazy">
@@ -609,16 +617,6 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                     </figure>
                 </div>
             </li>
-            <li>
-                <time datetime="2026-10-18">18 Oct 2026</time>
-                <div class="line">
-                    <p><b>Corrected the hip to one axis, two hubs.</b> The earlier schematic was wrong. The femur and the drive crank turn about the same lower hip axis on separate hubs that are not locked to each other, and the tibia is a single rigid link with the knee pivot and the pushrod hole as two holes in the same piece. That is what makes the parallelogram behave — and what lets leg swing and knee angle be commanded independently.</p>
-                    <figure>
-                        <img src="img/hexapod/coaxial-hip.png" width="1999" height="1218" alt="Side-view kinematic schematic of one leg: a coxa bracket at the left with a double-ringed pivot where a short orange crank and a long blue femur both begin, a green pushrod running above the femur and roughly parallel to it, and a purple tibia hanging from the knee pivot at the femur's outer end." loading="lazy">
-                        <figcaption>The corrected schematic. Femur and crank share one bolt at the hip; the blue rings are free pivots.</figcaption>
-                    </figure>
-                </div>
-            </li>
         </ol>
     </section>
 
@@ -626,7 +624,8 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         <summary>Full dated log</summary>
         <div class="archive-body">
             <ol>
-                <li><time datetime="2026-11-09">9 Nov 2026</time><span><b>V12 assembled, servos mounted.</b> Printed and bolted together, slimmer again than V6, and carrying three servos together in a printed frame for the first time. No glue holding it.</span></li>
+                <li><time datetime="2026-11-10">10 Nov 2026</time><span><b>V15, all three joints.</b> Coxa plus the two body-side five-bar inputs, their three servos in one printed frame instead of V12's bracket. Motion limits across the chain still to test, and the geometry will probably change once they are.</span></li>
+                <li><time datetime="2026-11-09">9 Nov 2026</time><span><b>V12 assembled, servos mounted.</b> Printed and bolted together, slimmer again than V6, and carrying its servos on a printed bracket for the first time. No glue holding it.</span></li>
                 <li><time datetime="2026-11-02">2 Nov 2026</time><span><b>MG996R received, and modelled.</b> First of the three servos in hand; servo and horn arm now in Onshape. Arrival checks all still open.</span></li>
                 <li><time datetime="2026-10-28">28 Oct 2026</time><span><b>MG996R chosen for leg 1.</b> Three bought on 26 Oct, replacing the B13DLM as the candidate. Three times the stall torque, three times the weight. Also pinned an AI-made render of the finished robot as a styling reference — it shows a servo at every joint, which is the one thing this design does not do, so it is not on this page.</span></li>
                 <li><time datetime="2026-10-23">23 Oct 2026</time><span><b>V6 assembled, no breakages.</b> Slimmer than the leg that cracked. Crank interference still unresolved. Next build is a provisional coxa bracket for a manual 3-DOF test.</span></li>
