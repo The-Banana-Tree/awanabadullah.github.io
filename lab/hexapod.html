@@ -255,6 +255,33 @@ figure.hero { margin-top: 0; }
     gap: 10px;
 }
 .hero-grid img { height: auto; }
+
+/* The clip is a phone video, so it is portrait: at the column's full 780px it
+   would be ~1385px tall on its own and eat the page height ceiling by itself.
+   It is capped by HEIGHT and centred instead, with the dark ground that a
+   photograph of a dim room wants - the white figure ground above is for the
+   doc's diagram exports, not for this. No autoplay and no loop: it has sound
+   stripped and a poster frame, so it costs nothing until it is asked for. */
+figure.clip { text-align: center; }
+figure.clip video {
+    display: block;
+    margin: 0 auto;
+    /* Size from HEIGHT and let aspect-ratio compute the width. Capping a
+       portrait video with max-height alone leaves the element box at the
+       column width, and the video letterboxes inside it - 300px of black bar
+       down each side, which is the empty-container look this site keeps
+       falling into. */
+    height: 520px;
+    width: auto;
+    aspect-ratio: 608 / 1080;
+    max-width: 100%;
+    border: 2px solid var(--border);
+    background: #000;
+}
+@media (max-width: 600px) {
+    figure.clip video { height: 440px; }
+}
+
 figcaption {
     margin-top: 10px;
     font-size: 0.8rem;
@@ -556,6 +583,17 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         <h2 class="sec">Decisions and iterations</h2>
         <ol class="decisions">
             <li>
+                <time datetime="2026-11-18">18 Nov 2026</time>
+                <div class="line">
+                    <p><b>Off the bench and onto a fixed mount.</b> I clamped the servo frame to the underside of my desk so the whole leg hangs clear of the floor and of itself, then filmed it running through a sequence. All three joints take part: the coxa swings the leg about its vertical axis, and the two body-side inputs work against each other so the five-bar opens and closes the knee with nothing sitting at the joint.</p>
+                    <p>This is the first time I have seen the chain move as one piece instead of setting poses by hand, and it is the check I said I needed — where the travel runs out, where it binds, and whether the links clear each other through the whole stroke. None of that is a number yet. I have no angles, no travel limits and no current off this; it is five seconds of looking.</p>
+                    <figure class="clip">
+                        <video src="img/hexapod/leg-motion.mp4" poster="img/hexapod/leg-motion-poster.jpg" width="608" height="1080" controls preload="none" playsinline muted></video>
+                        <figcaption>Filmed 18 November 2026. The printed servo frame is bolted up under the desk edge and the five-bar chain hangs below it with nothing under the foot. Audio stripped — it was a room, not a measurement.</figcaption>
+                    </figure>
+                </div>
+            </li>
+            <li>
                 <time datetime="2026-11-10">10 Nov 2026</time>
                 <div class="line">
                     <p><b>V15, with all three joints in one frame.</b> Three revisions on from V12 and the leg now carries every joint it is supposed to have — the coxa plus the two body-side inputs that close the five-bar — with all three servos stacked into a single printed frame instead of the bracket V12 used. That closes the coxa question I left open yesterday: the axis is in the assembly, not just the CAD.</p>
@@ -602,21 +640,6 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                     <p><b>Split the control problem by side.</b> One Pi for gait, two ESP32s for nine servos each, divided left and right. The reason is wiring length and a mirrored harness, not the gait itself — the tripod grouping cuts across both boards and lives in software. It also means one board and one leg is a complete bench setup, which is what I actually need next.</p>
                 </div>
             </li>
-            <li>
-                <time datetime="2026-10-21">21 Oct 2026</time>
-                <div class="line">
-                    <p><b>The femur broke while I was assembling it.</b> The knee half went together fine — crank, pushrod and tibia bolted up with the bearing seated. Adding the femur to make the first whole leg split it during assembly, and several of the M3 lengths I had picked turned out wrong for their joint stacks. Hot glue is holding it for hand-set poses only; nothing gets driven or loaded on a glued leg.</p>
-                    <p>What I took from it: measure the whole grip stack — link thicknesses, bearing, sleeves, washers, nut — <em>before</em> choosing a bolt length, get full nyloc engagement without using the nut to crush a free pivot, check clearance and free rotation at all three moving joints before final tightening, and reinforce the fractured section around the pivot bosses while reviewing print orientation.</p>
-                    <figure>
-                        <img src="img/hexapod/full-leg-rom.jpg" width="1420" height="880" alt="Two photographs side by side of the same assembled leg on a pegboard, held in different positions: a dark printed femur with a pale pushrod bolted above it, a long black tibia hanging from the knee, bolts and a silver bearing at the pivots, and clear hot glue visible around the joints." loading="lazy">
-                        <figcaption>Both poses set by hand. The clear smears at the pivots are hot glue holding it for this check and nothing else.</figcaption>
-                    </figure>
-                    <figure>
-                        <img src="img/hexapod/knee-linkage.jpg" width="645" height="740" alt="Photograph of the assembled knee linkage lying flat on a wooden desk: a small grey drive crank at the left, a straight grey pushrod running horizontally from it, and a long tapered black tibia at the right, joined by bolts at both pushrod ends, with a silver bearing seated in the tibia's large lower hole." loading="lazy">
-                        <figcaption>Earlier the same day — the knee half on its own, bearing already seated in the tibia. That is the joint the femur bolts to.</figcaption>
-                    </figure>
-                </div>
-            </li>
         </ol>
     </section>
 
@@ -624,6 +647,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         <summary>Full dated log</summary>
         <div class="archive-body">
             <ol>
+                <li><time datetime="2026-11-18">18 Nov 2026</time><span><b>Leg on a fixed mount, filmed moving.</b> Servo frame clamped under the desk edge, leg hanging free, all three joints running through a sequence in one take. Nothing measured off it — the point was to watch for the end of the travel and for anything binding.</span></li>
                 <li><time datetime="2026-11-10">10 Nov 2026</time><span><b>V15, all three joints.</b> Coxa plus the two body-side five-bar inputs, their three servos in one printed frame instead of V12's bracket. Motion limits across the chain still to test, and the geometry will probably change once they are.</span></li>
                 <li><time datetime="2026-11-09">9 Nov 2026</time><span><b>V12 assembled, servos mounted.</b> Printed and bolted together, slimmer again than V6, and carrying its servos on a printed bracket for the first time. No glue holding it.</span></li>
                 <li><time datetime="2026-11-02">2 Nov 2026</time><span><b>MG996R received, and modelled.</b> First of the three servos in hand; servo and horn arm now in Onshape. Arrival checks all still open.</span></li>
