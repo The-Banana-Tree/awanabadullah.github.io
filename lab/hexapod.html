@@ -262,6 +262,9 @@ figure.hero { margin-top: 0; }
    photograph of a dim room wants - the white figure ground above is for the
    doc's diagram exports, not for this. No autoplay and no loop: it has sound
    stripped and a poster frame, so it costs nothing until it is asked for. */
+/* The clip is the hero as of 18 Nov 2026, on Awan's call: the newest thing is
+   the leg actually moving, so it goes above the status strip and the banner
+   and the intro above it is one line. */
 figure.clip { text-align: center; }
 figure.clip video {
     display: block;
@@ -271,7 +274,7 @@ figure.clip video {
        column width, and the video letterboxes inside it - 300px of black bar
        down each side, which is the empty-container look this site keeps
        falling into. */
-    height: 520px;
+    height: 600px;
     width: auto;
     aspect-ratio: 608 / 1080;
     max-width: 100%;
@@ -279,7 +282,7 @@ figure.clip video {
     background: #000;
 }
 @media (max-width: 600px) {
-    figure.clip video { height: 440px; }
+    figure.clip video { height: 460px; }
 }
 
 figcaption {
@@ -364,7 +367,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
     align-items: flex-start;
     border-left: 2px solid var(--accent);
     padding: 10px 0 10px 16px;
-    margin: 20px 0 0;
+    margin: 20px 0 36px;
     font-weight: 400;
     font-size: 0.88rem;
     line-height: 1.7;
@@ -412,13 +415,13 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
 <div class="lab-wrap log-wrap">
     <header class="log-head">
         <h1>Hexapod</h1>
-        <p class="stand">A 270 mm six-legged robot with every servo on the body and no motor at the knee — the knee is driven through a five-bar linkage instead. First milestone: one leg with all three joints moving, by 15 December 2026.</p>
-
-        <div class="info">
-            <i class="icon" aria-hidden="true">&#8505;&#65039;</i>
-            <p>This page is written automatically by an AI agent from my working design document. Every number here is provisional until the part is printed, measured and loaded.</p>
-        </div>
+        <p class="stand">A 270 mm six-legged robot with every servo on the body and no motor at the knee. Here is leg 1, V17:</p>
     </header>
+
+    <figure class="hero clip">
+        <video src="img/hexapod/leg-motion.mp4" poster="img/hexapod/leg-motion-poster.jpg" width="608" height="1080" controls preload="none" playsinline muted></video>
+        <figcaption>V17, filmed 18 November 2026. The servo frame is bolted under my desk edge and the five-bar hangs below it with nothing under the foot — the coxa swings the whole leg, and the two body-side inputs open and close the knee between them. Audio stripped; it was a room, not a measurement.</figcaption>
+    </figure>
 
     <dl class="status">
         <div>
@@ -427,21 +430,18 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         </div>
         <div>
             <dt>Stage</dt>
-            <dd>Leg 1 assembled<small>all three joints, servos in one printed frame</small></dd>
+            <dd>Leg 1 on a test mount<small>all three joints, servos in one printed frame</small></dd>
         </div>
         <div>
             <dt>Leg revision</dt>
-            <dd>V15<small>printed and assembled</small></dd>
+            <dd>V17<small>printed and assembled</small></dd>
         </div>
     </dl>
 
-    <figure class="hero">
-        <div class="hero-grid">
-            <img src="img/hexapod/leg-v15-side.jpg" width="676" height="676" alt="Side view of the assembled V15 hexapod leg held above a pegboard desk. Three dark servo cases sit together in a black printed frame, while two orange links and one black link form the five-bar chain leading to a long orange tibia. The matching CAD assembly is open on the monitor behind it.">
-            <img src="img/hexapod/leg-v15-angle.jpg" width="676" height="676" alt="Front three-quarter view of the assembled V15 leg held by its servo frame. The orange and black linkage pivots around the compact stack of three servos, with the long orange tibia reaching down to the desk and the servo leads loose beside it.">
-        </div>
-        <figcaption>V15, photographed 10 November 2026 — side and front views of the assembled five-bar leg. All three joints are in it: the coxa plus the two body-side inputs that close the five-bar, with their servos in one printed frame and the matching CAD open behind.</figcaption>
-    </figure>
+    <div class="info">
+        <i class="icon" aria-hidden="true">&#8505;&#65039;</i>
+        <p>This page is written automatically by an AI agent from my working design document. Every number here is provisional until the part is printed, measured and loaded.</p>
+    </div>
 
     <section class="blk">
         <h2 class="sec">The goal</h2>
@@ -462,7 +462,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
     <section class="blk">
         <h2 class="sec">Mechanical architecture</h2>
         <ul class="points">
-            <li>Three joints per leg — coxa yaw, femur pitch, knee — and all three servos bolt to the body, so almost no mass is swung out at the end of a leg. On V15 all three are in the assembly, their servos sharing one printed frame.</li>
+            <li>Three joints per leg — coxa yaw, femur pitch, knee — and all three servos bolt to the body, so almost no mass is swung out at the end of a leg. On V17 all three are in the assembly, their servos sharing one printed frame.</li>
             <li>There is no servo at the knee. Both drive inputs sit back on the body and the chain closes through the leg as a <em>five-bar</em>, so the knee angle follows from where those two inputs are rather than from a motor at the joint. This arrived at V12: every revision up to V6 ran a four-bar, and the dated entries below still describe that older arrangement.</li>
             <li>The tibia is one rigid printed link carrying both of its pivots as separate holes in the same piece. No intermediate hinge.</li>
             <li>623ZZ ball bearings, 3 mm bore × 10 mm OD × 4 mm wide, at the hip and the knee — the two joints that carry the bending load. The remaining pivots are plain M3 bolts in reamed holes.</li>
@@ -476,8 +476,8 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
             <li><b>Plain pivots</b><span>Printed undersize and reamed to a sliding fit on the M3, with a washer between the moving links.</span></li>
         </ul>
 
-        <p>The five-bar schematic has not been drawn yet — the photo at the top of the page is the current reference, and the diagram further down shows the four-bar arrangement it replaced.</p>
-        <p>Next I need to test the motion limits across the full chain. I will probably have to modify this geometry once I can see where it runs out of travel or binds.</p>
+        <p>The five-bar schematic has not been drawn yet — the clip at the top of the page is the current reference, and the diagram further down shows the four-bar arrangement it replaced.</p>
+        <p>The motion limits across the full chain are still the open question, and nothing about them is a number yet. I expect to modify this geometry once I can say where it runs out of travel or binds.</p>
     </section>
 
     <section class="blk">
@@ -565,6 +565,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                     <li>V12 leg printed and assembled, slimmer again than V6</li>
                     <li>Servo bracket printed, with the servos mounted on the leg</li>
                     <li>V15 assembled with all three joints, three servos in one printed frame</li>
+                    <li>V17 printed, and bolted to a fixed mount for the first time</li>
                 </ul>
             </div>
             <div>
@@ -576,7 +577,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                 </ul>
             </div>
         </div>
-        <p class="caveat">There is no measured figure anywhere on this page — no torque, current, range of motion, friction or deflection number, and the servo's own weight, usable travel, pulse range and horn fit are all still unrecorded. The dated entries below each describe the revision they were written against, not V15.</p>
+        <p class="caveat">There is no measured figure anywhere on this page — no torque, current, range of motion, friction or deflection number, and the servo's own weight, usable travel, pulse range and horn fit are all still unrecorded. The dated entries below each describe the revision they were written against, not V17.</p>
     </section>
 
     <section class="blk">
@@ -585,12 +586,8 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
             <li>
                 <time datetime="2026-11-18">18 Nov 2026</time>
                 <div class="line">
-                    <p><b>Off the bench and onto a fixed mount.</b> I clamped the servo frame to the underside of my desk so the whole leg hangs clear of the floor and of itself, then filmed it running through a sequence. All three joints take part: the coxa swings the leg about its vertical axis, and the two body-side inputs work against each other so the five-bar opens and closes the knee with nothing sitting at the joint.</p>
-                    <p>This is the first time I have seen the chain move as one piece instead of setting poses by hand, and it is the check I said I needed — where the travel runs out, where it binds, and whether the links clear each other through the whole stroke. None of that is a number yet. I have no angles, no travel limits and no current off this; it is five seconds of looking.</p>
-                    <figure class="clip">
-                        <video src="img/hexapod/leg-motion.mp4" poster="img/hexapod/leg-motion-poster.jpg" width="608" height="1080" controls preload="none" playsinline muted></video>
-                        <figcaption>Filmed 18 November 2026. The printed servo frame is bolted up under the desk edge and the five-bar chain hangs below it with nothing under the foot. Audio stripped — it was a room, not a measurement.</figcaption>
-                    </figure>
+                    <p><b>V17, off the bench and onto a fixed mount.</b> Two revisions on from V15, and I stopped holding the leg to look at it. I bolted the servo frame to the underside of my desk so the whole thing hangs clear of the floor and of itself, then ran it through a sequence — that is the clip at the top of the page.</p>
+                    <p>This is the first time I have seen the chain move as one piece instead of setting poses by hand, and it is the check I said I needed after V15: where the travel runs out, where it binds, and whether the links clear each other through the whole stroke. None of that is a number yet. I have no angles, no travel limits and no current off this; it is five seconds of looking.</p>
                 </div>
             </li>
             <li>
@@ -598,6 +595,13 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                 <div class="line">
                     <p><b>V15, with all three joints in one frame.</b> Three revisions on from V12 and the leg now carries every joint it is supposed to have — the coxa plus the two body-side inputs that close the five-bar — with all three servos stacked into a single printed frame instead of the bracket V12 used. That closes the coxa question I left open yesterday: the axis is in the assembly, not just the CAD.</p>
                     <p>Next I need to test the motion limits across the full chain, and I expect to modify this geometry once I can see where it runs out of travel or binds.</p>
+                    <figure>
+                        <div class="hero-grid">
+                            <img src="img/hexapod/leg-v15-side.jpg" width="676" height="676" alt="Side view of the assembled V15 hexapod leg held above a pegboard desk. Three dark servo cases sit together in a black printed frame, while two orange links and one black link form the five-bar chain leading to a long orange tibia. The matching CAD assembly is open on the monitor behind it." loading="lazy">
+                            <img src="img/hexapod/leg-v15-angle.jpg" width="676" height="676" alt="Front three-quarter view of the assembled V15 leg held by its servo frame. The orange and black linkage pivots around the compact stack of three servos, with the long orange tibia reaching down to the desk and the servo leads loose beside it." loading="lazy">
+                        </div>
+                        <figcaption>V15 in the hand, side and front — the revision the clip at the top is two prints on from. Same architecture: three servos in one frame, the five-bar reaching down to a single rigid tibia.</figcaption>
+                    </figure>
                 </div>
             </li>
             <li>
@@ -647,7 +651,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         <summary>Full dated log</summary>
         <div class="archive-body">
             <ol>
-                <li><time datetime="2026-11-18">18 Nov 2026</time><span><b>Leg on a fixed mount, filmed moving.</b> Servo frame clamped under the desk edge, leg hanging free, all three joints running through a sequence in one take. Nothing measured off it — the point was to watch for the end of the travel and for anything binding.</span></li>
+                <li><time datetime="2026-11-18">18 Nov 2026</time><span><b>V17 on a fixed mount, filmed moving.</b> Servo frame bolted under the desk edge, leg hanging free, all three joints running through a sequence in one take. Nothing measured off it — the point was to watch for the end of the travel and for anything binding.</span></li>
                 <li><time datetime="2026-11-10">10 Nov 2026</time><span><b>V15, all three joints.</b> Coxa plus the two body-side five-bar inputs, their three servos in one printed frame instead of V12's bracket. Motion limits across the chain still to test, and the geometry will probably change once they are.</span></li>
                 <li><time datetime="2026-11-09">9 Nov 2026</time><span><b>V12 assembled, servos mounted.</b> Printed and bolted together, slimmer again than V6, and carrying its servos on a printed bracket for the first time. No glue holding it.</span></li>
                 <li><time datetime="2026-11-02">2 Nov 2026</time><span><b>MG996R received, and modelled.</b> First of the three servos in hand; servo and horn arm now in Onshape. Arrival checks all still open.</span></li>
