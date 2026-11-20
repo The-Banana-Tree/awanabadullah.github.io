@@ -463,7 +463,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         <h2 class="sec">Mechanical architecture</h2>
         <ul class="points">
             <li>Three joints per leg — coxa yaw, femur pitch, knee — and all three servos bolt to the body, so almost no mass is swung out at the end of a leg. On V17 all three are in the assembly, their servos sharing one printed frame.</li>
-            <li>There is no servo at the knee. Both drive inputs sit back on the body and the chain closes through the leg as a <em>five-bar</em>, so the knee angle follows from where those two inputs are rather than from a motor at the joint. This arrived at V12: every revision up to V6 ran a four-bar, and the dated entries below still describe that older arrangement.</li>
+            <li>There is no servo at the knee. Both drive inputs sit back on the body and the chain closes through the leg as a <em>five-bar</em>, so the knee angle follows from where those two inputs are rather than from a motor at the joint. A five-bar carries two degrees of freedom where a four-bar carries one, which is what makes two independent inputs legitimate instead of two servos fighting over a single freedom. This arrived at V12: every revision up to V6 ran a four-bar, and the dated entries below still describe that older arrangement.</li>
             <li>The tibia is one rigid printed link carrying both of its pivots as separate holes in the same piece. No intermediate hinge.</li>
             <li>623ZZ ball bearings, 3 mm bore × 10 mm OD × 4 mm wide, at the hip and the knee — the two joints that carry the bending load. The remaining pivots are plain M3 bolts in reamed holes.</li>
             <li>Bearing seats capture the outer race in the moving link; printed sleeves touch only the inner race, so tightening the nut clamps the stack without squeezing the joint shut.</li>
@@ -544,7 +544,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
             <li>Each ESP32 takes three legs — nine channels — and is nobody's master. It validates the command, aligns to the shared start time, interpolates, runs inverse kinematics, clamps geometry and speed limits, and reports completion or fault. One board can run stored trajectories on the bench without the Pi.</li>
             <li>The left/right split is about keeping wiring short and the harness mirrored. The tripod gait is a <em>software</em> grouping and cuts across both boards.</li>
             <li>A PCA9685 per side generates the servo PWM, because a stock ESP32 does not have nine good PWM outputs to spare. This is the least settled box on the diagram.</li>
-            <li>The inverse kinematics has to model the five-bar chain, mapping the two body-side input angles to the foot. Treating the tibia as a directly driven servo joint would be wrong, and is the specific mistake this mechanism invites.</li>
+            <li>The inverse kinematics has to model the five-bar chain, mapping the two body-side input angles to the foot. Treating the tibia as a directly driven servo joint would be wrong, and is the specific mistake this mechanism invites. Both input angles also come out of one solution rather than being commanded separately, so a pair of demands the closed chain cannot hold has to be rejected instead of sent.</li>
             <li>Hobby RC servos report nothing back. Forward kinematics gives an <em>expected</em> foot position, never a measured one, and labelling an open-loop estimate as actual position is a trap I want to stay out of.</li>
             <li>Servos run from a separate regulated rail sharing ground with the logic — never off a 3.3 V board pin. Leg 1 on the bench needs 6 V at 7.5 A peak, which is three MG996Rs stalling at once.</li>
         </ul>
@@ -583,6 +583,12 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
     <section class="blk">
         <h2 class="sec">Decisions and iterations</h2>
         <ol class="decisions">
+            <li>
+                <time datetime="2026-11-19">19 Nov 2026</time>
+                <div class="line">
+                    <p><b>Counted the leg's degrees of freedom instead of assuming them.</b> I ran it through Grübler–Kutzbach: a planar four-bar gives 3(4 - 1) - 2&times;4 = 1 degree of freedom, so one input angle fixes every other joint and two position servos driving into it can only fight each other. A five-bar comes out at 3(5 - 1) - 2&times;5 = 2, which is what makes two body-side inputs legitimate — and with the coxa turning that whole plane, the leg is the three degrees of freedom the design has been claiming all along. The consequence is in software rather than hardware: those two inputs are one coordinated solution, not two independent position demands, and the controller has to refuse a pair the closed chain cannot hold. The count is only as good as the topology I feed it, though, and I have not confirmed V17's pivots in CAD yet.</p>
+                </div>
+            </li>
             <li>
                 <time datetime="2026-11-18">18 Nov 2026</time>
                 <div class="line">
@@ -638,12 +644,6 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
                     <p><b>V6 went together without breaking.</b> The reprinted leg is visibly slimmer than the one that cracked and assembled clean — the first build that did. The crank still hits its own fasteners before the end of its travel, so that is the open fault, and the hold point is explicit: resolve the interference and show smooth unpowered motion before any servo mount is finalised or any load is applied.</p>
                 </div>
             </li>
-            <li>
-                <time datetime="2026-10-22">22 Oct 2026</time>
-                <div class="line">
-                    <p><b>Split the control problem by side.</b> One Pi for gait, two ESP32s for nine servos each, divided left and right. The reason is wiring length and a mirrored harness, not the gait itself — the tripod grouping cuts across both boards and lives in software. It also means one board and one leg is a complete bench setup, which is what I actually need next.</p>
-                </div>
-            </li>
         </ol>
     </section>
 
@@ -651,6 +651,7 @@ details.archive[open] summary { border-bottom: 2px solid var(--border); }
         <summary>Full dated log</summary>
         <div class="archive-body">
             <ol>
+                <li><time datetime="2026-11-19">19 Nov 2026</time><span><b>Degrees of freedom counted.</b> Grübler–Kutzbach puts a four-bar at 1 and a five-bar at 2; the coxa makes the leg 3. The two body-side inputs are coupled, so they come from one coordinated solution and not two independent position demands. Topology still to be confirmed in CAD.</span></li>
                 <li><time datetime="2026-11-18">18 Nov 2026</time><span><b>V17 on a fixed mount, filmed moving.</b> Servo frame bolted under the desk edge, leg hanging free, all three joints running through a sequence in one take. Nothing measured off it — the point was to watch for the end of the travel and for anything binding.</span></li>
                 <li><time datetime="2026-11-10">10 Nov 2026</time><span><b>V15, all three joints.</b> Coxa plus the two body-side five-bar inputs, their three servos in one printed frame instead of V12's bracket. Motion limits across the chain still to test, and the geometry will probably change once they are.</span></li>
                 <li><time datetime="2026-11-09">9 Nov 2026</time><span><b>V12 assembled, servos mounted.</b> Printed and bolted together, slimmer again than V6, and carrying its servos on a printed bracket for the first time. No glue holding it.</span></li>
